@@ -24,6 +24,13 @@ int Engine::Init(const char* title, int xPos, int yPos, int width, int height, i
 			else return false; // Renderer creation failed.
 		}
 		else return false; // Window creation failed.
+		if (Mix_Init(MIX_INIT_MP3) != 0) {
+			Mix_OpenAudio(22050, AUDIO_S16SYS, 2, 4096); // make it 2048 if audio is lagging
+			Mix_AllocateChannels(16);
+			stepSfx = Mix_LoadWAV("sfx/step.wav");
+			turnSfx = Mix_LoadWAV("sfx/turn.wav");
+			
+		}
 	}
 	else return false; // initalization failed.
 	m_fps = (Uint32)round(1.0 / (double)FPS * 1000); // Converts FPS into milliseconds, e.g. 16.67
@@ -78,6 +85,93 @@ bool Engine::KeyDown(SDL_Scancode c)
 
 void Engine::Update()
 {
+	stepSoundTimer++; turnSoundTimer++;
+	
+	//YAXIS
+	if (KeyDown(SDL_SCANCODE_S)) {
+		speedAccy+= 1;
+		plr1.plr.y += speedAccy;
+		if (speedAccy > plr1.plrSpd)
+			speedAccy = plr1.plrSpd;
+		lastPressedS = true; 
+		if (stepSoundTimer > 20) {
+			Mix_PlayChannel(1, stepSfx, 0);
+			stepSoundTimer = 0;
+		}
+	}
+	else if (!KeyDown(SDL_SCANCODE_S) && lastPressedS) {
+		plr1.plr.y += speedAccy;
+		speedAccy -= 1.5;
+		if (speedAccy <= 0) {
+			speedAccy = 0;
+			lastPressedS = false;
+		}
+	}
+	if (KeyDown(SDL_SCANCODE_W)) {
+		speedAccy += 1;
+		plr1.plr.y -= speedAccy;
+		if (speedAccy > plr1.plrSpd)
+			speedAccy = plr1.plrSpd;
+		lastPressedW = true;
+		if (stepSoundTimer > 20) {
+			Mix_PlayChannel(1, stepSfx, 0);
+			stepSoundTimer = 0;
+		}
+	}
+	else if (!KeyDown(SDL_SCANCODE_W) && lastPressedW) {
+		plr1.plr.y -= speedAccy;
+		speedAccy -= 1.5;
+		if (speedAccy <= 0) {
+			speedAccy = 0;
+			lastPressedW = false;
+		}
+	}
+	
+
+	//XAXIS
+	if (KeyDown(SDL_SCANCODE_A)) {
+		speedAccx += 1;
+		plr1.plr.x -= speedAccx;
+		if (speedAccx > plr1.plrSpd)
+			speedAccx = plr1.plrSpd;
+		lastPressedA = true;
+		if (stepSoundTimer > 20) {
+			Mix_PlayChannel(1, stepSfx, 0);
+			stepSoundTimer = 0;
+		}
+	}
+	else if (!KeyDown(SDL_SCANCODE_A) && lastPressedA) {
+		plr1.plr.x -= speedAccx;
+		speedAccx -= 1.5;
+		if (speedAccx <= 0) {
+			speedAccx = 0;
+			lastPressedA = false;
+		}
+	}
+	if (KeyDown(SDL_SCANCODE_D)) {
+		speedAccx += 1;
+		plr1.plr.x += speedAccx;
+		if (speedAccx > plr1.plrSpd)
+			speedAccx = plr1.plrSpd;
+		lastPressedD = true;
+		if (stepSoundTimer > 20) {
+			Mix_PlayChannel(1, stepSfx, 0);
+			stepSoundTimer = 0;
+		}
+	}
+	else if (!KeyDown(SDL_SCANCODE_D) && lastPressedD) {
+		plr1.plr.x += speedAccx;
+		speedAccx -= 1.5;
+		if (speedAccx <= 0) {
+			speedAccx = 0;
+			lastPressedD = false;
+		}
+	}
+	
+	/*if (!KeyDown(SDL_SCANCODE_D) && !KeyDown(SDL_SCANCODE_A) && !KeyDown(SDL_SCANCODE_W) && !KeyDown(SDL_SCANCODE_S)) {
+		
+	}*/
+	
 	
 }
 
@@ -86,7 +180,8 @@ void Engine::Render()
 	SDL_SetRenderDrawColor(m_pRenderer, 0, 0, 0, 255);
 	SDL_RenderClear(m_pRenderer);
 	// Any drawing here...
-
+	SDL_SetRenderDrawColor(m_pRenderer, 255, 255, 255, 255);
+	SDL_RenderFillRect(m_pRenderer, &plr1.plr);
 
 	SDL_RenderPresent(m_pRenderer); // Flip buffers - send data to window.
 }
