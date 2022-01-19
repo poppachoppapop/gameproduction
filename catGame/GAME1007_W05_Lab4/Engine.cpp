@@ -86,91 +86,51 @@ bool Engine::KeyDown(SDL_Scancode c)
 void Engine::Update()
 {
 	stepSoundTimer++; turnSoundTimer++;
+	plr1.plr.x += speedx;
+	plr1.plr.y += speedy;
 	
+	if (speedx > plr1.plrSpd)
+		speedx = plr1.plrSpd;
+	if (speedy > plr1.plrSpd)
+		speedy = plr1.plrSpd;
+	if (speedy * -1 > plr1.plrSpd)
+		speedy = plr1.plrSpd * -1;
+	if (speedx * -1 > plr1.plrSpd)
+		speedx = plr1.plrSpd * -1;
+
 	//YAXIS
 	if (KeyDown(SDL_SCANCODE_S)) {
-		speedAccy+= 1;
-		plr1.plr.y += speedAccy;
-		if (speedAccy > plr1.plrSpd)
-			speedAccy = plr1.plrSpd;
-		lastPressedS = true; 
-		if (stepSoundTimer > 20) {
-			Mix_PlayChannel(1, stepSfx, 0);
-			stepSoundTimer = 0;
-		}
-	}
-	else if (!KeyDown(SDL_SCANCODE_S) && lastPressedS) {
-		plr1.plr.y += speedAccy;
-		speedAccy -= 1.5;
-		if (speedAccy <= 0) {
-			speedAccy = 0;
-			lastPressedS = false;
-		}
-	}
-	if (KeyDown(SDL_SCANCODE_W)) {
-		speedAccy += 1;
-		plr1.plr.y -= speedAccy;
-		if (speedAccy > plr1.plrSpd)
-			speedAccy = plr1.plrSpd;
-		lastPressedW = true;
-		if (stepSoundTimer > 20) {
-			Mix_PlayChannel(1, stepSfx, 0);
-			stepSoundTimer = 0;
-		}
-	}
-	else if (!KeyDown(SDL_SCANCODE_W) && lastPressedW) {
-		plr1.plr.y -= speedAccy;
-		speedAccy -= 1.5;
-		if (speedAccy <= 0) {
-			speedAccy = 0;
-			lastPressedW = false;
-		}
+		speedy += speedAcc;
 	}
 	
+	if (KeyDown(SDL_SCANCODE_W)) {
+		speedy -= speedAcc;
+	}
 
 	//XAXIS
 	if (KeyDown(SDL_SCANCODE_A)) {
-		speedAccx += 1;
-		plr1.plr.x -= speedAccx;
-		if (speedAccx > plr1.plrSpd)
-			speedAccx = plr1.plrSpd;
-		lastPressedA = true;
-		if (stepSoundTimer > 20) {
-			Mix_PlayChannel(1, stepSfx, 0);
-			stepSoundTimer = 0;
-		}
+		speedx -= speedAcc;
 	}
-	else if (!KeyDown(SDL_SCANCODE_A) && lastPressedA) {
-		plr1.plr.x -= speedAccx;
-		speedAccx -= 1.5;
-		if (speedAccx <= 0) {
-			speedAccx = 0;
-			lastPressedA = false;
-		}
-	}
+
 	if (KeyDown(SDL_SCANCODE_D)) {
-		speedAccx += 1;
-		plr1.plr.x += speedAccx;
-		if (speedAccx > plr1.plrSpd)
-			speedAccx = plr1.plrSpd;
-		lastPressedD = true;
-		if (stepSoundTimer > 20) {
-			Mix_PlayChannel(1, stepSfx, 0);
-			stepSoundTimer = 0;
-		}
-	}
-	else if (!KeyDown(SDL_SCANCODE_D) && lastPressedD) {
-		plr1.plr.x += speedAccx;
-		speedAccx -= 1.5;
-		if (speedAccx <= 0) {
-			speedAccx = 0;
-			lastPressedD = false;
-		}
+		speedx += speedAcc;
 	}
 	
-	/*if (!KeyDown(SDL_SCANCODE_D) && !KeyDown(SDL_SCANCODE_A) && !KeyDown(SDL_SCANCODE_W) && !KeyDown(SDL_SCANCODE_S)) {
-		
-	}*/
+	//Slow Down!
+	if (!KeyDown(SDL_SCANCODE_D) && !KeyDown(SDL_SCANCODE_A)) {
+		if (speedx > 0)
+			speedx--;
+		else if (speedx < 0) {
+			speedx++;
+		}
+	}
+	if (!KeyDown(SDL_SCANCODE_W) && !KeyDown(SDL_SCANCODE_S)) {
+		if (speedy > 0)
+			speedy--;
+		else if (speedy < 0) {
+			speedy++;
+		}
+	}
 	
 	
 }

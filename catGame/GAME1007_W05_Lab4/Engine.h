@@ -27,7 +27,7 @@ private: // private propeties.
 	// SFX Timers
 	int stepSoundTimer = 0, turnSoundTimer = 0;
 	
-	double speedAccx, speedAccy;
+	double speedAcc = 2, speedy = 0, speedx = 0, maxnegspeed = -5;
 	
 	bool lastPressedW, lastPressedS, lastPressedA, lastPressedD;
 	
