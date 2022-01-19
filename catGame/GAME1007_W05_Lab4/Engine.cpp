@@ -24,6 +24,13 @@ int Engine::Init(const char* title, int xPos, int yPos, int width, int height, i
 			else return false; // Renderer creation failed.
 		}
 		else return false; // Window creation failed.
+		if (Mix_Init(MIX_INIT_MP3) != 0) {
+			Mix_OpenAudio(22050, AUDIO_S16SYS, 2, 4096); // make it 2048 if audio is lagging
+			Mix_AllocateChannels(16);
+			stepSfx = Mix_LoadWAV("sfx/step.wav");
+			turnSfx = Mix_LoadWAV("sfx/turn.wav");
+			
+		}
 	}
 	else return false; // initalization failed.
 	m_fps = (Uint32)round(1.0 / (double)FPS * 1000); // Converts FPS into milliseconds, e.g. 16.67
@@ -78,6 +85,53 @@ bool Engine::KeyDown(SDL_Scancode c)
 
 void Engine::Update()
 {
+	stepSoundTimer++; turnSoundTimer++;
+	plr1.plr.x += speedx;
+	plr1.plr.y += speedy;
+	
+	if (speedx > plr1.plrSpd)
+		speedx = plr1.plrSpd;
+	if (speedy > plr1.plrSpd)
+		speedy = plr1.plrSpd;
+	if (speedy * -1 > plr1.plrSpd)
+		speedy = plr1.plrSpd * -1;
+	if (speedx * -1 > plr1.plrSpd)
+		speedx = plr1.plrSpd * -1;
+
+	//YAXIS
+	if (KeyDown(SDL_SCANCODE_S)) {
+		speedy += speedAcc;
+	}
+	
+	if (KeyDown(SDL_SCANCODE_W)) {
+		speedy -= speedAcc;
+	}
+
+	//XAXIS
+	if (KeyDown(SDL_SCANCODE_A)) {
+		speedx -= speedAcc;
+	}
+
+	if (KeyDown(SDL_SCANCODE_D)) {
+		speedx += speedAcc;
+	}
+	
+	//Slow Down!
+	if (!KeyDown(SDL_SCANCODE_D) && !KeyDown(SDL_SCANCODE_A)) {
+		if (speedx > 0)
+			speedx--;
+		else if (speedx < 0) {
+			speedx++;
+		}
+	}
+	if (!KeyDown(SDL_SCANCODE_W) && !KeyDown(SDL_SCANCODE_S)) {
+		if (speedy > 0)
+			speedy--;
+		else if (speedy < 0) {
+			speedy++;
+		}
+	}
+	
 	
 }
 
@@ -86,7 +140,8 @@ void Engine::Render()
 	SDL_SetRenderDrawColor(m_pRenderer, 0, 0, 0, 255);
 	SDL_RenderClear(m_pRenderer);
 	// Any drawing here...
-
+	SDL_SetRenderDrawColor(m_pRenderer, 255, 255, 255, 255);
+	SDL_RenderFillRect(m_pRenderer, &plr1.plr);
 
 	SDL_RenderPresent(m_pRenderer); // Flip buffers - send data to window.
 }
