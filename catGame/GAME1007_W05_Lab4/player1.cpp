@@ -4,7 +4,7 @@ Player::Player() :plrSrc({ 0,0,32,32 }), frameCtr(0), frameMax(3),
 spriteIdx(0), spriteMax(6) 
 { 
 	plrDst = {10 ,10 ,100, 100};
-	plrSpd = 10;
+	plrSpd = 5;
 	plrDsh = 20;
 }
 

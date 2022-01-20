@@ -89,6 +89,7 @@ void Engine::Update()
 	dashCooldown++;
 	plr1.plrDst.x += speedx;
 	plr1.plrDst.y += speedy;
+	plr1.Update();
 	
 	if (speedx > plr1.plrSpd)
 		speedx = plr1.plrSpd;
