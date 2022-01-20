@@ -27,10 +27,12 @@ private: // private propeties.
 	// SFX Timers
 	int stepSoundTimer = 0, turnSoundTimer = 0;
 	
-	double speedAcc = 2, speedy = 0, speedx = 0, maxnegspeed = -5;
+	int dashCooldown = 100, dashTimer = 0;
+
+	double speedAcc = 2, speedy = 0, speedx = 0;
 	
-	bool lastPressedW, lastPressedS, lastPressedA, lastPressedD;
-	
+	SDL_Texture* plrTxtr;
+
 	Player plr1;
 
 	Mix_Chunk* stepSfx;

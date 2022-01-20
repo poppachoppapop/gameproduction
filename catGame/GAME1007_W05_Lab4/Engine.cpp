@@ -16,8 +16,8 @@ int Engine::Init(const char* title, int xPos, int yPos, int width, int height, i
 			{
 				if (IMG_Init(IMG_INIT_PNG | IMG_INIT_JPG) != 0)
 				{
+					plrTxtr = IMG_LoadTexture(m_pRenderer, "art/catboy.png");
 					
-					// Add check of texture pointer later...
 				}
 				else return false; // Image init failed.
 			}
@@ -86,8 +86,9 @@ bool Engine::KeyDown(SDL_Scancode c)
 void Engine::Update()
 {
 	stepSoundTimer++; turnSoundTimer++;
-	plr1.plr.x += speedx;
-	plr1.plr.y += speedy;
+	dashCooldown++;
+	plr1.plrDst.x += speedx;
+	plr1.plrDst.y += speedy;
 	
 	if (speedx > plr1.plrSpd)
 		speedx = plr1.plrSpd;
@@ -98,7 +99,19 @@ void Engine::Update()
 	if (speedx * -1 > plr1.plrSpd)
 		speedx = plr1.plrSpd * -1;
 
+	//if (KeyDown(SDL_SCANCODE_LSHIFT)) {
+	//	if (dashCooldown > 100) {
+	//		while (dashTimer < 30) {
+	//			dashTimer++;
+
+	//		}
+	//		dashTimer = 0;
+	//		//speedAcc = 2;
+	//	}
+	//}
+	
 	//YAXIS
+
 	if (KeyDown(SDL_SCANCODE_S)) {
 		speedy += speedAcc;
 	}
@@ -140,8 +153,9 @@ void Engine::Render()
 	SDL_SetRenderDrawColor(m_pRenderer, 0, 0, 0, 255);
 	SDL_RenderClear(m_pRenderer);
 	// Any drawing here...
-	SDL_SetRenderDrawColor(m_pRenderer, 255, 255, 255, 255);
-	SDL_RenderFillRect(m_pRenderer, &plr1.plr);
+	//SDL_SetRenderDrawColor(m_pRenderer, 255, 255, 255, 255);
+	//SDL_RenderFillRect(m_pRenderer, &plr1.plrDst);
+	SDL_RenderCopy(m_pRenderer, plrTxtr, &plr1.plrSrc, &plr1.plrDst);
 
 	SDL_RenderPresent(m_pRenderer); // Flip buffers - send data to window.
 }
@@ -161,7 +175,7 @@ int Engine::Run()
 		return 1;
 	}
 	// Start and run the "engine"
-	if (Init("GAME1007 M2", SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, WIDTH, HEIGHT, NULL) == false)
+	if (Init("Cat Game!", SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, WIDTH, HEIGHT, NULL) == false)
 	{
 		return 2;
 	}
