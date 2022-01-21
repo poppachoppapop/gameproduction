@@ -7,7 +7,7 @@
 #include <SDL_image.h>
 #include <SDL_mixer.h>
 #include "player1.h"
-
+#include <vector>
 #define FPS 60
 #define WIDTH 1024
 #define HEIGHT 768
@@ -34,7 +34,7 @@ private: // private propeties.
 	bool dashPressed = false;
 	
 	SDL_Texture* plrTxtr;
-
+	vector<Rock*> playerpew;
 	Player plr1;
 
 	Mix_Chunk* stepSfx;

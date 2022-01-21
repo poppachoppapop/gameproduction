@@ -1,4 +1,5 @@
 #include "Engine.h"
+#include "player1.h"
 
 int Engine::Init(const char* title, int xPos, int yPos, int width, int height, int flags) {
 	cout << "Initializing engine..." << endl;
@@ -70,6 +71,14 @@ void Engine::HandleEvents()
 			m_running = false;
 			break;
 		}
+		if (event.key.keysym.sym == 13) // Enter
+		{
+			
+			playerpew.push_back(new Rock(plr1.plrDst.x +30 , plr1.plrDst.y + 60));
+			playerpew.shrink_to_fit();
+			cout << "YEET!";
+		}
+			
 	}
 }
 
@@ -156,6 +165,25 @@ void Engine::Update()
 		}
 	}
 	
+	// moving catboi rock
+	
+		for (unsigned i = 0; i < playerpew.size(); i++)
+		{
+			playerpew[i]->Update(1);
+		}
+		for (unsigned i = 0; i < playerpew.size(); i++)
+		{
+			if (playerpew[i]->rockDst.x >= WIDTH - playerpew[i]->rockDst.w)
+			{
+				delete playerpew[i];
+				playerpew[i] = nullptr;
+				playerpew.erase(playerpew.begin() + i); 
+				playerpew.shrink_to_fit();
+				break;
+			}
+		}
+
+	
 	
 }
 
@@ -167,7 +195,12 @@ void Engine::Render()
 	//SDL_SetRenderDrawColor(m_pRenderer, 255, 255, 255, 255);
 	//SDL_RenderFillRect(m_pRenderer, &plr1.plrDst);
 	SDL_RenderCopy(m_pRenderer, plrTxtr, &plr1.plrSrc, &plr1.plrDst);
-
+	//rock
+	SDL_SetRenderDrawColor(m_pRenderer, 128, 128, 128, 128);
+	for (unsigned i = 0; i < playerpew.size(); i++)
+	{
+		SDL_RenderFillRect(m_pRenderer, &(playerpew[i]->rockDst));
+	}
 	SDL_RenderPresent(m_pRenderer); // Flip buffers - send data to window.
 }
 

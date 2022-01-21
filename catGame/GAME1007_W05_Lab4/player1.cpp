@@ -1,12 +1,14 @@
 #include "player1.h"
 
+
 Player::Player() :plrSrc({ 0,0,32,32 }), frameCtr(0), frameMax(3),
-spriteIdx(0), spriteMax(6) 
+spriteIdx(0), spriteMax(6),m_state(IDLE)
 { 
 	plrDst = {10 ,10 ,100, 100};
 	plrSpd = 5;
 	plrDsh = 50;
 }
+
 
 
 
@@ -21,7 +23,10 @@ void Player::Update()
 		}
 		plrSrc.x = 0 + plrSrc.w * spriteIdx;
 	}
+    
 }
+
+
 
 void Player::setPlrSize(int h, int w)
 {
@@ -45,4 +50,12 @@ int Player::getPlrSpd()
 	return plrSpd;
 }
 
+Rock::Rock(int x, int y)
+{
+	rockDst = { x,y,10,10 };
+}
 
+void Rock::Update(int moving)
+{
+	rockDst.x += MOVESPEED * moving;
+}
