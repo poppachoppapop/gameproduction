@@ -1,7 +1,7 @@
 #pragma once
 #include <SDL.h>
 #include <iostream>
-#define MOVESPEED 7
+#define MOVESPEED 5
 enum state { IDLE, MOVE };
 class Player {
 
@@ -25,8 +25,7 @@ class Rock
 {
 public:
 	SDL_Rect rockSrc, rockDst;
-
-	Rock(int = 0, int = 0);
+	Rock(int x, int y);
 	void Update(int moving);
 
 

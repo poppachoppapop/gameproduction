@@ -18,7 +18,8 @@ int Engine::Init(const char* title, int xPos, int yPos, int width, int height, i
 				if (IMG_Init(IMG_INIT_PNG | IMG_INIT_JPG) != 0)
 				{
 					plrTxtr = IMG_LoadTexture(m_pRenderer, "art/catboy.png");
-					
+					rockTxtr = IMG_LoadTexture(m_pRenderer, "art/Rock.png");
+					//dumbie = IMG_LoadTexture(m_pRenderer, "art/Dumbie.png");
 				}
 				else return false; // Image init failed.
 			}
@@ -74,7 +75,7 @@ void Engine::HandleEvents()
 		if (event.key.keysym.sym == 13) // Enter
 		{
 			
-			playerpew.push_back(new Rock(plr1.plrDst.x +30 , plr1.plrDst.y + 60));
+			playerpew.push_back(new Rock(plr1.plrDst.x +10 , plr1.plrDst.y + 30));
 			playerpew.shrink_to_fit();
 			cout << "YEET!";
 		}
@@ -195,11 +196,12 @@ void Engine::Render()
 	//SDL_SetRenderDrawColor(m_pRenderer, 255, 255, 255, 255);
 	//SDL_RenderFillRect(m_pRenderer, &plr1.plrDst);
 	SDL_RenderCopy(m_pRenderer, plrTxtr, &plr1.plrSrc, &plr1.plrDst);
-	//rock
-	SDL_SetRenderDrawColor(m_pRenderer, 128, 128, 128, 128);
+	
+	//rock	
 	for (unsigned i = 0; i < playerpew.size(); i++)
 	{
-		SDL_RenderFillRect(m_pRenderer, &(playerpew[i]->rockDst));
+		SDL_RenderCopy(m_pRenderer, rockTxtr, 
+			&(playerpew[i]->rockSrc), &(playerpew[i]->rockDst));
 	}
 	SDL_RenderPresent(m_pRenderer); // Flip buffers - send data to window.
 }

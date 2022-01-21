@@ -34,6 +34,7 @@ private: // private propeties.
 	bool dashPressed = false;
 	
 	SDL_Texture* plrTxtr;
+	SDL_Texture* rockTxtr;
 	vector<Rock*> playerpew;
 	Player plr1;
 

@@ -50,9 +50,9 @@ int Player::getPlrSpd()
 	return plrSpd;
 }
 
-Rock::Rock(int x, int y)
+Rock::Rock(int x,int y):rockSrc ({0,0,32,32})
 {
-	rockDst = { x,y,10,10 };
+	rockDst = { x,y,32,32 };
 }
 
 void Rock::Update(int moving)
