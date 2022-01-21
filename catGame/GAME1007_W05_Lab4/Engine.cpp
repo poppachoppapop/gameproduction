@@ -100,16 +100,26 @@ void Engine::Update()
 	if (speedx * -1 > plr1.plrSpd)
 		speedx = plr1.plrSpd * -1;
 
-	//if (KeyDown(SDL_SCANCODE_LSHIFT)) {
-	//	if (dashCooldown > 100) {
-	//		while (dashTimer < 30) {
-	//			dashTimer++;
+	//Dash
+	if (dashCooldown > 100) {
+		if (KeyDown(SDL_SCANCODE_LSHIFT)) {
+			dashPressed = true;
+			dashTimer = 0;
+			dashCooldown = 0;
+		}
+	}
+	dashTimer++;
+	if (dashPressed) {
+		plr1.plrSpd = plr1.plrDsh;
+		if (dashTimer > 10) {
+			dashPressed = false;
+			dashTimer = 0;
+			dashCooldown = 0;
+			plr1.plrSpd = 5;
+			cout << tempSpeed << endl;
+		}
 
-	//		}
-	//		dashTimer = 0;
-	//		//speedAcc = 2;
-	//	}
-	//}
+	}
 	
 	//YAXIS
 

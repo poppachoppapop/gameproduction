@@ -5,7 +5,7 @@ spriteIdx(0), spriteMax(6)
 { 
 	plrDst = {10 ,10 ,100, 100};
 	plrSpd = 5;
-	plrDsh = 20;
+	plrDsh = 50;
 }
 
 

@@ -27,9 +27,11 @@ private: // private propeties.
 	// SFX Timers
 	int stepSoundTimer = 0, turnSoundTimer = 0;
 	
-	int dashCooldown = 100, dashTimer = 0;
+	int dashCooldown = 100, dashTimer = 0 , tempSpeed = 0;
 
 	double speedAcc = 2, speedy = 0, speedx = 0;
+
+	bool dashPressed = false;
 	
 	SDL_Texture* plrTxtr;
 
