@@ -1,12 +1,13 @@
 #include "player1.h"
 
 
-Player::Player() :plrSrc({ 0,0,32,32 }), frameCtr(0), frameMax(3),
-spriteIdx(0), spriteMax(6),m_state(IDLE)
+Player::Player() :plrFrontIdle({ 0,0,32,32 }), plrMoveDown({ 0,128,32,32 }), plrMoveUp({ 0,160,32,32 }), plrMoveLeft({ 0,192,32,32 }), plrMoveRight({ 0,224,32,32 }) ,
+frameCtr(0), frameMax(3), spriteIdx(0), spriteMax(6)
 { 
 	plrDst = {10 ,10 ,100, 100};
 	plrSpd = 5;
 	plrDsh = 50;
+	state = 0;
 }
 
 
@@ -14,15 +15,69 @@ spriteIdx(0), spriteMax(6),m_state(IDLE)
 
 void Player::Update()
 {
-	if (frameCtr++ == frameMax)
-	{
-		frameCtr = 0;
-		if (++spriteIdx == spriteMax)
-		{
+	if (state == 0) { // idle down
+		spriteMax = 6;
+		if (spriteIdx > 6)
 			spriteIdx = 0;
+		if (frameCtr++ == frameMax)
+		{
+			frameCtr = 0;
+			if (++spriteIdx == spriteMax)
+			{
+				spriteIdx = 0;
+			}
+			plrFrontIdle.x = 0 + plrFrontIdle.w * spriteIdx;
 		}
-		plrSrc.x = 0 + plrSrc.w * spriteIdx;
 	}
+	else if(state == 1) { // walk down
+		spriteMax = 10;
+		if (frameCtr++ == frameMax)
+		{
+			frameCtr = 0;
+			if (++spriteIdx == spriteMax)
+			{
+				spriteIdx = 0;
+			}
+			plrMoveDown.x = 0 + plrMoveDown.w * spriteIdx;
+		}
+	}
+	else if(state == 2) { // walk up
+		spriteMax = 10;
+		if (frameCtr++ == frameMax)
+		{
+			frameCtr = 0;
+			if (++spriteIdx == spriteMax)
+			{
+				spriteIdx = 0;
+			}
+			plrMoveUp.x = 0 + plrMoveUp.w * spriteIdx;
+		}
+	}
+	else if(state == 3) { // walk left
+		spriteMax = 10;
+		if (frameCtr++ == frameMax)
+		{
+			frameCtr = 0;
+			if (++spriteIdx == spriteMax)
+			{
+				spriteIdx = 0;
+			}
+			plrMoveLeft.x = 0 + plrMoveLeft.w * spriteIdx;
+		}
+	}
+	else if(state == 4) { // walk right
+		spriteMax = 10;
+		if (frameCtr++ == frameMax)
+		{
+			frameCtr = 0;
+			if (++spriteIdx == spriteMax)
+			{
+				spriteIdx = 0;
+			}
+			plrMoveRight.x = 0 + plrMoveRight.w * spriteIdx;
+		}
+	}
+	
     
 }
 

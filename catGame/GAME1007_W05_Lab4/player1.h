@@ -9,8 +9,8 @@ private:
 	unsigned short frameCtr, frameMax, spriteIdx, spriteMin, spriteMax;
 
 public:
-	state m_state;
-	SDL_Rect plrSrc, plrDst;
+	int state;
+	SDL_Rect plrFrontIdle, plrMoveLeft, plrMoveRight, plrMoveUp, plrMoveDown, plrDst;
 	int plrSpd, plrDsh;
 	Player();
 	//Player(int h, int w, int s);

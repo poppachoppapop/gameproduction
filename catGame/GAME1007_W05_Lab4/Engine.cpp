@@ -135,19 +135,23 @@ void Engine::Update()
 
 	if (KeyDown(SDL_SCANCODE_S)) {
 		speedy += speedAcc;
+		plr1.state = 1;
 	}
 	
 	if (KeyDown(SDL_SCANCODE_W)) {
 		speedy -= speedAcc;
+		plr1.state = 2;
 	}
 
 	//XAXIS
 	if (KeyDown(SDL_SCANCODE_A)) {
 		speedx -= speedAcc;
+		plr1.state = 3;
 	}
 
 	if (KeyDown(SDL_SCANCODE_D)) {
 		speedx += speedAcc;
+		plr1.state = 4;
 	}
 	
 	//Slow Down!
@@ -165,7 +169,10 @@ void Engine::Update()
 			speedy++;
 		}
 	}
-	
+	if (!KeyDown(SDL_SCANCODE_W) && !KeyDown(SDL_SCANCODE_S) && !KeyDown(SDL_SCANCODE_D) && !KeyDown(SDL_SCANCODE_A)) {
+		plr1.state = 0;
+		
+	}
 	// moving catboi rock
 	
 		for (unsigned i = 0; i < playerpew.size(); i++)
@@ -183,6 +190,7 @@ void Engine::Update()
 				break;
 			}
 		}
+		cout << plr1.state << endl;
 
 	
 	
@@ -195,7 +203,18 @@ void Engine::Render()
 	// Any drawing here...
 	//SDL_SetRenderDrawColor(m_pRenderer, 255, 255, 255, 255);
 	//SDL_RenderFillRect(m_pRenderer, &plr1.plrDst);
-	SDL_RenderCopy(m_pRenderer, plrTxtr, &plr1.plrSrc, &plr1.plrDst);
+	
+	if (plr1.state == 0)
+		SDL_RenderCopy(m_pRenderer, plrTxtr, &plr1.plrFrontIdle, &plr1.plrDst);
+	else if (plr1.state == 1)
+		SDL_RenderCopy(m_pRenderer, plrTxtr, &plr1.plrMoveDown, &plr1.plrDst);
+	else if (plr1.state == 2)
+		SDL_RenderCopy(m_pRenderer, plrTxtr, &plr1.plrMoveUp, &plr1.plrDst);
+	else if (plr1.state == 3)
+		SDL_RenderCopy(m_pRenderer, plrTxtr, &plr1.plrMoveLeft, &plr1.plrDst);
+	else if (plr1.state == 4)
+		SDL_RenderCopy(m_pRenderer, plrTxtr, &plr1.plrMoveRight, &plr1.plrDst);
+
 	
 	//rock	
 	for (unsigned i = 0; i < playerpew.size(); i++)
