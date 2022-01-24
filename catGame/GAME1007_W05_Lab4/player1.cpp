@@ -114,3 +114,4 @@ void Rock::Update(int moving)
 {
 	rockDst.x += MOVESPEED * moving;
 }
+

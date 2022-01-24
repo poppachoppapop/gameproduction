@@ -1,6 +1,12 @@
 #include "Engine.h"
 #include "player1.h"
 
+Dumbie::Dumbie(int x, int y) :dumbieSrc({0,0,69,69})
+{
+	//random dumie spawn
+	dumbieDst= { rand() % 1000,rand() % 900,dumbieSrc.w, dumbieSrc.h };
+}
+
 int Engine::Init(const char* title, int xPos, int yPos, int width, int height, int flags) {
 	cout << "Initializing engine..." << endl;
 	if (SDL_Init(SDL_INIT_EVERYTHING) == 0) // If initialization is okay...
@@ -18,8 +24,8 @@ int Engine::Init(const char* title, int xPos, int yPos, int width, int height, i
 				if (IMG_Init(IMG_INIT_PNG | IMG_INIT_JPG) != 0)
 				{
 					plrTxtr = IMG_LoadTexture(m_pRenderer, "art/catboy.png");
-					rockTxtr = IMG_LoadTexture(m_pRenderer, "art/Rock.png");
-					//dumbie = IMG_LoadTexture(m_pRenderer, "art/Dumbie.png");
+					rockTxtr = IMG_LoadTexture(m_pRenderer, "art/Rocko100.png");
+					dumbieTxtr = IMG_LoadTexture(m_pRenderer, "art/Dumbie.png");
 				}
 				else return false; // Image init failed.
 			}
@@ -31,6 +37,7 @@ int Engine::Init(const char* title, int xPos, int yPos, int width, int height, i
 			Mix_AllocateChannels(16);
 			stepSfx = Mix_LoadWAV("sfx/step.wav");
 			turnSfx = Mix_LoadWAV("sfx/turn.wav");
+			deathSfx = Mix_LoadWAV("sfx/cockandballs.mp3");
 			maintheme = Mix_LoadMUS("Aud/TitleTheme.mp3");
 			
 		}
@@ -42,8 +49,14 @@ int Engine::Init(const char* title, int xPos, int yPos, int width, int height, i
 	srand(time(NULL));
 	//sounds
 	Mix_PlayMusic(maintheme, -1);
-	Mix_VolumeMusic(32); //0-128
-	Mix_Volume(-1, 128);
+	Mix_VolumeMusic(12); //0-128
+	Mix_Volume(-1, 69);	
+	
+	//dumbieSrc = { 0,0,32,32 };
+	//dumbietimer = 0;
+
+	playerpew.reserve(4);
+	dumbie.reserve(4);
 
 	cout << "Initialization successful!" << endl;
 	m_running = true;
@@ -55,9 +68,23 @@ int Engine::Init(const char* title, int xPos, int yPos, int width, int height, i
 void Engine::Clean()
 {
 	cout << "Cleaning engine..." << endl;
+	for (unsigned i = 0; i < dumbie.size(); i++)
+	{
+		delete dumbie[i];
+		dumbie[i] = nullptr;
+	}
+	for (unsigned i = 0; i < playerpew.size(); i++)
+	{
+		delete playerpew[i];
+		playerpew[i] = nullptr;
+	}
+	playerpew.clear();
+	playerpew.shrink_to_fit();	
 	SDL_DestroyRenderer(m_pRenderer);
 	SDL_DestroyWindow(m_pWindow);
+	SDL_DestroyTexture(dumbieTxtr);
 	Mix_FreeChunk(stepSfx);
+	Mix_FreeChunk(deathSfx);
 	Mix_FreeChunk(turnSfx);
 	Mix_FreeMusic(maintheme);
 	Mix_CloseAudio();
@@ -244,8 +271,9 @@ void Engine::Update()
 		plr1.state = 0;
 		
 	}
-	// moving catboi rock
+	//cout << plr1.state << endl;
 	
+	// moving catboi rock	
 		for (unsigned i = 0; i < playerpew.size(); i++)
 		{
 			playerpew[i]->Update(1);
@@ -261,9 +289,54 @@ void Engine::Update()
 				break;
 			}
 		}
-		cout << plr1.state << endl;
 
-	
+		//delete rock after collision
+		for (unsigned i = 0; i < playerpew.size(); i++)
+		{
+			if (playerpew[i]->rockDst.x >= WIDTH - playerpew[i]->rockDst.w)
+			{
+				delete playerpew[i];
+				playerpew[i] = nullptr;
+				playerpew.erase(playerpew.begin() + i);
+				playerpew.shrink_to_fit();
+				break;
+			}
+		}
+		
+		
+		//dumbie spawning stuff
+		dumbietimer++;
+		if (dumbietimer >= FPS * DSPAWN)
+		{
+			dumbietimer = 0;
+			srand(time(NULL));
+			dumbie.push_back(new Dumbie(WIDTH + dumbieSrc.w, rand() % (HEIGHT - dumbieSrc.h)));
+			dumbie.shrink_to_fit();
+			cout << "spawning dumbie" << endl;
+		}
+		
+		//hitbox stuff/Collision
+		for (unsigned i = 0; i < playerpew.size(); i++)
+		{
+			
+			for (unsigned j = 0; j < dumbie.size(); j++)
+			{
+				if (SDL_HasIntersection(&playerpew[i]->rockDst, &dumbie[j]->dumbieDst)) //AABB Check
+				{
+					cout << "catboy hits dumbie" << endl;
+					Mix_PlayChannel(-1, deathSfx, 0);
+					delete playerpew[i]; 
+					playerpew[i] = nullptr; 
+					playerpew.erase(playerpew.begin() + i); 
+					playerpew.shrink_to_fit();
+					delete dumbie[j];
+					dumbie[j] = nullptr;
+					dumbie.erase(dumbie.begin() + j);
+					dumbie.shrink_to_fit();
+					break;
+				}
+			}
+		}
 	
 }
 
@@ -293,7 +366,16 @@ void Engine::Render()
 		SDL_RenderCopy(m_pRenderer, rockTxtr, 
 			&(playerpew[i]->rockSrc), &(playerpew[i]->rockDst));
 	}
+	
+	
+	//dumbie
+	for (unsigned i = 0; i < dumbie.size();i++)
+	{
+		SDL_RenderCopyEx(m_pRenderer, dumbieTxtr, &dumbie[i]->dumbieSrc, &dumbie[i]->dumbieDst, 00.0, NULL, SDL_FLIP_NONE);
+
+	}
 	SDL_RenderPresent(m_pRenderer); // Flip buffers - send data to window.
+
 }
 
 void Engine::Sleep()

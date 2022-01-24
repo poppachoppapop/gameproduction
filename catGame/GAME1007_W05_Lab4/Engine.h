@@ -8,12 +8,25 @@
 #include <SDL_mixer.h>
 #include "player1.h"
 #include <vector>
+#include <ctime>
 #define FPS 60
 #define WIDTH 1024
 #define HEIGHT 768
 #define SPEED 10
+#define DSPAWN 3//dumbie spawn rate
 
 using namespace std;
+
+class Dumbie
+{
+public:
+	SDL_Rect dumbieSrc, dumbieDst;
+	Uint16 frames = 0;
+	Dumbie(int x, int y);	
+	
+
+};
+
 
 class Engine
 {
@@ -35,11 +48,18 @@ private: // private propeties.
 	
 	SDL_Texture* plrTxtr;
 	SDL_Texture* rockTxtr;
+	SDL_Texture* dumbieTxtr;
+
 	vector<Rock*> playerpew;
+	vector<Dumbie*> dumbie;
+	SDL_Rect dumbieSrc, dumbieDst;
+
 	Player plr1;
+	Uint16 dumbietimer;
 
 	Mix_Chunk* stepSfx;
 	Mix_Chunk* turnSfx;
+	Mix_Chunk* deathSfx;
 	Mix_Music* maintheme;
 
 private: // private method prototypes

@@ -2,6 +2,7 @@
 #include <SDL.h>
 #include <iostream>
 #define MOVESPEED 5//rock speed
+
 //enum state { IDLE, MOVE };
 class Player
 {
@@ -22,6 +23,8 @@ public:
 	int getPlrSpd();
 
 };
+
+
 class Rock
 {
 public:

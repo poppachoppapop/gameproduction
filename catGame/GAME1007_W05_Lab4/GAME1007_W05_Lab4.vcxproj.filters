@@ -46,5 +46,19 @@
     <Media Include="sfx\turn.wav">
       <Filter>Resource Files</Filter>
     </Media>
+    <Media Include="sfx\death.mp3">
+      <Filter>Resource Files</Filter>
+    </Media>
+  </ItemGroup>
+  <ItemGroup>
+    <Image Include="art\Rocko100.png">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="art\Dumbie.png">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="Enemy.png">
+      <Filter>Resource Files</Filter>
+    </Image>
   </ItemGroup>
 </Project>

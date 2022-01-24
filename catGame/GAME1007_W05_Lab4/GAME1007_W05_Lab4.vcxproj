@@ -151,8 +151,14 @@
   </ItemGroup>
   <ItemGroup>
     <Media Include="Aud\TitleTheme.mp3" />
+    <Media Include="sfx\death.mp3" />
     <Media Include="sfx\step.wav" />
     <Media Include="sfx\turn.wav" />
+  </ItemGroup>
+  <ItemGroup>
+    <Image Include="art\Dumbie.png" />
+    <Image Include="art\Rocko100.png" />
+    <Image Include="Enemy.png" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
