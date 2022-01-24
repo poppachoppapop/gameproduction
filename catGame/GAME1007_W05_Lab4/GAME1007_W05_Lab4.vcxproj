@@ -149,6 +149,11 @@
     <ClInclude Include="Engine.h" />
     <ClInclude Include="player1.h" />
   </ItemGroup>
+  <ItemGroup>
+    <Media Include="Aud\TitleTheme.mp3" />
+    <Media Include="sfx\step.wav" />
+    <Media Include="sfx\turn.wav" />
+  </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
   </ImportGroup>

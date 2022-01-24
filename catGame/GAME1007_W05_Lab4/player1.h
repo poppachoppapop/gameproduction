@@ -1,9 +1,10 @@
 #pragma once
 #include <SDL.h>
 #include <iostream>
-#define MOVESPEED 5
-enum state { IDLE, MOVE };
-class Player {
+#define MOVESPEED 5//rock speed
+//enum state { IDLE, MOVE };
+class Player
+{
 
 private:
 	unsigned short frameCtr, frameMax, spriteIdx, spriteMin, spriteMax;

@@ -31,6 +31,7 @@ int Engine::Init(const char* title, int xPos, int yPos, int width, int height, i
 			Mix_AllocateChannels(16);
 			stepSfx = Mix_LoadWAV("sfx/step.wav");
 			turnSfx = Mix_LoadWAV("sfx/turn.wav");
+			maintheme = Mix_LoadMUS("Aud/TitleTheme.mp3");
 			
 		}
 	}
@@ -39,6 +40,10 @@ int Engine::Init(const char* title, int xPos, int yPos, int width, int height, i
 	m_keystates = SDL_GetKeyboardState(nullptr);
 
 	srand(time(NULL));
+	//sounds
+	Mix_PlayMusic(maintheme, -1);
+	Mix_VolumeMusic(32); //0-128
+	Mix_Volume(-1, 128);
 
 	cout << "Initialization successful!" << endl;
 	m_running = true;
@@ -52,6 +57,11 @@ void Engine::Clean()
 	cout << "Cleaning engine..." << endl;
 	SDL_DestroyRenderer(m_pRenderer);
 	SDL_DestroyWindow(m_pWindow);
+	Mix_FreeChunk(stepSfx);
+	Mix_FreeChunk(turnSfx);
+	Mix_FreeMusic(maintheme);
+	Mix_CloseAudio();
+	Mix_Quit();
 	IMG_Quit();
 	SDL_Quit();
 }
@@ -71,16 +81,74 @@ void Engine::HandleEvents()
 		case SDL_QUIT:
 			m_running = false;
 			break;
+		case SDL_KEYDOWN:			
+			if (event.key.keysym.sym == SDLK_s)
+			{
+				if (!Mix_Playing(7))
+				{
+					Mix_PlayChannel(7, stepSfx, -1);
+					cout << "S" << endl;
+				}
+			}
+			if (event.key.keysym.sym == SDLK_a)
+			{
+				if (!Mix_Playing(7))
+				{
+					Mix_PlayChannel(7, stepSfx, -1);
+					cout << "A" << endl;
+				}
+			}
+			if (event.key.keysym.sym == SDLK_w)
+			{
+				if (!Mix_Playing(7))
+				{
+					Mix_PlayChannel(7, stepSfx, -1);
+					cout << "W" << endl;
+				}
+			}
+			if (event.key.keysym.sym == SDLK_d)
+			{
+				if (!Mix_Playing(7))
+				{
+					Mix_PlayChannel(7, stepSfx, -1);
+					cout << "D" << endl;
+				}
+			}			
+			break;
+
+		case SDL_KEYUP:
+			
+			if (event.key.keysym.sym == 's')
+			{
+				Mix_HaltChannel(7);
+			}
+			if (event.key.keysym.sym == 'a')
+			{
+				Mix_HaltChannel(7);
+			}
+			if (event.key.keysym.sym == 'w')
+			{
+				Mix_HaltChannel(7);
+			}
+			if (event.key.keysym.sym == 'd')
+			{
+				Mix_HaltChannel(7);
+			}
+			break;
+
+			
 		}
+		
+		
 		if (event.key.keysym.sym == 13) // Enter
 		{
-			
-			playerpew.push_back(new Rock(plr1.plrDst.x +10 , plr1.plrDst.y + 30));
+
+			playerpew.push_back(new Rock(plr1.plrDst.x + 10, plr1.plrDst.y + 30));
 			playerpew.shrink_to_fit();
 			cout << "YEET!";
 		}
-			
 	}
+	
 }
 
 bool Engine::KeyDown(SDL_Scancode c)
@@ -134,11 +202,14 @@ void Engine::Update()
 	//YAXIS
 
 	if (KeyDown(SDL_SCANCODE_S)) {
+		
 		speedy += speedAcc;
 		plr1.state = 1;
+		
 	}
 	
 	if (KeyDown(SDL_SCANCODE_W)) {
+		
 		speedy -= speedAcc;
 		plr1.state = 2;
 	}
@@ -198,7 +269,7 @@ void Engine::Update()
 
 void Engine::Render()
 {
-	SDL_SetRenderDrawColor(m_pRenderer, 0, 0, 0, 255);
+	SDL_SetRenderDrawColor(m_pRenderer, 0, 200, 200, 255);
 	SDL_RenderClear(m_pRenderer);
 	// Any drawing here...
 	//SDL_SetRenderDrawColor(m_pRenderer, 255, 255, 255, 255);

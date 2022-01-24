@@ -36,4 +36,15 @@
       <Filter>Source Files\Character</Filter>
     </ClInclude>
   </ItemGroup>
+  <ItemGroup>
+    <Media Include="Aud\TitleTheme.mp3">
+      <Filter>Resource Files</Filter>
+    </Media>
+    <Media Include="sfx\step.wav">
+      <Filter>Resource Files</Filter>
+    </Media>
+    <Media Include="sfx\turn.wav">
+      <Filter>Resource Files</Filter>
+    </Media>
+  </ItemGroup>
 </Project>

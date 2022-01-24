@@ -40,6 +40,7 @@ private: // private propeties.
 
 	Mix_Chunk* stepSfx;
 	Mix_Chunk* turnSfx;
+	Mix_Music* maintheme;
 
 private: // private method prototypes
 	int Init(const char* title, int xPos, int yPos, int width, int height, int flags);
