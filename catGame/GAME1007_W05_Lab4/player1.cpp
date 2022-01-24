@@ -107,7 +107,7 @@ int Player::getPlrSpd()
 
 Rock::Rock(int x,int y):rockSrc ({0,0,32,32})
 {
-	rockDst = { x,y,32,32 };
+	rockDst = { x,y,64,64 };
 }
 
 void Rock::Update(int moving)

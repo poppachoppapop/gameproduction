@@ -45,6 +45,7 @@ private: // private propeties.
 	double speedAcc = 2, speedy = 0, speedx = 0;
 
 	bool dashPressed = false;
+	bool upPressed = false, downPressed = false, leftPressed = false, rightPressed = false;
 	
 	SDL_Texture* plrTxtr;
 	SDL_Texture* rockTxtr;

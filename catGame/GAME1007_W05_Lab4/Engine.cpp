@@ -166,14 +166,6 @@ void Engine::HandleEvents()
 			
 		}
 		
-		
-		if (event.button.button == SDL_BUTTON_LEFT) // m1
-		{
-
-			playerpew.push_back(new Rock(plr1.plrDst.x + 10, plr1.plrDst.y + 30));
-			playerpew.shrink_to_fit();
-			cout << "YEET!";
-		}
 	}
 	
 }
@@ -196,6 +188,56 @@ void Engine::Update()
 	plr1.plrDst.y += speedy;
 	plr1.Update();
 	
+	if (KeyDown(SDL_SCANCODE_UP))
+	{
+		upPressed = true;
+		downPressed = false;
+		leftPressed = false;
+		rightPressed = false;
+		if (upPressed && !downPressed && !leftPressed && !rightPressed) {
+			playerpew.push_back(new Rock(plr1.plrDst.x + 10, plr1.plrDst.y + 30));
+			playerpew.shrink_to_fit();
+			cout << "YEET!";
+		}
+	}
+	else if (KeyDown(SDL_SCANCODE_DOWN))
+	{
+		upPressed = false;
+		downPressed = true;
+		leftPressed = false;
+		rightPressed = false;
+		if (!upPressed && downPressed && !leftPressed && !rightPressed) {
+			playerpew.push_back(new Rock(plr1.plrDst.x + 10, plr1.plrDst.y + 30));
+			playerpew.shrink_to_fit();
+			cout << "YEET!";
+		}
+	}
+	else if (KeyDown(SDL_SCANCODE_LEFT))
+	{
+		upPressed = false;
+		downPressed = false;
+		leftPressed = true;
+		rightPressed = false;
+		if (!upPressed && !downPressed && leftPressed && !rightPressed) {
+			playerpew.push_back(new Rock(plr1.plrDst.x + 10, plr1.plrDst.y + 30));
+			playerpew.shrink_to_fit();
+			cout << "YEET!";
+		}
+	}
+	else if (KeyDown(SDL_SCANCODE_RIGHT))
+	{
+		upPressed = false;
+		downPressed = false;
+		leftPressed = false;
+		rightPressed = true;
+		if (!upPressed && !downPressed && !leftPressed && rightPressed) {
+			playerpew.push_back(new Rock(plr1.plrDst.x + 10, plr1.plrDst.y + 30));
+			playerpew.shrink_to_fit();
+			cout << "YEET!";
+		}
+	}
+
+
 	if (speedx > plr1.plrSpd)
 		speedx = plr1.plrSpd;
 	if (speedy > plr1.plrSpd)
