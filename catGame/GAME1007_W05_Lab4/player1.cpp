@@ -110,8 +110,16 @@ Rock::Rock(int x,int y):rockSrc ({0,0,32,32})
 	rockDst = { x,y,64,64 };
 }
 
-void Rock::Update(int moving)
+void Rock::Update(int direction, double speed)
 {
-	rockDst.x += MOVESPEED * moving;
+	if (direction == 0)
+		rockDst.y -= speed;
+	if (direction == 1)
+		rockDst.y += speed;
+	if (direction == 2)
+		rockDst.x -= speed;
+	if (direction == 3)
+		rockDst.x += speed;
+	
 }
 

@@ -1,7 +1,6 @@
 #pragma once
 #include <SDL.h>
 #include <iostream>
-#define MOVESPEED 5//rock speed
 
 //enum state { IDLE, MOVE };
 class Player
@@ -30,7 +29,7 @@ class Rock
 public:
 	SDL_Rect rockSrc, rockDst;
 	Rock(int x, int y);
-	void Update(int moving);
+	void Update(int direction, double speed);
 
 
 };

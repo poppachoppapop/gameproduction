@@ -37,7 +37,7 @@ int Engine::Init(const char* title, int xPos, int yPos, int width, int height, i
 			Mix_AllocateChannels(16);
 			stepSfx = Mix_LoadWAV("sfx/step.wav");
 			turnSfx = Mix_LoadWAV("sfx/turn.wav");
-			deathSfx = Mix_LoadWAV("sfx/cockandballs.mp3");
+			deathSfx = Mix_LoadWAV("sfx/dedEnemy.wav");
 			maintheme = Mix_LoadMUS("Aud/TitleTheme.mp3");
 			
 		}
@@ -114,7 +114,6 @@ void Engine::HandleEvents()
 				if (!Mix_Playing(7))
 				{
 					Mix_PlayChannel(7, stepSfx, -1);
-					cout << "S" << endl;
 				}
 			}
 			if (event.key.keysym.sym == SDLK_a)
@@ -122,7 +121,6 @@ void Engine::HandleEvents()
 				if (!Mix_Playing(7))
 				{
 					Mix_PlayChannel(7, stepSfx, -1);
-					cout << "A" << endl;
 				}
 			}
 			if (event.key.keysym.sym == SDLK_w)
@@ -130,7 +128,6 @@ void Engine::HandleEvents()
 				if (!Mix_Playing(7))
 				{
 					Mix_PlayChannel(7, stepSfx, -1);
-					cout << "W" << endl;
 				}
 			}
 			if (event.key.keysym.sym == SDLK_d)
@@ -138,7 +135,6 @@ void Engine::HandleEvents()
 				if (!Mix_Playing(7))
 				{
 					Mix_PlayChannel(7, stepSfx, -1);
-					cout << "D" << endl;
 				}
 			}			
 			break;
@@ -187,17 +183,20 @@ void Engine::Update()
 	plr1.plrDst.x += speedx;
 	plr1.plrDst.y += speedy;
 	plr1.Update();
-	
+	rockCooldown++;
+
 	if (KeyDown(SDL_SCANCODE_UP))
 	{
 		upPressed = true;
 		downPressed = false;
 		leftPressed = false;
 		rightPressed = false;
-		if (upPressed && !downPressed && !leftPressed && !rightPressed) {
+		if (upPressed && !downPressed && !leftPressed && !rightPressed && rockCooldown > 50) {
+			rockCooldown = 0;
+			rockDir.push_back(0);
+			rockDir.shrink_to_fit();
 			playerpew.push_back(new Rock(plr1.plrDst.x + 10, plr1.plrDst.y + 30));
 			playerpew.shrink_to_fit();
-			cout << "YEET!";
 		}
 	}
 	else if (KeyDown(SDL_SCANCODE_DOWN))
@@ -206,10 +205,12 @@ void Engine::Update()
 		downPressed = true;
 		leftPressed = false;
 		rightPressed = false;
-		if (!upPressed && downPressed && !leftPressed && !rightPressed) {
+		if (!upPressed && downPressed && !leftPressed && !rightPressed && rockCooldown > 50) {
+			rockCooldown = 0;
+			rockDir.push_back(1);
+			rockDir.shrink_to_fit();
 			playerpew.push_back(new Rock(plr1.plrDst.x + 10, plr1.plrDst.y + 30));
 			playerpew.shrink_to_fit();
-			cout << "YEET!";
 		}
 	}
 	else if (KeyDown(SDL_SCANCODE_LEFT))
@@ -218,10 +219,12 @@ void Engine::Update()
 		downPressed = false;
 		leftPressed = true;
 		rightPressed = false;
-		if (!upPressed && !downPressed && leftPressed && !rightPressed) {
+		if (!upPressed && !downPressed && leftPressed && !rightPressed && rockCooldown > 50) {
+			rockCooldown = 0;
+			rockDir.push_back(2);
+			rockDir.shrink_to_fit();
 			playerpew.push_back(new Rock(plr1.plrDst.x + 10, plr1.plrDst.y + 30));
 			playerpew.shrink_to_fit();
-			cout << "YEET!";
 		}
 	}
 	else if (KeyDown(SDL_SCANCODE_RIGHT))
@@ -230,10 +233,12 @@ void Engine::Update()
 		downPressed = false;
 		leftPressed = false;
 		rightPressed = true;
-		if (!upPressed && !downPressed && !leftPressed && rightPressed) {
+		if (!upPressed && !downPressed && !leftPressed && rightPressed && rockCooldown > 50) {
+			rockCooldown = 0;
+			rockDir.push_back(3);
+			rockDir.shrink_to_fit();
 			playerpew.push_back(new Rock(plr1.plrDst.x + 10, plr1.plrDst.y + 30));
 			playerpew.shrink_to_fit();
-			cout << "YEET!";
 		}
 	}
 
@@ -318,25 +323,16 @@ void Engine::Update()
 	// moving catboi rock	
 		for (unsigned i = 0; i < playerpew.size(); i++)
 		{
-			playerpew[i]->Update(1);
-		}
-		for (unsigned i = 0; i < playerpew.size(); i++)
-		{
-			if (playerpew[i]->rockDst.x >= WIDTH - playerpew[i]->rockDst.w)
-			{
-				delete playerpew[i];
-				playerpew[i] = nullptr;
-				playerpew.erase(playerpew.begin() + i); 
-				playerpew.shrink_to_fit();
-				break;
-			}
+			playerpew[i]->Update(rockDir[i], rockSpeed);
 		}
 
 		//delete rock after collision
 		for (unsigned i = 0; i < playerpew.size(); i++)
 		{
-			if (playerpew[i]->rockDst.x >= WIDTH - playerpew[i]->rockDst.w)
+			if (playerpew[i]->rockDst.x >= WIDTH || playerpew[i]->rockDst.x <= -64 || playerpew[i]->rockDst.y >= HEIGHT || playerpew[i]->rockDst.y <= -64)
 			{
+				rockDir.erase(rockDir.begin());
+				rockDir.shrink_to_fit();
 				delete playerpew[i];
 				playerpew[i] = nullptr;
 				playerpew.erase(playerpew.begin() + i);
@@ -365,6 +361,8 @@ void Engine::Update()
 			{
 				if (SDL_HasIntersection(&playerpew[i]->rockDst, &dumbie[j]->dumbieDst)) //AABB Check
 				{
+					rockDir.erase(rockDir.begin());
+					rockDir.shrink_to_fit();
 					cout << "catboy hits dumbie" << endl;
 					Mix_PlayChannel(-1, deathSfx, 0);
 					delete playerpew[i]; 

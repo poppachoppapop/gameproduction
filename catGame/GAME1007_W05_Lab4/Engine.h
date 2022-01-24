@@ -41,8 +41,11 @@ private: // private propeties.
 	int stepSoundTimer = 0, turnSoundTimer = 0;
 	
 	int dashCooldown = 100, dashTimer = 0 , tempSpeed = 0;
+	int rockCooldown = 50;
 
 	double speedAcc = 2, speedy = 0, speedx = 0;
+	double rockSpeed = 15;
+
 
 	bool dashPressed = false;
 	bool upPressed = false, downPressed = false, leftPressed = false, rightPressed = false;
@@ -51,8 +54,10 @@ private: // private propeties.
 	SDL_Texture* rockTxtr;
 	SDL_Texture* dumbieTxtr;
 
+	vector<int> rockDir;
 	vector<Rock*> playerpew;
 	vector<Dumbie*> dumbie;
+
 	SDL_Rect dumbieSrc, dumbieDst;
 
 	Player plr1;
