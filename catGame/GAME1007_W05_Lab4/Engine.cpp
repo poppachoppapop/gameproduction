@@ -167,7 +167,7 @@ void Engine::HandleEvents()
 		}
 		
 		
-		if (event.key.keysym.sym == 13) // Enter
+		if (event.button.button == SDL_BUTTON_LEFT) // m1
 		{
 
 			playerpew.push_back(new Rock(plr1.plrDst.x + 10, plr1.plrDst.y + 30));
