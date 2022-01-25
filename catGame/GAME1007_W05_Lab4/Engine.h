@@ -24,7 +24,6 @@ public:
 	Uint16 frames = 0;
 	Dumbie(int x, int y);	
 	
-
 };
 
 

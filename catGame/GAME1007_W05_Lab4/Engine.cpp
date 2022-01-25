@@ -414,6 +414,7 @@ void Engine::Render()
 		SDL_RenderCopyEx(m_pRenderer, dumbieTxtr, &dumbie[i]->dumbieSrc, &dumbie[i]->dumbieDst, 00.0, NULL, SDL_FLIP_NONE);
 
 	}
+	SDL_RenderSetLogicalSize(m_pRenderer, WIDTH, HEIGHT);
 	SDL_RenderPresent(m_pRenderer); // Flip buffers - send data to window.
 
 }

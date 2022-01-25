@@ -30,6 +30,4 @@ public:
 	SDL_Rect rockSrc, rockDst;
 	Rock(int x, int y);
 	void Update(int direction, double speed);
-
-
 };
