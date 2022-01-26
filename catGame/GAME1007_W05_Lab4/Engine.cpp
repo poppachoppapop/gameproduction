@@ -1,12 +1,7 @@
 #include "Engine.h"
 #include "player1.h"
-
-Dumbie::Dumbie(int x, int y) :dumbieSrc({0,0,69,69})
-{
-	//random dumie spawn
-	dumbieDst= { rand() % 1000,rand() % 900,dumbieSrc.w, dumbieSrc.h };
-}
-
+#include "enemy.h"
+#include <ctime>
 
 int Engine::Init(const char* title, int xPos, int yPos, int width, int height, int flags) {
 	cout << "Initializing engine..." << endl;
@@ -39,6 +34,7 @@ int Engine::Init(const char* title, int xPos, int yPos, int width, int height, i
 			stepSfx = Mix_LoadWAV("sfx/step.wav");
 			turnSfx = Mix_LoadWAV("sfx/turn.wav");
 			deathSfx = Mix_LoadWAV("sfx/dedEnemy.wav");
+			hurtSfx = Mix_LoadWAV("sfx/enemyHurt.wav");
 			maintheme = Mix_LoadMUS("Aud/TitleTheme.mp3");
 			
 		}
@@ -178,11 +174,13 @@ void Engine::Update()
 {
 	stepSoundTimer++; turnSoundTimer++;
 	dashCooldown++;
+	dumbieTimerMax -= 0.01;
 	plr1.plrDst.x += speedx;
 	plr1.plrDst.y += speedy;
 	plr1.Update();
 	rockCooldown++;
 	Qcooldown++;
+
 	//For special Ability
 	if (KeyDown(SDL_SCANCODE_SPACE))
 	{		
@@ -310,18 +308,10 @@ void Engine::Update()
 	}
 	//cout << plr1.state << endl;
 	
-	// moving catboi rock	sa
+		//delete rock after off screen and move rock
 		for (unsigned i = 0; i < playerpew.size(); i++)
 		{
 			playerpew[i]->Update();
-			
-		}
-		
-		
-
-		//delete rock after collision
-		for (unsigned i = 0; i < playerpew.size(); i++)
-		{
 			if (playerpew[i]->rockDst.x >= WIDTH || playerpew[i]->rockDst.x <= -64 || playerpew[i]->rockDst.y >= HEIGHT || playerpew[i]->rockDst.y <= -64)
 			{
 				delete playerpew[i];
@@ -335,11 +325,10 @@ void Engine::Update()
 		
 		//dumbie spawning stuff
 		dumbietimer++;
-		if (dumbietimer >= FPS * DSPAWN)
+		if (dumbietimer >= dumbieTimerMax)
 		{
 			dumbietimer = 0;
-			srand(time(NULL));
-			dumbie.push_back(new Dumbie(WIDTH + dumbieSrc.w, rand() % (HEIGHT - dumbieSrc.h)));
+			dumbie.push_back(new Enemy(rand()%WIDTH + dumbieSrc.w, rand() % (HEIGHT - dumbieSrc.h), 3));
 			dumbie.shrink_to_fit();
 			cout << "spawning dumbie" << endl;
 		}
@@ -350,20 +339,33 @@ void Engine::Update()
 			
 			for (unsigned j = 0; j < dumbie.size(); j++)
 			{
-				if (SDL_HasIntersection(&playerpew[i]->rockDst, &dumbie[j]->dumbieDst)) //AABB Check
+				if (SDL_HasIntersection(&playerpew[i]->rockDst, &dumbie[j]->enemyDst)) //AABB Check
 				{
 					cout << "catboy hits dumbie" << endl;
-					Mix_PlayChannel(-1, deathSfx, 0);
+					Mix_PlayChannel(-1, hurtSfx, 0);
 					delete playerpew[i]; 
 					playerpew[i] = nullptr; 
 					playerpew.erase(playerpew.begin() + i); 
 					playerpew.shrink_to_fit();
-					delete dumbie[j];
-					dumbie[j] = nullptr;
-					dumbie.erase(dumbie.begin() + j);
-					dumbie.shrink_to_fit();
+					
+					dumbie[j]->setHp(dumbie[j]->getHp() - playerDamage);
+					cout << dumbie[j]->getHp() << endl;
 					break;
 				}
+			}
+		}
+		//delete dumbie when at 0 hp
+		for (unsigned i = 0; i < dumbie.size(); i++)
+		{
+			//updates healthbar
+			dumbie[i]->update();
+			//deletes enemy if dead
+			if (dumbie[i]->getHp() <= 0) {
+				Mix_PlayChannel(-1, deathSfx, 0);
+				delete dumbie[i];
+				dumbie[i] = nullptr;
+				dumbie.erase(dumbie.begin() + i);
+				dumbie.shrink_to_fit();
 			}
 		}
 	
@@ -400,8 +402,9 @@ void Engine::Render()
 	//dumbie
 	for (unsigned i = 0; i < dumbie.size();i++)
 	{
-		SDL_RenderCopyEx(m_pRenderer, dumbieTxtr, &dumbie[i]->dumbieSrc, &dumbie[i]->dumbieDst, 00.0, NULL, SDL_FLIP_NONE);
-
+		SDL_RenderCopyEx(m_pRenderer, dumbieTxtr, &dumbie[i]->enemySrc, &dumbie[i]->enemyDst, 00.0, NULL, SDL_FLIP_NONE);
+		SDL_SetRenderDrawColor(m_pRenderer, 255, 0, 0, 255);
+		SDL_RenderFillRect(m_pRenderer, &dumbie[i]->healthBar);
 	}
 	
 	SDL_RenderSetLogicalSize(m_pRenderer, WIDTH, HEIGHT);

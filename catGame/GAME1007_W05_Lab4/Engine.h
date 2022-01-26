@@ -9,24 +9,13 @@
 #include "player1.h"
 #include <vector>
 #include <ctime>
+#include "enemy.h"
 #define FPS 60
 #define WIDTH 1024
 #define HEIGHT 768
 #define SPEED 10
-#define DSPAWN 3//dumbie spawn rate
 
 using namespace std;
-
-class Dumbie
-{
-public:
-	SDL_Rect dumbieSrc, dumbieDst;
-	Uint16 frames = 0;
-	Dumbie(int x, int y);	
-	
-};
-
-
 
 class Engine
 {
@@ -43,9 +32,11 @@ private: // private propeties.
 	int dashCooldown = 100, dashTimer = 0 , tempSpeed = 0;
 	int rockCooldown = 50;
 	int Qcooldown = 200;
+	int playerDamage = 1;
 
 	double speedAcc = 2, speedy = 0, speedx = 0;
 	double rockSpeed = 15;
+	double dumbieTimerMax = 200;
 	
 	bool dashPressed = false;
 	SDL_Texture* plrTxtr;
@@ -54,7 +45,7 @@ private: // private propeties.
 
 	
 	vector<Rock*> playerpew;
-	vector<Dumbie*> dumbie;
+	vector<Enemy*> dumbie;
 
 	SDL_Rect dumbieSrc, dumbieDst;
 
@@ -64,6 +55,7 @@ private: // private propeties.
 	Mix_Chunk* stepSfx;
 	Mix_Chunk* turnSfx;
 	Mix_Chunk* deathSfx;
+	Mix_Chunk* hurtSfx;
 	Mix_Music* maintheme;
 
 private: // private method prototypes
