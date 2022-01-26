@@ -1,6 +1,7 @@
 #include "Engine.h"
 #include "player1.h"
 #include "enemy.h"
+#include "items.h"
 #include <ctime>
 
 int Engine::Init(const char* title, int xPos, int yPos, int width, int height, int flags) {
@@ -35,9 +36,11 @@ int Engine::Init(const char* title, int xPos, int yPos, int width, int height, i
 			turnSfx = Mix_LoadWAV("sfx/turn.wav");
 			deathSfx = Mix_LoadWAV("sfx/dedEnemy.wav");
 			hurtSfx = Mix_LoadWAV("sfx/enemyHurt.wav");
+			powerSfx = Mix_LoadWAV("sfx/powerUp.wav");
 			maintheme = Mix_LoadMUS("Aud/TitleTheme.mp3");
 			
 		}
+		TTF_Init();
 	}
 	else return false; // initalization failed.
 	m_fps = (Uint32)round(1.0 / (double)FPS * 1000); // Converts FPS into milliseconds, e.g. 16.67
@@ -51,6 +54,11 @@ int Engine::Init(const char* title, int xPos, int yPos, int width, int height, i
 	
 	playerpew.reserve(4);
 	dumbie.reserve(4);
+
+	font = TTF_OpenFont("fonts/font.ttf", 24);
+	White = { 255, 255, 255 };
+	textBoxRect = { 20, HEIGHT -190, 200, 50 };
+	textBoxBorder = { 10, HEIGHT - 200, WIDTH - 20, 190 };
 
 	cout << "Initialization successful!" << endl;
 	m_running = true;
@@ -82,6 +90,7 @@ void Engine::Clean()
 	Mix_FreeChunk(turnSfx);
 	Mix_FreeMusic(maintheme);
 	Mix_CloseAudio();
+	TTF_Quit();
 	Mix_Quit();
 	IMG_Quit();
 	SDL_Quit();
@@ -181,146 +190,138 @@ void Engine::Update()
 	rockCooldown++;
 	spcooldown++;
 
-	//For special Ability1
-	if (KeyDown(SDL_SCANCODE_SPACE))
-	{		
-		if (spcooldown > 200)
+	surfaceMessage = TTF_RenderText_Solid(font, message, White);
+	Message = SDL_CreateTextureFromSurface(m_pRenderer, surfaceMessage);
+
+		//For special Ability1
+		if (KeyDown(SDL_SCANCODE_SPACE))
 		{
-			spcooldown = 0;
-			playerpew.push_back(new Rock(plr1.plrDst.x + 10, plr1.plrDst.y + 30, 10, 'y'));			
-			playerpew.push_back(new Rock(plr1.plrDst.x + 10, plr1.plrDst.y + 30, 10 * -1, 'y'));
-			playerpew.push_back(new Rock(plr1.plrDst.x + 10, plr1.plrDst.y + 30, 10, 'x'));
-			playerpew.push_back(new Rock(plr1.plrDst.x + 10, plr1.plrDst.y + 30, 10 * -1, 'x'));
-			playerpew.shrink_to_fit();
+			if (spcooldown > 200)
+			{
+				spcooldown = 0;
+				playerpew.push_back(new Rock(plr1.plrDst.x + 10, plr1.plrDst.y + 30, 10, 'y'));
+				playerpew.push_back(new Rock(plr1.plrDst.x + 10, plr1.plrDst.y + 30, 10 * -1, 'y'));
+				playerpew.push_back(new Rock(plr1.plrDst.x + 10, plr1.plrDst.y + 30, 10, 'x'));
+				playerpew.push_back(new Rock(plr1.plrDst.x + 10, plr1.plrDst.y + 30, 10 * -1, 'x'));
+				playerpew.shrink_to_fit();
+			}
+
+
 		}
 
-
-	}
-	//For special Ability2
-	
-	
-		if (KeyDown(SDL_SCANCODE_Q))
+		//For throwing Rock
+		if (KeyDown(SDL_SCANCODE_UP))
 		{
-			damageboost == true;			
-			cout << "im feeling the power" << endl;
-			playerDamage = damageboost;
-			
-
+			if (rockCooldown > 50) {
+				rockCooldown = 0;
+				playerpew.push_back(new Rock(plr1.plrDst.x + 10, plr1.plrDst.y + 30, rockSpeed * -1, 'y'));
+				playerpew.shrink_to_fit();
+			}
 		}
-	
-	//For throwing Rock
-	if (KeyDown(SDL_SCANCODE_UP))
-	{
-		if (rockCooldown > 50) {
-			rockCooldown = 0;
-			playerpew.push_back(new Rock(plr1.plrDst.x + 10, plr1.plrDst.y + 30, rockSpeed*-1, 'y'));
-			playerpew.shrink_to_fit();
+		else if (KeyDown(SDL_SCANCODE_DOWN))
+		{
+			if (rockCooldown > 50) {
+				rockCooldown = 0;
+				playerpew.push_back(new Rock(plr1.plrDst.x + 10, plr1.plrDst.y + 30, rockSpeed, 'y'));
+				playerpew.shrink_to_fit();
+			}
 		}
-	}
-	else if (KeyDown(SDL_SCANCODE_DOWN))
-	{
-		if (rockCooldown > 50) {
-			rockCooldown = 0;
-			playerpew.push_back(new Rock(plr1.plrDst.x + 10, plr1.plrDst.y + 30, rockSpeed, 'y'));
-			playerpew.shrink_to_fit();
+		else if (KeyDown(SDL_SCANCODE_LEFT))
+		{
+			if (rockCooldown > 50) {
+				rockCooldown = 0;
+				playerpew.push_back(new Rock(plr1.plrDst.x + 10, plr1.plrDst.y + 30, rockSpeed * -1, 'x'));
+				playerpew.shrink_to_fit();
+			}
 		}
-	}
-	else if (KeyDown(SDL_SCANCODE_LEFT))
-	{
-		if (rockCooldown > 50) {
-			rockCooldown = 0;
-			playerpew.push_back(new Rock(plr1.plrDst.x + 10, plr1.plrDst.y + 30, rockSpeed*-1, 'x'));
-			playerpew.shrink_to_fit();
-		}
-	}
-	else if (KeyDown(SDL_SCANCODE_RIGHT))
-	{
-		if (rockCooldown > 50) {
-			rockCooldown = 0;
-			playerpew.push_back(new Rock(plr1.plrDst.x + 10, plr1.plrDst.y + 30, rockSpeed, 'x'));
-			playerpew.shrink_to_fit();
-		}
-	}
-
-
-	if (speedx > plr1.plrSpd)
-		speedx = plr1.plrSpd;
-	if (speedy > plr1.plrSpd)
-		speedy = plr1.plrSpd;
-	if (speedy * -1 > plr1.plrSpd)
-		speedy = plr1.plrSpd * -1;
-	if (speedx * -1 > plr1.plrSpd)
-		speedx = plr1.plrSpd * -1;
-
-	//Dash
-	if (dashCooldown > 100) {
-		if (KeyDown(SDL_SCANCODE_LSHIFT)) {
-			dashPressed = true;
-			dashTimer = 0;
-			dashCooldown = 0;
-		}
-	}
-	dashTimer++;
-	if (dashPressed) {
-		plr1.plrSpd = plr1.plrDsh;
-		if (dashTimer > 10) {
-			dashPressed = false;
-			dashTimer = 0;
-			dashCooldown = 0;
-			plr1.plrSpd = 5;
-			cout << tempSpeed << endl;
+		else if (KeyDown(SDL_SCANCODE_RIGHT))
+		{
+			if (rockCooldown > 50) {
+				rockCooldown = 0;
+				playerpew.push_back(new Rock(plr1.plrDst.x + 10, plr1.plrDst.y + 30, rockSpeed, 'x'));
+				playerpew.shrink_to_fit();
+			}
 		}
 
-	}
-	
-	//YAXIS
 
-	if (KeyDown(SDL_SCANCODE_S)) {
-		
-		speedy += speedAcc;
-		plr1.state = 1;
-		
-	}
-	
-	if (KeyDown(SDL_SCANCODE_W)) {
-		
-		speedy -= speedAcc;
-		plr1.state = 2;
-	}
+		if (speedx > plr1.plrSpd)
+			speedx = plr1.plrSpd;
+		if (speedy > plr1.plrSpd)
+			speedy = plr1.plrSpd;
+		if (speedy * -1 > plr1.plrSpd)
+			speedy = plr1.plrSpd * -1;
+		if (speedx * -1 > plr1.plrSpd)
+			speedx = plr1.plrSpd * -1;
 
-	//XAXIS
-	if (KeyDown(SDL_SCANCODE_A)) {
-		speedx -= speedAcc;
-		plr1.state = 3;
-	}
-
-	if (KeyDown(SDL_SCANCODE_D)) {
-		speedx += speedAcc;
-		plr1.state = 4;
-	}
-	
-	//Slow Down!
-	if (!KeyDown(SDL_SCANCODE_D) && !KeyDown(SDL_SCANCODE_A)) {
-		if (speedx > 0)
-			speedx--;
-		else if (speedx < 0) {
-			speedx++;
+		//Dash
+		if (dashCooldown > 100) {
+			if (KeyDown(SDL_SCANCODE_LSHIFT)) {
+				dashPressed = true;
+				dashTimer = 0;
+				dashCooldown = 0;
+			}
 		}
-	}
-	if (!KeyDown(SDL_SCANCODE_W) && !KeyDown(SDL_SCANCODE_S)) {
-		if (speedy > 0)
-			speedy--;
-		else if (speedy < 0) {
-			speedy++;
+		dashTimer++;
+		if (dashPressed) {
+			plr1.plrSpd = plr1.plrDsh;
+			if (dashTimer > 10) {
+				dashPressed = false;
+				dashTimer = 0;
+				dashCooldown = 0;
+				plr1.plrSpd = 5;
+				cout << tempSpeed << endl;
+			}
+
 		}
-	}
-	if (!KeyDown(SDL_SCANCODE_W) && !KeyDown(SDL_SCANCODE_S) && !KeyDown(SDL_SCANCODE_D) && !KeyDown(SDL_SCANCODE_A)) {
-		plr1.state = 0;
-		
-	}
-	//cout << plr1.state << endl;
-	
-		//delete rock after off screen and move rock
+
+		//YAXIS
+
+		if (KeyDown(SDL_SCANCODE_S)) {
+
+			speedy += speedAcc;
+			plr1.state = 1;
+
+		}
+
+		if (KeyDown(SDL_SCANCODE_W)) {
+
+			speedy -= speedAcc;
+			plr1.state = 2;
+		}
+
+		//XAXIS
+		if (KeyDown(SDL_SCANCODE_A)) {
+			speedx -= speedAcc;
+			plr1.state = 3;
+		}
+
+		if (KeyDown(SDL_SCANCODE_D)) {
+			speedx += speedAcc;
+			plr1.state = 4;
+		}
+
+		//Slow Down!
+		if (!KeyDown(SDL_SCANCODE_D) && !KeyDown(SDL_SCANCODE_A)) {
+			if (speedx > 0)
+				speedx--;
+			else if (speedx < 0) {
+				speedx++;
+			}
+		}
+		if (!KeyDown(SDL_SCANCODE_W) && !KeyDown(SDL_SCANCODE_S)) {
+			if (speedy > 0)
+				speedy--;
+			else if (speedy < 0) {
+				speedy++;
+			}
+		}
+		if (!KeyDown(SDL_SCANCODE_W) && !KeyDown(SDL_SCANCODE_S) && !KeyDown(SDL_SCANCODE_D) && !KeyDown(SDL_SCANCODE_A)) {
+			plr1.state = 0;
+
+		}
+		//cout << plr1.state << endl;
+
+			//delete rock after off screen and move rock
 		for (unsigned i = 0; i < playerpew.size(); i++)
 		{
 			playerpew[i]->Update();
@@ -333,39 +334,35 @@ void Engine::Update()
 				break;
 			}
 		}
-		
-		
+
+
 		//dumbie spawning stuff
 		dumbietimer++;
 		if (dumbietimer >= dumbieTimerMax)
 		{
 			dumbietimer = 0;
-			dumbie.push_back(new Enemy(rand()%WIDTH + dumbieSrc.w, rand() % (HEIGHT - dumbieSrc.h), 3));
+			dumbie.push_back(new Enemy(rand() % WIDTH, rand() % HEIGHT, 3));
 			dumbie.shrink_to_fit();
 			cout << "spawning dumbie" << endl;
 		}
-		
+
 		//hitbox stuff/Collision
 		for (unsigned i = 0; i < playerpew.size(); i++)
 		{
-			
+
 			for (unsigned j = 0; j < dumbie.size(); j++)
 			{
 				if (SDL_HasIntersection(&playerpew[i]->rockDst, &dumbie[j]->enemyDst)) //AABB Check
 				{
 					cout << "catboy hits dumbie" << endl;
 					Mix_PlayChannel(-1, hurtSfx, 0);
-					delete playerpew[i]; 
-					playerpew[i] = nullptr; 
-					playerpew.erase(playerpew.begin() + i); 
+					delete playerpew[i];
+					playerpew[i] = nullptr;
+					playerpew.erase(playerpew.begin() + i);
 					playerpew.shrink_to_fit();
-					if(damageboost == true)
-					{
-						dumbie[j]->setHp(dumbie[j]->getHp() - damageboost);
-					}
-					else
-					dumbie[j]->setHp(dumbie[j]->getHp() - playerDamage );					
-					cout << dumbie[j]->getHp() << endl;
+					//set dumbie hp
+					dumbie[j]->setHp(dumbie[j]->getHp() - playerDamage);
+					textBoxOpen = true;
 					break;
 				}
 			}
@@ -382,9 +379,32 @@ void Engine::Update()
 				dumbie[i] = nullptr;
 				dumbie.erase(dumbie.begin() + i);
 				dumbie.shrink_to_fit();
+				strcpy_s(message, "FUCK YOU");
 			}
 		}
-	
+		
+		
+		//for items
+		itemSpawnTimer++;
+		if (itemSpawnTimer > 1000) {
+			itemSpawnTimer = 0;
+			item1.push_back(new Items(1));
+			item1.shrink_to_fit();
+		}
+		for (unsigned i = 0; i < item1.size(); i++)
+		{
+			if (SDL_HasIntersection(&plr1.plrDst, &item1[i]->item)) //AABB Check
+			{
+				Mix_PlayChannel(-1, powerSfx, 0);
+				delete item1[i];
+				item1[i] = nullptr;
+				item1.erase(item1.begin() + i);
+				item1.shrink_to_fit();
+				playerDamage++;
+
+			}
+			
+		}
 }
 
 void Engine::Render()
@@ -394,7 +414,7 @@ void Engine::Render()
 	// Any drawing here...
 	//SDL_SetRenderDrawColor(m_pRenderer, 255, 255, 255, 255);
 	//SDL_RenderFillRect(m_pRenderer, &plr1.plrDst);
-	
+
 	if (plr1.state == 0)
 		SDL_RenderCopy(m_pRenderer, plrTxtr, &plr1.plrFrontIdle, &plr1.plrDst);
 	else if (plr1.state == 1)
@@ -406,7 +426,6 @@ void Engine::Render()
 	else if (plr1.state == 4)
 		SDL_RenderCopy(m_pRenderer, plrTxtr, &plr1.plrMoveRight, &plr1.plrDst);
 
-	
 	//rock	
 	for (unsigned i = 0; i < playerpew.size(); i++)
 	{
@@ -414,7 +433,12 @@ void Engine::Render()
 			&(playerpew[i]->rockSrc), &(playerpew[i]->rockDst));
 	}
 	
-	
+	//item
+	for (unsigned i = 0; i < item1.size(); i++)
+	{
+		SDL_SetRenderDrawColor(m_pRenderer, 255, 0, 0, 255);
+		SDL_RenderFillRect(m_pRenderer, &item1[i]->item);
+	}
 	//dumbie
 	for (unsigned i = 0; i < dumbie.size();i++)
 	{
@@ -422,6 +446,13 @@ void Engine::Render()
 		//dumbie hp
 		SDL_SetRenderDrawColor(m_pRenderer, 255, 0, 0, 255);
 		SDL_RenderFillRect(m_pRenderer, &dumbie[i]->healthBar);
+	}
+
+	//text box
+	if (textBoxOpen) {
+		SDL_SetRenderDrawColor(m_pRenderer, 0, 0, 0, 255);
+		SDL_RenderFillRect(m_pRenderer, &textBoxBorder);
+		SDL_RenderCopy(m_pRenderer, Message, NULL, &textBoxRect);
 	}
 	
 	SDL_RenderSetLogicalSize(m_pRenderer, WIDTH, HEIGHT);

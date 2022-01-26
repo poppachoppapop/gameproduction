@@ -6,10 +6,13 @@
 #include <iostream>
 #include <SDL_image.h>
 #include <SDL_mixer.h>
+#include <SDL_ttf.h>
 #include "player1.h"
 #include <vector>
 #include <ctime>
+#include <string>
 #include "enemy.h"
+#include "Items.h"
 #define FPS 60
 #define WIDTH 1024
 #define HEIGHT 768
@@ -28,30 +31,38 @@ private: // private propeties.
 	
 	// SFX Timers
 	int stepSoundTimer = 0, turnSoundTimer = 0;
-	
-
 	int dashCooldown = 100, dashTimer = 0 , tempSpeed = 0;
 	int rockCooldown = 50;
 	int spcooldown = 200;
+	int itemSpawnTimer = 0;
+
+	//modifiable variables
 	int playerDamage = 1;
-	int damageboost = 3;
-	int damageboostcd = 200;
-	bool qpressed =false;
 
 	double speedAcc = 2, speedy = 0, speedx = 0;
 	double rockSpeed = 15;
 	double dumbieTimerMax = 200;
 	
 	bool dashPressed = false;
+	bool textBoxOpen = false;
+	bool pauseGame = false;
+
+	TTF_Font* font;
+	char message[100] = "OWwwwww!";
+	SDL_Color White;
+	SDL_Surface* surfaceMessage;
+	
+	SDL_Texture* Message;
 	SDL_Texture* plrTxtr;
 	SDL_Texture* rockTxtr;
 	SDL_Texture* dumbieTxtr;
 
-	
 	vector<Rock*> playerpew;
 	vector<Enemy*> dumbie;
+	vector<Items*> item1;
 
-	SDL_Rect dumbieSrc, dumbieDst;
+	SDL_Rect textBoxRect;
+	SDL_Rect textBoxBorder;
 
 	Player plr1;
 	Uint16 dumbietimer;
@@ -60,6 +71,7 @@ private: // private propeties.
 	Mix_Chunk* turnSfx;
 	Mix_Chunk* deathSfx;
 	Mix_Chunk* hurtSfx;
+	Mix_Chunk* powerSfx;
 	Mix_Music* maintheme;
 
 private: // private method prototypes
