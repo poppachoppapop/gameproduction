@@ -2,6 +2,7 @@
 #include "player1.h"
 #include "enemy.h"
 #include "items.h"
+#include "Background.h"
 #include <ctime>
 
 int Engine::Init(const char* title, int xPos, int yPos, int width, int height, int flags) {
@@ -23,6 +24,7 @@ int Engine::Init(const char* title, int xPos, int yPos, int width, int height, i
 					plrTxtr = IMG_LoadTexture(m_pRenderer, "art/catboy.png");
 					rockTxtr = IMG_LoadTexture(m_pRenderer, "art/Rocko100.png");
 					dumbieTxtr = IMG_LoadTexture(m_pRenderer, "art/Dumbie.png");
+					bgTutorial = IMG_LoadTexture(m_pRenderer, "bgs/tutorial.png");
 				}
 				else return false; // Image init failed.
 			}
@@ -184,8 +186,8 @@ void Engine::Update()
 	stepSoundTimer++; turnSoundTimer++;
 	dashCooldown++;
 	dumbieTimerMax -= 0.01;
-	plr1.plrDst.x += speedx;
-	plr1.plrDst.y += speedy;
+	bg1.bgDst.x -= speedx;
+	bg1.bgDst.y -= speedy;
 	plr1.Update();
 	rockCooldown++;
 	spcooldown++;
@@ -341,7 +343,7 @@ void Engine::Update()
 		if (dumbietimer >= dumbieTimerMax)
 		{
 			dumbietimer = 0;
-			dumbie.push_back(new Enemy(rand() % WIDTH, rand() % HEIGHT, 3));
+			dumbie.push_back(new Enemy((rand() % (bg1.bgDst.x + 675))*2, (rand() % (bg1.bgDst.y + 706))*2, 3));
 			dumbie.shrink_to_fit();
 			cout << "spawning dumbie" << endl;
 		}
@@ -372,6 +374,8 @@ void Engine::Update()
 		{
 			//updates healthbar
 			dumbie[i]->update();
+			dumbie[i]->enemyDst.x -= speedx;
+			dumbie[i]->enemyDst.y -= speedy;
 			//deletes enemy if dead
 			if (dumbie[i]->getHp() <= 0) {
 				Mix_PlayChannel(-1, deathSfx, 0);
@@ -393,6 +397,9 @@ void Engine::Update()
 		}
 		for (unsigned i = 0; i < item1.size(); i++)
 		{
+			item1[i]->item.x -= speedx;
+			item1[i]->item.y -= speedy;
+
 			if (SDL_HasIntersection(&plr1.plrDst, &item1[i]->item)) //AABB Check
 			{
 				Mix_PlayChannel(-1, powerSfx, 0);
@@ -414,6 +421,9 @@ void Engine::Render()
 	// Any drawing here...
 	//SDL_SetRenderDrawColor(m_pRenderer, 255, 255, 255, 255);
 	//SDL_RenderFillRect(m_pRenderer, &plr1.plrDst);
+
+	//Background
+	SDL_RenderCopy(m_pRenderer, bgTutorial, &bg1.bgSrcTutorial, &bg1.bgDst);
 
 	if (plr1.state == 0)
 		SDL_RenderCopy(m_pRenderer, plrTxtr, &plr1.plrFrontIdle, &plr1.plrDst);

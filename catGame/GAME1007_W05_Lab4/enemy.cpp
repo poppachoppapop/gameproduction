@@ -21,5 +21,7 @@ int Enemy::getHp()
 void Enemy::update()
 {
 	healthBar.w = double(health / maxHealth) * 50;
+	healthBar.x = enemyDst.x;
+	healthBar.y = enemyDst.y;
 }
 

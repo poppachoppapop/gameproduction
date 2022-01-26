@@ -13,6 +13,7 @@
 #include <string>
 #include "enemy.h"
 #include "Items.h"
+#include "Background.h"
 #define FPS 60
 #define WIDTH 1024
 #define HEIGHT 768
@@ -56,6 +57,7 @@ private: // private propeties.
 	SDL_Texture* plrTxtr;
 	SDL_Texture* rockTxtr;
 	SDL_Texture* dumbieTxtr;
+	SDL_Texture* bgTutorial;
 
 	vector<Rock*> playerpew;
 	vector<Enemy*> dumbie;
@@ -65,6 +67,7 @@ private: // private propeties.
 	SDL_Rect textBoxBorder;
 
 	Player plr1;
+	Background bg1;
 	Uint16 dumbietimer;
 
 	Mix_Chunk* stepSfx;
