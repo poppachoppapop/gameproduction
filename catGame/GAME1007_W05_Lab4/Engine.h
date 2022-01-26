@@ -47,17 +47,12 @@ private: // private propeties.
 	double speedAcc = 2, speedy = 0, speedx = 0;
 	double rockSpeed = 15;
 	
-	
 	bool dashPressed = false;
-	bool upPressed = false, downPressed = false, leftPressed = false, rightPressed = false;
-	bool q = false;
 	SDL_Texture* plrTxtr;
 	SDL_Texture* rockTxtr;
 	SDL_Texture* dumbieTxtr;
 
-		
-	vector<int> rockDir;
-	vector<int> rockq;
+	
 	vector<Rock*> playerpew;
 	vector<Dumbie*> dumbie;
 

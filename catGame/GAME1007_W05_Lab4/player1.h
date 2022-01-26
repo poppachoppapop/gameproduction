@@ -25,9 +25,12 @@ public:
 
 class Rock
 {
+private:
+	int speed;
+	char dir;
 public:
 	SDL_Rect rockSrc, rockDst;
-	Rock(int x, int y);
-	void Update(int direction, double speed,int rockq );
+	Rock(int x, int y, int s, char d);
+	void Update();
 	
 };

@@ -183,79 +183,51 @@ void Engine::Update()
 	plr1.Update();
 	rockCooldown++;
 	Qcooldown++;
-
-	if (KeyDown(SDL_SCANCODE_Q))
+	//For special Ability
+	if (KeyDown(SDL_SCANCODE_SPACE))
 	{		
-		q = true;
 		if (Qcooldown > 200)
 		{
 			Qcooldown = 0;
-			rockq.push_back(4);
-			rockq.push_back(5);
-			rockq.push_back(6);
-			rockq.push_back(7);
-			cout << "not working" << endl;			
-			//rockq.shrink_to_fit();
-			playerpew.push_back(new Rock(plr1.plrDst.x + 10, plr1.plrDst.y + 30));
+			playerpew.push_back(new Rock(plr1.plrDst.x + 10, plr1.plrDst.y + 30, 10, 'y'));
+			playerpew.push_back(new Rock(plr1.plrDst.x + 10, plr1.plrDst.y + 30, 10 * -1, 'y'));
+			playerpew.push_back(new Rock(plr1.plrDst.x + 10, plr1.plrDst.y + 30, 10, 'x'));
+			playerpew.push_back(new Rock(plr1.plrDst.x + 10, plr1.plrDst.y + 30, 10 * -1, 'x'));
 			playerpew.shrink_to_fit();
 		}
 
 
 	}
-
+	//For throwing Rock
 	if (KeyDown(SDL_SCANCODE_UP))
 	{
-		upPressed = true;
-		downPressed = false;
-		leftPressed = false;
-		rightPressed = false;
-		if (upPressed && !downPressed && !leftPressed && !rightPressed && rockCooldown > 50) {
+		if (rockCooldown > 50) {
 			rockCooldown = 0;
-			rockDir.push_back(0);
-			rockDir.shrink_to_fit();
-			playerpew.push_back(new Rock(plr1.plrDst.x + 10, plr1.plrDst.y + 30));
+			playerpew.push_back(new Rock(plr1.plrDst.x + 10, plr1.plrDst.y + 30, rockSpeed*-1, 'y'));
 			playerpew.shrink_to_fit();
 		}
 	}
 	else if (KeyDown(SDL_SCANCODE_DOWN))
 	{
-		upPressed = false;
-		downPressed = true;
-		leftPressed = false;
-		rightPressed = false;
-		if (!upPressed && downPressed && !leftPressed && !rightPressed && rockCooldown > 50) {
+		if (rockCooldown > 50) {
 			rockCooldown = 0;
-			rockDir.push_back(1);
-			rockDir.shrink_to_fit();
-			playerpew.push_back(new Rock(plr1.plrDst.x + 10, plr1.plrDst.y + 30));
+			playerpew.push_back(new Rock(plr1.plrDst.x + 10, plr1.plrDst.y + 30, rockSpeed, 'y'));
 			playerpew.shrink_to_fit();
 		}
 	}
 	else if (KeyDown(SDL_SCANCODE_LEFT))
 	{
-		upPressed = false;
-		downPressed = false;
-		leftPressed = true;
-		rightPressed = false;
-		if (!upPressed && !downPressed && leftPressed && !rightPressed && rockCooldown > 50) {
+		if (rockCooldown > 50) {
 			rockCooldown = 0;
-			rockDir.push_back(2);
-			rockDir.shrink_to_fit();
-			playerpew.push_back(new Rock(plr1.plrDst.x + 10, plr1.plrDst.y + 30));
+			playerpew.push_back(new Rock(plr1.plrDst.x + 10, plr1.plrDst.y + 30, rockSpeed*-1, 'x'));
 			playerpew.shrink_to_fit();
 		}
 	}
 	else if (KeyDown(SDL_SCANCODE_RIGHT))
 	{
-		upPressed = false;
-		downPressed = false;
-		leftPressed = false;
-		rightPressed = true;
-		if (!upPressed && !downPressed && !leftPressed && rightPressed && rockCooldown > 50) {
+		if (rockCooldown > 50) {
 			rockCooldown = 0;
-			rockDir.push_back(3);
-			rockDir.shrink_to_fit();
-			playerpew.push_back(new Rock(plr1.plrDst.x + 10, plr1.plrDst.y + 30));
+			playerpew.push_back(new Rock(plr1.plrDst.x + 10, plr1.plrDst.y + 30, rockSpeed, 'x'));
 			playerpew.shrink_to_fit();
 		}
 	}
@@ -341,7 +313,7 @@ void Engine::Update()
 	// moving catboi rock	sa
 		for (unsigned i = 0; i < playerpew.size(); i++)
 		{
-			playerpew[i]->Update(rockDir[i], rockq[i], rockSpeed);
+			playerpew[i]->Update();
 			
 		}
 		
@@ -352,10 +324,6 @@ void Engine::Update()
 		{
 			if (playerpew[i]->rockDst.x >= WIDTH || playerpew[i]->rockDst.x <= -64 || playerpew[i]->rockDst.y >= HEIGHT || playerpew[i]->rockDst.y <= -64)
 			{
-				rockq.erase(rockq.begin());
-				rockq.shrink_to_fit();
-				rockDir.erase(rockDir.begin());
-				rockDir.shrink_to_fit();
 				delete playerpew[i];
 				playerpew[i] = nullptr;
 				playerpew.erase(playerpew.begin() + i);
@@ -384,10 +352,6 @@ void Engine::Update()
 			{
 				if (SDL_HasIntersection(&playerpew[i]->rockDst, &dumbie[j]->dumbieDst)) //AABB Check
 				{
-					rockq.erase(rockq.begin());
-					rockq.shrink_to_fit();
-					rockDir.erase(rockDir.begin());
-					rockDir.shrink_to_fit();
 					cout << "catboy hits dumbie" << endl;
 					Mix_PlayChannel(-1, deathSfx, 0);
 					delete playerpew[i]; 
