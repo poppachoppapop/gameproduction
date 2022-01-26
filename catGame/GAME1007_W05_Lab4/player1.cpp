@@ -118,6 +118,8 @@ void Rock::Update()
 		rockDst.x += speed;
 	if (dir == 'y')
 		rockDst.y += speed;
+	
+	
 }
 
 

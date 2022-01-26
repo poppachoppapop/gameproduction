@@ -29,10 +29,14 @@ private: // private propeties.
 	// SFX Timers
 	int stepSoundTimer = 0, turnSoundTimer = 0;
 	
+
 	int dashCooldown = 100, dashTimer = 0 , tempSpeed = 0;
 	int rockCooldown = 50;
-	int Qcooldown = 200;
+	int spcooldown = 200;
 	int playerDamage = 1;
+	int damageboost = 3;
+	int damageboostcd = 200;
+	bool qpressed =false;
 
 	double speedAcc = 2, speedy = 0, speedx = 0;
 	double rockSpeed = 15;

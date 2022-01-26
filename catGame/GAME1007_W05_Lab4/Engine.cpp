@@ -179,15 +179,15 @@ void Engine::Update()
 	plr1.plrDst.y += speedy;
 	plr1.Update();
 	rockCooldown++;
-	Qcooldown++;
+	spcooldown++;
 
-	//For special Ability
+	//For special Ability1
 	if (KeyDown(SDL_SCANCODE_SPACE))
 	{		
-		if (Qcooldown > 200)
+		if (spcooldown > 200)
 		{
-			Qcooldown = 0;
-			playerpew.push_back(new Rock(plr1.plrDst.x + 10, plr1.plrDst.y + 30, 10, 'y'));
+			spcooldown = 0;
+			playerpew.push_back(new Rock(plr1.plrDst.x + 10, plr1.plrDst.y + 30, 10, 'y'));			
 			playerpew.push_back(new Rock(plr1.plrDst.x + 10, plr1.plrDst.y + 30, 10 * -1, 'y'));
 			playerpew.push_back(new Rock(plr1.plrDst.x + 10, plr1.plrDst.y + 30, 10, 'x'));
 			playerpew.push_back(new Rock(plr1.plrDst.x + 10, plr1.plrDst.y + 30, 10 * -1, 'x'));
@@ -196,6 +196,18 @@ void Engine::Update()
 
 
 	}
+	//For special Ability2
+	
+	
+		if (KeyDown(SDL_SCANCODE_Q))
+		{
+			damageboost == true;			
+			cout << "im feeling the power" << endl;
+			playerDamage = damageboost;
+			
+
+		}
+	
 	//For throwing Rock
 	if (KeyDown(SDL_SCANCODE_UP))
 	{
@@ -347,8 +359,12 @@ void Engine::Update()
 					playerpew[i] = nullptr; 
 					playerpew.erase(playerpew.begin() + i); 
 					playerpew.shrink_to_fit();
-					
-					dumbie[j]->setHp(dumbie[j]->getHp() - playerDamage);
+					if(damageboost == true)
+					{
+						dumbie[j]->setHp(dumbie[j]->getHp() - damageboost);
+					}
+					else
+					dumbie[j]->setHp(dumbie[j]->getHp() - playerDamage );					
 					cout << dumbie[j]->getHp() << endl;
 					break;
 				}
@@ -403,6 +419,7 @@ void Engine::Render()
 	for (unsigned i = 0; i < dumbie.size();i++)
 	{
 		SDL_RenderCopyEx(m_pRenderer, dumbieTxtr, &dumbie[i]->enemySrc, &dumbie[i]->enemyDst, 00.0, NULL, SDL_FLIP_NONE);
+		//dumbie hp
 		SDL_SetRenderDrawColor(m_pRenderer, 255, 0, 0, 255);
 		SDL_RenderFillRect(m_pRenderer, &dumbie[i]->healthBar);
 	}
