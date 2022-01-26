@@ -105,21 +105,19 @@ int Player::getPlrSpd()
 	return plrSpd;
 }
 
-Rock::Rock(int x,int y):rockSrc ({0,0,32,32})
+Rock::Rock(int x,int y, int s, char d) :rockSrc ({0,0,32,32})
 {
 	rockDst = { x,y,64,64 };
+	speed = s;
+	dir = d;
 }
 
-void Rock::Update(int direction, double speed)
+void Rock::Update()
 {
-	if (direction == 0)
-		rockDst.y -= speed;
-	if (direction == 1)
-		rockDst.y += speed;
-	if (direction == 2)
-		rockDst.x -= speed;
-	if (direction == 3)
+	if (dir == 'x')
 		rockDst.x += speed;
-	
+	if (dir == 'y')
+		rockDst.y += speed;
 }
+
 

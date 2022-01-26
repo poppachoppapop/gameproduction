@@ -7,6 +7,7 @@ Dumbie::Dumbie(int x, int y) :dumbieSrc({0,0,69,69})
 	dumbieDst= { rand() % 1000,rand() % 900,dumbieSrc.w, dumbieSrc.h };
 }
 
+
 int Engine::Init(const char* title, int xPos, int yPos, int width, int height, int flags) {
 	cout << "Initializing engine..." << endl;
 	if (SDL_Init(SDL_INIT_EVERYTHING) == 0) // If initialization is okay...
@@ -52,9 +53,6 @@ int Engine::Init(const char* title, int xPos, int yPos, int width, int height, i
 	Mix_VolumeMusic(12); //0-128
 	Mix_Volume(-1, 69);	
 	
-	//dumbieSrc = { 0,0,32,32 };
-	//dumbietimer = 0;
-
 	playerpew.reserve(4);
 	dumbie.reserve(4);
 
@@ -184,60 +182,52 @@ void Engine::Update()
 	plr1.plrDst.y += speedy;
 	plr1.Update();
 	rockCooldown++;
+	Qcooldown++;
+	//For special Ability
+	if (KeyDown(SDL_SCANCODE_SPACE))
+	{		
+		if (Qcooldown > 200)
+		{
+			Qcooldown = 0;
+			playerpew.push_back(new Rock(plr1.plrDst.x + 10, plr1.plrDst.y + 30, 10, 'y'));
+			playerpew.push_back(new Rock(plr1.plrDst.x + 10, plr1.plrDst.y + 30, 10 * -1, 'y'));
+			playerpew.push_back(new Rock(plr1.plrDst.x + 10, plr1.plrDst.y + 30, 10, 'x'));
+			playerpew.push_back(new Rock(plr1.plrDst.x + 10, plr1.plrDst.y + 30, 10 * -1, 'x'));
+			playerpew.shrink_to_fit();
+		}
 
+
+	}
+	//For throwing Rock
 	if (KeyDown(SDL_SCANCODE_UP))
 	{
-		upPressed = true;
-		downPressed = false;
-		leftPressed = false;
-		rightPressed = false;
-		if (upPressed && !downPressed && !leftPressed && !rightPressed && rockCooldown > 50) {
+		if (rockCooldown > 50) {
 			rockCooldown = 0;
-			rockDir.push_back(0);
-			rockDir.shrink_to_fit();
-			playerpew.push_back(new Rock(plr1.plrDst.x + 10, plr1.plrDst.y + 30));
+			playerpew.push_back(new Rock(plr1.plrDst.x + 10, plr1.plrDst.y + 30, rockSpeed*-1, 'y'));
 			playerpew.shrink_to_fit();
 		}
 	}
 	else if (KeyDown(SDL_SCANCODE_DOWN))
 	{
-		upPressed = false;
-		downPressed = true;
-		leftPressed = false;
-		rightPressed = false;
-		if (!upPressed && downPressed && !leftPressed && !rightPressed && rockCooldown > 50) {
+		if (rockCooldown > 50) {
 			rockCooldown = 0;
-			rockDir.push_back(1);
-			rockDir.shrink_to_fit();
-			playerpew.push_back(new Rock(plr1.plrDst.x + 10, plr1.plrDst.y + 30));
+			playerpew.push_back(new Rock(plr1.plrDst.x + 10, plr1.plrDst.y + 30, rockSpeed, 'y'));
 			playerpew.shrink_to_fit();
 		}
 	}
 	else if (KeyDown(SDL_SCANCODE_LEFT))
 	{
-		upPressed = false;
-		downPressed = false;
-		leftPressed = true;
-		rightPressed = false;
-		if (!upPressed && !downPressed && leftPressed && !rightPressed && rockCooldown > 50) {
+		if (rockCooldown > 50) {
 			rockCooldown = 0;
-			rockDir.push_back(2);
-			rockDir.shrink_to_fit();
-			playerpew.push_back(new Rock(plr1.plrDst.x + 10, plr1.plrDst.y + 30));
+			playerpew.push_back(new Rock(plr1.plrDst.x + 10, plr1.plrDst.y + 30, rockSpeed*-1, 'x'));
 			playerpew.shrink_to_fit();
 		}
 	}
 	else if (KeyDown(SDL_SCANCODE_RIGHT))
 	{
-		upPressed = false;
-		downPressed = false;
-		leftPressed = false;
-		rightPressed = true;
-		if (!upPressed && !downPressed && !leftPressed && rightPressed && rockCooldown > 50) {
+		if (rockCooldown > 50) {
 			rockCooldown = 0;
-			rockDir.push_back(3);
-			rockDir.shrink_to_fit();
-			playerpew.push_back(new Rock(plr1.plrDst.x + 10, plr1.plrDst.y + 30));
+			playerpew.push_back(new Rock(plr1.plrDst.x + 10, plr1.plrDst.y + 30, rockSpeed, 'x'));
 			playerpew.shrink_to_fit();
 		}
 	}
@@ -320,19 +310,20 @@ void Engine::Update()
 	}
 	//cout << plr1.state << endl;
 	
-	// moving catboi rock	
+	// moving catboi rock	sa
 		for (unsigned i = 0; i < playerpew.size(); i++)
 		{
-			playerpew[i]->Update(rockDir[i], rockSpeed);
+			playerpew[i]->Update();
+			
 		}
+		
+		
 
 		//delete rock after collision
 		for (unsigned i = 0; i < playerpew.size(); i++)
 		{
 			if (playerpew[i]->rockDst.x >= WIDTH || playerpew[i]->rockDst.x <= -64 || playerpew[i]->rockDst.y >= HEIGHT || playerpew[i]->rockDst.y <= -64)
 			{
-				rockDir.erase(rockDir.begin());
-				rockDir.shrink_to_fit();
 				delete playerpew[i];
 				playerpew[i] = nullptr;
 				playerpew.erase(playerpew.begin() + i);
@@ -361,8 +352,6 @@ void Engine::Update()
 			{
 				if (SDL_HasIntersection(&playerpew[i]->rockDst, &dumbie[j]->dumbieDst)) //AABB Check
 				{
-					rockDir.erase(rockDir.begin());
-					rockDir.shrink_to_fit();
 					cout << "catboy hits dumbie" << endl;
 					Mix_PlayChannel(-1, deathSfx, 0);
 					delete playerpew[i]; 
@@ -414,6 +403,8 @@ void Engine::Render()
 		SDL_RenderCopyEx(m_pRenderer, dumbieTxtr, &dumbie[i]->dumbieSrc, &dumbie[i]->dumbieDst, 00.0, NULL, SDL_FLIP_NONE);
 
 	}
+	
+	SDL_RenderSetLogicalSize(m_pRenderer, WIDTH, HEIGHT);
 	SDL_RenderPresent(m_pRenderer); // Flip buffers - send data to window.
 
 }
@@ -450,4 +441,5 @@ int Engine::Run()
 	Clean();
 	return 0;
 }
+
 

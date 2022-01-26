@@ -2,7 +2,6 @@
 #include <SDL.h>
 #include <iostream>
 
-//enum state { IDLE, MOVE };
 class Player
 {
 
@@ -26,10 +25,12 @@ public:
 
 class Rock
 {
+private:
+	int speed;
+	char dir;
 public:
 	SDL_Rect rockSrc, rockDst;
-	Rock(int x, int y);
-	void Update(int direction, double speed);
-
-
+	Rock(int x, int y, int s, char d);
+	void Update();
+	
 };
