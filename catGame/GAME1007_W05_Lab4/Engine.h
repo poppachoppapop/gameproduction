@@ -27,6 +27,7 @@ public:
 };
 
 
+
 class Engine
 {
 private: // private propeties.
@@ -41,19 +42,22 @@ private: // private propeties.
 	
 	int dashCooldown = 100, dashTimer = 0 , tempSpeed = 0;
 	int rockCooldown = 50;
+	int Qcooldown = 200;
 
 	double speedAcc = 2, speedy = 0, speedx = 0;
 	double rockSpeed = 15;
-
-
+	
+	
 	bool dashPressed = false;
 	bool upPressed = false, downPressed = false, leftPressed = false, rightPressed = false;
-	
+	bool q = false;
 	SDL_Texture* plrTxtr;
 	SDL_Texture* rockTxtr;
 	SDL_Texture* dumbieTxtr;
 
+		
 	vector<int> rockDir;
+	vector<int> rockq;
 	vector<Rock*> playerpew;
 	vector<Dumbie*> dumbie;
 

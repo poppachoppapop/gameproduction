@@ -7,6 +7,7 @@ Dumbie::Dumbie(int x, int y) :dumbieSrc({0,0,69,69})
 	dumbieDst= { rand() % 1000,rand() % 900,dumbieSrc.w, dumbieSrc.h };
 }
 
+
 int Engine::Init(const char* title, int xPos, int yPos, int width, int height, int flags) {
 	cout << "Initializing engine..." << endl;
 	if (SDL_Init(SDL_INIT_EVERYTHING) == 0) // If initialization is okay...
@@ -52,9 +53,6 @@ int Engine::Init(const char* title, int xPos, int yPos, int width, int height, i
 	Mix_VolumeMusic(12); //0-128
 	Mix_Volume(-1, 69);	
 	
-	//dumbieSrc = { 0,0,32,32 };
-	//dumbietimer = 0;
-
 	playerpew.reserve(4);
 	dumbie.reserve(4);
 
@@ -184,6 +182,26 @@ void Engine::Update()
 	plr1.plrDst.y += speedy;
 	plr1.Update();
 	rockCooldown++;
+	Qcooldown++;
+
+	if (KeyDown(SDL_SCANCODE_Q))
+	{		
+		q = true;
+		if (Qcooldown > 200)
+		{
+			Qcooldown = 0;
+			rockq.push_back(4);
+			rockq.push_back(5);
+			rockq.push_back(6);
+			rockq.push_back(7);
+			cout << "not working" << endl;			
+			//rockq.shrink_to_fit();
+			playerpew.push_back(new Rock(plr1.plrDst.x + 10, plr1.plrDst.y + 30));
+			playerpew.shrink_to_fit();
+		}
+
+
+	}
 
 	if (KeyDown(SDL_SCANCODE_UP))
 	{
@@ -320,17 +338,22 @@ void Engine::Update()
 	}
 	//cout << plr1.state << endl;
 	
-	// moving catboi rock	
+	// moving catboi rock	sa
 		for (unsigned i = 0; i < playerpew.size(); i++)
 		{
-			playerpew[i]->Update(rockDir[i], rockSpeed);
+			playerpew[i]->Update(rockDir[i], rockq[i], rockSpeed);
+			
 		}
+		
+		
 
 		//delete rock after collision
 		for (unsigned i = 0; i < playerpew.size(); i++)
 		{
 			if (playerpew[i]->rockDst.x >= WIDTH || playerpew[i]->rockDst.x <= -64 || playerpew[i]->rockDst.y >= HEIGHT || playerpew[i]->rockDst.y <= -64)
 			{
+				rockq.erase(rockq.begin());
+				rockq.shrink_to_fit();
 				rockDir.erase(rockDir.begin());
 				rockDir.shrink_to_fit();
 				delete playerpew[i];
@@ -361,6 +384,8 @@ void Engine::Update()
 			{
 				if (SDL_HasIntersection(&playerpew[i]->rockDst, &dumbie[j]->dumbieDst)) //AABB Check
 				{
+					rockq.erase(rockq.begin());
+					rockq.shrink_to_fit();
 					rockDir.erase(rockDir.begin());
 					rockDir.shrink_to_fit();
 					cout << "catboy hits dumbie" << endl;
@@ -414,6 +439,7 @@ void Engine::Render()
 		SDL_RenderCopyEx(m_pRenderer, dumbieTxtr, &dumbie[i]->dumbieSrc, &dumbie[i]->dumbieDst, 00.0, NULL, SDL_FLIP_NONE);
 
 	}
+	
 	SDL_RenderSetLogicalSize(m_pRenderer, WIDTH, HEIGHT);
 	SDL_RenderPresent(m_pRenderer); // Flip buffers - send data to window.
 
@@ -451,4 +477,5 @@ int Engine::Run()
 	Clean();
 	return 0;
 }
+
 

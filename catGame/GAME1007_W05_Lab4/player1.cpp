@@ -110,7 +110,7 @@ Rock::Rock(int x,int y):rockSrc ({0,0,32,32})
 	rockDst = { x,y,64,64 };
 }
 
-void Rock::Update(int direction, double speed)
+void Rock::Update(int direction, double speed, int rockq)
 {
 	if (direction == 0)
 		rockDst.y -= speed;
@@ -121,5 +121,16 @@ void Rock::Update(int direction, double speed)
 	if (direction == 3)
 		rockDst.x += speed;
 	
+	//not working
+	if (rockq == 4)
+		rockDst.y -= speed;
+	if (rockq == 5)
+		rockDst.y += speed;
+	if (rockq == 6)
+		rockDst.x -= speed;
+	if (rockq == 7)
+		rockDst.x += speed;
+
 }
+
 
