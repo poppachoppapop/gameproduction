@@ -61,6 +61,8 @@ int Engine::Init(const char* title, int xPos, int yPos, int width, int height, i
 	White = { 255, 255, 255 };
 	textBoxRect = { 20, HEIGHT -190, 200, 50 };
 	textBoxBorder = { 10, HEIGHT - 200, WIDTH - 20, 190 };
+	surfaceMessage = TTF_RenderText_Solid(font, message, White);
+	Message = SDL_CreateTextureFromSurface(m_pRenderer, surfaceMessage);
 
 	cout << "Initialization successful!" << endl;
 	m_running = true;
@@ -192,8 +194,7 @@ void Engine::Update()
 	rockCooldown++;
 	spcooldown++;
 
-	surfaceMessage = TTF_RenderText_Solid(font, message, White);
-	Message = SDL_CreateTextureFromSurface(m_pRenderer, surfaceMessage);
+	
 
 		//For special Ability1
 		if (KeyDown(SDL_SCANCODE_SPACE))
@@ -321,7 +322,6 @@ void Engine::Update()
 			plr1.state = 0;
 
 		}
-		//cout << plr1.state << endl;
 
 			//delete rock after off screen and move rock
 		for (unsigned i = 0; i < playerpew.size(); i++)
@@ -383,7 +383,9 @@ void Engine::Update()
 				dumbie[i] = nullptr;
 				dumbie.erase(dumbie.begin() + i);
 				dumbie.shrink_to_fit();
-				strcpy_s(message, "FUCK YOU");
+				surfaceMessage = TTF_RenderText_Solid(font, message, White);
+				Message = SDL_CreateTextureFromSurface(m_pRenderer, surfaceMessage);
+				strcpy_s(message, "MEANIE!");
 			}
 		}
 		
@@ -465,7 +467,6 @@ void Engine::Render()
 		SDL_RenderCopy(m_pRenderer, Message, NULL, &textBoxRect);
 	}
 	
-	SDL_RenderSetLogicalSize(m_pRenderer, WIDTH, HEIGHT);
 	SDL_RenderPresent(m_pRenderer); // Flip buffers - send data to window.
 
 }
