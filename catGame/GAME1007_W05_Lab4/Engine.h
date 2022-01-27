@@ -40,7 +40,7 @@ private: // private propeties.
 	//modifiable variables
 	int playerDamage = 1;
 
-	double speedAcc = 2, speedy = 0, speedx = 0;
+	double speedAcc = 1, speedy = 0, speedx = 0;
 	double rockSpeed = 15;
 	double dumbieTimerMax = 200;
 	
