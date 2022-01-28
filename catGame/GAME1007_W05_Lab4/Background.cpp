@@ -1,6 +1,6 @@
 #include "Background.h"
 
-Background::Background(): bgSrcTutorial({0,0,768,960})
+Background::Background(): bgSrcTutorial({0,0,384,480})
 {
-	bgDst = { 700,0, bgSrcTutorial.w *2, bgSrcTutorial.h * 2 };
+	bgDst = { 0,-700, bgSrcTutorial.w *4, bgSrcTutorial.h * 4 };
 }

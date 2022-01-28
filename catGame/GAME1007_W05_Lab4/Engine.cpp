@@ -343,7 +343,7 @@ void Engine::Update()
 		if (dumbietimer >= dumbieTimerMax)
 		{
 			dumbietimer = 0;
-			dumbie.push_back(new Enemy((rand() % (bg1.bgDst.x + 675))*2, (rand() % (bg1.bgDst.y + 706))*2, 3));
+			dumbie.push_back(new Enemy(rand() % bg1.bgDst.x + 300, rand() % bg1.bgDst.y + 300 ,3));
 			dumbie.shrink_to_fit();
 			cout << "spawning dumbie" << endl;
 		}
@@ -351,7 +351,6 @@ void Engine::Update()
 		//hitbox stuff/Collision
 		for (unsigned i = 0; i < playerpew.size(); i++)
 		{
-
 			for (unsigned j = 0; j < dumbie.size(); j++)
 			{
 				if (SDL_HasIntersection(&playerpew[i]->rockDst, &dumbie[j]->enemyDst)) //AABB Check
