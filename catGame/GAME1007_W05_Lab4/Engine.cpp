@@ -209,7 +209,7 @@ void Engine::Update()
 	stepSoundTimer++; turnSoundTimer++;
 	dashCooldown++;
 	textBoxTimer++;
-	dumbieTimerMax -= 0.01;
+	dumbieTimerMax -= 0.1;
 	bg1.bgDst.x -= speedx;
 	bg1.bgDst.y -= speedy;
 	plr1.Update();
@@ -221,21 +221,11 @@ void Engine::Update()
 	catDude.npcDst.x = bg1.bgDst.x + 1000;
 	catDude.npcDst.y = bg1.bgDst.y + 1350;
 
+	if (plr1.plrDst.x < bg1.bgDst.x -50)
+		bg1.bgDst.x = plr1.plrDst.x + 50;
+	if (plr1.plrDst.y < bg1.bgDst.y + 630)
+		bg1.bgDst.y = plr1.plrDst.y - 630;
 
-	//if (KeyDown(SDL_SCANCODE_ESCAPE))
-	//{
-	//	Mix_PlayChannel(-1, hehe, 0);
-	//	SDL_Event event;
-	//	while (SDL_PollEvent(&event))
-	//	{
-	//		switch (event.type)
-	//		{
-	//		case SDL_QUIT:
-	//			m_running = false;
-	//			break;
-	//		}
-	//	}
-	//} added easter egg, moved to handle events:)
 	if (spawnDummies) {
 		dummiesTimer++;
 		if (dummiesTimer == 2000) {
@@ -252,6 +242,7 @@ void Engine::Update()
 			strcpy_s(scoreMessage, tempStr.c_str());
 			dummyScore = TTF_RenderText_Solid(font, scoreMessage, White);
 			Score = SDL_CreateTextureFromSurface(m_pRenderer, dummyScore);
+			dumbieTimerMax = 300;
 		}
 	}
 
@@ -274,6 +265,7 @@ void Engine::Update()
 					spawnDummies = true;
 					renderTextBox = false;
 					textBoxCounter = 0;
+					dumbieTimerMax = 300;
 				}
 				textBoxCounter++;
 				textBoxTimer = 0;
@@ -478,6 +470,7 @@ void Engine::Update()
 			dumbie[i]->update();
 			dumbie[i]->enemyDst.x -= speedx;
 			dumbie[i]->enemyDst.y -= speedy;
+
 			//deletes enemy if dead
 			if (dumbie[i]->getHp() <= 0) {
 				Mix_PlayChannel(-1, deathSfx, 0);

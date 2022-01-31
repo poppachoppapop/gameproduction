@@ -1,9 +1,9 @@
 #include "enemy.h"
 
-Enemy::Enemy(int x, int y, double h) :enemySrc({ 0,0,69,69 })
+Enemy::Enemy(int x, int y, double h) :enemySrc({ 0,0,64,64 })
 {
 	//random dumie spawn
-	enemyDst = { x - 10 ,y +10,enemySrc.w, enemySrc.h };
+	enemyDst = { x - 10 ,y +10,enemySrc.w *2, enemySrc.h*2 };
 	healthBar = { x, y , 50, 5};
 	health = h;
 	maxHealth = h;
@@ -20,8 +20,8 @@ int Enemy::getHp()
 
 void Enemy::update()
 {
-	healthBar.w = double(health / maxHealth) * 50;
-	healthBar.x = enemyDst.x;
-	healthBar.y = enemyDst.y;
+	healthBar.w = double(health / maxHealth) * 100;
+	healthBar.x = enemyDst.x + 15;
+	healthBar.y = enemyDst.y - 5;
 }
 
