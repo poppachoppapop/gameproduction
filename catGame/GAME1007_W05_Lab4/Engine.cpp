@@ -46,6 +46,10 @@ int Engine::Init(const char* title, int xPos, int yPos, int width, int height, i
 			projectileRock = Mix_LoadWAV("sfx/rocksound.wav");
 			aoeSound = Mix_LoadWAV("sfx/aoeAbility.wav");
 			dashing = Mix_LoadWAV("sfx/dashSound.wav");
+			Mix_VolumeChunk(dashing, 25);
+			Mix_VolumeChunk(aoeSound, 50);
+			Mix_VolumeChunk(projectileRock, 50);
+			Mix_VolumeChunk(hehe, 20);
 			maintheme = Mix_LoadMUS("Aud/TitleTheme.mp3");
 			
 		}
@@ -59,7 +63,7 @@ int Engine::Init(const char* title, int xPos, int yPos, int width, int height, i
 	//sounds
 	Mix_PlayMusic(maintheme, -1);
 	Mix_VolumeMusic(12); //0-128
-	Mix_Volume(-1, 69);	
+	Mix_Volume(-1, 50);	
 	
 	playerpew.reserve(4);
 	dumbie.reserve(4);
