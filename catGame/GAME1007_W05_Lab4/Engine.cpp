@@ -45,6 +45,7 @@ int Engine::Init(const char* title, int xPos, int yPos, int width, int height, i
 			hehe = Mix_LoadWAV("sfx/killsound.wav");
 			projectileRock = Mix_LoadWAV("sfx/rocksound.wav");
 			aoeSound = Mix_LoadWAV("sfx/aoeAbility.wav");
+			dashing = Mix_LoadWAV("sfx/dashSound.wav");
 			maintheme = Mix_LoadMUS("Aud/TitleTheme.mp3");
 			
 		}
@@ -277,7 +278,6 @@ void Engine::Update()
 				}
 				textBoxCounter++;
 				textBoxTimer = 0;
-
 			}
 		}
 
@@ -287,7 +287,6 @@ void Engine::Update()
 		//For special Ability1
 		if (KeyDown(SDL_SCANCODE_SPACE))
 		{
-			
 			if (spcooldown > 200)
 			{
 				Mix_PlayChannel(-1, aoeSound, 0);
@@ -298,14 +297,11 @@ void Engine::Update()
 				playerpew.push_back(new Rock(plr1.plrDst.x + 10, plr1.plrDst.y + 30, 10 * -1, 'x'));
 				playerpew.shrink_to_fit();
 			}
-
-
 		}
 
 		//For throwing Rock
 		if (KeyDown(SDL_SCANCODE_UP))
 		{
-		
 			if (rockCooldown > 50) {
 				Mix_PlayChannel(-1, projectileRock, 0);
 				rockCooldown = 0;
@@ -357,6 +353,7 @@ void Engine::Update()
 		//Dash
 		if (dashCooldown > 100) {
 			if (KeyDown(SDL_SCANCODE_LSHIFT)) {
+				Mix_PlayChannel(-1, dashing, 0);
 				dashPressed = true;
 				dashTimer = 0;
 				dashCooldown = 0;
