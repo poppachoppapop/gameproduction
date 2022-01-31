@@ -16,6 +16,9 @@
     <Filter Include="Source Files\Character">
       <UniqueIdentifier>{9c344fd2-2123-467a-a321-1c3300d180e0}</UniqueIdentifier>
     </Filter>
+    <Filter Include="STATES">
+      <UniqueIdentifier>{23a90e51-558b-4904-91e3-fffc724ad326}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Main.cpp">
@@ -36,6 +39,12 @@
     <ClCompile Include="Background.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="States.cpp">
+      <Filter>STATES</Filter>
+    </ClCompile>
+    <ClCompile Include="StateManager.cpp">
+      <Filter>STATES</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Engine.h">
@@ -52,6 +61,12 @@
     </ClInclude>
     <ClInclude Include="Background.h">
       <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="StateManager.h">
+      <Filter>STATES</Filter>
+    </ClInclude>
+    <ClInclude Include="States.h">
+      <Filter>STATES</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

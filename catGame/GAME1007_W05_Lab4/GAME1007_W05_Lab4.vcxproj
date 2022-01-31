@@ -147,11 +147,15 @@
     <ClCompile Include="Items.cpp" />
     <ClCompile Include="Main.cpp" />
     <ClCompile Include="player1.cpp" />
+    <ClCompile Include="StateManager.cpp" />
+    <ClCompile Include="States.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Background.h" />
     <ClInclude Include="enemy.h" />
     <ClInclude Include="Engine.h" />
+    <ClInclude Include="States.h" />
+    <ClInclude Include="StateManager.h" />
     <ClInclude Include="Items.h" />
     <ClInclude Include="player1.h" />
   </ItemGroup>

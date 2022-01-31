@@ -10,6 +10,5 @@
 
 int main(int argc, char* argv[])
 {
-	Engine game;
-	return game.Run();
+	return Engine::Instance().Run();
 }

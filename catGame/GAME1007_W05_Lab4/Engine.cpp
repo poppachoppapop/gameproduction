@@ -3,6 +3,8 @@
 #include "enemy.h"
 #include "items.h"
 #include "Background.h"
+#include "StateManager.h"
+#include "States.h"
 #include <ctime>
 
 int Engine::Init(const char* title, int xPos, int yPos, int width, int height, int flags) {
@@ -21,10 +23,10 @@ int Engine::Init(const char* title, int xPos, int yPos, int width, int height, i
 			{
 				if (IMG_Init(IMG_INIT_PNG | IMG_INIT_JPG) != 0)
 				{
-					plrTxtr = IMG_LoadTexture(m_pRenderer, "art/catboy.png");
-					rockTxtr = IMG_LoadTexture(m_pRenderer, "art/Rocko100.png");
-					dumbieTxtr = IMG_LoadTexture(m_pRenderer, "art/Dumbie.png");
-					bgTutorial = IMG_LoadTexture(m_pRenderer, "bgs/tutorial.png");
+					//plrTxtr = IMG_LoadTexture(m_pRenderer, "art/catboy.png");
+					//rockTxtr = IMG_LoadTexture(m_pRenderer, "art/Rocko100.png");
+					//dumbieTxtr = IMG_LoadTexture(m_pRenderer, "art/Dumbie.png");
+					//bgTutorial = IMG_LoadTexture(m_pRenderer, "bgs/tutorial.png");
 				}
 				else return false; // Image init failed.
 			}
@@ -34,19 +36,21 @@ int Engine::Init(const char* title, int xPos, int yPos, int width, int height, i
 		if (Mix_Init(MIX_INIT_MP3) != 0) {
 			Mix_OpenAudio(22050, AUDIO_S16SYS, 2, 4096); // make it 2048 if audio is lagging
 			Mix_AllocateChannels(16);
-			stepSfx = Mix_LoadWAV("sfx/step.wav");
-			turnSfx = Mix_LoadWAV("sfx/turn.wav");
-			deathSfx = Mix_LoadWAV("sfx/dedEnemy.wav");
-			hurtSfx = Mix_LoadWAV("sfx/enemyHurt.wav");
-			powerSfx = Mix_LoadWAV("sfx/powerUp.wav");
-			maintheme = Mix_LoadMUS("Aud/TitleTheme.mp3");
-			
+			//stepSfx = Mix_LoadWAV("sfx/step.wav");
+			//turnSfx = Mix_LoadWAV("sfx/turn.wav");
+			//deathSfx = Mix_LoadWAV("sfx/dedEnemy.wav");
+			//hurtSfx = Mix_LoadWAV("sfx/enemyHurt.wav");
+			//powerSfx = Mix_LoadWAV("sfx/powerUp.wav");
+			//maintheme = Mix_LoadMUS("Aud/TitleTheme.mp3");
+
 		}
-		TTF_Init();
+		/*TTF_Init();*/
+		else return false;
 	}
 	else return false; // initalization failed.
 	m_fps = (Uint32)round(1.0 / (double)FPS * 1000); // Converts FPS into milliseconds, e.g. 16.67
 	m_keystates = SDL_GetKeyboardState(nullptr);
+	STMA::ChangeState(new TitleState());
 
 	srand(time(NULL));
 	//sounds
@@ -86,6 +90,7 @@ void Engine::Clean()
 	}
 	playerpew.clear();
 	playerpew.shrink_to_fit();	
+	STMA::Quit();
 	SDL_DestroyRenderer(m_pRenderer);
 	SDL_DestroyWindow(m_pWindow);
 	SDL_DestroyTexture(dumbieTxtr);
@@ -185,289 +190,290 @@ bool Engine::KeyDown(SDL_Scancode c)
 
 void Engine::Update()
 {
-	stepSoundTimer++; turnSoundTimer++;
-	dashCooldown++;
-	dumbieTimerMax -= 0.01;
-	bg1.bgDst.x -= speedx;
-	bg1.bgDst.y -= speedy;
-	plr1.Update();
-	rockCooldown++;
-	spcooldown++;
+	//stepSoundTimer++; turnSoundTimer++;
+	//dashCooldown++;
+	//dumbieTimerMax -= 0.01;
+	//bg1.bgDst.x -= speedx;
+	//bg1.bgDst.y -= speedy;
+	//plr1.Update();
+	//rockCooldown++;
+	//spcooldown++;
 
-	
+	//
 
-		//For special Ability1
-		if (KeyDown(SDL_SCANCODE_SPACE))
-		{
-			if (spcooldown > 200)
-			{
-				spcooldown = 0;
-				playerpew.push_back(new Rock(plr1.plrDst.x + 10, plr1.plrDst.y + 30, 10, 'y'));
-				playerpew.push_back(new Rock(plr1.plrDst.x + 10, plr1.plrDst.y + 30, 10 * -1, 'y'));
-				playerpew.push_back(new Rock(plr1.plrDst.x + 10, plr1.plrDst.y + 30, 10, 'x'));
-				playerpew.push_back(new Rock(plr1.plrDst.x + 10, plr1.plrDst.y + 30, 10 * -1, 'x'));
-				playerpew.shrink_to_fit();
-			}
-
-
-		}
-
-		//For throwing Rock
-		if (KeyDown(SDL_SCANCODE_UP))
-		{
-			if (rockCooldown > 50) {
-				rockCooldown = 0;
-				playerpew.push_back(new Rock(plr1.plrDst.x + 10, plr1.plrDst.y + 30, rockSpeed * -1, 'y'));
-				playerpew.shrink_to_fit();
-			}
-		}
-		else if (KeyDown(SDL_SCANCODE_DOWN))
-		{
-			if (rockCooldown > 50) {
-				rockCooldown = 0;
-				playerpew.push_back(new Rock(plr1.plrDst.x + 10, plr1.plrDst.y + 30, rockSpeed, 'y'));
-				playerpew.shrink_to_fit();
-			}
-		}
-		else if (KeyDown(SDL_SCANCODE_LEFT))
-		{
-			if (rockCooldown > 50) {
-				rockCooldown = 0;
-				playerpew.push_back(new Rock(plr1.plrDst.x + 10, plr1.plrDst.y + 30, rockSpeed * -1, 'x'));
-				playerpew.shrink_to_fit();
-			}
-		}
-		else if (KeyDown(SDL_SCANCODE_RIGHT))
-		{
-			if (rockCooldown > 50) {
-				rockCooldown = 0;
-				playerpew.push_back(new Rock(plr1.plrDst.x + 10, plr1.plrDst.y + 30, rockSpeed, 'x'));
-				playerpew.shrink_to_fit();
-			}
-		}
+	//	//For special Ability1
+	//	if (KeyDown(SDL_SCANCODE_SPACE))
+	//	{
+	//		if (spcooldown > 200)
+	//		{
+	//			spcooldown = 0;
+	//			playerpew.push_back(new Rock(plr1.plrDst.x + 10, plr1.plrDst.y + 30, 10, 'y'));
+	//			playerpew.push_back(new Rock(plr1.plrDst.x + 10, plr1.plrDst.y + 30, 10 * -1, 'y'));
+	//			playerpew.push_back(new Rock(plr1.plrDst.x + 10, plr1.plrDst.y + 30, 10, 'x'));
+	//			playerpew.push_back(new Rock(plr1.plrDst.x + 10, plr1.plrDst.y + 30, 10 * -1, 'x'));
+	//			playerpew.shrink_to_fit();
+	//		}
 
 
-		if (speedx > plr1.plrSpd)
-			speedx = plr1.plrSpd;
-		if (speedy > plr1.plrSpd)
-			speedy = plr1.plrSpd;
-		if (speedy * -1 > plr1.plrSpd)
-			speedy = plr1.plrSpd * -1;
-		if (speedx * -1 > plr1.plrSpd)
-			speedx = plr1.plrSpd * -1;
+	//	}
 
-		//Dash
-		if (dashCooldown > 100) {
-			if (KeyDown(SDL_SCANCODE_LSHIFT)) {
-				dashPressed = true;
-				dashTimer = 0;
-				dashCooldown = 0;
-			}
-		}
-		dashTimer++;
-		if (dashPressed) {
-			plr1.plrSpd = plr1.plrDsh;
-			if (dashTimer > 10) {
-				dashPressed = false;
-				dashTimer = 0;
-				dashCooldown = 0;
-				plr1.plrSpd = 5;
-				cout << tempSpeed << endl;
-			}
-
-		}
-
-		//YAXIS
-
-		if (KeyDown(SDL_SCANCODE_S)) {
-
-			speedy += speedAcc;
-			plr1.state = 1;
-
-		}
-
-		if (KeyDown(SDL_SCANCODE_W)) {
-
-			speedy -= speedAcc;
-			plr1.state = 2;
-		}
-
-		//XAXIS
-		if (KeyDown(SDL_SCANCODE_A)) {
-			speedx -= speedAcc;
-			plr1.state = 3;
-		}
-
-		if (KeyDown(SDL_SCANCODE_D)) {
-			speedx += speedAcc;
-			plr1.state = 4;
-		}
-
-		//Slow Down!
-		if (!KeyDown(SDL_SCANCODE_D) && !KeyDown(SDL_SCANCODE_A)) {
-			if (speedx > 0)
-				speedx--;
-			else if (speedx < 0) {
-				speedx++;
-			}
-		}
-		if (!KeyDown(SDL_SCANCODE_W) && !KeyDown(SDL_SCANCODE_S)) {
-			if (speedy > 0)
-				speedy--;
-			else if (speedy < 0) {
-				speedy++;
-			}
-		}
-		if (!KeyDown(SDL_SCANCODE_W) && !KeyDown(SDL_SCANCODE_S) && !KeyDown(SDL_SCANCODE_D) && !KeyDown(SDL_SCANCODE_A)) {
-			plr1.state = 0;
-
-		}
-
-			//delete rock after off screen and move rock
-		for (unsigned i = 0; i < playerpew.size(); i++)
-		{
-			playerpew[i]->Update();
-			if (playerpew[i]->rockDst.x >= WIDTH || playerpew[i]->rockDst.x <= -64 || playerpew[i]->rockDst.y >= HEIGHT || playerpew[i]->rockDst.y <= -64)
-			{
-				delete playerpew[i];
-				playerpew[i] = nullptr;
-				playerpew.erase(playerpew.begin() + i);
-				playerpew.shrink_to_fit();
-				break;
-			}
-		}
+	//	//For throwing Rock
+	//	if (KeyDown(SDL_SCANCODE_UP))
+	//	{
+	//		if (rockCooldown > 50) {
+	//			rockCooldown = 0;
+	//			playerpew.push_back(new Rock(plr1.plrDst.x + 10, plr1.plrDst.y + 30, rockSpeed * -1, 'y'));
+	//			playerpew.shrink_to_fit();
+	//		}
+	//	}
+	//	else if (KeyDown(SDL_SCANCODE_DOWN))
+	//	{
+	//		if (rockCooldown > 50) {
+	//			rockCooldown = 0;
+	//			playerpew.push_back(new Rock(plr1.plrDst.x + 10, plr1.plrDst.y + 30, rockSpeed, 'y'));
+	//			playerpew.shrink_to_fit();
+	//		}
+	//	}
+	//	else if (KeyDown(SDL_SCANCODE_LEFT))
+	//	{
+	//		if (rockCooldown > 50) {
+	//			rockCooldown = 0;
+	//			playerpew.push_back(new Rock(plr1.plrDst.x + 10, plr1.plrDst.y + 30, rockSpeed * -1, 'x'));
+	//			playerpew.shrink_to_fit();
+	//		}
+	//	}
+	//	else if (KeyDown(SDL_SCANCODE_RIGHT))
+	//	{
+	//		if (rockCooldown > 50) {
+	//			rockCooldown = 0;
+	//			playerpew.push_back(new Rock(plr1.plrDst.x + 10, plr1.plrDst.y + 30, rockSpeed, 'x'));
+	//			playerpew.shrink_to_fit();
+	//		}
+	//	}
 
 
-		//dumbie spawning stuff
-		dumbietimer++;
-		if (dumbietimer >= dumbieTimerMax)
-		{
-			dumbietimer = 0;
-			dumbie.push_back(new Enemy(rand() % bg1.bgDst.x + 300, rand() % bg1.bgDst.y + 300 ,3));
-			dumbie.shrink_to_fit();
-			cout << "spawning dumbie" << endl;
-		}
+	//	if (speedx > plr1.plrSpd)
+	//		speedx = plr1.plrSpd;
+	//	if (speedy > plr1.plrSpd)
+	//		speedy = plr1.plrSpd;
+	//	if (speedy * -1 > plr1.plrSpd)
+	//		speedy = plr1.plrSpd * -1;
+	//	if (speedx * -1 > plr1.plrSpd)
+	//		speedx = plr1.plrSpd * -1;
 
-		//hitbox stuff/Collision
-		for (unsigned i = 0; i < playerpew.size(); i++)
-		{
-			for (unsigned j = 0; j < dumbie.size(); j++)
-			{
-				if (SDL_HasIntersection(&playerpew[i]->rockDst, &dumbie[j]->enemyDst)) //AABB Check
-				{
-					cout << "catboy hits dumbie" << endl;
-					Mix_PlayChannel(-1, hurtSfx, 0);
-					delete playerpew[i];
-					playerpew[i] = nullptr;
-					playerpew.erase(playerpew.begin() + i);
-					playerpew.shrink_to_fit();
-					//set dumbie hp
-					dumbie[j]->setHp(dumbie[j]->getHp() - playerDamage);
-					textBoxOpen = true;
-					break;
-				}
-			}
-		}
-		//delete dumbie when at 0 hp
-		for (unsigned i = 0; i < dumbie.size(); i++)
-		{
-			//updates healthbar
-			dumbie[i]->update();
-			dumbie[i]->enemyDst.x -= speedx;
-			dumbie[i]->enemyDst.y -= speedy;
-			//deletes enemy if dead
-			if (dumbie[i]->getHp() <= 0) {
-				Mix_PlayChannel(-1, deathSfx, 0);
-				delete dumbie[i];
-				dumbie[i] = nullptr;
-				dumbie.erase(dumbie.begin() + i);
-				dumbie.shrink_to_fit();
-				surfaceMessage = TTF_RenderText_Solid(font, message, White);
-				Message = SDL_CreateTextureFromSurface(m_pRenderer, surfaceMessage);
-				strcpy_s(message, "MEANIE!");
-			}
-		}
-		
-		
-		//for items
-		itemSpawnTimer++;
-		if (itemSpawnTimer > 1000) {
-			itemSpawnTimer = 0;
-			item1.push_back(new Items(1));
-			item1.shrink_to_fit();
-		}
-		for (unsigned i = 0; i < item1.size(); i++)
-		{
-			item1[i]->item.x -= speedx;
-			item1[i]->item.y -= speedy;
+	//	//Dash
+	//	if (dashCooldown > 100) {
+	//		if (KeyDown(SDL_SCANCODE_LSHIFT)) {
+	//			dashPressed = true;
+	//			dashTimer = 0;
+	//			dashCooldown = 0;
+	//		}
+	//	}
+	//	dashTimer++;
+	//	if (dashPressed) {
+	//		plr1.plrSpd = plr1.plrDsh;
+	//		if (dashTimer > 10) {
+	//			dashPressed = false;
+	//			dashTimer = 0;
+	//			dashCooldown = 0;
+	//			plr1.plrSpd = 5;
+	//			cout << tempSpeed << endl;
+	//		}
 
-			if (SDL_HasIntersection(&plr1.plrDst, &item1[i]->item)) //AABB Check
-			{
-				Mix_PlayChannel(-1, powerSfx, 0);
-				delete item1[i];
-				item1[i] = nullptr;
-				item1.erase(item1.begin() + i);
-				item1.shrink_to_fit();
-				playerDamage++;
+	//	}
 
-			}
-			
-		}
+	//	//YAXIS
+
+	//	if (KeyDown(SDL_SCANCODE_S)) {
+
+	//		speedy += speedAcc;
+	//		plr1.state = 1;
+
+	//	}
+
+	//	if (KeyDown(SDL_SCANCODE_W)) {
+
+	//		speedy -= speedAcc;
+	//		plr1.state = 2;
+	//	}
+
+	//	//XAXIS
+	//	if (KeyDown(SDL_SCANCODE_A)) {
+	//		speedx -= speedAcc;
+	//		plr1.state = 3;
+	//	}
+
+	//	if (KeyDown(SDL_SCANCODE_D)) {
+	//		speedx += speedAcc;
+	//		plr1.state = 4;
+	//	}
+
+	//	//Slow Down!
+	//	if (!KeyDown(SDL_SCANCODE_D) && !KeyDown(SDL_SCANCODE_A)) {
+	//		if (speedx > 0)
+	//			speedx--;
+	//		else if (speedx < 0) {
+	//			speedx++;
+	//		}
+	//	}
+	//	if (!KeyDown(SDL_SCANCODE_W) && !KeyDown(SDL_SCANCODE_S)) {
+	//		if (speedy > 0)
+	//			speedy--;
+	//		else if (speedy < 0) {
+	//			speedy++;
+	//		}
+	//	}
+	//	if (!KeyDown(SDL_SCANCODE_W) && !KeyDown(SDL_SCANCODE_S) && !KeyDown(SDL_SCANCODE_D) && !KeyDown(SDL_SCANCODE_A)) {
+	//		plr1.state = 0;
+
+	//	}
+
+	//		//delete rock after off screen and move rock
+	//	for (unsigned i = 0; i < playerpew.size(); i++)
+	//	{
+	//		playerpew[i]->Update();
+	//		if (playerpew[i]->rockDst.x >= WIDTH || playerpew[i]->rockDst.x <= -64 || playerpew[i]->rockDst.y >= HEIGHT || playerpew[i]->rockDst.y <= -64)
+	//		{
+	//			delete playerpew[i];
+	//			playerpew[i] = nullptr;
+	//			playerpew.erase(playerpew.begin() + i);
+	//			playerpew.shrink_to_fit();
+	//			break;
+	//		}
+	//	}
+
+
+	//	//dumbie spawning stuff
+	//	dumbietimer++;
+	//	if (dumbietimer >= dumbieTimerMax)
+	//	{
+	//		dumbietimer = 0;
+	//		dumbie.push_back(new Enemy(rand() % bg1.bgDst.x + 300, rand() % bg1.bgDst.y + 300 ,3));
+	//		dumbie.shrink_to_fit();
+	//		cout << "spawning dumbie" << endl;
+	//	}
+
+	//	//hitbox stuff/Collision
+	//	for (unsigned i = 0; i < playerpew.size(); i++)
+	//	{
+	//		for (unsigned j = 0; j < dumbie.size(); j++)
+	//		{
+	//			if (SDL_HasIntersection(&playerpew[i]->rockDst, &dumbie[j]->enemyDst)) //AABB Check
+	//			{
+	//				cout << "catboy hits dumbie" << endl;
+	//				Mix_PlayChannel(-1, hurtSfx, 0);
+	//				delete playerpew[i];
+	//				playerpew[i] = nullptr;
+	//				playerpew.erase(playerpew.begin() + i);
+	//				playerpew.shrink_to_fit();
+	//				//set dumbie hp
+	//				dumbie[j]->setHp(dumbie[j]->getHp() - playerDamage);
+	//				textBoxOpen = true;
+	//				break;
+	//			}
+	//		}
+	//	}
+	//	//delete dumbie when at 0 hp
+	//	for (unsigned i = 0; i < dumbie.size(); i++)
+	//	{
+	//		//updates healthbar
+	//		dumbie[i]->update();
+	//		dumbie[i]->enemyDst.x -= speedx;
+	//		dumbie[i]->enemyDst.y -= speedy;
+	//		//deletes enemy if dead
+	//		if (dumbie[i]->getHp() <= 0) {
+	//			Mix_PlayChannel(-1, deathSfx, 0);
+	//			delete dumbie[i];
+	//			dumbie[i] = nullptr;
+	//			dumbie.erase(dumbie.begin() + i);
+	//			dumbie.shrink_to_fit();
+	//			surfaceMessage = TTF_RenderText_Solid(font, message, White);
+	//			Message = SDL_CreateTextureFromSurface(m_pRenderer, surfaceMessage);
+	//			strcpy_s(message, "MEANIE!");
+	//		}
+	//	}
+	//	
+	//	
+	//	//for items
+	//	itemSpawnTimer++;
+	//	if (itemSpawnTimer > 1000) {
+	//		itemSpawnTimer = 0;
+	//		item1.push_back(new Items(1));
+	//		item1.shrink_to_fit();
+	//	}
+	//	for (unsigned i = 0; i < item1.size(); i++)
+	//	{
+	//		item1[i]->item.x -= speedx;
+	//		item1[i]->item.y -= speedy;
+
+	//		if (SDL_HasIntersection(&plr1.plrDst, &item1[i]->item)) //AABB Check
+	//		{
+	//			Mix_PlayChannel(-1, powerSfx, 0);
+	//			delete item1[i];
+	//			item1[i] = nullptr;
+	//			item1.erase(item1.begin() + i);
+	//			item1.shrink_to_fit();
+	//			playerDamage++;
+
+	//		}
+	//		
+	//	}
+	STMA::Update();
 }
 
 void Engine::Render()
 {
-	SDL_SetRenderDrawColor(m_pRenderer, 0, 200, 200, 255);
-	SDL_RenderClear(m_pRenderer);
-	// Any drawing here...
-	//SDL_SetRenderDrawColor(m_pRenderer, 255, 255, 255, 255);
-	//SDL_RenderFillRect(m_pRenderer, &plr1.plrDst);
+	//SDL_SetRenderDrawColor(m_pRenderer, 0, 200, 200, 255);
+	//SDL_RenderClear(m_pRenderer);
+	//// Any drawing here...
+	////SDL_SetRenderDrawColor(m_pRenderer, 255, 255, 255, 255);
+	////SDL_RenderFillRect(m_pRenderer, &plr1.plrDst);
 
-	//Background
-	SDL_RenderCopy(m_pRenderer, bgTutorial, &bg1.bgSrcTutorial, &bg1.bgDst);
+	////Background
+	//SDL_RenderCopy(m_pRenderer, bgTutorial, &bg1.bgSrcTutorial, &bg1.bgDst);
 
-	if (plr1.state == 0)
-		SDL_RenderCopy(m_pRenderer, plrTxtr, &plr1.plrFrontIdle, &plr1.plrDst);
-	else if (plr1.state == 1)
-		SDL_RenderCopy(m_pRenderer, plrTxtr, &plr1.plrMoveDown, &plr1.plrDst);
-	else if (plr1.state == 2)
-		SDL_RenderCopy(m_pRenderer, plrTxtr, &plr1.plrMoveUp, &plr1.plrDst);
-	else if (plr1.state == 3)
-		SDL_RenderCopy(m_pRenderer, plrTxtr, &plr1.plrMoveLeft, &plr1.plrDst);
-	else if (plr1.state == 4)
-		SDL_RenderCopy(m_pRenderer, plrTxtr, &plr1.plrMoveRight, &plr1.plrDst);
+	//if (plr1.state == 0)
+	//	SDL_RenderCopy(m_pRenderer, plrTxtr, &plr1.plrFrontIdle, &plr1.plrDst);
+	//else if (plr1.state == 1)
+	//	SDL_RenderCopy(m_pRenderer, plrTxtr, &plr1.plrMoveDown, &plr1.plrDst);
+	//else if (plr1.state == 2)
+	//	SDL_RenderCopy(m_pRenderer, plrTxtr, &plr1.plrMoveUp, &plr1.plrDst);
+	//else if (plr1.state == 3)
+	//	SDL_RenderCopy(m_pRenderer, plrTxtr, &plr1.plrMoveLeft, &plr1.plrDst);
+	//else if (plr1.state == 4)
+	//	SDL_RenderCopy(m_pRenderer, plrTxtr, &plr1.plrMoveRight, &plr1.plrDst);
 
-	//rock	
-	for (unsigned i = 0; i < playerpew.size(); i++)
-	{
-		SDL_RenderCopy(m_pRenderer, rockTxtr, 
-			&(playerpew[i]->rockSrc), &(playerpew[i]->rockDst));
-	}
-	
-	//item
-	for (unsigned i = 0; i < item1.size(); i++)
-	{
-		SDL_SetRenderDrawColor(m_pRenderer, 255, 0, 0, 255);
-		SDL_RenderFillRect(m_pRenderer, &item1[i]->item);
-	}
-	//dumbie
-	for (unsigned i = 0; i < dumbie.size();i++)
-	{
-		SDL_RenderCopyEx(m_pRenderer, dumbieTxtr, &dumbie[i]->enemySrc, &dumbie[i]->enemyDst, 00.0, NULL, SDL_FLIP_NONE);
-		//dumbie hp
-		SDL_SetRenderDrawColor(m_pRenderer, 255, 0, 0, 255);
-		SDL_RenderFillRect(m_pRenderer, &dumbie[i]->healthBar);
-	}
+	////rock	
+	//for (unsigned i = 0; i < playerpew.size(); i++)
+	//{
+	//	SDL_RenderCopy(m_pRenderer, rockTxtr, 
+	//		&(playerpew[i]->rockSrc), &(playerpew[i]->rockDst));
+	//}
+	//
+	////item
+	//for (unsigned i = 0; i < item1.size(); i++)
+	//{
+	//	SDL_SetRenderDrawColor(m_pRenderer, 255, 0, 0, 255);
+	//	SDL_RenderFillRect(m_pRenderer, &item1[i]->item);
+	//}
+	////dumbie
+	//for (unsigned i = 0; i < dumbie.size();i++)
+	//{
+	//	SDL_RenderCopyEx(m_pRenderer, dumbieTxtr, &dumbie[i]->enemySrc, &dumbie[i]->enemyDst, 00.0, NULL, SDL_FLIP_NONE);
+	//	//dumbie hp
+	//	SDL_SetRenderDrawColor(m_pRenderer, 255, 0, 0, 255);
+	//	SDL_RenderFillRect(m_pRenderer, &dumbie[i]->healthBar);
+	//}
 
-	//text box
-	if (textBoxOpen) {
-		SDL_SetRenderDrawColor(m_pRenderer, 0, 0, 0, 255);
-		SDL_RenderFillRect(m_pRenderer, &textBoxBorder);
-		SDL_RenderCopy(m_pRenderer, Message, NULL, &textBoxRect);
-	}
-	
-	SDL_RenderPresent(m_pRenderer); // Flip buffers - send data to window.
-
+	////text box
+	//if (textBoxOpen) {
+	//	SDL_SetRenderDrawColor(m_pRenderer, 0, 0, 0, 255);
+	//	SDL_RenderFillRect(m_pRenderer, &textBoxBorder);
+	//	SDL_RenderCopy(m_pRenderer, Message, NULL, &textBoxRect);
+	//}
+	//
+	//SDL_RenderPresent(m_pRenderer); // Flip buffers - send data to window.
+	STMA::Render();
 }
 
 void Engine::Sleep()
@@ -485,7 +491,7 @@ int Engine::Run()
 		return 1;
 	}
 	// Start and run the "engine"
-	if (Init("Cat Game!", SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, WIDTH, HEIGHT, NULL) == false)
+	if (Init("Cat Nipped!", SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, WIDTH, HEIGHT, NULL) == false)
 	{
 		return 2;
 	}
@@ -501,6 +507,12 @@ int Engine::Run()
 	}
 	Clean();
 	return 0;
+}
+
+Engine& Engine::Instance() // No static keyword required.
+{
+	static Engine instance; // Creating an object of Engine. Magic statics.
+	return instance;
 }
 
 

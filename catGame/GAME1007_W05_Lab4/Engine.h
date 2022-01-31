@@ -78,11 +78,14 @@ private: // private propeties.
 	Mix_Music* maintheme;
 
 private: // private method prototypes
+	Engine()
+	{
+		cout << "Creating instance of a fucking engine..." << endl;
+	}
 	int Init(const char* title, int xPos, int yPos, int width, int height, int flags);
 	void Clean();
 	void Wake();
 	void HandleEvents();
-	bool KeyDown(SDL_Scancode c);
 	void Update();
 	void Render();
 	void Sleep();
@@ -90,6 +93,10 @@ private: // private method prototypes
 public: // public method prototypes
 	int Run();
 
+	static Engine& Instance(); //we can invoke this without an engine object.
+	SDL_Renderer* GetRenderer() { return m_pRenderer; }
+	bool KeyDown(SDL_Scancode c);
+	
 
 };
 
