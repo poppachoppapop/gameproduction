@@ -40,7 +40,11 @@ int Engine::Init(const char* title, int xPos, int yPos, int width, int height, i
 			deathSfx = Mix_LoadWAV("sfx/dedEnemy.wav");
 			hurtSfx = Mix_LoadWAV("sfx/enemyHurt.wav");
 			powerSfx = Mix_LoadWAV("sfx/powerUp.wav");
-			talk = Mix_LoadWAV("sfx/secret.wav");
+			talk = Mix_LoadWAV("sfx/texttalk.wav");
+			winscore = Mix_LoadWAV("sfx/scorewin.wav");
+			hehe = Mix_LoadWAV("sfx/killsound.wav");
+			projectileRock = Mix_LoadWAV("sfx/rocksound.wav");
+			aoeSound = Mix_LoadWAV("sfx/aoeAbility.wav");
 			maintheme = Mix_LoadMUS("Aud/TitleTheme.mp3");
 			
 		}
@@ -154,6 +158,13 @@ void Engine::HandleEvents()
 					Mix_PlayChannel(7, stepSfx, -1);
 				}
 			}			
+			if (event.key.keysym.sym == SDLK_ESCAPE)
+			{
+				Mix_PlayChannel(-1, hehe, 0);
+				SDL_Delay(1000);
+				m_running = false;
+				break;
+			}
 			break;
 
 		case SDL_KEYUP:
@@ -211,9 +222,24 @@ void Engine::Update()
 	catDude.npcDst.y = bg1.bgDst.y + 1350;
 
 
+	//if (KeyDown(SDL_SCANCODE_ESCAPE))
+	//{
+	//	Mix_PlayChannel(-1, hehe, 0);
+	//	SDL_Event event;
+	//	while (SDL_PollEvent(&event))
+	//	{
+	//		switch (event.type)
+	//		{
+	//		case SDL_QUIT:
+	//			m_running = false;
+	//			break;
+	//		}
+	//	}
+	//} added easter egg, moved to handle events:)
 	if (spawnDummies) {
 		dummiesTimer++;
 		if (dummiesTimer == 2000) {
+			Mix_PlayChannel(-1, winscore, 0);
 			tempStr = "Your Score is " + to_string(score);
 			strcpy_s(message, tempStr.c_str());
 			surfaceMessage = TTF_RenderText_Solid(font, message, White);
@@ -261,8 +287,10 @@ void Engine::Update()
 		//For special Ability1
 		if (KeyDown(SDL_SCANCODE_SPACE))
 		{
+			
 			if (spcooldown > 200)
 			{
+				Mix_PlayChannel(-1, aoeSound, 0);
 				spcooldown = 0;
 				playerpew.push_back(new Rock(plr1.plrDst.x + 10, plr1.plrDst.y + 30, 10, 'y'));
 				playerpew.push_back(new Rock(plr1.plrDst.x + 10, plr1.plrDst.y + 30, 10 * -1, 'y'));
@@ -277,7 +305,9 @@ void Engine::Update()
 		//For throwing Rock
 		if (KeyDown(SDL_SCANCODE_UP))
 		{
+		
 			if (rockCooldown > 50) {
+				Mix_PlayChannel(-1, projectileRock, 0);
 				rockCooldown = 0;
 				playerpew.push_back(new Rock(plr1.plrDst.x + 10, plr1.plrDst.y + 30, rockSpeed * -1, 'y'));
 				playerpew.shrink_to_fit();
@@ -285,7 +315,9 @@ void Engine::Update()
 		}
 		else if (KeyDown(SDL_SCANCODE_DOWN))
 		{
+			
 			if (rockCooldown > 50) {
+				Mix_PlayChannel(-1, projectileRock, 0);
 				rockCooldown = 0;
 				playerpew.push_back(new Rock(plr1.plrDst.x + 10, plr1.plrDst.y + 30, rockSpeed, 'y'));
 				playerpew.shrink_to_fit();
@@ -293,7 +325,9 @@ void Engine::Update()
 		}
 		else if (KeyDown(SDL_SCANCODE_LEFT))
 		{
+
 			if (rockCooldown > 50) {
+				Mix_PlayChannel(-1, projectileRock, 0);
 				rockCooldown = 0;
 				playerpew.push_back(new Rock(plr1.plrDst.x + 10, plr1.plrDst.y + 30, rockSpeed * -1, 'x'));
 				playerpew.shrink_to_fit();
@@ -301,7 +335,9 @@ void Engine::Update()
 		}
 		else if (KeyDown(SDL_SCANCODE_RIGHT))
 		{
+
 			if (rockCooldown > 50) {
+				Mix_PlayChannel(-1, projectileRock, 0);
 				rockCooldown = 0;
 				playerpew.push_back(new Rock(plr1.plrDst.x + 10, plr1.plrDst.y + 30, rockSpeed, 'x'));
 				playerpew.shrink_to_fit();

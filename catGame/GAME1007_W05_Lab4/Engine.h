@@ -91,6 +91,10 @@ private: // private propeties.
 	Mix_Chunk* hurtSfx;
 	Mix_Chunk* powerSfx;
 	Mix_Chunk* talk;
+	Mix_Chunk* winscore;
+	Mix_Chunk* hehe;
+	Mix_Chunk* projectileRock;
+	Mix_Chunk* aoeSound;
 	Mix_Music* maintheme;
 
 private: // private method prototypes
