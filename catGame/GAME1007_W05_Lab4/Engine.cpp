@@ -193,7 +193,6 @@ void Engine::Update()
 	plr1.Update();
 	rockCooldown++;
 	spcooldown++;
-
 	
 
 		//For special Ability1
@@ -323,10 +322,13 @@ void Engine::Update()
 
 		}
 
-			//delete rock after off screen and move rock
+		//delete rock after off screen and move rock
 		for (unsigned i = 0; i < playerpew.size(); i++)
 		{
 			playerpew[i]->Update();
+			playerpew[i]->rockDst.x -= speedx;
+			playerpew[i]->rockDst.y -= speedy;
+
 			if (playerpew[i]->rockDst.x >= WIDTH || playerpew[i]->rockDst.x <= -64 || playerpew[i]->rockDst.y >= HEIGHT || playerpew[i]->rockDst.y <= -64)
 			{
 				delete playerpew[i];
@@ -337,13 +339,13 @@ void Engine::Update()
 			}
 		}
 
-
 		//dumbie spawning stuff
 		dumbietimer++;
 		if (dumbietimer >= dumbieTimerMax)
 		{
 			dumbietimer = 0;
-			dumbie.push_back(new Enemy(rand() % bg1.bgDst.x + 300, rand() % bg1.bgDst.y + 300 ,3));
+			
+			dumbie.push_back(new Enemy(bg1.bgDst.x + rand() % 1000 + 200, bg1.bgDst.y + rand() % 500 + 750, 3));
 			dumbie.shrink_to_fit();
 			cout << "spawning dumbie" << endl;
 		}
@@ -389,11 +391,12 @@ void Engine::Update()
 		}
 		
 		
+		cout << plr1.plrDst.x - bg1.bgDst.x << " - " << plr1.plrDst.y - bg1.bgDst.y << endl;
 		//for items
 		itemSpawnTimer++;
-		if (itemSpawnTimer > 1000) {
-			itemSpawnTimer = 0;
-			item1.push_back(new Items(1));
+		if (itemSpawnTimer == 1000) {
+			//itemSpawnTimer = 0;
+			item1.push_back(new Items(1, bg1.bgDst.x + 1075, bg1.bgDst.y + 1550));
 			item1.shrink_to_fit();
 		}
 		for (unsigned i = 0; i < item1.size(); i++)
