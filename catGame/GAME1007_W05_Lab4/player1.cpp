@@ -4,7 +4,7 @@
 Player::Player() :plrFrontIdle({ 0,0,32,32 }), plrMoveDown({ 0,128,32,32 }), plrMoveUp({ 0,160,32,32 }), plrMoveLeft({ 0,192,32,32 }), plrMoveRight({ 0,224,32,32 }) ,
 frameCtr(0), frameMax(3), spriteIdx(0), spriteMax(6)
 { 
-	plrDst = {448 ,320 ,100, 100};
+	plrDst = {448 ,320 ,128, 128};
 	plrSpd = 5;
 	plrDsh = 50;
 	state = 0;

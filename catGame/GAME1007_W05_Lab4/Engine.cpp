@@ -25,6 +25,7 @@ int Engine::Init(const char* title, int xPos, int yPos, int width, int height, i
 					rockTxtr = IMG_LoadTexture(m_pRenderer, "art/Rocko100.png");
 					dumbieTxtr = IMG_LoadTexture(m_pRenderer, "art/Dumbie.png");
 					bgTutorial = IMG_LoadTexture(m_pRenderer, "bgs/tutorial.png");
+					npcTxtr = IMG_LoadTexture(m_pRenderer, "art/catDude.png");
 				}
 				else return false; // Image init failed.
 			}
@@ -39,6 +40,7 @@ int Engine::Init(const char* title, int xPos, int yPos, int width, int height, i
 			deathSfx = Mix_LoadWAV("sfx/dedEnemy.wav");
 			hurtSfx = Mix_LoadWAV("sfx/enemyHurt.wav");
 			powerSfx = Mix_LoadWAV("sfx/powerUp.wav");
+			talk = Mix_LoadWAV("sfx/secret.wav");
 			maintheme = Mix_LoadMUS("Aud/TitleTheme.mp3");
 			
 		}
@@ -57,12 +59,20 @@ int Engine::Init(const char* title, int xPos, int yPos, int width, int height, i
 	playerpew.reserve(4);
 	dumbie.reserve(4);
 
+	//Text box and score stuff
 	font = TTF_OpenFont("fonts/font.ttf", 24);
 	White = { 255, 255, 255 };
-	textBoxRect = { 20, HEIGHT -190, 200, 50 };
+
+	textBoxRect = { 20, HEIGHT -190, 500, 50 };
 	textBoxBorder = { 10, HEIGHT - 200, WIDTH - 20, 190 };
+
+	scoreRect = { 800, 10, 150, 40 };
+	
 	surfaceMessage = TTF_RenderText_Solid(font, message, White);
+	dummyScore = TTF_RenderText_Solid(font, scoreMessage, White);
+	
 	Message = SDL_CreateTextureFromSurface(m_pRenderer, surfaceMessage);
+	Score = SDL_CreateTextureFromSurface(m_pRenderer, dummyScore);
 
 	cout << "Initialization successful!" << endl;
 	m_running = true;
@@ -187,13 +197,66 @@ void Engine::Update()
 {
 	stepSoundTimer++; turnSoundTimer++;
 	dashCooldown++;
+	textBoxTimer++;
 	dumbieTimerMax -= 0.01;
 	bg1.bgDst.x -= speedx;
 	bg1.bgDst.y -= speedy;
 	plr1.Update();
+	catDude.Update();
 	rockCooldown++;
 	spcooldown++;
 	
+	//NPC
+	catDude.npcDst.x = bg1.bgDst.x + 1000;
+	catDude.npcDst.y = bg1.bgDst.y + 1350;
+
+
+	if (spawnDummies) {
+		dummiesTimer++;
+		if (dummiesTimer == 2000) {
+			tempStr = "Your Score is " + to_string(score);
+			strcpy_s(message, tempStr.c_str());
+			surfaceMessage = TTF_RenderText_Solid(font, message, White);
+			Message = SDL_CreateTextureFromSurface(m_pRenderer, surfaceMessage);
+			spawnDummies = false;
+			renderTextBox = true;
+			dummiesTimer = 0;
+			score = 0;
+			tempStr = "Score: " + to_string(score);
+			strcpy_s(scoreMessage, tempStr.c_str());
+			dummyScore = TTF_RenderText_Solid(font, scoreMessage, White);
+			Score = SDL_CreateTextureFromSurface(m_pRenderer, dummyScore);
+		}
+	}
+
+	if (SDL_HasIntersection(&plr1.plrDst, &catDude.npcDst)) {
+		if (KeyDown(SDL_SCANCODE_E)) {
+			if (textBoxTimer > 10) {
+				Mix_PlayChannel(-1, talk, 0);
+				renderTextBox = true;
+				if (textBoxCounter == 1) {
+					strcpy_s(message, "I will start Spawning Dummies");
+					surfaceMessage = TTF_RenderText_Solid(font, message, White);
+					Message = SDL_CreateTextureFromSurface(m_pRenderer, surfaceMessage);
+				}
+				else if (textBoxCounter == 2) {
+					strcpy_s(message, "Try and get the highest score!");
+					surfaceMessage = TTF_RenderText_Solid(font, message, White);
+					Message = SDL_CreateTextureFromSurface(m_pRenderer, surfaceMessage);
+				}
+				else if (textBoxCounter == 3) {
+					spawnDummies = true;
+					renderTextBox = false;
+					textBoxCounter = 0;
+				}
+				textBoxCounter++;
+				textBoxTimer = 0;
+
+			}
+		}
+
+	}
+
 
 		//For special Ability1
 		if (KeyDown(SDL_SCANCODE_SPACE))
@@ -341,13 +404,16 @@ void Engine::Update()
 
 		//dumbie spawning stuff
 		dumbietimer++;
-		if (dumbietimer >= dumbieTimerMax)
-		{
-			dumbietimer = 0;
-			
-			dumbie.push_back(new Enemy(bg1.bgDst.x + rand() % 1000 + 200, bg1.bgDst.y + rand() % 500 + 750, 3));
-			dumbie.shrink_to_fit();
-			cout << "spawning dumbie" << endl;
+		
+		if (spawnDummies) {
+			if (dumbietimer >= dumbieTimerMax)
+			{
+				dumbietimer = 0;
+
+				dumbie.push_back(new Enemy(bg1.bgDst.x + rand() % 1000 + 200, bg1.bgDst.y + rand() % 500 + 750, 3));
+				dumbie.shrink_to_fit();
+				cout << "spawning dumbie" << endl;
+			}
 		}
 
 		//hitbox stuff/Collision
@@ -365,7 +431,6 @@ void Engine::Update()
 					playerpew.shrink_to_fit();
 					//set dumbie hp
 					dumbie[j]->setHp(dumbie[j]->getHp() - playerDamage);
-					textBoxOpen = true;
 					break;
 				}
 			}
@@ -384,9 +449,11 @@ void Engine::Update()
 				dumbie[i] = nullptr;
 				dumbie.erase(dumbie.begin() + i);
 				dumbie.shrink_to_fit();
-				surfaceMessage = TTF_RenderText_Solid(font, message, White);
-				Message = SDL_CreateTextureFromSurface(m_pRenderer, surfaceMessage);
-				strcpy_s(message, "MEANIE!");
+				score++;
+				tempStr = "Score: " + to_string(score);
+				strcpy_s(scoreMessage,tempStr.c_str());
+				dummyScore = TTF_RenderText_Solid(font, scoreMessage, White);
+				Score = SDL_CreateTextureFromSurface(m_pRenderer, dummyScore);
 			}
 		}
 		
@@ -440,6 +507,9 @@ void Engine::Render()
 	else if (plr1.state == 4)
 		SDL_RenderCopy(m_pRenderer, plrTxtr, &plr1.plrMoveRight, &plr1.plrDst);
 
+	//NPC
+	SDL_RenderCopyEx(m_pRenderer, npcTxtr, &catDude.npcSrc, &catDude.npcDst, NULL, NULL, SDL_FLIP_HORIZONTAL);
+
 	//rock	
 	for (unsigned i = 0; i < playerpew.size(); i++)
 	{
@@ -463,10 +533,15 @@ void Engine::Render()
 	}
 
 	//text box
-	if (textBoxOpen) {
+	if (renderTextBox) {
 		SDL_SetRenderDrawColor(m_pRenderer, 0, 0, 0, 255);
 		SDL_RenderFillRect(m_pRenderer, &textBoxBorder);
 		SDL_RenderCopy(m_pRenderer, Message, NULL, &textBoxRect);
+	}
+
+	//score text
+	if (spawnDummies) {
+		SDL_RenderCopy(m_pRenderer, Score, NULL, &scoreRect);
 	}
 	
 	SDL_RenderPresent(m_pRenderer); // Flip buffers - send data to window.

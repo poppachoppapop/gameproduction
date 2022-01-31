@@ -14,6 +14,7 @@
 #include "enemy.h"
 #include "Items.h"
 #include "Background.h"
+#include "NPC.h"
 #define FPS 60
 #define WIDTH 1024
 #define HEIGHT 768
@@ -36,6 +37,10 @@ private: // private propeties.
 	int rockCooldown = 50;
 	int spcooldown = 200;
 	int itemSpawnTimer = 0;
+	int score = 0;
+	int textBoxCounter = 0;
+	int textBoxTimer = 0;
+	int dummiesTimer = 0;
 
 	//modifiable variables
 	int playerDamage = 1;
@@ -45,15 +50,23 @@ private: // private propeties.
 	double dumbieTimerMax = 200;
 	
 	bool dashPressed = false;
-	bool textBoxOpen = false;
 	bool pauseGame = false;
+	bool spawnDummies = false;
+	bool renderTextBox = false;
+	bool renderScoreBox = false;
 
 	TTF_Font* font;
-	char message[100] = "OWwwwww!";
+	char message[100] = "Hello! Welcome To the First Playable";
+	char scoreMessage[100] = "Score: 0";
 	SDL_Color White;
+	SDL_Surface* dummyScore;
 	SDL_Surface* surfaceMessage;
+
+	string tempStr = "Score: ";
 	
 	SDL_Texture* Message;
+	SDL_Texture* Score;
+	SDL_Texture* npcTxtr;
 	SDL_Texture* plrTxtr;
 	SDL_Texture* rockTxtr;
 	SDL_Texture* dumbieTxtr;
@@ -65,8 +78,10 @@ private: // private propeties.
 
 	SDL_Rect textBoxRect;
 	SDL_Rect textBoxBorder;
+	SDL_Rect scoreRect;
 
 	Player plr1;
+	NPC catDude;
 	Background bg1;
 	Uint16 dumbietimer;
 
@@ -75,6 +90,7 @@ private: // private propeties.
 	Mix_Chunk* deathSfx;
 	Mix_Chunk* hurtSfx;
 	Mix_Chunk* powerSfx;
+	Mix_Chunk* talk;
 	Mix_Music* maintheme;
 
 private: // private method prototypes
@@ -89,8 +105,6 @@ private: // private method prototypes
 
 public: // public method prototypes
 	int Run();
-
-
 };
 
 #endif
