@@ -52,6 +52,7 @@ void PauseState::Update()
 	if (Engine::Instance().KeyDown(SDL_SCANCODE_R))
 	{
 		STMA::PopState();
+		Mix_ResumeMusic();
 	}
 }
 
@@ -97,6 +98,13 @@ void GameState::Enter()
 	rockTxtr = IMG_LoadTexture(Engine::Instance().GetRenderer(), "art/Rocko100.png");
 	dumbieTxtr = IMG_LoadTexture(Engine::Instance().GetRenderer(), "art/Dumbie.png");
 	bgTutorial = IMG_LoadTexture(Engine::Instance().GetRenderer(), "bgs/tutorial.png");
+	//textbox stuff
+	font = TTF_OpenFont("fonts/font.ttf", 24);
+	White = { 255, 255, 255 };
+	textBoxRect = { 20, HEIGHT - 190, 200, 50 };
+	textBoxBorder = { 10, HEIGHT - 200, WIDTH - 20, 190 };
+	surfaceMessage = TTF_RenderText_Solid(font, message, White);
+	Message = SDL_CreateTextureFromSurface(Engine::Instance().GetRenderer(), surfaceMessage);
 }
 
 void GameState::Update()
@@ -354,6 +362,7 @@ void GameState::Render()
 	//SDL_SetRenderDrawColor(m_pRenderer, 255, 255, 255, 255);
 	//SDL_RenderFillRect(m_pRenderer, &plr1.plrDst);
 
+
 	//Background
 	SDL_RenderCopy(Engine::Instance().GetRenderer(), bgTutorial, &bg1.bgSrcTutorial, &bg1.bgDst);
 
@@ -404,12 +413,20 @@ void GameState::Render()
 void GameState::Exit()
 {
 	cout << "Exiting GameState..." << endl;
+	Mix_FreeChunk(m_sfx["death"]);
+	Mix_FreeChunk(m_sfx["power"]);
+	Mix_FreeChunk(m_sfx["step"]);
+	Mix_FreeChunk(m_sfx["turn"]);
+	Mix_FreeChunk(m_sfx["hurt"]);
+	Mix_FreeMusic(m_gamemusic["gamemusic"]);
+	SDL_DestroyTexture(dumbieTxtr);
 }
 
 void GameState::Resume()
 {
 	cout << "Resuming GameState..." << endl;
 	// Resume music track.
+	Mix_PlayMusic(m_gamemusic["gameusic"], -1);
 }
 
 EndState::EndState() {}
