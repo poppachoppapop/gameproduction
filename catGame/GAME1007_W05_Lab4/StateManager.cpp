@@ -1,5 +1,4 @@
 #include "StateManager.h"
-#include "Engine.h"
 
 void StateManager::Update()
 {

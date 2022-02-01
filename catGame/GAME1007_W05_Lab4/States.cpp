@@ -16,8 +16,8 @@ void TitleState::Enter()
 {
 	cout << "Entering Title State..." << endl;
 	// Load music track, add it to map and play it.
-	titletheme = Mix_LoadMUS("Aud/TitleMusic.mp3");
-	m_titlemusic.emplace(m_titlemusic["titletheme"], -1);
+	//titletheme = Mix_LoadMUS("Aud/TitleMusic.mp3");
+	//m_titlemusic.emplace(m_titlemusic["titletheme"], -1);
 }
 
 void TitleState::Update()
@@ -40,7 +40,7 @@ void TitleState::Exit()
 {
 	cout << "Exiting TitleState..." << endl;
 	//Call Mix_FreeMusic on your music track.
-	Mix_FreeMusic(m_titlemusic["titletheme"]);
+	//Mix_FreeMusic(m_titlemusic["titletheme"]);
 }
 
 PauseState::PauseState() {}
@@ -105,26 +105,26 @@ void GameState::Enter()
 	m_sfx.emplace("aoesound", aoeSound);
 	m_sfx.emplace("dashing", dashing);
 	m_sfx.emplace("aarondash", dashMeow);
-	// Load music track, add it to map, and play it.
-	m_gametheme = Mix_LoadMUS("Aud/GameTheme.mp3");
-	m_gamemusic.emplace("gamemusic", m_gametheme);
-	Mix_PlayMusic(m_gamemusic["gamemusic"], -1);
-	//rendering stuff
-	playerpew.reserve(4);
-	dumbie.reserve(4);
 
+	// Load music track, add it to map, and play it.
+	//gametheme = Mix_LoadMUS("Aud/GameTheme.mp3");
+	//m_gamemusic.emplace("gamemusic", gametheme);
+	//Mix_PlayMusic(m_gamemusic["gamemusic"], -1);
+
+	//rendering stuff
+	plrTxtr = IMG_LoadTexture(Engine::Instance().GetRenderer(), "art/catboy.png");
+	rockTxtr = IMG_LoadTexture(Engine::Instance().GetRenderer(), "art/Rocko100.png");
+	dumbieTxtr = IMG_LoadTexture(Engine::Instance().GetRenderer(), "art/Dumbie.png");
+	bgTutorial = IMG_LoadTexture(Engine::Instance().GetRenderer(), "bgs/tutorial.png");
+	npcTxtr = IMG_LoadTexture(Engine::Instance().GetRenderer(), "art/catDude.png");
 	//Text box and score stuff
 	font = TTF_OpenFont("fonts/font.ttf", 24);
 	White = { 255, 255, 255 };
-
 	textBoxRect = { 20, HEIGHT - 190, 500, 50 };
 	textBoxBorder = { 10, HEIGHT - 200, WIDTH - 20, 190 };
-
 	scoreRect = { 800, 10, 150, 40 };
-
 	surfaceMessage = TTF_RenderText_Solid(font, message, White);
 	dummyScore = TTF_RenderText_Solid(font, scoreMessage, White);
-
 	Message = SDL_CreateTextureFromSurface(Engine::Instance().GetRenderer(), surfaceMessage);
 	Score = SDL_CreateTextureFromSurface(Engine::Instance().GetRenderer(), dummyScore);
 
@@ -169,7 +169,7 @@ void GameState::Update()
 	if (spawnDummies) {
 		dummiesTimer++;
 		if (dummiesTimer == 2000) {
-			/*Mix_PlayChannel(-1, winscore, 0);*/
+			Mix_PlayChannel(-1, m_sfx["winscore"], 0);
 			tempStr = "Your Score is " + to_string(score);
 			strcpy_s(message, tempStr.c_str());
 			surfaceMessage = TTF_RenderText_Solid(font, message, White);
@@ -284,7 +284,7 @@ void GameState::Update()
 	//Dash
 	if (dashCooldown > 100) {
 		if (Engine::Instance().KeyDown(SDL_SCANCODE_LSHIFT)) {
-			Mix_PlayChannel(-1, m_sfx["dashaaron"], 0);
+			Mix_PlayChannel(-1, m_sfx["aarondash"], 0);
 			dashPressed = true;
 			dashTimer = 0;
 			dashCooldown = 0;
@@ -533,30 +533,14 @@ void GameState::Exit()
 	Mix_FreeChunk(m_sfx["aoesound"]);
 	Mix_FreeChunk(m_sfx["dashing"]);
 	Mix_FreeChunk(m_sfx["aarondash"]);
-	Mix_FreeMusic(m_gamemusic["gamemusic"]);
-		for (unsigned i = 0; i < dumbie.size(); i++)
-	{
-		delete dumbie[i];
-		dumbie[i] = nullptr;
-	}
-	for (unsigned i = 0; i < playerpew.size(); i++)
-	{
-		delete playerpew[i];
-		playerpew[i] = nullptr;
-	}
-	playerpew.clear();
-	playerpew.shrink_to_fit();	
-	SDL_DestroyRenderer(Engine::Instance().GetRenderer());
-	SDL_DestroyWindow(Engine::Instance().GetWindow());
-	SDL_DestroyTexture(dumbieTxtr);
-
+	//Mix_FreeMusic(m_gamemusic["gamemusic"]);
 }
 
 void GameState::Resume()
 {
 	cout << "Resuming GameState..." << endl;
 	// Resume music track.
-	Mix_PlayMusic(m_gamemusic["gamemusic"], -1);
+	//Mix_PlayMusic(m_gamemusic["gamemusic"], -1);
 }
 
 EndState::EndState() {}

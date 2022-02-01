@@ -23,11 +23,11 @@ int Engine::Init(const char* title, int xPos, int yPos, int width, int height, i
 			{
 				if (IMG_Init(IMG_INIT_PNG | IMG_INIT_JPG) != 0)
 				{
-					plrTxtr = IMG_LoadTexture(m_pRenderer, "art/catboy.png");
+					/*plrTxtr = IMG_LoadTexture(m_pRenderer, "art/catboy.png");
 					rockTxtr = IMG_LoadTexture(m_pRenderer, "art/Rocko100.png");
 					dumbieTxtr = IMG_LoadTexture(m_pRenderer, "art/Dumbie.png");
 					bgTutorial = IMG_LoadTexture(m_pRenderer, "bgs/tutorial.png");
-					npcTxtr = IMG_LoadTexture(m_pRenderer, "art/catDude.png");
+					npcTxtr = IMG_LoadTexture(m_pRenderer, "art/catDude.png");*/
 				}
 				else return false; // Image init failed.
 			}
@@ -54,39 +54,39 @@ int Engine::Init(const char* title, int xPos, int yPos, int width, int height, i
 			//Mix_VolumeChunk(projectileRock, 50);
 			//Mix_VolumeChunk(hehe, 20);
 			//maintheme = Mix_LoadMUS("Aud/GameTheme.mp3");
-			
+
 		}
-		TTF_Init();
+		/*TTF_Init();*/
+		else return false;
 	}
 	else return false; // initalization failed.
 	m_fps = (Uint32)round(1.0 / (double)FPS * 1000); // Converts FPS into milliseconds, e.g. 16.67
 	m_keystates = SDL_GetKeyboardState(nullptr);
-
+	STMA::ChangeState(new TitleState());
 	srand(time(NULL));
 	//sounds
-	//Mix_PlayMusic(maintheme, -1);
+	Mix_PlayMusic(maintheme, -1);
 	Mix_VolumeMusic(12); //0-128
 	Mix_Volume(-1, 50);	
 	
-	//playerpew.reserve(4);
-	//dumbie.reserve(4);
+	playerpew.reserve(4);
+	dumbie.reserve(4);
 
-	////Text box and score stuff
-	//font = TTF_OpenFont("fonts/font.ttf", 24);
-	//White = { 255, 255, 255 };
+	//Text box and score stuff
+	font = TTF_OpenFont("fonts/font.ttf", 24);
+	White = { 255, 255, 255 };
 
-	//textBoxRect = { 20, HEIGHT -190, 500, 50 };
-	//textBoxBorder = { 10, HEIGHT - 200, WIDTH - 20, 190 };
+	textBoxRect = { 20, HEIGHT -190, 500, 50 };
+	textBoxBorder = { 10, HEIGHT - 200, WIDTH - 20, 190 };
 
-	//scoreRect = { 800, 10, 150, 40 };
-	//
-	//surfaceMessage = TTF_RenderText_Solid(font, message, White);
-	//dummyScore = TTF_RenderText_Solid(font, scoreMessage, White);
-	//
-	//Message = SDL_CreateTextureFromSurface(m_pRenderer, surfaceMessage);
-	//Score = SDL_CreateTextureFromSurface(m_pRenderer, dummyScore);
+	scoreRect = { 800, 10, 150, 40 };
+	
+	surfaceMessage = TTF_RenderText_Solid(font, message, White);
+	dummyScore = TTF_RenderText_Solid(font, scoreMessage, White);
+	
+	Message = SDL_CreateTextureFromSurface(m_pRenderer, surfaceMessage);
+	Score = SDL_CreateTextureFromSurface(m_pRenderer, dummyScore);
 
-	STMA::ChangeState(new TitleState());
 
 	cout << "Initialization successful!" << endl;
 	m_running = true;
@@ -99,16 +99,16 @@ void Engine::Clean()
 {
 	cout << "Cleaning engine..." << endl;
 	STMA::Quit();
-	//for (unsigned i = 0; i < dumbie.size(); i++)
-	//{
-	//	delete dumbie[i];
-	//	dumbie[i] = nullptr;
-	//}
-	//for (unsigned i = 0; i < playerpew.size(); i++)
-	//{
-	//	delete playerpew[i];
-	//	playerpew[i] = nullptr;
-	//}
+	for (unsigned i = 0; i < dumbie.size(); i++)
+	{
+		delete dumbie[i];
+		dumbie[i] = nullptr;
+	}
+	for (unsigned i = 0; i < playerpew.size(); i++)
+	{
+		delete playerpew[i];
+		playerpew[i] = nullptr;
+	}
 	//playerpew.clear();
 	//playerpew.shrink_to_fit();	
 	//SDL_DestroyRenderer(m_pRenderer);

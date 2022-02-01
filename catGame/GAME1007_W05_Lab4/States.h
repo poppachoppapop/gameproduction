@@ -12,8 +12,6 @@
 #include "player1.h"
 #include "Background.h"
 #include "Engine.h"
-#include <vector>
-#include <ctime>
 using namespace std;
 
 class State // This is the abstract base class for all state subclasses.
@@ -126,8 +124,9 @@ private:
 	Mix_Chunk* dashing;
 	Mix_Chunk* dashMeow;
 	map<string, Mix_Chunk*> m_sfx;
+
 	//map for music track.
-	Mix_Music* m_gametheme;
+	Mix_Music* gametheme;
 	map<string, Mix_Music*> m_gamemusic;
 public:
 	GameState();
