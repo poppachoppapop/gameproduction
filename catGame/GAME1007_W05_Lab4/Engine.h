@@ -100,17 +100,24 @@ private: // private propeties.
 	Mix_Chunk* dashMeow;
 
 private: // private method prototypes
+	Engine()
+	{
+		cout << "Creating instance of Engine..." << endl;
+	}
 	int Init(const char* title, int xPos, int yPos, int width, int height, int flags);
 	void Clean();
 	void Wake();
 	void HandleEvents();
-	bool KeyDown(SDL_Scancode c);
 	void Update();
 	void Render();
 	void Sleep();
 
 public: // public method prototypes
 	int Run();
+	static Engine& Instance();
+	SDL_Renderer* GetRenderer() { return m_pRenderer; }
+	SDL_Window* GetWindow() { return m_pWindow; }
+	bool KeyDown(SDL_Scancode c);
 };
 
 #endif

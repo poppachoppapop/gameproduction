@@ -1,18 +1,79 @@
 ﻿C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\MSBuild\Microsoft\VC\v160\Microsoft.CppBuild.targets(513,5): warning MSB8028: The intermediate directory (Debug\) contains files shared from another project (GAME1007_W05_Lab4.vcxproj).  This can lead to incorrect clean and rebuild behavior.
   Engine.cpp
-C:\Users\Aaron Ong\Documents\VISUAL STUDIOS CODING\game-production\gameproduction\catGame\GAME1007_W05_Lab4\Engine.cpp(63,12): warning C4244: 'argument': conversion from 'time_t' to 'unsigned int', possible loss of data
-C:\Users\Aaron Ong\Documents\VISUAL STUDIOS CODING\game-production\gameproduction\catGame\GAME1007_W05_Lab4\Engine.cpp(219,23): warning C4244: '-=': conversion from 'double' to 'int', possible loss of data
-C:\Users\Aaron Ong\Documents\VISUAL STUDIOS CODING\game-production\gameproduction\catGame\GAME1007_W05_Lab4\Engine.cpp(220,23): warning C4244: '-=': conversion from 'double' to 'int', possible loss of data
-C:\Users\Aaron Ong\Documents\VISUAL STUDIOS CODING\game-production\gameproduction\catGame\GAME1007_W05_Lab4\Engine.cpp(305,84): warning C4244: 'argument': conversion from 'double' to 'int', possible loss of data
-C:\Users\Aaron Ong\Documents\VISUAL STUDIOS CODING\game-production\gameproduction\catGame\GAME1007_W05_Lab4\Engine.cpp(315,74): warning C4244: 'argument': conversion from 'double' to 'int', possible loss of data
-C:\Users\Aaron Ong\Documents\VISUAL STUDIOS CODING\game-production\gameproduction\catGame\GAME1007_W05_Lab4\Engine.cpp(325,84): warning C4244: 'argument': conversion from 'double' to 'int', possible loss of data
-C:\Users\Aaron Ong\Documents\VISUAL STUDIOS CODING\game-production\gameproduction\catGame\GAME1007_W05_Lab4\Engine.cpp(335,74): warning C4244: 'argument': conversion from 'double' to 'int', possible loss of data
-C:\Users\Aaron Ong\Documents\VISUAL STUDIOS CODING\game-production\gameproduction\catGame\GAME1007_W05_Lab4\Engine.cpp(422,37): warning C4244: '-=': conversion from 'double' to 'int', possible loss of data
-C:\Users\Aaron Ong\Documents\VISUAL STUDIOS CODING\game-production\gameproduction\catGame\GAME1007_W05_Lab4\Engine.cpp(423,37): warning C4244: '-=': conversion from 'double' to 'int', possible loss of data
-C:\Users\Aaron Ong\Documents\VISUAL STUDIOS CODING\game-production\gameproduction\catGame\GAME1007_W05_Lab4\Engine.cpp(473,35): warning C4244: '-=': conversion from 'double' to 'int', possible loss of data
-C:\Users\Aaron Ong\Documents\VISUAL STUDIOS CODING\game-production\gameproduction\catGame\GAME1007_W05_Lab4\Engine.cpp(474,35): warning C4244: '-=': conversion from 'double' to 'int', possible loss of data
-C:\Users\Aaron Ong\Documents\VISUAL STUDIOS CODING\game-production\gameproduction\catGame\GAME1007_W05_Lab4\Engine.cpp(502,30): warning C4244: '-=': conversion from 'double' to 'int', possible loss of data
-C:\Users\Aaron Ong\Documents\VISUAL STUDIOS CODING\game-production\gameproduction\catGame\GAME1007_W05_Lab4\Engine.cpp(503,30): warning C4244: '-=': conversion from 'double' to 'int', possible loss of data
-  Main.cpp
+C:\Users\Aaron Ong\Documents\VISUAL STUDIOS CODING\game-production\gameproduction\catGame\GAME1007_W05_Lab4\Engine.cpp(65,12): warning C4244: 'argument': conversion from 'time_t' to 'unsigned int', possible loss of data
+  States.cpp
+C:\Users\Aaron Ong\Documents\VISUAL STUDIOS CODING\game-production\gameproduction\catGame\GAME1007_W05_Lab4\States.cpp(153,23): warning C4244: '-=': conversion from 'double' to 'int', possible loss of data
+C:\Users\Aaron Ong\Documents\VISUAL STUDIOS CODING\game-production\gameproduction\catGame\GAME1007_W05_Lab4\States.cpp(154,23): warning C4244: '-=': conversion from 'double' to 'int', possible loss of data
+C:\Users\Aaron Ong\Documents\VISUAL STUDIOS CODING\game-production\gameproduction\catGame\GAME1007_W05_Lab4\States.cpp(239,83): warning C4244: 'argument': conversion from 'double' to 'int', possible loss of data
+C:\Users\Aaron Ong\Documents\VISUAL STUDIOS CODING\game-production\gameproduction\catGame\GAME1007_W05_Lab4\States.cpp(249,73): warning C4244: 'argument': conversion from 'double' to 'int', possible loss of data
+C:\Users\Aaron Ong\Documents\VISUAL STUDIOS CODING\game-production\gameproduction\catGame\GAME1007_W05_Lab4\States.cpp(259,83): warning C4244: 'argument': conversion from 'double' to 'int', possible loss of data
+C:\Users\Aaron Ong\Documents\VISUAL STUDIOS CODING\game-production\gameproduction\catGame\GAME1007_W05_Lab4\States.cpp(269,73): warning C4244: 'argument': conversion from 'double' to 'int', possible loss of data
+C:\Users\Aaron Ong\Documents\VISUAL STUDIOS CODING\game-production\gameproduction\catGame\GAME1007_W05_Lab4\States.cpp(357,36): warning C4244: '-=': conversion from 'double' to 'int', possible loss of data
+C:\Users\Aaron Ong\Documents\VISUAL STUDIOS CODING\game-production\gameproduction\catGame\GAME1007_W05_Lab4\States.cpp(358,36): warning C4244: '-=': conversion from 'double' to 'int', possible loss of data
+C:\Users\Aaron Ong\Documents\VISUAL STUDIOS CODING\game-production\gameproduction\catGame\GAME1007_W05_Lab4\States.cpp(408,34): warning C4244: '-=': conversion from 'double' to 'int', possible loss of data
+C:\Users\Aaron Ong\Documents\VISUAL STUDIOS CODING\game-production\gameproduction\catGame\GAME1007_W05_Lab4\States.cpp(409,34): warning C4244: '-=': conversion from 'double' to 'int', possible loss of data
+C:\Users\Aaron Ong\Documents\VISUAL STUDIOS CODING\game-production\gameproduction\catGame\GAME1007_W05_Lab4\States.cpp(437,29): warning C4244: '-=': conversion from 'double' to 'int', possible loss of data
+C:\Users\Aaron Ong\Documents\VISUAL STUDIOS CODING\game-production\gameproduction\catGame\GAME1007_W05_Lab4\States.cpp(438,29): warning C4244: '-=': conversion from 'double' to 'int', possible loss of data
+C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\VC\Tools\MSVC\14.29.30133\include\xmemory(714,47): error C2661: 'std::pair<const std::string,Mix_Music *>::pair': no overloaded function takes 2 arguments
+C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\VC\Tools\MSVC\14.29.30133\include\xtree(811): message : see reference to function template instantiation 'void std::_Default_allocator_traits<_Alloc>::construct<_Ty,_Mix_Music*&,int>(_Alloc &,_Objty *const ,_Mix_Music *&,int &&)' being compiled
+          with
+          [
+              _Alloc=std::allocator<std::_Tree_node<std::pair<const std::string,Mix_Music *>,std::_Default_allocator_traits<std::allocator<std::pair<const std::string,Mix_Music *>>>::void_pointer>>,
+              _Ty=std::pair<const std::string,Mix_Music *>,
+              _Objty=std::pair<const std::string,Mix_Music *>
+          ]
+C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\VC\Tools\MSVC\14.29.30133\include\xtree(812): message : see reference to function template instantiation 'void std::_Default_allocator_traits<_Alloc>::construct<_Ty,_Mix_Music*&,int>(_Alloc &,_Objty *const ,_Mix_Music *&,int &&)' being compiled
+          with
+          [
+              _Alloc=std::allocator<std::_Tree_node<std::pair<const std::string,Mix_Music *>,std::_Default_allocator_traits<std::allocator<std::pair<const std::string,Mix_Music *>>>::void_pointer>>,
+              _Ty=std::pair<const std::string,Mix_Music *>,
+              _Objty=std::pair<const std::string,Mix_Music *>
+          ]
+C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\VC\Tools\MSVC\14.29.30133\include\xtree(1007): message : see reference to function template instantiation 'std::_Tree_temp_node<std::allocator<std::_Tree_node<std::pair<const std::string,Mix_Music *>,std::_Default_allocator_traits<_Alloc>::void_pointer>>>::_Tree_temp_node<_Mix_Music*&,_Ty>(_Alnode &,std::_Tree_node<std::pair<const std::string,Mix_Music *>,std::_Default_allocator_traits<_Alloc>::void_pointer> *,_Mix_Music *&,_Ty &&)' being compiled
+          with
+          [
+              _Alloc=std::allocator<std::pair<const std::string,Mix_Music *>>,
+              _Ty=int,
+              _Alnode=std::allocator<std::_Tree_node<std::pair<const std::string,Mix_Music *>,std::_Default_allocator_traits<std::allocator<std::pair<const std::string,Mix_Music *>>>::void_pointer>>
+          ]
+C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\VC\Tools\MSVC\14.29.30133\include\xtree(1023): message : see reference to function template instantiation 'std::_Tree_temp_node<std::allocator<std::_Tree_node<std::pair<const std::string,Mix_Music *>,std::_Default_allocator_traits<_Alloc>::void_pointer>>>::_Tree_temp_node<_Mix_Music*&,_Ty>(_Alnode &,std::_Tree_node<std::pair<const std::string,Mix_Music *>,std::_Default_allocator_traits<_Alloc>::void_pointer> *,_Mix_Music *&,_Ty &&)' being compiled
+          with
+          [
+              _Alloc=std::allocator<std::pair<const std::string,Mix_Music *>>,
+              _Ty=int,
+              _Alnode=std::allocator<std::_Tree_node<std::pair<const std::string,Mix_Music *>,std::_Default_allocator_traits<std::allocator<std::pair<const std::string,Mix_Music *>>>::void_pointer>>
+          ]
+C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\VC\Tools\MSVC\14.29.30133\include\xtree(1044): message : see reference to function template instantiation 'std::pair<std::_Tree_node<std::pair<const std::string,Mix_Music *>,std::_Default_allocator_traits<_Alloc>::void_pointer> *,bool> std::_Tree<std::_Tmap_traits<_Kty,_Ty,_Pr,_Alloc,false>>::_Emplace<_Mix_Music*&,int>(_Mix_Music *&,int &&)' being compiled
+          with
+          [
+              _Alloc=std::allocator<std::pair<const std::string,Mix_Music *>>,
+              _Kty=std::string,
+              _Ty=Mix_Music *,
+              _Pr=std::less<std::string>
+          ]
+C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\VC\Tools\MSVC\14.29.30133\include\xtree(1045): message : see reference to function template instantiation 'std::pair<std::_Tree_node<std::pair<const std::string,Mix_Music *>,std::_Default_allocator_traits<_Alloc>::void_pointer> *,bool> std::_Tree<std::_Tmap_traits<_Kty,_Ty,_Pr,_Alloc,false>>::_Emplace<_Mix_Music*&,int>(_Mix_Music *&,int &&)' being compiled
+          with
+          [
+              _Alloc=std::allocator<std::pair<const std::string,Mix_Music *>>,
+              _Kty=std::string,
+              _Ty=Mix_Music *,
+              _Pr=std::less<std::string>
+          ]
+C:\Users\Aaron Ong\Documents\VISUAL STUDIOS CODING\game-production\gameproduction\catGame\GAME1007_W05_Lab4\States.cpp(20): message : see reference to function template instantiation 'std::pair<std::_Tree_iterator<std::_Tree_val<std::_Tree_simple_types<std::pair<const std::string,Mix_Music *>>>>,bool> std::_Tree<std::_Tmap_traits<_Kty,_Ty,_Pr,_Alloc,false>>::emplace<_Mix_Music*&,int>(_Mix_Music *&,int &&)' being compiled
+          with
+          [
+              _Kty=std::string,
+              _Ty=Mix_Music *,
+              _Pr=std::less<std::string>,
+              _Alloc=std::allocator<std::pair<const std::string,Mix_Music *>>
+          ]
+C:\Users\Aaron Ong\Documents\VISUAL STUDIOS CODING\game-production\gameproduction\catGame\GAME1007_W05_Lab4\States.cpp(20): message : see reference to function template instantiation 'std::pair<std::_Tree_iterator<std::_Tree_val<std::_Tree_simple_types<std::pair<const std::string,Mix_Music *>>>>,bool> std::_Tree<std::_Tmap_traits<_Kty,_Ty,_Pr,_Alloc,false>>::emplace<_Mix_Music*&,int>(_Mix_Music *&,int &&)' being compiled
+          with
+          [
+              _Kty=std::string,
+              _Ty=Mix_Music *,
+              _Pr=std::less<std::string>,
+              _Alloc=std::allocator<std::pair<const std::string,Mix_Music *>>
+          ]
+  StateManager.cpp
   Generating Code...
-  GAME1007_W05_Lab4.vcxproj -> C:\Users\Aaron Ong\Documents\VISUAL STUDIOS CODING\game-production\gameproduction\catGame\Debug\catGamePreRelease.exe
