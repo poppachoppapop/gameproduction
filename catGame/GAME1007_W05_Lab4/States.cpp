@@ -16,8 +16,10 @@ void TitleState::Enter()
 {
 	cout << "Entering Title State..." << endl;
 	// Load music track, add it to map and play it.
-	//titletheme = Mix_LoadMUS("Aud/TitleMusic.mp3");
-	//m_titlemusic.emplace(m_titlemusic["titletheme"], -1);
+	m_titlesong = Mix_LoadMUS("Aud/TitleTheme.mp3");
+	m_titlemusic.emplace("titlemusic", m_titlesong);
+	Mix_PlayMusic(m_titlemusic["titlemusic"], -1);
+	Mix_VolumeMusic(40); 
 }
 
 void TitleState::Update()
@@ -40,7 +42,7 @@ void TitleState::Exit()
 {
 	cout << "Exiting TitleState..." << endl;
 	//Call Mix_FreeMusic on your music track.
-	//Mix_FreeMusic(m_titlemusic["titletheme"]);
+	Mix_FreeMusic(m_titlemusic["titlemusic"]);
 }
 
 PauseState::PauseState() {}
@@ -105,11 +107,16 @@ void GameState::Enter()
 	m_sfx.emplace("aoesound", aoeSound);
 	m_sfx.emplace("dashing", dashing);
 	m_sfx.emplace("aarondash", dashMeow);
+	Mix_VolumeChunk(dashing, 25);
+	Mix_VolumeChunk(aoeSound, 50);
+	Mix_VolumeChunk(projectileRock, 50);
+	Mix_VolumeChunk(hehe, 20);
 
 	// Load music track, add it to map, and play it.
-	//gametheme = Mix_LoadMUS("Aud/GameTheme.mp3");
-	//m_gamemusic.emplace("gamemusic", gametheme);
-	//Mix_PlayMusic(m_gamemusic["gamemusic"], -1);
+	gametheme = Mix_LoadMUS("Aud/GameTheme.mp3");
+	m_gamemusic.emplace("gamemusic", gametheme);
+	Mix_PlayMusic(m_gamemusic["gamemusic"], -1);
+	Mix_VolumeMusic(12); //0-128
 
 	//rendering stuff
 	plrTxtr = IMG_LoadTexture(Engine::Instance().GetRenderer(), "art/catboy.png");
@@ -139,13 +146,13 @@ void GameState::Update()
 		Mix_PauseMusic();
 		STMA::PushState(new PauseState());
 	}
-	if (Engine::Instance().KeyDown(SDL_SCANCODE_X))
-	{
-		cout << "Changing to EndState!" << endl;
-		// pause the music track.
-		Mix_PauseMusic();
-		STMA::ChangeState(new EndState());
-	}
+	//if (Engine::Instance().KeyDown(SDL_SCANCODE_X))
+	//{
+	//	cout << "Changing to EndState!" << endl;
+	//	// pause the music track.
+	//	Mix_PauseMusic();
+	//	STMA::ChangeState(new EndState());
+	//}
 	stepSoundTimer++; turnSoundTimer++;
 	dashCooldown++;
 	textBoxTimer++;
@@ -453,7 +460,6 @@ void GameState::Update()
 
 void GameState::Render()
 {
-	SDL_SetRenderDrawColor(Engine::Instance().GetRenderer(), 0, 200, 200, 255);
 	SDL_RenderClear(Engine::Instance().GetRenderer());
 	if (dynamic_cast<GameState*>(STMA::GetStates().back()))
 	{
@@ -533,40 +539,40 @@ void GameState::Exit()
 	Mix_FreeChunk(m_sfx["aoesound"]);
 	Mix_FreeChunk(m_sfx["dashing"]);
 	Mix_FreeChunk(m_sfx["aarondash"]);
-	//Mix_FreeMusic(m_gamemusic["gamemusic"]);
+	Mix_FreeMusic(m_gamemusic["gamemusic"]);
 }
 
 void GameState::Resume()
 {
 	cout << "Resuming GameState..." << endl;
 	// Resume music track.
-	//Mix_PlayMusic(m_gamemusic["gamemusic"], -1);
+	Mix_PlayMusic(m_gamemusic["gamemusic"], -1);
 }
 
-EndState::EndState() {}
-
-void EndState::Enter()
-{
-	cout << "Entering EndState..." << endl;
-}
-
-void EndState::Update()
-{
-	if (Engine::Instance().KeyDown(SDL_SCANCODE_R))
-	{
-		cout << "Changing to TitleState!" << endl;
-		STMA::ChangeState(new TitleState());
-	}
-}
-
-void EndState::Render()
-{
-	SDL_SetRenderDrawColor(Engine::Instance().GetRenderer(), 0, 0, 0, 255);
-	SDL_RenderClear(Engine::Instance().GetRenderer());
-	State::Render();
-}
-
-void EndState::Exit()
-{
-	cout << "Exiting EndState..." << endl;
-}
+//EndState::EndState() {}
+//
+//void EndState::Enter()
+//{
+//	cout << "Entering EndState..." << endl;
+//}
+//
+//void EndState::Update()
+//{
+//	if (Engine::Instance().KeyDown(SDL_SCANCODE_R))
+//	{
+//		cout << "Changing to TitleState!" << endl;
+//		STMA::ChangeState(new TitleState());
+//	}
+//}
+//
+//void EndState::Render()
+//{
+//	SDL_SetRenderDrawColor(Engine::Instance().GetRenderer(), 0, 0, 0, 255);
+//	SDL_RenderClear(Engine::Instance().GetRenderer());
+//	State::Render();
+//}
+//
+//void EndState::Exit()
+//{
+//	cout << "Exiting EndState..." << endl;
+//}

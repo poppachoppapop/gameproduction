@@ -31,7 +31,7 @@ class TitleState : public State
 {
 private:
 	// map for music track goes here.
-	Mix_Music* titletheme;
+	Mix_Music* m_titlesong;
 	map<string, Mix_Music*> m_titlemusic;
 public:
 	TitleState();

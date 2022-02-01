@@ -65,9 +65,9 @@ int Engine::Init(const char* title, int xPos, int yPos, int width, int height, i
 	STMA::ChangeState(new TitleState());
 	srand(time(NULL));
 	//sounds
-	Mix_PlayMusic(maintheme, -1);
-	Mix_VolumeMusic(12); //0-128
-	Mix_Volume(-1, 50);	
+	//Mix_PlayMusic(maintheme, -1);
+	//Mix_VolumeMusic(12); //0-128
+	//Mix_Volume(-1, 50);	
 	
 	playerpew.reserve(4);
 	dumbie.reserve(4);
