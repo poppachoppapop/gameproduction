@@ -46,6 +46,7 @@ int Engine::Init(const char* title, int xPos, int yPos, int width, int height, i
 			projectileRock = Mix_LoadWAV("sfx/rocksound.wav");
 			aoeSound = Mix_LoadWAV("sfx/aoeAbility.wav");
 			dashing = Mix_LoadWAV("sfx/dashSound.wav");
+			dashMeow = Mix_LoadWAV("sfx/dashMeow.wav");
 			Mix_VolumeChunk(dashing, 25);
 			Mix_VolumeChunk(aoeSound, 50);
 			Mix_VolumeChunk(projectileRock, 50);
@@ -349,7 +350,7 @@ void Engine::Update()
 		//Dash
 		if (dashCooldown > 100) {
 			if (KeyDown(SDL_SCANCODE_LSHIFT)) {
-				Mix_PlayChannel(-1, dashing, 0);
+				Mix_PlayChannel(-1, dashMeow, 0);
 				dashPressed = true;
 				dashTimer = 0;
 				dashCooldown = 0;

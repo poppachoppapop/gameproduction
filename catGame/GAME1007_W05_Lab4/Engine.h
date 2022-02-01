@@ -97,6 +97,7 @@ private: // private propeties.
 	Mix_Chunk* aoeSound;
 	Mix_Chunk* dashing;
 	Mix_Music* maintheme;
+	Mix_Chunk* dashMeow;
 
 private: // private method prototypes
 	int Init(const char* title, int xPos, int yPos, int width, int height, int flags);
