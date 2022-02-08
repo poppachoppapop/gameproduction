@@ -1,15 +1,15 @@
 ﻿C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\MSBuild\Microsoft\VC\v160\Microsoft.CppBuild.targets(513,5): warning MSB8028: The intermediate directory (Debug\) contains files shared from another project (GAME1007_W05_Lab4.vcxproj).  This can lead to incorrect clean and rebuild behavior.
   States.cpp
-C:\Users\Aaron Ong\Documents\VISUAL STUDIOS CODING\game-production\gameproduction\catGame\GAME1007_W05_Lab4\States.cpp(160,23): warning C4244: '-=': conversion from 'double' to 'int', possible loss of data
-C:\Users\Aaron Ong\Documents\VISUAL STUDIOS CODING\game-production\gameproduction\catGame\GAME1007_W05_Lab4\States.cpp(161,23): warning C4244: '-=': conversion from 'double' to 'int', possible loss of data
-C:\Users\Aaron Ong\Documents\VISUAL STUDIOS CODING\game-production\gameproduction\catGame\GAME1007_W05_Lab4\States.cpp(246,83): warning C4244: 'argument': conversion from 'double' to 'int', possible loss of data
-C:\Users\Aaron Ong\Documents\VISUAL STUDIOS CODING\game-production\gameproduction\catGame\GAME1007_W05_Lab4\States.cpp(256,73): warning C4244: 'argument': conversion from 'double' to 'int', possible loss of data
-C:\Users\Aaron Ong\Documents\VISUAL STUDIOS CODING\game-production\gameproduction\catGame\GAME1007_W05_Lab4\States.cpp(266,83): warning C4244: 'argument': conversion from 'double' to 'int', possible loss of data
-C:\Users\Aaron Ong\Documents\VISUAL STUDIOS CODING\game-production\gameproduction\catGame\GAME1007_W05_Lab4\States.cpp(276,73): warning C4244: 'argument': conversion from 'double' to 'int', possible loss of data
-C:\Users\Aaron Ong\Documents\VISUAL STUDIOS CODING\game-production\gameproduction\catGame\GAME1007_W05_Lab4\States.cpp(364,36): warning C4244: '-=': conversion from 'double' to 'int', possible loss of data
-C:\Users\Aaron Ong\Documents\VISUAL STUDIOS CODING\game-production\gameproduction\catGame\GAME1007_W05_Lab4\States.cpp(365,36): warning C4244: '-=': conversion from 'double' to 'int', possible loss of data
-C:\Users\Aaron Ong\Documents\VISUAL STUDIOS CODING\game-production\gameproduction\catGame\GAME1007_W05_Lab4\States.cpp(415,34): warning C4244: '-=': conversion from 'double' to 'int', possible loss of data
-C:\Users\Aaron Ong\Documents\VISUAL STUDIOS CODING\game-production\gameproduction\catGame\GAME1007_W05_Lab4\States.cpp(416,34): warning C4244: '-=': conversion from 'double' to 'int', possible loss of data
-C:\Users\Aaron Ong\Documents\VISUAL STUDIOS CODING\game-production\gameproduction\catGame\GAME1007_W05_Lab4\States.cpp(444,29): warning C4244: '-=': conversion from 'double' to 'int', possible loss of data
-C:\Users\Aaron Ong\Documents\VISUAL STUDIOS CODING\game-production\gameproduction\catGame\GAME1007_W05_Lab4\States.cpp(445,29): warning C4244: '-=': conversion from 'double' to 'int', possible loss of data
+C:\Users\Aaron Ong\Documents\VISUAL STUDIOS CODING\game-production\gameproduction\catGame\GAME1007_W05_Lab4\States.cpp(162,23): warning C4244: '-=': conversion from 'double' to 'int', possible loss of data
+C:\Users\Aaron Ong\Documents\VISUAL STUDIOS CODING\game-production\gameproduction\catGame\GAME1007_W05_Lab4\States.cpp(163,23): warning C4244: '-=': conversion from 'double' to 'int', possible loss of data
+C:\Users\Aaron Ong\Documents\VISUAL STUDIOS CODING\game-production\gameproduction\catGame\GAME1007_W05_Lab4\States.cpp(248,83): warning C4244: 'argument': conversion from 'double' to 'int', possible loss of data
+C:\Users\Aaron Ong\Documents\VISUAL STUDIOS CODING\game-production\gameproduction\catGame\GAME1007_W05_Lab4\States.cpp(258,73): warning C4244: 'argument': conversion from 'double' to 'int', possible loss of data
+C:\Users\Aaron Ong\Documents\VISUAL STUDIOS CODING\game-production\gameproduction\catGame\GAME1007_W05_Lab4\States.cpp(268,83): warning C4244: 'argument': conversion from 'double' to 'int', possible loss of data
+C:\Users\Aaron Ong\Documents\VISUAL STUDIOS CODING\game-production\gameproduction\catGame\GAME1007_W05_Lab4\States.cpp(278,73): warning C4244: 'argument': conversion from 'double' to 'int', possible loss of data
+C:\Users\Aaron Ong\Documents\VISUAL STUDIOS CODING\game-production\gameproduction\catGame\GAME1007_W05_Lab4\States.cpp(370,36): warning C4244: '-=': conversion from 'double' to 'int', possible loss of data
+C:\Users\Aaron Ong\Documents\VISUAL STUDIOS CODING\game-production\gameproduction\catGame\GAME1007_W05_Lab4\States.cpp(371,36): warning C4244: '-=': conversion from 'double' to 'int', possible loss of data
+C:\Users\Aaron Ong\Documents\VISUAL STUDIOS CODING\game-production\gameproduction\catGame\GAME1007_W05_Lab4\States.cpp(421,34): warning C4244: '-=': conversion from 'double' to 'int', possible loss of data
+C:\Users\Aaron Ong\Documents\VISUAL STUDIOS CODING\game-production\gameproduction\catGame\GAME1007_W05_Lab4\States.cpp(422,34): warning C4244: '-=': conversion from 'double' to 'int', possible loss of data
+C:\Users\Aaron Ong\Documents\VISUAL STUDIOS CODING\game-production\gameproduction\catGame\GAME1007_W05_Lab4\States.cpp(450,29): warning C4244: '-=': conversion from 'double' to 'int', possible loss of data
+C:\Users\Aaron Ong\Documents\VISUAL STUDIOS CODING\game-production\gameproduction\catGame\GAME1007_W05_Lab4\States.cpp(451,29): warning C4244: '-=': conversion from 'double' to 'int', possible loss of data
   GAME1007_W05_Lab4.vcxproj -> C:\Users\Aaron Ong\Documents\VISUAL STUDIOS CODING\game-production\gameproduction\catGame\Debug\catGamePreRelease.exe

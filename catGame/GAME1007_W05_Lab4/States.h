@@ -5,7 +5,7 @@
 #include <map>
 #include <string>
 #include <SDL_mixer.h>
-#include "SDL_ttf.h"
+#include <SDL_ttf.h>
 #include "enemy.h"
 #include "Items.h"
 #include "NPC.h"
@@ -65,7 +65,6 @@ private:
 	int textBoxCounter = 0;
 	int textBoxTimer = 0;
 	int dummiesTimer = 0;
-
 	//modifiable variables
 	int playerDamage = 1;
 
@@ -145,7 +144,6 @@ public:
 	virtual void Update();
 	virtual void Render();
 	virtual void Exit();
-
 };
 // State* myStateArray[# of elements];
 #endif

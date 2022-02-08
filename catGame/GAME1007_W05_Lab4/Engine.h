@@ -118,6 +118,7 @@ public: // public method prototypes
 	SDL_Renderer* GetRenderer() { return m_pRenderer; }
 	SDL_Window* GetWindow() { return m_pWindow; }
 	bool KeyDown(SDL_Scancode c);
+	bool KeyUp(SDL_Scancode c);
 };
 
 #endif

@@ -23,11 +23,11 @@ int Engine::Init(const char* title, int xPos, int yPos, int width, int height, i
 			{
 				if (IMG_Init(IMG_INIT_PNG | IMG_INIT_JPG) != 0)
 				{
-					/*plrTxtr = IMG_LoadTexture(m_pRenderer, "art/catboy.png");
+					plrTxtr = IMG_LoadTexture(m_pRenderer, "art/catboy.png");
 					rockTxtr = IMG_LoadTexture(m_pRenderer, "art/Rocko100.png");
 					dumbieTxtr = IMG_LoadTexture(m_pRenderer, "art/Dumbie.png");
 					bgTutorial = IMG_LoadTexture(m_pRenderer, "bgs/tutorial.png");
-					npcTxtr = IMG_LoadTexture(m_pRenderer, "art/catDude.png");*/
+					npcTxtr = IMG_LoadTexture(m_pRenderer, "art/catDude.png");
 				}
 				else return false; // Image init failed.
 			}
@@ -111,8 +111,8 @@ void Engine::Clean()
 	}
 	//playerpew.clear();
 	//playerpew.shrink_to_fit();	
-	//SDL_DestroyRenderer(m_pRenderer);
-	//SDL_DestroyWindow(m_pWindow);
+	SDL_DestroyRenderer(m_pRenderer);
+	SDL_DestroyWindow(m_pWindow);
 	//SDL_DestroyTexture(dumbieTxtr);
 	//Mix_FreeChunk(stepSfx);
 	//Mix_FreeChunk(deathSfx);
@@ -206,6 +206,17 @@ bool Engine::KeyDown(SDL_Scancode c)
 	}
 	return false;
 }
+
+bool Engine::KeyUp(SDL_Scancode c)
+{
+	if (m_keystates != nullptr)
+	{
+		if (m_keystates[c] == 1) // Key we're testing for is down.
+			return true;
+	}
+	return false;
+}
+
 
 void Engine::Update()
 {

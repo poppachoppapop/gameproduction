@@ -38,6 +38,7 @@ void TitleState::Render()
 	State::Render();
 }
 
+
 void TitleState::Exit()
 {
 	cout << "Exiting TitleState..." << endl;
@@ -137,6 +138,7 @@ void GameState::Enter()
 
 }
 
+
 void GameState::Update()
 {
 	if (Engine::Instance().KeyDown(SDL_SCANCODE_ESCAPE))
@@ -146,13 +148,13 @@ void GameState::Update()
 		Mix_PauseMusic();
 		STMA::PushState(new PauseState());
 	}
-	//if (Engine::Instance().KeyDown(SDL_SCANCODE_X))
-	//{
-	//	cout << "Changing to EndState!" << endl;
-	//	// pause the music track.
-	//	Mix_PauseMusic();
-	//	STMA::ChangeState(new EndState());
-	//}
+	if (Engine::Instance().KeyDown(SDL_SCANCODE_X))
+	{
+		cout << "Changing to EndState!" << endl;
+		// pause the music track.
+		Mix_PauseMusic();
+		STMA::ChangeState(new EndState());
+	}
 	stepSoundTimer++; turnSoundTimer++;
 	dashCooldown++;
 	textBoxTimer++;
@@ -357,6 +359,10 @@ void GameState::Update()
 
 	}
 
+
+
+
+
 	//delete rock after off screen and move rock
 	for (unsigned i = 0; i < playerpew.size(); i++)
 	{
@@ -454,7 +460,6 @@ void GameState::Update()
 			playerDamage++;
 
 		}
-
 	}
 }
 
@@ -463,6 +468,7 @@ void GameState::Render()
 	SDL_RenderClear(Engine::Instance().GetRenderer());
 	if (dynamic_cast<GameState*>(STMA::GetStates().back()))
 	{
+		SDL_RenderCopy(Engine::Instance().GetRenderer(), bgTutorial, &bg1.bgSrcTutorial, &bg1.bgDst);
 		State::Render();
 	}
 	// Any drawing here...
@@ -470,8 +476,8 @@ void GameState::Render()
 	//SDL_RenderFillRect(m_pRenderer, &plr1.plrDst);
 
 	//Background
-	SDL_RenderCopy(Engine::Instance().GetRenderer(), bgTutorial, &bg1.bgSrcTutorial, &bg1.bgDst);
 
+	SDL_RenderCopy(Engine::Instance().GetRenderer(), bgTutorial, &bg1.bgSrcTutorial, &bg1.bgDst);
 	if (plr1.state == 0)
 		SDL_RenderCopy(Engine::Instance().GetRenderer(), plrTxtr, &plr1.plrFrontIdle, &plr1.plrDst);
 	else if (plr1.state == 1)
@@ -540,7 +546,16 @@ void GameState::Exit()
 	Mix_FreeChunk(m_sfx["dashing"]);
 	Mix_FreeChunk(m_sfx["aarondash"]);
 	Mix_FreeMusic(m_gamemusic["gamemusic"]);
+	SDL_DestroyTexture(Message);
+	SDL_DestroyTexture(Score);
+	SDL_DestroyTexture(plrTxtr);
+	SDL_DestroyTexture(npcTxtr);
+	SDL_DestroyTexture(rockTxtr);
+	SDL_DestroyTexture(bgTutorial);
+	SDL_DestroyTexture(dumbieTxtr);
 }
+
+
 
 void GameState::Resume()
 {
@@ -549,30 +564,30 @@ void GameState::Resume()
 	Mix_PlayMusic(m_gamemusic["gamemusic"], -1);
 }
 
-//EndState::EndState() {}
-//
-//void EndState::Enter()
-//{
-//	cout << "Entering EndState..." << endl;
-//}
-//
-//void EndState::Update()
-//{
-//	if (Engine::Instance().KeyDown(SDL_SCANCODE_R))
-//	{
-//		cout << "Changing to TitleState!" << endl;
-//		STMA::ChangeState(new TitleState());
-//	}
-//}
-//
-//void EndState::Render()
-//{
-//	SDL_SetRenderDrawColor(Engine::Instance().GetRenderer(), 0, 0, 0, 255);
-//	SDL_RenderClear(Engine::Instance().GetRenderer());
-//	State::Render();
-//}
-//
-//void EndState::Exit()
-//{
-//	cout << "Exiting EndState..." << endl;
-//}
+EndState::EndState() {}
+
+void EndState::Enter()
+{
+	cout << "Entering EndState..." << endl;
+}
+
+void EndState::Update()
+{
+	if (Engine::Instance().KeyDown(SDL_SCANCODE_R))
+	{
+		cout << "Changing to TitleState!" << endl;
+		STMA::ChangeState(new TitleState());
+	}
+}
+
+void EndState::Render()
+{
+	SDL_SetRenderDrawColor(Engine::Instance().GetRenderer(), 0, 0, 0, 255);
+	SDL_RenderClear(Engine::Instance().GetRenderer());
+	State::Render();
+}
+
+void EndState::Exit()
+{
+	cout << "Exiting EndState..." << endl;
+}
