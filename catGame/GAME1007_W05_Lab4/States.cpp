@@ -24,10 +24,10 @@ void TitleState::Enter()
 
 void TitleState::Update()
 {
-	if (Engine::Instance().KeyDown(SDL_SCANCODE_N))
+	if (Engine::Instance().KeyDown(SDL_SCANCODE_1))
 	{
 		cout << "Changing to GameState!" << endl;
-		STMA::ChangeState(new GameState());
+		STMA::ChangeState(new TutorialState());
 	}
 }
 
@@ -78,9 +78,9 @@ void PauseState::Exit()
 	cout << "Exiting PauseState..." << endl;
 }
 
-GameState::GameState() {}
+TutorialState::TutorialState() {}
 
-void GameState::Enter()
+void TutorialState::Enter()
 {
 	cout << "Entering GameState..." << endl;
 	// Load music sfx, add them to map.
@@ -123,7 +123,7 @@ void GameState::Enter()
 	plrTxtr = IMG_LoadTexture(Engine::Instance().GetRenderer(), "art/catboy.png");
 	rockTxtr = IMG_LoadTexture(Engine::Instance().GetRenderer(), "art/Rocko100.png");
 	dumbieTxtr = IMG_LoadTexture(Engine::Instance().GetRenderer(), "art/Dumbie.png");
-	bgTutorial = IMG_LoadTexture(Engine::Instance().GetRenderer(), "bgs/tutorial.png");
+	bgTutorial = IMG_LoadTexture(Engine::Instance().GetRenderer(), "bgs/tutorial1.png");
 	npcTxtr = IMG_LoadTexture(Engine::Instance().GetRenderer(), "art/catDude.png");
 	//Text box and score stuff
 	font = TTF_OpenFont("fonts/font.ttf", 24);
@@ -139,11 +139,12 @@ void GameState::Enter()
 }
 
 
-void GameState::Update()
+void TutorialState::Update()
 {
 	if (Engine::Instance().KeyDown(SDL_SCANCODE_ESCAPE))
 	{
 		cout << "Changing to PauseState!" << endl;
+		Mix_PlayChannel(-1, m_sfx["hehe"], 0);
 		// pause the music track.
 		Mix_PauseMusic();
 		STMA::PushState(new PauseState());
@@ -463,10 +464,11 @@ void GameState::Update()
 	}
 }
 
-void GameState::Render()
+void TutorialState::Render()
 {
+	SDL_SetRenderDrawColor(Engine::Instance().GetRenderer(), 0, 255, 255, 255);
 	SDL_RenderClear(Engine::Instance().GetRenderer());
-	if (dynamic_cast<GameState*>(STMA::GetStates().back()))
+	if (dynamic_cast<TutorialState*>(STMA::GetStates().back()))
 	{
 		SDL_RenderCopy(Engine::Instance().GetRenderer(), bgTutorial, &bg1.bgSrcTutorial, &bg1.bgDst);
 		State::Render();
@@ -529,9 +531,9 @@ void GameState::Render()
 	SDL_RenderPresent(Engine::Instance().GetRenderer()); // Flip buffers - send data to window.
 }
 
-void GameState::Exit()
+void TutorialState::Exit()
 {
-	cout << "Exiting GameState..." << endl;
+	cout << "Exiting Tutorial..." << endl;
 	Mix_FreeChunk(m_sfx["pew"]);
 	Mix_FreeChunk(m_sfx["steps"]);
 	Mix_FreeChunk(m_sfx["turn"]);
@@ -553,15 +555,43 @@ void GameState::Exit()
 	SDL_DestroyTexture(rockTxtr);
 	SDL_DestroyTexture(bgTutorial);
 	SDL_DestroyTexture(dumbieTxtr);
+	
 }
 
 
 
-void GameState::Resume()
+void TutorialState::Resume()
 {
-	cout << "Resuming GameState..." << endl;
+	cout << "Resuming Game..." << endl;
 	// Resume music track.
 	Mix_PlayMusic(m_gamemusic["gamemusic"], -1);
+}
+
+VillageState::VillageState(){}
+
+void VillageState::Enter()
+{
+
+}
+
+void VillageState::Update()
+{
+
+}
+
+void VillageState::Render()
+{
+
+}
+
+void VillageState::Exit()
+{
+
+}
+
+void VillageState::Resume()
+{
+
 }
 
 EndState::EndState() {}
@@ -573,11 +603,11 @@ void EndState::Enter()
 
 void EndState::Update()
 {
-	if (Engine::Instance().KeyDown(SDL_SCANCODE_R))
-	{
-		cout << "Changing to TitleState!" << endl;
-		STMA::ChangeState(new TitleState());
-	}
+	//if (Engine::Instance().KeyDown(SDL_SCANCODE_R))
+	//{
+	//	cout << "Changing to TitleState!" << endl;
+	//	STMA::ChangeState(new TitleState());
+	//}
 }
 
 void EndState::Render()
@@ -591,3 +621,5 @@ void EndState::Exit()
 {
 	cout << "Exiting EndState..." << endl;
 }
+
+

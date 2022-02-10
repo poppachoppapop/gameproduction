@@ -18,6 +18,7 @@ class State // This is the abstract base class for all state subclasses.
 {
 protected: //Private but inherited.
 	State() = default; // Could be State() {};
+	Mix_Music* m_titlesong;
 public:
 	virtual ~State() = default;
 	virtual void Enter() = 0; // = 0 means pure virtual. Method MUST be defined in subclass.
@@ -31,7 +32,6 @@ class TitleState : public State
 {
 private:
 	// map for music track goes here.
-	Mix_Music* m_titlesong;
 	map<string, Mix_Music*> m_titlemusic;
 public:
 	TitleState();
@@ -51,7 +51,7 @@ public:
 	virtual void Exit();
 };
 
-class GameState : public State
+class TutorialState : public State
 {
 private:
 	//Textures
@@ -128,7 +128,21 @@ private:
 	Mix_Music* gametheme;
 	map<string, Mix_Music*> m_gamemusic;
 public:
-	GameState();
+	TutorialState();
+	virtual void Enter();
+	virtual void Update();
+	virtual void Render();
+	virtual void Exit();
+	virtual void Resume();
+};
+
+class VillageState : public State
+{
+private:
+	// map for music track goes here.
+
+public:
+	VillageState();
 	virtual void Enter();
 	virtual void Update();
 	virtual void Render();
