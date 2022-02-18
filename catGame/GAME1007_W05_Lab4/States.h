@@ -56,6 +56,7 @@ class TutorialState : public State
 private:
 	//Textures
 		// SFX Timers
+	const Uint8* m_keystates;
 	int stepSoundTimer = 0, turnSoundTimer = 0;
 	int dashCooldown = 100, dashTimer = 0, tempSpeed = 0;
 	int rockCooldown = 50;
@@ -134,30 +135,12 @@ public:
 	virtual void Render();
 	virtual void Exit();
 	virtual void Resume();
+	bool KeyDown(SDL_Scancode c);
+	bool KeyUp(SDL_Scancode c);
+
 };
 
-class VillageState : public State
-{
-private:
-	// map for music track goes here.
 
-public:
-	VillageState();
-	virtual void Enter();
-	virtual void Update();
-	virtual void Render();
-	virtual void Exit();
-	virtual void Resume();
-};
 
-class EndState : public State
-{
-public:
-	EndState();
-	virtual void Enter();
-	virtual void Update();
-	virtual void Render();
-	virtual void Exit();
-};
 // State* myStateArray[# of elements];
 #endif

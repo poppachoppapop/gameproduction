@@ -5,6 +5,7 @@
 using namespace std;
 
 
+
 void State::Render()
 {
 	SDL_RenderPresent(Engine::Instance().GetRenderer());
@@ -14,7 +15,7 @@ TitleState::TitleState() {}
 
 void TitleState::Enter()
 {
-	cout << "Entering Title State..." << endl;
+	cout << "\nPRESS N TO ENTER GAMESTATE" << endl;
 	// Load music track, add it to map and play it.
 	m_titlesong = Mix_LoadMUS("Aud/TitleTheme.mp3");
 	m_titlemusic.emplace("titlemusic", m_titlesong);
@@ -24,7 +25,7 @@ void TitleState::Enter()
 
 void TitleState::Update()
 {
-	if (Engine::Instance().KeyDown(SDL_SCANCODE_1))
+	if (Engine::Instance().KeyDown(SDL_SCANCODE_N))
 	{
 		cout << "Changing to GameState!" << endl;
 		STMA::ChangeState(new TutorialState());
@@ -50,7 +51,7 @@ PauseState::PauseState() {}
 
 void PauseState::Enter()
 {
-	cout << "Entering PauseState..." << endl;
+	cout << "Entering PauseState...\nPRESS R TO RESUME" << endl;
 }
 
 void PauseState::Update()
@@ -82,7 +83,7 @@ TutorialState::TutorialState() {}
 
 void TutorialState::Enter()
 {
-	cout << "Entering GameState..." << endl;
+	cout << "Entering GameState...\n PRESS P TO PAUSE" << endl;
 	// Load music sfx, add them to map.
 	stepSfx = Mix_LoadWAV("sfx/step.wav");
 	turnSfx = Mix_LoadWAV("sfx/turn.wav");
@@ -141,21 +142,15 @@ void TutorialState::Enter()
 
 void TutorialState::Update()
 {
-	if (Engine::Instance().KeyDown(SDL_SCANCODE_ESCAPE))
+	if (Engine::Instance().KeyDown(SDL_SCANCODE_P))
 	{
 		cout << "Changing to PauseState!" << endl;
-		Mix_PlayChannel(-1, m_sfx["hehe"], 0);
+		//Mix_PlayChannel(-1, m_sfx["hehe"], 0);
 		// pause the music track.
 		Mix_PauseMusic();
 		STMA::PushState(new PauseState());
 	}
-	if (Engine::Instance().KeyDown(SDL_SCANCODE_X))
-	{
-		cout << "Changing to EndState!" << endl;
-		// pause the music track.
-		Mix_PauseMusic();
-		STMA::ChangeState(new EndState());
-	}
+	
 	stepSoundTimer++; turnSoundTimer++;
 	dashCooldown++;
 	textBoxTimer++;
@@ -294,7 +289,7 @@ void TutorialState::Update()
 	//Dash
 	if (dashCooldown > 100) {
 		if (Engine::Instance().KeyDown(SDL_SCANCODE_LSHIFT)) {
-			Mix_PlayChannel(-1, m_sfx["aarondash"], 0);
+			//Mix_PlayChannel(-1, m_sfx["aarondash"], 0);
 			dashPressed = true;
 			dashTimer = 0;
 			dashCooldown = 0;
@@ -316,16 +311,15 @@ void TutorialState::Update()
 	//YAXIS
 
 	if (Engine::Instance().KeyDown(SDL_SCANCODE_S)) {
-
 		speedy += speedAcc;
 		plr1.state = 1;
 
 	}
 
 	if (Engine::Instance().KeyDown(SDL_SCANCODE_W)) {
-
 		speedy -= speedAcc;
 		plr1.state = 2;
+			
 	}
 
 	//XAXIS
@@ -339,6 +333,39 @@ void TutorialState::Update()
 		plr1.state = 4;
 	}
 
+	if (Engine::Instance().KeyDown(SDL_SCANCODE_W))
+	{
+		if (!Mix_Playing(7))
+		{
+			Mix_PlayChannel(7, stepSfx, 0);
+		
+		}
+	}
+	
+	if (Engine::Instance().KeyDown(SDL_SCANCODE_A))
+	{
+		if (!Mix_Playing(7))
+		{
+			Mix_PlayChannel(7, stepSfx, 0);
+		}
+	}
+	if (Engine::Instance().KeyDown(SDL_SCANCODE_S))
+	{
+		if (!Mix_Playing(7))
+		{
+			Mix_PlayChannel(7, stepSfx, 0);
+
+		}
+	}
+	if (Engine::Instance().KeyDown(SDL_SCANCODE_D))
+	{
+		if (!Mix_Playing(7))
+		{
+			Mix_PlayChannel(7, stepSfx, 0);
+		}
+	}
+	
+	
 	//Slow Down!
 	if (!Engine::Instance().KeyDown(SDL_SCANCODE_D) && !Engine::Instance().KeyDown(SDL_SCANCODE_A)) {
 		if (speedx > 0)
@@ -438,7 +465,7 @@ void TutorialState::Update()
 	}
 
 
-	cout << plr1.plrDst.x - bg1.bgDst.x << " - " << plr1.plrDst.y - bg1.bgDst.y << endl;
+	//cout << plr1.plrDst.x - bg1.bgDst.x << " - " << plr1.plrDst.y - bg1.bgDst.y << endl;
 	//for items
 	itemSpawnTimer++;
 	if (itemSpawnTimer == 1000) {
@@ -463,6 +490,29 @@ void TutorialState::Update()
 		}
 	}
 }
+
+
+
+bool TutorialState::KeyDown(SDL_Scancode c)
+{
+	if (m_keystates != nullptr)
+	{
+		if (m_keystates[c] == 1) // Key we're testing for is down.
+			return true;
+	}
+	return false;
+}
+
+bool TutorialState::KeyUp(SDL_Scancode c)
+{
+	if (m_keystates != nullptr)
+	{
+		if (m_keystates[c] == 1) // Key we're testing for is down.
+			return true;
+	}
+	return false;
+}
+
 
 void TutorialState::Render()
 {
@@ -558,68 +608,11 @@ void TutorialState::Exit()
 	
 }
 
-
-
 void TutorialState::Resume()
 {
 	cout << "Resuming Game..." << endl;
 	// Resume music track.
 	Mix_PlayMusic(m_gamemusic["gamemusic"], -1);
-}
-
-VillageState::VillageState(){}
-
-void VillageState::Enter()
-{
-
-}
-
-void VillageState::Update()
-{
-
-}
-
-void VillageState::Render()
-{
-
-}
-
-void VillageState::Exit()
-{
-
-}
-
-void VillageState::Resume()
-{
-
-}
-
-EndState::EndState() {}
-
-void EndState::Enter()
-{
-	cout << "Entering EndState..." << endl;
-}
-
-void EndState::Update()
-{
-	//if (Engine::Instance().KeyDown(SDL_SCANCODE_R))
-	//{
-	//	cout << "Changing to TitleState!" << endl;
-	//	STMA::ChangeState(new TitleState());
-	//}
-}
-
-void EndState::Render()
-{
-	SDL_SetRenderDrawColor(Engine::Instance().GetRenderer(), 0, 0, 0, 255);
-	SDL_RenderClear(Engine::Instance().GetRenderer());
-	State::Render();
-}
-
-void EndState::Exit()
-{
-	cout << "Exiting EndState..." << endl;
 }
 
 

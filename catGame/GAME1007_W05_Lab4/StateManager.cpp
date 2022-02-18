@@ -6,6 +6,7 @@ void StateManager::Update()
 		s_states.back()->Update(); // s_states.back() represents the current state running.
 }
 
+
 void StateManager::Render()
 {
 	if (!s_states.empty())
