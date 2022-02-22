@@ -144,18 +144,24 @@
     <ClCompile Include="Background.cpp" />
     <ClCompile Include="enemy.cpp" />
     <ClCompile Include="Engine.cpp" />
+    <ClCompile Include="EventManager.cpp" />
     <ClCompile Include="Items.cpp" />
     <ClCompile Include="Main.cpp" />
     <ClCompile Include="NPC.cpp" />
     <ClCompile Include="player1.cpp" />
+    <ClCompile Include="StateManager.cpp" />
+    <ClCompile Include="States.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Background.h" />
     <ClInclude Include="enemy.h" />
     <ClInclude Include="Engine.h" />
+    <ClInclude Include="EventManager.h" />
     <ClInclude Include="Items.h" />
     <ClInclude Include="NPC.h" />
     <ClInclude Include="player1.h" />
+    <ClInclude Include="StateManager.h" />
+    <ClInclude Include="States.h" />
   </ItemGroup>
   <ItemGroup>
     <Media Include="Aud\TitleTheme.mp3" />
