@@ -38,7 +38,7 @@ void StateManager::ChangeState(State* pState)
 	if (!s_states.empty())
 	{
 		s_states.back()->Exit();//cleans up curret state 
-		delete s_states.back();// deallocates current state
+		//delete s_states.back();// deallocates current state
 		s_states.back() = nullptr;//wranle our dangle..... 
 		s_states.pop_back();//removed nullptr to deallocated current state 
 	}
@@ -51,7 +51,7 @@ void StateManager::Quit()
 	while (!s_states.empty())
 	{
 		s_states.back()->Exit();//cleans up curret state 
-		delete s_states.back();// deallocates current state
+		//delete s_states.back();// deallocates current state
 		s_states.back() = nullptr;
 		s_states.pop_back();//removed nullptr to deallocated current state 
 	}

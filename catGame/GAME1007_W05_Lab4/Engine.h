@@ -117,6 +117,7 @@ public: // public method prototypes
 	static Engine& Instance();
 	SDL_Renderer* GetRenderer() { return m_pRenderer; }
 	bool& Running() { return m_running; }
+	bool KeyDown(SDL_Scancode c);
 };
 
 #endif

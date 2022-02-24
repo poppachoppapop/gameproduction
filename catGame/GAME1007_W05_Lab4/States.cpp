@@ -2,7 +2,11 @@
 #include "StateManager.h"
 #include "Engine.h"
 #include "EventManager.h"
+#include "Items.h"
+#include "Background.h"
+#include "NPC.h"
 #include <iostream>
+
 using namespace std;
 
 
@@ -26,8 +30,9 @@ void TitleState::Enter()
 
 void TitleState::Update()
 {
-	if (EVMA::KeyPressed(SDL_SCANCODE_N))
+	if (Engine::Instance().KeyDown(SDL_SCANCODE_N))
 	{
+
 		cout << "changing to gamestate" << endl;
 		STMA::ChangeState(new GameState());
 	}
@@ -603,9 +608,24 @@ void GameState::Exit()
 	item1.clear();
 	item1.shrink_to_fit();
 	SDL_DestroyTexture(dumbieTxtr);
+	SDL_DestroyTexture(plrTxtr );
+	SDL_DestroyTexture(rockTxtr);
+	SDL_DestroyTexture(bgTutorial);
+	SDL_DestroyTexture(npcTxtr);
+
+	
+	Mix_FreeChunk(hurtSfx);
+	Mix_FreeChunk(powerSfx);
+	Mix_FreeChunk(talk);
+	Mix_FreeChunk(winscore);
+	Mix_FreeChunk(hehe);
+	Mix_FreeChunk(projectileRock);
+	Mix_FreeChunk(aoeSound);
+	Mix_FreeChunk(dashing);
 	Mix_FreeChunk(stepSfx);
 	Mix_FreeChunk(deathSfx);
 	Mix_FreeChunk(turnSfx);
+
 	Mix_FreeMusic(maintheme);
 }
 
@@ -627,7 +647,7 @@ void EndState::Enter()
 
 void EndState::Update()
 {
-	if (EVMA::KeyPressed(SDL_SCANCODE_R))
+	if (Engine::Instance().KeyDown(SDL_SCANCODE_R))
 	{
 
 		cout << "changing to gamestate" << endl;

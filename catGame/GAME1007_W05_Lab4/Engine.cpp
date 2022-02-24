@@ -75,6 +75,15 @@ void Engine::HandleEvents()
 	EVMA::HandleEvents();
 
 }
+bool Engine::KeyDown(SDL_Scancode c)
+{
+	if (m_keystates != nullptr)
+	{
+		if (m_keystates[c] == 1)
+			return true;
+	}
+	return false;
+}
 
 
 void Engine::Update()

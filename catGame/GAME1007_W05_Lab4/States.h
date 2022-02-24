@@ -9,7 +9,11 @@
 #include "SDL_image.h"
 #include "SDL_mixer.h"
 #include "Engine.h"
-
+#include "Items.h"
+#include "Background.h"
+#include "NPC.h"
+#include <map>
+#include <string>
 using namespace std;
 //an abstract class is one that cannot be instantiated
 //why because theyd be a base class most likely
