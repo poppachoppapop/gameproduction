@@ -10,10 +10,10 @@
 #include "SDL_mixer.h"
 #include "Engine.h"
 #include "Items.h"
+#include "enemy.h"
 #include "Background.h"
 #include "NPC.h"
-#include <map>
-#include <string>
+
 using namespace std;
 //an abstract class is one that cannot be instantiated
 //why because theyd be a base class most likely
@@ -108,6 +108,7 @@ private:
 	SDL_Texture* rockTxtr;
 	SDL_Texture* dumbieTxtr;
 	SDL_Texture* bgTutorial;
+	SDL_Texture* DragonFlyTxt;
 
 	vector<Rock*> playerpew;
 	vector<Enemy*> dumbie;
@@ -116,7 +117,7 @@ private:
 	SDL_Rect textBoxRect;
 	SDL_Rect textBoxBorder;
 	SDL_Rect scoreRect;
-
+	DragonFly df;
 	Player plr1;
 	NPC catDude;
 	Background bg1;

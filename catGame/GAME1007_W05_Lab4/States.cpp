@@ -6,6 +6,7 @@
 #include "Background.h"
 #include "NPC.h"
 #include <iostream>
+#include "enemy.h"
 
 using namespace std;
 
@@ -35,6 +36,7 @@ void TitleState::Update()
 
 		cout << "changing to gamestate" << endl;
 		STMA::ChangeState(new GameState());
+		return;
 	}
 }
 
@@ -92,12 +94,13 @@ void PauseState::Exit()
 
 
 
-GameState::GameState(){}
+GameState::GameState() {}
 
 void GameState::Enter()
 {
 	cout << "entering gamestate" << endl;
 	plrTxtr = IMG_LoadTexture(Engine::Instance().GetRenderer(), "art/catboy.png");
+	DragonFlyTxt = IMG_LoadTexture(Engine::Instance().GetRenderer(), "art/dragonfly.png");
 	rockTxtr = IMG_LoadTexture(Engine::Instance().GetRenderer(), "art/Rocko100.png");
 	dumbieTxtr = IMG_LoadTexture(Engine::Instance().GetRenderer(), "art/Dumbie.png");
 	bgTutorial = IMG_LoadTexture(Engine::Instance().GetRenderer(), "bgs/tutorial.png");
@@ -162,6 +165,7 @@ void GameState::Update()
 
 	    cout << "changing to gamestate" << endl;
 		STMA::ChangeState(new EndState());
+		return;
 	}
 
 	if (EVMA::KeyHeld(SDL_SCANCODE_W))
@@ -218,6 +222,7 @@ void GameState::Update()
 	bg1.bgDst.y -= speedy;
 	plr1.Update();
 	catDude.Update();
+	df.Update();
 	rockCooldown++;
 	spcooldown++;
 	//NPC
@@ -563,6 +568,8 @@ void GameState::Render()
 		SDL_SetRenderDrawColor(Engine::Instance().GetRenderer(), 255, 0, 0, 255);
 		SDL_RenderFillRect(Engine::Instance().GetRenderer(), &dumbie[i]->healthBar);
 	}
+	//dragoon fly
+	SDL_RenderCopy(Engine::Instance().GetRenderer(), DragonFlyTxt, &df.dfAni, &df.dfDst);
 
 	//text box
 	if (renderTextBox) {
@@ -612,7 +619,8 @@ void GameState::Exit()
 	SDL_DestroyTexture(rockTxtr);
 	SDL_DestroyTexture(bgTutorial);
 	SDL_DestroyTexture(npcTxtr);
-
+	SDL_DestroyTexture(DragonFlyTxt);
+	
 	
 	Mix_FreeChunk(hurtSfx);
 	Mix_FreeChunk(powerSfx);
@@ -652,6 +660,7 @@ void EndState::Update()
 
 		cout << "changing to gamestate" << endl;
 		STMA::ChangeState(new TitleState());
+		return;
 	}
 
 }

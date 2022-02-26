@@ -170,6 +170,7 @@
     <Media Include="sfx\turn.wav" />
   </ItemGroup>
   <ItemGroup>
+    <Image Include="art\dragonfly.png" />
     <Image Include="art\Dumbie.png" />
     <Image Include="art\Rocko100.png" />
     <Image Include="Enemy.png" />

@@ -1,5 +1,6 @@
 #pragma once
 #include "SDL.h"
+#define EMOVESPEED
 
 class Enemy
 {
@@ -14,4 +15,19 @@ public:
 	int getHp();
 	void update();
 };
+
+class DragonFly
+{
+private:
+	unsigned short frameCtr, frameMax, spriteIdx, spriteMin, spriteMax;
+	int state;
+public:
+	DragonFly();
+	SDL_Rect dfAni, dfDst;
+	Uint16 frames = 0;
+	void setDFsz(int w, int h);
+	void setDFpos(int x, int y);
+	void Update();
+};
+
 
