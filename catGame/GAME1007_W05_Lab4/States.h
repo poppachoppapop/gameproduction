@@ -20,55 +20,8 @@ using namespace std;
 class State//this is the abstract base class for all state subclasses
 {
 protected: //priv but inherited
+		// SFX Timers
 
-	State() = default;//or... State(){};
-	
-public:
-	virtual void Enter() = 0;
-	virtual void Update() = 0;
-	virtual void Render();
-	virtual void Exit() = 0;
-	virtual void Resume() {};
-};
-
-
-
-class TitleState : public State
-{
-private:
-	SDL_Texture* Title;
-	Mix_Music* Titletheme;
-public:
-	TitleState();
-	virtual void Enter();
-	virtual void Update();
-	virtual void Render();
-	virtual void Exit();
-	
-};
-
-
-
-
-class PauseState : public State
-{
-private:
-	
-	
-public:
-	PauseState();
-	virtual void Enter();
-	virtual void Update();
-	virtual void Render();
-	virtual void Exit();
-
-};
-
-
-class GameState : public State
-{
-private:	
-	// SFX Timers
 	int stepSoundTimer = 0, turnSoundTimer = 0;
 	int dashCooldown = 100, dashTimer = 0, tempSpeed = 0;
 	int rockCooldown = 50;
@@ -136,6 +89,54 @@ private:
 	Mix_Chunk* dashing;
 	Mix_Music* maintheme;
 	Mix_Chunk* dashMeow;
+	State() = default;//or... State(){};
+	
+public:
+	virtual void Enter() = 0;
+	virtual void Update() = 0;
+	virtual void Render();
+	virtual void Exit() = 0;
+	virtual void Resume() {};
+};
+
+
+
+class TitleState : public State
+{
+private:
+	SDL_Texture* Title;
+	Mix_Music* Titletheme;
+public:
+	TitleState();
+	virtual void Enter();
+	virtual void Update();
+	virtual void Render();
+	virtual void Exit();
+	
+};
+
+
+
+
+class PauseState : public State
+{
+private:
+	
+	
+public:
+	PauseState();
+	virtual void Enter();
+	virtual void Update();
+	virtual void Render();
+	virtual void Exit();
+
+};
+
+
+class GameState : public State
+{
+private:	
+
 	
 	bool g_paused; // If music is paused or not
 public:
@@ -147,6 +148,18 @@ public:
 	virtual void Exit();
 	virtual void Resume();
 
+};
+class Levelone : public State
+{
+private:
+	
+public:
+	Levelone();
+	virtual void Enter();
+	virtual void Update();
+	virtual void Render();
+	virtual void Exit();
+	virtual void Resume();
 };
 class EndState : public State
 {
