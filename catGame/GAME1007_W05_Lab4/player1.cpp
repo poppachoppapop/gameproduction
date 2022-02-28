@@ -6,6 +6,7 @@ frameCtr(0), frameMax(3), spriteIdx(0), spriteMax(6)
 { 
 	plrDst = {448 ,320 ,128, 128};
 	plrSpd = 5;
+	plrMaxSpd = 5;
 	plrDsh = 50;
 	state = 0;
 }
@@ -103,6 +104,11 @@ void Player::setPlrPos(int x, int y)
 int Player::getPlrSpd()
 {
 	return plrSpd;
+}
+
+int Player::getMaxSpd()
+{
+	return plrMaxSpd;
 }
 
 Rock::Rock(int x,int y, int s, char d) :rockSrc ({0,0,32,32})

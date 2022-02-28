@@ -1,3 +1,24 @@
 ﻿C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\MSBuild\Microsoft\VC\v160\Microsoft.CppBuild.targets(513,5): warning MSB8028: The intermediate directory (Debug\) contains files shared from another project (GAME1007_W05_Lab4.vcxproj).  This can lead to incorrect clean and rebuild behavior.
-  StateManager.cpp
-  GAME1007_W05_Lab4.vcxproj -> C:\Users\Michael\OneDrive\Desktop\gbc\GAME1017\gameproduction\catGame\Debug\catGamePreRelease.exe
+  States.cpp
+C:\Users\Jeremy\OneDrive\progr\Game\Game production 2\gameproduction\catGame\GAME1007_W05_Lab4\States.cpp(231,23): warning C4244: '-=': conversion from 'double' to 'int', possible loss of data
+C:\Users\Jeremy\OneDrive\progr\Game\Game production 2\gameproduction\catGame\GAME1007_W05_Lab4\States.cpp(232,23): warning C4244: '-=': conversion from 'double' to 'int', possible loss of data
+C:\Users\Jeremy\OneDrive\progr\Game\Game production 2\gameproduction\catGame\GAME1007_W05_Lab4\States.cpp(249,31): warning C4244: '-=': conversion from 'double' to 'int', possible loss of data
+C:\Users\Jeremy\OneDrive\progr\Game\Game production 2\gameproduction\catGame\GAME1007_W05_Lab4\States.cpp(250,31): warning C4244: '-=': conversion from 'double' to 'int', possible loss of data
+C:\Users\Jeremy\OneDrive\progr\Game\Game production 2\gameproduction\catGame\GAME1007_W05_Lab4\States.cpp(334,83): warning C4244: 'argument': conversion from 'double' to 'int', possible loss of data
+C:\Users\Jeremy\OneDrive\progr\Game\Game production 2\gameproduction\catGame\GAME1007_W05_Lab4\States.cpp(344,73): warning C4244: 'argument': conversion from 'double' to 'int', possible loss of data
+C:\Users\Jeremy\OneDrive\progr\Game\Game production 2\gameproduction\catGame\GAME1007_W05_Lab4\States.cpp(354,83): warning C4244: 'argument': conversion from 'double' to 'int', possible loss of data
+C:\Users\Jeremy\OneDrive\progr\Game\Game production 2\gameproduction\catGame\GAME1007_W05_Lab4\States.cpp(364,73): warning C4244: 'argument': conversion from 'double' to 'int', possible loss of data
+C:\Users\Jeremy\OneDrive\progr\Game\Game production 2\gameproduction\catGame\GAME1007_W05_Lab4\States.cpp(451,36): warning C4244: '-=': conversion from 'double' to 'int', possible loss of data
+C:\Users\Jeremy\OneDrive\progr\Game\Game production 2\gameproduction\catGame\GAME1007_W05_Lab4\States.cpp(452,36): warning C4244: '-=': conversion from 'double' to 'int', possible loss of data
+C:\Users\Jeremy\OneDrive\progr\Game\Game production 2\gameproduction\catGame\GAME1007_W05_Lab4\States.cpp(502,34): warning C4244: '-=': conversion from 'double' to 'int', possible loss of data
+C:\Users\Jeremy\OneDrive\progr\Game\Game production 2\gameproduction\catGame\GAME1007_W05_Lab4\States.cpp(503,34): warning C4244: '-=': conversion from 'double' to 'int', possible loss of data
+C:\Users\Jeremy\OneDrive\progr\Game\Game production 2\gameproduction\catGame\GAME1007_W05_Lab4\States.cpp(533,29): warning C4244: '-=': conversion from 'double' to 'int', possible loss of data
+C:\Users\Jeremy\OneDrive\progr\Game\Game production 2\gameproduction\catGame\GAME1007_W05_Lab4\States.cpp(534,29): warning C4244: '-=': conversion from 'double' to 'int', possible loss of data
+C:\Users\Jeremy\OneDrive\progr\Game\Game production 2\gameproduction\catGame\GAME1007_W05_Lab4\States.cpp(681,27): warning C4805: '==': unsafe mix of type 'int' and type 'bool' in operation
+C:\Users\Jeremy\OneDrive\progr\Game\Game production 2\gameproduction\catGame\GAME1007_W05_Lab4\States.cpp(804,83): warning C4244: 'argument': conversion from 'double' to 'int', possible loss of data
+C:\Users\Jeremy\OneDrive\progr\Game\Game production 2\gameproduction\catGame\GAME1007_W05_Lab4\States.cpp(814,73): warning C4244: 'argument': conversion from 'double' to 'int', possible loss of data
+C:\Users\Jeremy\OneDrive\progr\Game\Game production 2\gameproduction\catGame\GAME1007_W05_Lab4\States.cpp(824,83): warning C4244: 'argument': conversion from 'double' to 'int', possible loss of data
+C:\Users\Jeremy\OneDrive\progr\Game\Game production 2\gameproduction\catGame\GAME1007_W05_Lab4\States.cpp(834,73): warning C4244: 'argument': conversion from 'double' to 'int', possible loss of data
+C:\Users\Jeremy\OneDrive\progr\Game\Game production 2\gameproduction\catGame\GAME1007_W05_Lab4\States.cpp(917,36): warning C4244: '-=': conversion from 'double' to 'int', possible loss of data
+C:\Users\Jeremy\OneDrive\progr\Game\Game production 2\gameproduction\catGame\GAME1007_W05_Lab4\States.cpp(918,36): warning C4244: '-=': conversion from 'double' to 'int', possible loss of data
+  GAME1007_W05_Lab4.vcxproj -> C:\Users\Jeremy\OneDrive\progr\Game\Game production 2\gameproduction\catGame\Debug\catGamePreRelease.exe
