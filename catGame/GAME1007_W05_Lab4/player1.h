@@ -11,7 +11,7 @@ private:
 public:
 	int state;
 	SDL_Rect plrFrontIdle, plrMoveLeft, plrMoveRight, plrMoveUp, plrMoveDown, plrDst;
-	int plrSpd, plrDsh;
+	int plrSpd, plrDsh, plrMaxSpd;
 	Player();
 	//Player(int h, int w, int s);
 	void Update();
@@ -19,6 +19,7 @@ public:
 	void setPlrSpd(int s);
 	void setPlrPos(int x, int y);
 	int getPlrSpd();
+	int getMaxSpd();
 
 };
 

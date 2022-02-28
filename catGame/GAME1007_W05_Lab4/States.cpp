@@ -106,6 +106,8 @@ void GameState::Enter()
 	bgTutorial = IMG_LoadTexture(Engine::Instance().GetRenderer(), "bgs/tutorial.png");
 	npcTxtr = IMG_LoadTexture(Engine::Instance().GetRenderer(), "art/catDude.png");
 	DragonFlyTxt = IMG_LoadTexture(Engine::Instance().GetRenderer(), "art/dragonfly.png");
+	vineTexture = IMG_LoadTexture(Engine::Instance().GetRenderer(), "art/vines.png");
+
 
 	stepSfx = Mix_LoadWAV("sfx/step.wav");
 	turnSfx = Mix_LoadWAV("sfx/turn.wav");
@@ -242,6 +244,23 @@ void GameState::Update()
 	if (plr1.plrDst.y < bg1.bgDst.y + 630)
 		bg1.bgDst.y = plr1.plrDst.y - 630;
 
+	
+	//vines
+	for (unsigned i = 0; i < vine.size(); i++)
+	{
+		vine[i]->vineDst.x -= speedx;
+		vine[i]->vineDst.y -= speedy;
+		if (!dashPressed) {
+			if (SDL_HasIntersection(&vine[i]->vineDst, &plr1.plrDst)) {
+				plr1.plrSpd = 1;
+			}
+			else if (!SDL_HasIntersection(&vine[i]->vineDst, &plr1.plrDst)) {
+				plr1.plrSpd = plr1.plrMaxSpd;
+			}
+		}
+
+	}
+
 	if (spawnDummies) {
 		dummiesTimer++;
 		if (dummiesTimer == 2000) {
@@ -347,6 +366,7 @@ void GameState::Update()
 		}
 	}
 
+	//Player Movement
 
 	if (speedx > plr1.plrSpd)
 		speedx = plr1.plrSpd;
@@ -363,13 +383,13 @@ void GameState::Update()
 			Mix_PlayChannel(-1, dashMeow, 0);
 			dashPressed = true;
 			dashTimer = 0;
-			dashCooldown = 0;
+			dashCooldown = 0;			
 		}
 	}
 	dashTimer++;
 	if (dashPressed) {
 		plr1.plrSpd = plr1.plrDsh;
-		if (dashTimer > 10) {
+		if (dashTimer > 15) {
 			dashPressed = false;
 			dashTimer = 0;
 			dashCooldown = 0;
@@ -505,6 +525,8 @@ void GameState::Update()
 		//itemSpawnTimer = 0;
 		item1.push_back(new Items(1, bg1.bgDst.x + 1075, bg1.bgDst.y + 1550));
 		item1.shrink_to_fit();
+		vine.push_back(new Vines(100, 100));
+		vine.shrink_to_fit();
 	}
 	for (unsigned i = 0; i < item1.size(); i++)
 	{
@@ -540,6 +562,12 @@ void GameState::Render()
 
 	//Background
 	SDL_RenderCopy(Engine::Instance().GetRenderer(),bgTutorial, &bg1.bgSrcTutorial, &bg1.bgDst);
+	
+	//vines
+	for (unsigned i = 0; i < vine.size(); i++)
+	{
+		SDL_RenderCopy(Engine::Instance().GetRenderer(), vineTexture, &(vine[i]->vineSrc), &(vine[i]->vineDst));
+	}
 
 	if (plr1.state == 0)
 		SDL_RenderCopy(Engine::Instance().GetRenderer(), plrTxtr, &plr1.plrFrontIdle, &plr1.plrDst);
@@ -568,6 +596,7 @@ void GameState::Render()
 		SDL_SetRenderDrawColor(Engine::Instance().GetRenderer(), 255, 0, 0, 255);
 		SDL_RenderFillRect(Engine::Instance().GetRenderer(), &item1[i]->item);
 	}
+
 	//dumbie
 	for (unsigned i = 0; i < dumbie.size();i++)
 	{
@@ -628,6 +657,7 @@ void GameState::Exit()
 	SDL_DestroyTexture(bgTutorial);
 	SDL_DestroyTexture(npcTxtr);
 	SDL_DestroyTexture(DragonFlyTxt);
+	SDL_DestroyTexture(vineTexture);
 	
 	
 	Mix_FreeChunk(hurtSfx);
@@ -665,6 +695,7 @@ void Levelone::Enter()
 	plrTxtr = IMG_LoadTexture(Engine::Instance().GetRenderer(), "art/catboy.png");
 	rockTxtr = IMG_LoadTexture(Engine::Instance().GetRenderer(), "art/Rocko100.png");
 	DragonFlyTxt = IMG_LoadTexture(Engine::Instance().GetRenderer(), "art/dragonfly.png");
+	vineTexture = IMG_LoadTexture(Engine::Instance().GetRenderer(), "art/vines.png");
 
 	stepSfx = Mix_LoadWAV("sfx/step.wav");
 	turnSfx = Mix_LoadWAV("sfx/turn.wav");
@@ -748,6 +779,7 @@ void Levelone::Update()
 	df.Update();
 	rockCooldown++;
 	spcooldown++;
+
 	//For special Ability1
 	if (EVMA::KeyPressed(SDL_SCANCODE_SPACE))
 	{
@@ -936,6 +968,12 @@ void Levelone::Render()
 		SDL_RenderFillRect(Engine::Instance().GetRenderer(), &item1[i]->item);
 	}
 	
+	//vines
+	for (unsigned i = 0; i < vine.size(); i++)
+	{
+		SDL_RenderCopy(Engine::Instance().GetRenderer(), vineTexture, &(vine[i]->vineSrc), &(vine[i]->vineDst));
+	}
+	
 	//dragoon fly
 	SDL_RenderCopy(Engine::Instance().GetRenderer(), DragonFlyTxt, &df.dfAni, &df.dfDst);
 
@@ -965,6 +1003,7 @@ void Levelone::Exit()
 	SDL_DestroyTexture(plrTxtr);
 	SDL_DestroyTexture(rockTxtr);
 	SDL_DestroyTexture(DragonFlyTxt);
+	SDL_DestroyTexture(vineTexture);
 	Mix_FreeChunk(hurtSfx);
 	Mix_FreeChunk(powerSfx);;
 	Mix_FreeChunk(projectileRock);

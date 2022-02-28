@@ -65,4 +65,7 @@ void DragonFly::Update()
 	}
 }
 
-
+Vines::Vines(int x, int y) :vineSrc({ 0,0,32,32 })
+{
+	vineDst = { x - 10 ,y + 10,vineSrc.w * 4, vineSrc.h * 4 };
+}

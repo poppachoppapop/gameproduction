@@ -30,4 +30,12 @@ public:
 	void Update();
 };
 
+class Vines {
+private:
+
+public:
+	SDL_Rect vineSrc, vineDst;
+	Vines(int x, int y);
+};
+
 
