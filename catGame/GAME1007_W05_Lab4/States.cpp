@@ -394,7 +394,6 @@ void GameState::Update()
 			dashTimer = 0;
 			dashCooldown = 0;
 			plr1.plrSpd = 5;
-			cout << tempSpeed << endl;
 		}
 
 	}

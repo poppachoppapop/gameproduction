@@ -1,9 +1,14 @@
 ﻿C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\MSBuild\Microsoft\VC\v160\Microsoft.CppBuild.targets(513,5): warning MSB8028: The intermediate directory (Debug\) contains files shared from another project (GAME1007_W05_Lab4.vcxproj).  This can lead to incorrect clean and rebuild behavior.
+  Engine.cpp
+C:\Users\Jeremy\OneDrive\progr\Game\Game production 2\gameproduction\catGame\GAME1007_W05_Lab4\Engine.cpp(46,12): warning C4244: 'argument': conversion from 'time_t' to 'unsigned int', possible loss of data
+  EventManager.cpp
+  Main.cpp
+  StateManager.cpp
   States.cpp
 C:\Users\Jeremy\OneDrive\progr\Game\Game production 2\gameproduction\catGame\GAME1007_W05_Lab4\States.cpp(231,23): warning C4244: '-=': conversion from 'double' to 'int', possible loss of data
 C:\Users\Jeremy\OneDrive\progr\Game\Game production 2\gameproduction\catGame\GAME1007_W05_Lab4\States.cpp(232,23): warning C4244: '-=': conversion from 'double' to 'int', possible loss of data
-C:\Users\Jeremy\OneDrive\progr\Game\Game production 2\gameproduction\catGame\GAME1007_W05_Lab4\States.cpp(249,31): warning C4244: '-=': conversion from 'double' to 'int', possible loss of data
-C:\Users\Jeremy\OneDrive\progr\Game\Game production 2\gameproduction\catGame\GAME1007_W05_Lab4\States.cpp(250,31): warning C4244: '-=': conversion from 'double' to 'int', possible loss of data
+C:\Users\Jeremy\OneDrive\progr\Game\Game production 2\gameproduction\catGame\GAME1007_W05_Lab4\States.cpp(251,31): warning C4244: '-=': conversion from 'double' to 'int', possible loss of data
+C:\Users\Jeremy\OneDrive\progr\Game\Game production 2\gameproduction\catGame\GAME1007_W05_Lab4\States.cpp(252,31): warning C4244: '-=': conversion from 'double' to 'int', possible loss of data
 C:\Users\Jeremy\OneDrive\progr\Game\Game production 2\gameproduction\catGame\GAME1007_W05_Lab4\States.cpp(334,83): warning C4244: 'argument': conversion from 'double' to 'int', possible loss of data
 C:\Users\Jeremy\OneDrive\progr\Game\Game production 2\gameproduction\catGame\GAME1007_W05_Lab4\States.cpp(344,73): warning C4244: 'argument': conversion from 'double' to 'int', possible loss of data
 C:\Users\Jeremy\OneDrive\progr\Game\Game production 2\gameproduction\catGame\GAME1007_W05_Lab4\States.cpp(354,83): warning C4244: 'argument': conversion from 'double' to 'int', possible loss of data
@@ -21,4 +26,10 @@ C:\Users\Jeremy\OneDrive\progr\Game\Game production 2\gameproduction\catGame\GAM
 C:\Users\Jeremy\OneDrive\progr\Game\Game production 2\gameproduction\catGame\GAME1007_W05_Lab4\States.cpp(834,73): warning C4244: 'argument': conversion from 'double' to 'int', possible loss of data
 C:\Users\Jeremy\OneDrive\progr\Game\Game production 2\gameproduction\catGame\GAME1007_W05_Lab4\States.cpp(917,36): warning C4244: '-=': conversion from 'double' to 'int', possible loss of data
 C:\Users\Jeremy\OneDrive\progr\Game\Game production 2\gameproduction\catGame\GAME1007_W05_Lab4\States.cpp(918,36): warning C4244: '-=': conversion from 'double' to 'int', possible loss of data
+  enemy.cpp
+C:\Users\Jeremy\OneDrive\progr\Game\Game production 2\gameproduction\catGame\GAME1007_W05_Lab4\enemy.cpp(19,9): warning C4244: 'return': conversion from 'double' to 'int', possible loss of data
+C:\Users\Jeremy\OneDrive\progr\Game\Game production 2\gameproduction\catGame\GAME1007_W05_Lab4\enemy.cpp(24,43): warning C4244: '=': conversion from 'double' to 'int', possible loss of data
+  player1.cpp
+  Generating Code...
+  LINK : C:\Users\Jeremy\OneDrive\progr\Game\Game production 2\gameproduction\catGame\Debug\catGamePreRelease.exe not found or not built by the last incremental link; performing full link
   GAME1007_W05_Lab4.vcxproj -> C:\Users\Jeremy\OneDrive\progr\Game\Game production 2\gameproduction\catGame\Debug\catGamePreRelease.exe
