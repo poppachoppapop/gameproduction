@@ -5,14 +5,15 @@ Player::Player() :plrFrontIdle({ 0,0,32,32 }), plrMoveDown({ 0,128,32,32 }), plr
 frameCtr(0), frameMax(3), spriteIdx(0), spriteMax(6)
 { 
 	plrDst = {448 ,320 ,128, 128};
+	plrHpBar = { 10 ,10 ,200, 50 };
 	plrSpd = 5;
 	plrMaxSpd = 5;
 	plrDsh = 50;
+	plrHp = 10;
+	maxHp = 10;
 	state = 0;
+	hurtSfx = Mix_LoadWAV("sfx/ow.wav");
 }
-
-
-
 
 void Player::Update()
 {
@@ -79,7 +80,8 @@ void Player::Update()
 		}
 	}
 	
-    
+	plrHpBar.w = double(plrHp / maxHp) * 200;
+	damageCD++;
 }
 
 
@@ -109,6 +111,15 @@ int Player::getPlrSpd()
 int Player::getMaxSpd()
 {
 	return plrMaxSpd;
+}
+
+void Player::takeDamage(int howMuch)
+{
+	if (damageCD > 100) {
+		plrHp--;
+		damageCD = 0;
+		Mix_PlayChannel(-1, hurtSfx, 0);
+	}
 }
 
 Rock::Rock(int x,int y, int s, char d) :rockSrc ({0,0,32,32})

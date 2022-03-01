@@ -1,10 +1,12 @@
 #pragma once
 #include "SDL.h"
-#define EMOVESPEED
+#include <ctime>
+#define MOVESPEED
 
 class Enemy
 {
-private:
+
+protected:
 	double health;
 	double maxHealth;
 public:
@@ -18,15 +20,22 @@ public:
 
 class DragonFly
 {
+
 private:
 	unsigned short frameCtr, frameMax, spriteIdx, spriteMin, spriteMax;
 	int state;
+	double health;
+	double maxHealth;
+	int dir;
+	int speed;
+	int dirTimer;
+	int distance;
 public:
-	DragonFly();
-	SDL_Rect dfAni, dfDst;
+	DragonFly(int x, int y, double h);
+	SDL_Rect flySrc, flyDst, healthBar;
 	Uint16 frames = 0;
-	void setDFsz(int w, int h);
-	void setDFpos(int x, int y);
+	void setHp(double h);
+	int getHp();
 	void Update();
 };
 

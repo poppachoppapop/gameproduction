@@ -68,11 +68,12 @@ protected: //priv but inherited
 	vector<Enemy*> dumbie;
 	vector<Items*> item1;
 	vector<Vines*> vine;
+	vector<DragonFly*> fly;
 
 	SDL_Rect textBoxRect;
 	SDL_Rect textBoxBorder;
 	SDL_Rect scoreRect;
-	DragonFly df;
+	
 	Player plr1;
 	NPC catDude;
 	Background bg1;
