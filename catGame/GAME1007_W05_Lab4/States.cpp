@@ -149,6 +149,11 @@ void GameState::Enter()
 
 	Message = SDL_CreateTextureFromSurface(Engine::Instance().GetRenderer(), surfaceMessage);
 	Score = SDL_CreateTextureFromSurface(Engine::Instance().GetRenderer(), dummyScore);
+
+	vine.push_back(new Vines(bg1.bgDst.x + 400, bg1.bgDst.y + 1000));
+	vine.shrink_to_fit();
+	fly.push_back(new DragonFly(bg1.bgDst.x + 650, bg1.bgDst.y + 1000, 2));
+	fly.shrink_to_fit();
 }
 
 void GameState::Update()
@@ -232,7 +237,6 @@ void GameState::Update()
 	bg1.bgDst.y -= speedy;
 	plr1.Update();
 	catDude.Update();
-	df.Update();
 	rockCooldown++;
 	spcooldown++;
 	//NPC
@@ -260,6 +264,27 @@ void GameState::Update()
 		}
 
 	}
+	//DragonFly
+	for (unsigned i = 0; i < fly.size(); i++)
+	{
+		fly[i]->Update();
+		fly[i]->flyDst.x -= speedx;
+		fly[i]->flyDst.y -= speedy;
+		
+		if (SDL_HasIntersection(&fly[i]->flyDst, &plr1.plrDst)) {
+			plr1.takeDamage(1);
+		}
+
+		if (fly[i]->getHp() <= 0) {
+			Mix_PlayChannel(-1, deathSfx, 0);
+			delete fly[i];
+			fly[i] = nullptr;
+			fly.erase(fly.begin() + i);
+			fly.shrink_to_fit();
+		}
+	}
+
+
 
 	if (spawnDummies) {
 		dummiesTimer++;
@@ -326,7 +351,7 @@ void GameState::Update()
 	}
 
 	//For throwing Rock
-	if (EVMA::KeyPressed(SDL_SCANCODE_UP))
+	if (EVMA::KeyHeld(SDL_SCANCODE_UP))
 	{
 		if (rockCooldown > 50) {
 			Mix_PlayChannel(-1, projectileRock, 0);
@@ -335,7 +360,7 @@ void GameState::Update()
 			playerpew.shrink_to_fit();
 		}
 	}
-	else if (EVMA::KeyPressed(SDL_SCANCODE_DOWN))
+	else if (EVMA::KeyHeld(SDL_SCANCODE_DOWN))
 	{
 
 		if (rockCooldown > 50) {
@@ -345,7 +370,7 @@ void GameState::Update()
 			playerpew.shrink_to_fit();
 		}
 	}
-	else if (EVMA::KeyPressed(SDL_SCANCODE_LEFT))
+	else if (EVMA::KeyHeld(SDL_SCANCODE_LEFT))
 	{
 
 		if (rockCooldown > 50) {
@@ -355,7 +380,7 @@ void GameState::Update()
 			playerpew.shrink_to_fit();
 		}
 	}
-	else if (EVMA::KeyPressed(SDL_SCANCODE_RIGHT))
+	else if (EVMA::KeyHeld(SDL_SCANCODE_RIGHT))
 	{
 
 		if (rockCooldown > 50) {
@@ -481,7 +506,7 @@ void GameState::Update()
 		{
 			if (SDL_HasIntersection(&playerpew[i]->rockDst, &dumbie[j]->enemyDst)) //AABB Check
 			{
-				cout << "catboy hits dumbie" << endl;
+				//cout << "catboy hits dumbie" << endl;
 				Mix_PlayChannel(-1, hurtSfx, 0);
 				delete playerpew[i];
 				playerpew[i] = nullptr;
@@ -489,6 +514,20 @@ void GameState::Update()
 				playerpew.shrink_to_fit();
 				//set dumbie hp
 				dumbie[j]->setHp(dumbie[j]->getHp() - playerDamage);
+				break;
+			}
+		}
+		for (unsigned j = 0; j < fly.size(); j++)
+		{
+			if (SDL_HasIntersection(&playerpew[i]->rockDst, &fly[j]->flyDst)) //AABB Check
+			{
+				Mix_PlayChannel(-1, hurtSfx, 0);
+				delete playerpew[i];
+				playerpew[i] = nullptr;
+				playerpew.erase(playerpew.begin() + i);
+				playerpew.shrink_to_fit();
+				//set dumbie hp
+				fly[j]->setHp(fly[j]->getHp() - playerDamage);
 				break;
 			}
 		}
@@ -524,8 +563,6 @@ void GameState::Update()
 		//itemSpawnTimer = 0;
 		item1.push_back(new Items(1, bg1.bgDst.x + 1075, bg1.bgDst.y + 1550));
 		item1.shrink_to_fit();
-		vine.push_back(new Vines(100, 100));
-		vine.shrink_to_fit();
 	}
 	for (unsigned i = 0; i < item1.size(); i++)
 	{
@@ -578,6 +615,9 @@ void GameState::Render()
 		SDL_RenderCopy(Engine::Instance().GetRenderer(), plrTxtr, &plr1.plrMoveLeft, &plr1.plrDst);
 	else if (plr1.state == 4)
 		SDL_RenderCopy(Engine::Instance().GetRenderer(), plrTxtr, &plr1.plrMoveRight, &plr1.plrDst);
+	
+	SDL_SetRenderDrawColor(Engine::Instance().GetRenderer(), 255, 0, 0, 255);
+	SDL_RenderFillRect(Engine::Instance().GetRenderer(), &plr1.plrHpBar);
 
 	//NPC
 	SDL_RenderCopyEx(Engine::Instance().GetRenderer(), npcTxtr, &catDude.npcSrc, &catDude.npcDst, NULL, NULL, SDL_FLIP_HORIZONTAL);
@@ -605,7 +645,13 @@ void GameState::Render()
 		SDL_RenderFillRect(Engine::Instance().GetRenderer(), &dumbie[i]->healthBar);
 	}
 	//dragoon fly
-	SDL_RenderCopy(Engine::Instance().GetRenderer(), DragonFlyTxt, &df.dfAni, &df.dfDst);
+	for (unsigned i = 0; i < fly.size(); i++)
+	{
+		SDL_RenderCopy(Engine::Instance().GetRenderer(), DragonFlyTxt, &fly[i]->flySrc, &fly[i]->flyDst);
+		//health bar
+		SDL_SetRenderDrawColor(Engine::Instance().GetRenderer(), 255, 0, 0, 255);
+		SDL_RenderFillRect(Engine::Instance().GetRenderer(), &fly[i]->healthBar);
+	}
 
 	//text box
 	if (renderTextBox) {
@@ -775,7 +821,6 @@ void Levelone::Update()
 	stepSoundTimer++; turnSoundTimer++;
 	dashCooldown++;
 	plr1.Update();
-	df.Update();
 	rockCooldown++;
 	spcooldown++;
 
@@ -973,8 +1018,6 @@ void Levelone::Render()
 		SDL_RenderCopy(Engine::Instance().GetRenderer(), vineTexture, &(vine[i]->vineSrc), &(vine[i]->vineDst));
 	}
 	
-	//dragoon fly
-	SDL_RenderCopy(Engine::Instance().GetRenderer(), DragonFlyTxt, &df.dfAni, &df.dfDst);
 
 
 	if (dynamic_cast<Levelone*>(STMA::GetStates().back()))//if current state is gamestate	

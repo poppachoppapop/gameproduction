@@ -1,5 +1,6 @@
 #pragma once
 #include <SDL.h>
+#include <SDL_mixer.h>
 #include <iostream>
 
 class Player
@@ -7,10 +8,13 @@ class Player
 
 private:
 	unsigned short frameCtr, frameMax, spriteIdx, spriteMin, spriteMax;
+	int damageCD = 100;
+	double plrHp, maxHp;
+	Mix_Chunk* hurtSfx;
 
 public:
 	int state;
-	SDL_Rect plrFrontIdle, plrMoveLeft, plrMoveRight, plrMoveUp, plrMoveDown, plrDst;
+	SDL_Rect plrFrontIdle, plrMoveLeft, plrMoveRight, plrMoveUp, plrMoveDown, plrDst, plrHpBar;
 	int plrSpd, plrDsh, plrMaxSpd;
 	Player();
 	//Player(int h, int w, int s);
@@ -20,6 +24,7 @@ public:
 	void setPlrPos(int x, int y);
 	int getPlrSpd();
 	int getMaxSpd();
+	void takeDamage(int howMuch);
 
 };
 
