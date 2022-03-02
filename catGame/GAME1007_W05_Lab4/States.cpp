@@ -690,12 +690,19 @@ void GameState::Exit()
 		delete item1[i];
 		item1[i] = nullptr;
 	}
+	for (unsigned i = 0; i < fly.size(); i++)
+	{
+		delete fly[i];
+		fly[i] = nullptr;
+	}
 	playerpew.clear();
 	playerpew.shrink_to_fit();
 	dumbie.clear();
 	dumbie.shrink_to_fit();
 	item1.clear();
 	item1.shrink_to_fit();
+	fly.clear();
+	fly.shrink_to_fit();
 	SDL_DestroyTexture(dumbieTxtr);
 	SDL_DestroyTexture(plrTxtr );
 	SDL_DestroyTexture(rockTxtr);
