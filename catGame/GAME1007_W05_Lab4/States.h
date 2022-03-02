@@ -13,6 +13,7 @@
 #include "enemy.h"
 #include "Background.h"
 #include "NPC.h"
+#include "Util.h"
 
 using namespace std;
 //an abstract class is one that cannot be instantiated

@@ -254,11 +254,12 @@ void GameState::Update()
 	{
 		vine[i]->vineDst.x -= speedx;
 		vine[i]->vineDst.y -= speedy;
+		cout << Util::distanceOffset(plr1.plrDst, vine[i]->vineDst) << endl;
 		if (!dashPressed) {
-			if (SDL_HasIntersection(&vine[i]->vineDst, &plr1.plrDst)) {
+			if (Util::distanceOffset(plr1.plrDst, vine[i]->vineDst) < 80) {
 				plr1.plrSpd = 1;
 			}
-			else if (!SDL_HasIntersection(&vine[i]->vineDst, &plr1.plrDst)) {
+			else{
 				plr1.plrSpd = plr1.plrMaxSpd;
 			}
 		}
@@ -333,7 +334,6 @@ void GameState::Update()
 		}
 
 	}
-
 
 	//For special Ability1
 	if (EVMA::KeyPressed(SDL_SCANCODE_SPACE))
