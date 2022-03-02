@@ -151,6 +151,7 @@ void GameState::Enter()
 	Score = SDL_CreateTextureFromSurface(Engine::Instance().GetRenderer(), dummyScore);
 
 	vine.push_back(new Vines(bg1.bgDst.x + 400, bg1.bgDst.y + 1000));
+	vine.push_back(new Vines(bg1.bgDst.x + 400, bg1.bgDst.y + 1000));
 	vine.shrink_to_fit();
 	fly.push_back(new DragonFly(bg1.bgDst.x + 650, bg1.bgDst.y + 1000, 2));
 	fly.shrink_to_fit();
@@ -263,6 +264,10 @@ void GameState::Update()
 				plr1.plrSpd = plr1.plrMaxSpd;
 			}
 		}
+		//if a vine is ontop another vine they seperate
+		/*if (SDL_HasIntersection(&vine[i]->vineDst, &vine[i + 1]->vineDst)) {
+			vine[i + 1]->vineDst.x += vine[i]->vineDst.w;
+		}*/
 
 	}
 	//DragonFly
@@ -517,9 +522,9 @@ void GameState::Update()
 				break;
 			}
 		}
-		for (unsigned j = 0; j < fly.size(); j++)
+		for (unsigned a = 0; a < fly.size(); a++)
 		{
-			if (SDL_HasIntersection(&playerpew[i]->rockDst, &fly[j]->flyDst)) //AABB Check
+			if (SDL_HasIntersection(&playerpew[i]->rockDst, &fly[a]->flyDst)) //AABB Check
 			{
 				Mix_PlayChannel(-1, hurtSfx, 0);
 				delete playerpew[i];
@@ -527,7 +532,7 @@ void GameState::Update()
 				playerpew.erase(playerpew.begin() + i);
 				playerpew.shrink_to_fit();
 				//set dumbie hp
-				fly[j]->setHp(fly[j]->getHp() - playerDamage);
+				fly[a]->setHp(fly[a]->getHp() - playerDamage);
 				break;
 			}
 		}
@@ -593,8 +598,7 @@ void GameState::Render()
 	SDL_SetRenderDrawColor(Engine::Instance().GetRenderer(), 0, 200, 200, 255);
 	SDL_RenderClear(Engine::Instance().GetRenderer());
 	// Any drawing here...
-	//SDL_SetRenderDrawColor(m_pRenderer, 255, 255, 255, 255);
-	//SDL_RenderFillRect(m_pRenderer, &plr1.plrDst);
+	SDL_SetRenderDrawBlendMode(Engine::Instance().GetRenderer(), SDL_BLENDMODE_BLEND);
 
 	//Background
 	SDL_RenderCopy(Engine::Instance().GetRenderer(),bgTutorial, &bg1.bgSrcTutorial, &bg1.bgDst);

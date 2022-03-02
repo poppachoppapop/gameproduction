@@ -4,6 +4,7 @@
 #include <iostream>
 #include <SDL_image.h>
 #include <SDL_mixer.h>
+#include <ctime>
 #include "Engine.h"
 
 int main(int argc, char* argv[])

@@ -37,7 +37,7 @@ DragonFly::DragonFly(int x, int y, double h) : flySrc({ 0,0,32,32 }), frameCtr(0
 	state = 0;
 	dir = 0;
 	dirTimer = 0;
-	speed = 20;
+	speed = 5;
 	distance = 10;
 }
 
@@ -81,7 +81,7 @@ void DragonFly::Update()
 		}
 		else {
 			dirTimer = 0;
-			dir = 1;
+			dir = rand()% 5;
 		}
 	}
 	else if (dir == 1) {
@@ -90,7 +90,7 @@ void DragonFly::Update()
 		}
 		else {
 			dirTimer = 0;
-			dir = 2;
+			dir = rand() % 5;
 		}
 	}
 	else if (dir == 2) {
@@ -99,7 +99,7 @@ void DragonFly::Update()
 		}
 		else {
 			dirTimer = 0;
-			dir = 3;
+			dir = rand() % 5;
 		}
 	}
 	else if (dir == 3) {
@@ -108,7 +108,16 @@ void DragonFly::Update()
 		}
 		else {
 			dirTimer = 0;
-			dir = 0;
+			dir = rand() % 5;
+		}
+	}
+	else {
+		if (dirTimer < distance) {
+			
+		}
+		else {
+			dirTimer = 0;
+			dir = rand() % 5;
 		}
 	}
 }

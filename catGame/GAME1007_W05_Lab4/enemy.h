@@ -1,6 +1,7 @@
 #pragma once
 #include "SDL.h"
 #include <ctime>
+#include "engine.h"
 #define MOVESPEED
 
 class Enemy
