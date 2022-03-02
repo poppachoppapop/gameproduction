@@ -19,6 +19,7 @@
 #define WIDTH 1024
 #define HEIGHT 768
 #define SPEED 10
+#define LV1SPEED 4
 
 using namespace std;
 

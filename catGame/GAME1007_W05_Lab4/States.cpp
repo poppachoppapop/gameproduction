@@ -255,7 +255,7 @@ void GameState::Update()
 	{
 		vine[i]->vineDst.x -= speedx;
 		vine[i]->vineDst.y -= speedy;
-		cout << Util::distanceOffset(plr1.plrDst, vine[i]->vineDst) << endl;
+		//cout << Util::distanceOffset(plr1.plrDst, vine[i]->vineDst) << endl;
 		if (!dashPressed) {
 			if (Util::distanceOffset(plr1.plrDst, vine[i]->vineDst) < 80) {
 				plr1.plrSpd = 1;
@@ -740,7 +740,7 @@ Levelone::Levelone() {}
 void Levelone::Enter()
 {
 	cout << "entering lv1" << endl;
-	bgTutorial = IMG_LoadTexture(Engine::Instance().GetRenderer(), "bgs/tutorial.png");
+	swamplv1 = IMG_LoadTexture(Engine::Instance().GetRenderer(), "bgs/swamp1.png");
 	plrTxtr = IMG_LoadTexture(Engine::Instance().GetRenderer(), "art/catboy.png");
 	rockTxtr = IMG_LoadTexture(Engine::Instance().GetRenderer(), "art/Rocko100.png");
 	DragonFlyTxt = IMG_LoadTexture(Engine::Instance().GetRenderer(), "art/dragonfly.png");
@@ -759,16 +759,16 @@ void Levelone::Enter()
 	Mix_VolumeChunk(aoeSound, 50);
 	Mix_VolumeChunk(projectileRock, 50);
 	maintheme = Mix_LoadMUS("Aud/Gametheme.mp3");
-	Mix_PlayMusic(maintheme, -1);
+	//Mix_PlayMusic(maintheme, -1);
 	Mix_VolumeMusic(12); //0-128
 	Mix_Volume(-1, 50);
-
-	//plrDst = { WIDTH / 2, HEIGHT / 2, 130, 190 };
+	plr1.plrDst = { 38 ,230 ,70, 70 };
 	playerpew.reserve(4);
 }
 
 void Levelone::Update()
 {
+	cout << plr1.plrDst.x << " , " << plr1.plrDst.y  << endl;
 	if (Engine::Instance().KeyDown(SDL_SCANCODE_R))
 	{
 
@@ -921,19 +921,19 @@ void Levelone::Update()
 	if (EVMA::KeyHeld(SDL_SCANCODE_S) && plr1.plrDst.y < (HEIGHT - plr1.plrDst.h)) {
 
 
-		plr1.plrDst.y += SPEED;
+		plr1.plrDst.y += LV1SPEED;
 		plr1.state = 1;
 	}
 	if (EVMA::KeyHeld(SDL_SCANCODE_W) && plr1.plrDst.y > 0) {
-		plr1.plrDst.y -= SPEED;
+		plr1.plrDst.y -= LV1SPEED;
 		plr1.state = 2;
 	}
 	if (EVMA::KeyHeld(SDL_SCANCODE_D) && plr1.plrDst.x < (WIDTH - plr1.plrDst.w)) {
-		plr1.plrDst.x += SPEED;
+		plr1.plrDst.x += LV1SPEED;
 		plr1.state = 4;
 	}
 	if (EVMA::KeyHeld(SDL_SCANCODE_A) && plr1.plrDst.x > 0) {
-		plr1.plrDst.x -= SPEED;
+		plr1.plrDst.x -= LV1SPEED;
 		plr1.state = 3;
 	}
 	
@@ -962,10 +962,10 @@ void Levelone::Update()
 	for (unsigned i = 0; i < playerpew.size(); i++)
 	{
 		playerpew[i]->Update();
-		playerpew[i]->rockDst.x -= speedx;
-		playerpew[i]->rockDst.y -= speedy;
+		playerpew[i]->rock2Dst.x -= speedx;
+		playerpew[i]->rock2Dst.y -= speedy;
 
-		if (playerpew[i]->rockDst.x >= WIDTH || playerpew[i]->rockDst.x <= -64 || playerpew[i]->rockDst.y >= HEIGHT || playerpew[i]->rockDst.y <= -64)
+		if (playerpew[i]->rock2Dst.x >= WIDTH || playerpew[i]->rock2Dst.x <= -32 || playerpew[i]->rock2Dst.y >= HEIGHT || playerpew[i]->rock2Dst.y <= -32)
 		{
 			delete playerpew[i];
 			playerpew[i] = nullptr;
@@ -988,7 +988,7 @@ void Levelone::Render()
 	//SDL_RenderFillRect(m_pRenderer, &plr1.plrDst);
 
 	//Background
-	SDL_RenderCopy(Engine::Instance().GetRenderer(), bgTutorial,NULL,NULL );
+	SDL_RenderCopy(Engine::Instance().GetRenderer(), swamplv1, NULL, NULL);
 	if (plr1.state == 0)
 		SDL_RenderCopy(Engine::Instance().GetRenderer(), plrTxtr, &plr1.plrFrontIdle, &plr1.plrDst);
 	else if (plr1.state == 1)
@@ -1006,7 +1006,7 @@ void Levelone::Render()
 	for (unsigned i = 0; i < playerpew.size(); i++)
 	{
 		SDL_RenderCopy(Engine::Instance().GetRenderer(), rockTxtr,
-			&(playerpew[i]->rockSrc), &(playerpew[i]->rockDst));
+			&(playerpew[i]->rock2Src), &(playerpew[i]->rock2Dst));
 	}
 
 	//item
@@ -1046,6 +1046,7 @@ void Levelone::Exit()
 	dumbie.shrink_to_fit();
 	item1.clear();
 	item1.shrink_to_fit();
+	SDL_DestroyTexture(swamplv1);
 	SDL_DestroyTexture(plrTxtr);
 	SDL_DestroyTexture(rockTxtr);
 	SDL_DestroyTexture(DragonFlyTxt);

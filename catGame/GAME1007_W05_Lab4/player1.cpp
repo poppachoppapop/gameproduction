@@ -122,9 +122,10 @@ void Player::takeDamage(int howMuch)
 	}
 }
 
-Rock::Rock(int x,int y, int s, char d) :rockSrc ({0,0,32,32})
+Rock::Rock(int x,int y, int s, char d) :rockSrc ({0,0,32,32}),rock2Src({ 0,0,32,32 })
 {
 	rockDst = { x,y,64,64 };
+	rock2Dst = { x,y,32,32 };
 	speed = s;
 	dir = d;
 }
@@ -135,6 +136,11 @@ void Rock::Update()
 		rockDst.x += speed;
 	if (dir == 'y')
 		rockDst.y += speed;
+
+	if (dir == 'x')
+		rock2Dst.x += speed;
+	if (dir == 'y')
+		rock2Dst.y += speed;
 	
 	
 }

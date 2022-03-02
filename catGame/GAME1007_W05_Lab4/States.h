@@ -62,6 +62,7 @@ protected: //priv but inherited
 	SDL_Texture* rockTxtr;
 	SDL_Texture* dumbieTxtr;
 	SDL_Texture* bgTutorial;
+	SDL_Texture* swamplv1;
 	SDL_Texture* DragonFlyTxt;
 	SDL_Texture* vineTexture;
 
@@ -74,7 +75,7 @@ protected: //priv but inherited
 	SDL_Rect textBoxRect;
 	SDL_Rect textBoxBorder;
 	SDL_Rect scoreRect;
-	
+		
 	Player plr1;
 	NPC catDude;
 	Background bg1;
@@ -156,7 +157,7 @@ public:
 class Levelone : public State
 {
 private:
-	
+
 public:
 	Levelone();
 	virtual void Enter();
