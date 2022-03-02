@@ -516,7 +516,10 @@ void GameState::Update()
 				dumbie[j]->setHp(dumbie[j]->getHp() - playerDamage);
 				break;
 			}
-		}
+		}		
+	}
+	for (unsigned i = 0; i < playerpew.size(); i++)
+	{
 		for (unsigned j = 0; j < fly.size(); j++)
 		{
 			if (SDL_HasIntersection(&playerpew[i]->rockDst, &fly[j]->flyDst)) //AABB Check
@@ -532,6 +535,7 @@ void GameState::Update()
 			}
 		}
 	}
+	
 	//delete dumbie when at 0 hp
 	for (unsigned i = 0; i < dumbie.size(); i++)
 	{
