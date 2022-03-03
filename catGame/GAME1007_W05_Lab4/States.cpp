@@ -764,7 +764,11 @@ void Levelone::Enter()
 	Mix_Volume(-1, 50);
 	playerpew.reserve(4);
 
+	frog.push_back(new Frog(bg1.swamp1Dst.x, bg1.swamp1Dst.y,2));
+	frog.shrink_to_fit();
 }
+
+
 
 void Levelone::Update()
 { 
@@ -985,6 +989,12 @@ void Levelone::Update()
 			playerpew.shrink_to_fit();
 			break;
 		}
+	}
+	for (unsigned i = 0; i < frog.size(); i++)
+	{
+		frog[i]->Update();
+		frog[i]->frogDst.x -= speedx;
+		frog[i]->frogDst.y -= speedy;
 	}
 
 
