@@ -129,7 +129,7 @@ Vines::Vines(int x, int y) :vineSrc({ 0,0,32,32 })
 }
 
 //frog
-Frog::Frog(int x, int y, int h) :frogSrc({ 0,0,32,32 }), frameCtr(0), frameMax(3), spriteIdx(0), spriteMax(7)
+Frog::Frog(int x, int y, int h) :frogSrc({ 0,0,32,32 }), frameCtr(0), frameMax(4), spriteIdx(0), spriteMax(7)
 {
 	frogDst = { x,y, 125, 125 };
 	healthBar = { x, y , 50, 5 };
