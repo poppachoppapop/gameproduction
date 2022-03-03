@@ -1,5 +1,18 @@
 #include "enemy.h"
-//Dummy
+
+Attack::Attack(int x, int y)
+{
+	//temp sdl rect for attack
+	frogAttackDst = { x,y,29,7 };
+}
+
+void Attack::Update(int move)
+{
+	//frogAttackSrc
+
+	frogAttackDst.x += SPEED * move;
+}
+//Dumbie
 Enemy::Enemy(int x, int y, double h) :enemySrc({ 0,0,64,64 })
 {
 	//random dumie spawn
@@ -8,7 +21,6 @@ Enemy::Enemy(int x, int y, double h) :enemySrc({ 0,0,64,64 })
 	health = h;
 	maxHealth = h;
 }
-
 
 void Enemy::setHp(double h) {
 	health = h;
@@ -144,13 +156,12 @@ Vines::Vines(int x, int y) :vineSrc({ 0,0,32,32 })
 Frog::Frog(int x, int y, int h) :frogSrc({ 0,0,32,32 }), frameCtr(0), frameMax(4), spriteIdx(0), spriteMax(7)
 {
 	frogDst = { x,y, 125, 125 };
-	healthBar = { x, y , 50, 5 };
+	healthBar = { x, y , 50, 5 };	
 	health = h;
 	maxHealth = h;
-	state = 0;
-	
-	
+	state = 0;	
 }
+	
 
 void Frog::setHp(double h)
 {
@@ -162,9 +173,8 @@ int Frog::getHp()
 	return health;
 }
 
-void Frog::Update()
+void Frog::Update(int move)
 {
-	
 
 	if (state == 0)
 	{
@@ -184,4 +194,12 @@ void Frog::Update()
 	healthBar.w = double(health / maxHealth) * 100;
 	healthBar.x = frogDst.x + 15;
 	healthBar.y = frogDst.y - 5;
+	frames++;
 }
+
+void Frog::resetFrames()
+{
+	frames = 0;
+}
+
+

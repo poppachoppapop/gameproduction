@@ -3,8 +3,20 @@
 #include <ctime>
 #include "engine.h"
 #define MOVESPEED
-#define FROGSPEED 2
+//#define FROGSPEED 2
+#define FROGATTACK 7
+#define ATTACKRATE 3
+class Attack
+{
+private:
 
+public:
+	SDL_Rect frogAttackDst,frogAttackSrc;
+	Uint16 frames = 0;
+	Attack(int = 0, int = 0);	
+	void Update(int move);
+
+};
 class Enemy
 {
 
@@ -58,12 +70,13 @@ class Frog
 		double maxHealth;
 		
 public:
-	Frog(int x, int y, int h);
 	SDL_Rect frogSrc, frogDst, healthBar;
+	Frog(int x, int y, int h);
 	Uint16 frames = 0;
 	void setHp(double h);
 	int getHp();
-	void Update();
+	void Update(int move);
+	void resetFrames();
 };
 
 

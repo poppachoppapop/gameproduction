@@ -781,7 +781,7 @@ void Levelone::Enter()
 	fly.push_back(new DragonFly(bg1.bgDst.x + 950, bg1.bgDst.y + 1440, 2));
 	fly.shrink_to_fit();	
 
-	frog.push_back(new Frog(bg1.swamp1Dst.x + 1450 , bg1.swamp1Dst.y + 500, 2));
+	frog.push_back(new Frog(bg1.swamp1Dst.x + 1300 , bg1.swamp1Dst.y + 500, 2));
 	frog.shrink_to_fit();
 
 	vine.push_back(new Vines(bg1.bgDst.x + 1300, bg1.bgDst.y+1650));
@@ -798,7 +798,7 @@ void Levelone::Update()
 		STMA::ChangeState(new EndState());
 		return;
 	}
-	cout << plr1.plrDst.x - bg1.swamp1Dst.x << " - " << plr1.plrDst.y - bg1.swamp1Dst.y << endl;
+	//cout << plr1.plrDst.x - bg1.swamp1Dst.x << " - " << plr1.plrDst.y - bg1.swamp1Dst.y << endl;
 	//cout << plr1.plrDst.x << " , " << plr1.plrDst.y  << endl;
 	if (Engine::Instance().KeyDown(SDL_SCANCODE_R))
 	{
@@ -1016,11 +1016,35 @@ void Levelone::Update()
 			break;
 		}
 	}
-	//frog
+	//frog stuff
+	for (unsigned i =0; i < frog.size();i++)
+	{
+		frog[i]->Update(-1);
+		frog[i]->frogDst.x -= speedx;
+		frog[i]->frogDst.y -= speedy;		
+
+		if (frog[i]->frames >= FPS * ATTACKRATE / 2)
+		{
+			frog[i]->resetFrames();
+			cout << "frog attack!" << endl;
+			attack.push_back(new Attack(frog[i]->frogDst.x, frog[i]->frogDst.y));
+			attack.shrink_to_fit();
+		}
+
+		if (frog[i]->getHp() <= 0) {
+			//Mix_PlayChannel(-1,, 0);
+			delete frog[i];
+			frog[i] = nullptr;
+			frog.erase(frog.begin() + i);
+			frog.shrink_to_fit();
+		}
+	}
+	
 	for (unsigned i = 0; i < playerpew.size(); i++)
 	{
 		for (unsigned j = 0; j < frog.size(); j++)
 		{
+
 			if (SDL_HasIntersection(&playerpew[i]->rockDst, &frog[j]->frogDst)) //AABB Check
 			{
 				Mix_PlayChannel(-1, hurtSfx, 0);
@@ -1034,19 +1058,27 @@ void Levelone::Update()
 			}
 		}
 	}
-	for (unsigned i = 0; i < frog.size(); i++)
+	
+	for (unsigned i = 0; i < attack.size(); i++)
 	{
-		frog[i]->Update();
-		frog[i]->frogDst.x -= speedx;
-		frog[i]->frogDst.y -= speedy;
-		if (frog[i]->getHp() <= 0) {
-			//Mix_PlayChannel(-1, deathSfx, 0);
-			delete frog[i];
-			frog[i] = nullptr;
-			frog.erase(frog.begin() + i);
-			frog.shrink_to_fit();
+		if (SDL_HasIntersection(&attack[i]->frogAttackDst, &plr1.plrDst))
+		{
+			delete attack[i];
+			attack[i] = nullptr;
+			attack.erase(attack.begin() + i);
+			attack.shrink_to_fit();
+			STMA::ChangeState(new EndState());
+			return;
 		}
 	}
+	
+	for (unsigned i = 0; i < attack.size(); i++)
+	{
+		attack[i]->frogAttackDst.x -= speedx;
+		attack[i]->frogAttackDst.y -= speedy;
+		attack[i]->Update(-1);
+	}
+
 	//vines
 	for (unsigned i = 0; i < vine.size(); i++)
 	{
@@ -1159,6 +1191,13 @@ void Levelone::Render()
 		SDL_SetRenderDrawColor(Engine::Instance().GetRenderer(), 255, 0, 0, 255);
 		SDL_RenderFillRect(Engine::Instance().GetRenderer(), &frog[i]->healthBar);
 	}
+
+	SDL_SetRenderDrawColor(Engine::Instance().GetRenderer(), 0, 255, 255, 255);
+	for (unsigned i = 0; i < attack.size(); i++)
+	{
+		SDL_RenderFillRect(Engine::Instance().GetRenderer(), &(attack[i]->frogAttackDst));
+	}
+
 	//dragoon fly
 	for (unsigned i = 0; i < fly.size(); i++)
 	{
@@ -1179,6 +1218,11 @@ void Levelone::Exit()
 		delete frog[i];
 		frog[i] = nullptr;
 	}
+	for (unsigned i = 0; i < fly.size(); i++)
+	{
+		delete fly[i];
+		fly[i] = nullptr;
+	}
 	for (unsigned i = 0; i < playerpew.size(); i++)
 	{
 		delete playerpew[i];
@@ -1189,6 +1233,15 @@ void Levelone::Exit()
 		delete item1[i];
 		item1[i] = nullptr;
 	}
+	for (unsigned i = 0; i < attack.size();i++)
+	{
+		delete attack[i];
+		attack[i] = nullptr;
+	}
+	fly.clear();
+	fly.shrink_to_fit();
+	attack.clear();
+	attack.shrink_to_fit();
 	frog.clear();
 	frog.shrink_to_fit();
 	playerpew.clear();
