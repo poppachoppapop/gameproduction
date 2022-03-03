@@ -9,8 +9,8 @@ frameCtr(0), frameMax(3), spriteIdx(0), spriteMax(6)
 	plrSpd = 5;
 	plrMaxSpd = 5;
 	plrDsh = 50;
-	plrHp = 10;
-	maxHp = 10;
+	plrHp = 5;
+	maxHp = 5;
 	state = 0;
 	hurtSfx = Mix_LoadWAV("sfx/ow.wav");
 }
@@ -115,7 +115,7 @@ int Player::getMaxSpd()
 
 void Player::takeDamage(int howMuch)
 {
-	if (damageCD > 100) {
+	if (damageCD > 20) {
 		plrHp--;
 		damageCD = 0;
 		Mix_PlayChannel(-1, hurtSfx, 0);
