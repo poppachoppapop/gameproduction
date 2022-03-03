@@ -781,8 +781,11 @@ void Levelone::Enter()
 	fly.push_back(new DragonFly(bg1.bgDst.x + 950, bg1.bgDst.y + 1440, 2));
 	fly.shrink_to_fit();	
 
-	frog.push_back(new Frog(bg1.swamp1Dst.x + 1300 , bg1.swamp1Dst.y + 500, 2));
+	frog.push_back(new Frog(bg1.swamp1Dst.x + 1150 , bg1.swamp1Dst.y + 500, 2));
 	frog.shrink_to_fit();
+	frog2.push_back(new Frog2(bg1.swamp1Dst.x + 1380, bg1.swamp1Dst.y + 375, 2));
+	//frog2.push_back(new Frog2(bg1.swamp1Dst.x + 1390, bg1.swamp1Dst.y + 380, 2));
+	frog2.shrink_to_fit();
 
 	vine.push_back(new Vines(bg1.bgDst.x + 1300, bg1.bgDst.y+1650));
 	//vine.push_back(new Vines(bg1.bgDst.x + 950, bg1.bgDst.y + 1640));
@@ -1058,6 +1061,22 @@ void Levelone::Update()
 			}
 		}
 	}
+	for (unsigned i = 0; i < frog2.size();i++)
+	{
+		frog2[i]->frog2Dst.x -= speedx;
+		frog2[i]->frog2Dst.y -= speedy;
+		frog2[i]->Update();
+	}
+	//testing for collision with player and frog2 
+	for (unsigned i = 0; i < frog2.size();i++)
+	{
+		if (SDL_HasIntersection(&frog2[i]->frog2Dst, &plr1.plrDst))
+		{
+			cout << "died to frog2" << endl;
+			STMA::ChangeState(new EndState());
+			return;
+		}
+	}
 	
 	for (unsigned i = 0; i < attack.size(); i++)
 	{
@@ -1191,13 +1210,20 @@ void Levelone::Render()
 		SDL_SetRenderDrawColor(Engine::Instance().GetRenderer(), 255, 0, 0, 255);
 		SDL_RenderFillRect(Engine::Instance().GetRenderer(), &frog[i]->healthBar);
 	}
-
+	//frog attack
 	SDL_SetRenderDrawColor(Engine::Instance().GetRenderer(), 0, 255, 255, 255);
 	for (unsigned i = 0; i < attack.size(); i++)
 	{
 		SDL_RenderFillRect(Engine::Instance().GetRenderer(), &(attack[i]->frogAttackDst));
 	}
-
+	//frog2
+	for (unsigned i = 0; i < frog2.size();i++)
+	{
+		SDL_RenderCopy(Engine::Instance().GetRenderer(), FrogTxtr, &frog2[i]->frog2Src, &frog2[i]->frog2Dst);
+		SDL_SetRenderDrawColor(Engine::Instance().GetRenderer(), 0, 0, 65, 194);
+		SDL_RenderFillRect(Engine::Instance().GetRenderer(), &frog2[i]->healthBar);
+	}	
+	
 	//dragoon fly
 	for (unsigned i = 0; i < fly.size(); i++)
 	{
@@ -1238,6 +1264,13 @@ void Levelone::Exit()
 		delete attack[i];
 		attack[i] = nullptr;
 	}
+	for (unsigned i = 0; i < frog2.size();i++)
+	{
+		delete frog2[i];
+		frog2[i] = nullptr;
+	}
+	frog2.clear();
+	frog2.shrink_to_fit();
 	fly.clear();
 	fly.shrink_to_fit();
 	attack.clear();
@@ -1283,7 +1316,7 @@ void EndState::Update()
 	if (Engine::Instance().KeyDown(SDL_SCANCODE_R))
 	{
 
-		cout << "changing to titlestate" << endl;
+		cout << "changing to endstate" << endl;
 		STMA::ChangeState(new TitleState());
 		return;
 	}
