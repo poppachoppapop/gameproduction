@@ -47,7 +47,7 @@ protected: //priv but inherited
 	bool renderScoreBox = false;
 
 	TTF_Font* font;
-	char message[100] = "Hello! Welcome To the First Playable";
+	char message[100] = "Hello! Welcome To the alpha release";
 	char scoreMessage[100] = "Score: 0";
 	SDL_Color White;
 	SDL_Surface* dummyScore;
@@ -66,7 +66,7 @@ protected: //priv but inherited
 	SDL_Texture* DragonFlyTxt;
 	SDL_Texture* vineTexture;
 	SDL_Texture* FrogTxtr;
-
+	
 	vector<Rock*> playerpew;
 	vector<Enemy*> dumbie;
 	vector<Items*> item1;

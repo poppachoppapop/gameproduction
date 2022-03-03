@@ -16,6 +16,9 @@
     <Filter Include="Source Files\Character">
       <UniqueIdentifier>{9c344fd2-2123-467a-a321-1c3300d180e0}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Source Files\tile stuff">
+      <UniqueIdentifier>{351d86d8-6cd1-400e-ad6f-50cb3abf4e8d}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Main.cpp">
@@ -51,6 +54,9 @@
     <ClCompile Include="Util.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="Tile.cpp">
+      <Filter>Source Files\tile stuff</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Engine.h">
@@ -82,6 +88,9 @@
     </ClInclude>
     <ClInclude Include="Util.h">
       <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Tile.h">
+      <Filter>Source Files\tile stuff</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

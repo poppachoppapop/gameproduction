@@ -164,6 +164,8 @@ int Frog::getHp()
 
 void Frog::Update()
 {
+	
+
 	if (state == 0)
 	{
 		spriteMax = 7;

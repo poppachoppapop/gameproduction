@@ -3,6 +3,7 @@
 #include <ctime>
 #include "engine.h"
 #define MOVESPEED
+#define FROGSPEED 2
 
 class Enemy
 {

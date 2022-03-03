@@ -161,6 +161,11 @@ void GameState::Update()
 {
 	//debug
 	cout << plr1.plrDst.x - bg1.bgDst.x << " - " << plr1.plrDst.y - bg1.bgDst.y << endl;
+	if (plr1.plrHp <= 0)
+	{
+		STMA::ChangeState(new EndState());
+		return;
+	}
 	if (EVMA::KeyPressed(SDL_SCANCODE_P))
 	{
 		cout << "Changing to PauseState" << endl;
@@ -179,7 +184,7 @@ void GameState::Update()
 	if (EVMA::KeyPressed(SDL_SCANCODE_X))
 	{
 
-	    cout << "changing to gamestate" << endl;
+	    cout << "changing to endstate" << endl;
 		STMA::ChangeState(new EndState());
 		return;
 	}
@@ -289,6 +294,7 @@ void GameState::Update()
 			fly.shrink_to_fit();
 		}
 	}
+	
 
 
 
@@ -522,6 +528,9 @@ void GameState::Update()
 				break;
 			}
 		}
+	}
+	for (unsigned i = 0; i < playerpew.size(); i++)
+	{
 		for (unsigned a = 0; a < fly.size(); a++)
 		{
 			if (SDL_HasIntersection(&playerpew[i]->rockDst, &fly[a]->flyDst)) //AABB Check
@@ -537,6 +546,8 @@ void GameState::Update()
 			}
 		}
 	}
+		
+	
 	//delete dumbie when at 0 hp
 	for (unsigned i = 0; i < dumbie.size(); i++)
 	{
@@ -764,7 +775,7 @@ void Levelone::Enter()
 	Mix_Volume(-1, 50);
 	playerpew.reserve(4);
 
-	frog.push_back(new Frog(bg1.swamp1Dst.x, bg1.swamp1Dst.y,2));
+	frog.push_back(new Frog(bg1.swamp1Dst.x , bg1.swamp1Dst.y,2));
 	frog.shrink_to_fit();
 }
 
@@ -772,6 +783,11 @@ void Levelone::Enter()
 
 void Levelone::Update()
 { 
+	if (plr1.plrHp <= 0)
+	{
+		STMA::ChangeState(new EndState());
+		return;
+	}
 	cout << plr1.plrDst.x - bg1.swamp1Dst.x << " - " << plr1.plrDst.y - bg1.swamp1Dst.y << endl;
 	//cout << plr1.plrDst.x << " , " << plr1.plrDst.y  << endl;
 	if (Engine::Instance().KeyDown(SDL_SCANCODE_R))
@@ -990,12 +1006,38 @@ void Levelone::Update()
 			break;
 		}
 	}
+	//frog
+	for (unsigned i = 0; i < playerpew.size(); i++)
+	{
+		for (unsigned j = 0; j < frog.size(); j++)
+		{
+			if (SDL_HasIntersection(&playerpew[i]->rockDst, &frog[j]->frogDst)) //AABB Check
+			{
+				Mix_PlayChannel(-1, hurtSfx, 0);
+				delete playerpew[i];
+				playerpew[i] = nullptr;
+				playerpew.erase(playerpew.begin() + i);
+				playerpew.shrink_to_fit();
+				//set frog hp
+				frog[j]->setHp(frog[j]->getHp() - playerDamage);
+				break;
+			}
+		}
+	}
 	for (unsigned i = 0; i < frog.size(); i++)
 	{
 		frog[i]->Update();
 		frog[i]->frogDst.x -= speedx;
 		frog[i]->frogDst.y -= speedy;
+		if (frog[i]->getHp() <= 0) {
+			//Mix_PlayChannel(-1, deathSfx, 0);
+			delete frog[i];
+			frog[i] = nullptr;
+			frog.erase(frog.begin() + i);
+			frog.shrink_to_fit();
+		}
 	}
+	
 
 
 }
@@ -1044,10 +1086,10 @@ void Levelone::Render()
 	for(unsigned i =0; i <frog.size(); i++)
 	{
 		SDL_RenderCopy(Engine::Instance().GetRenderer(), FrogTxtr,&frog[i]->frogSrc,&frog[i]->frogDst);
+		//health bar
+		SDL_SetRenderDrawColor(Engine::Instance().GetRenderer(), 255, 0, 0, 255);
+		SDL_RenderFillRect(Engine::Instance().GetRenderer(), &frog[i]->healthBar);
 	}
-	
-	
-
 
 	if (dynamic_cast<Levelone*>(STMA::GetStates().back()))//if current state is gamestate	
 		State::Render();
@@ -1055,6 +1097,11 @@ void Levelone::Render()
 
 void Levelone::Exit()
 {
+	for (unsigned i = 0; i < frog.size(); i++)
+	{
+		delete frog[i];
+		frog[i] = nullptr;
+	}
 	for (unsigned i = 0; i < playerpew.size(); i++)
 	{
 		delete playerpew[i];
@@ -1065,6 +1112,8 @@ void Levelone::Exit()
 		delete item1[i];
 		item1[i] = nullptr;
 	}
+	frog.clear();
+	frog.shrink_to_fit();
 	playerpew.clear();
 	playerpew.shrink_to_fit();
 	dumbie.clear();
@@ -1096,7 +1145,7 @@ EndState::EndState() {}
 
 void EndState::Enter()
 {
-	cout << "entering endstate" << endl;
+	cout << "entering endstate\npress R to return to title state" << endl;
 }
 
 void EndState::Update()
@@ -1104,7 +1153,7 @@ void EndState::Update()
 	if (Engine::Instance().KeyDown(SDL_SCANCODE_R))
 	{
 
-		cout << "changing to gamestate" << endl;
+		cout << "changing to titlestate" << endl;
 		STMA::ChangeState(new TitleState());
 		return;
 	}
