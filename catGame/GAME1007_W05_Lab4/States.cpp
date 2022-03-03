@@ -801,7 +801,7 @@ void Levelone::Update()
 		STMA::ChangeState(new EndState());
 		return;
 	}
-	cout << Noobtimer++ << endl;
+	cout <<"noobtimer"<< Noobtimer++ <<" | "<<ezModeCD++ << "ezmodecd<-" << endl;
 	//cout << plr1.plrDst.x - bg1.swamp1Dst.x << " - " << plr1.plrDst.y - bg1.swamp1Dst.y << endl;
 	//cout << plr1.plrDst.x << " , " << plr1.plrDst.y  << endl;
 	if (Engine::Instance().KeyDown(SDL_SCANCODE_R))
@@ -956,7 +956,7 @@ void Levelone::Update()
 
 	}
 
-	ezModeCD++;
+	//ezModeCD++;
 	if (ezModeCD > 3000)
 	{
 		if (EVMA::KeyPressed(SDL_SCANCODE_E))
@@ -972,6 +972,8 @@ void Levelone::Update()
 		if (Noobtimer > 500)
 		{
 			isEzModeActive = false;
+			Noobtimer = 0;
+			ezModeCD = 0;
 		}
 	}
 	
