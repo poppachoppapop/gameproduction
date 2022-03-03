@@ -39,6 +39,11 @@ DragonFly::DragonFly(int x, int y, double h) : flySrc({ 0,0,32,32 }), frameCtr(0
 	dirTimer = 0;
 	speed = 5;
 	distance = 10;
+	upCount = 0;
+	downCount = 0;
+	leftCount = 0;
+	rightCount = 0;
+	maxCount = 5;
 }
 
 void DragonFly::setHp(double h)
@@ -75,50 +80,57 @@ void DragonFly::Update()
 	healthBar.y = flyDst.y - 5;
 	dirTimer++;
 
-	if (dir == 0) {
+	if (dir == 0 && maxCount > upCount) {
 		if (dirTimer < distance) {
 			flyDst.y -= speed;
 		}
 		else {
 			dirTimer = 0;
 			dir = rand()% 5;
+			upCount++;
 		}
 	}
-	else if (dir == 1) {
+	else if (dir == 1 && maxCount > leftCount) {
 		if (dirTimer < distance) {
 			flyDst.x -= speed;
 		}
 		else {
 			dirTimer = 0;
 			dir = rand() % 5;
+			leftCount++;
 		}
 	}
-	else if (dir == 2) {
+	else if (dir == 2 && maxCount > downCount) {
 		if (dirTimer < distance) {
 			flyDst.y += speed;
 		}
 		else {
 			dirTimer = 0;
 			dir = rand() % 5;
+			downCount++;
 		}
 	}
-	else if (dir == 3) {
+	else if (dir == 3 && maxCount > rightCount) {
 		if (dirTimer < distance) {
 			flyDst.x += speed;
 		}
 		else {
 			dirTimer = 0;
 			dir = rand() % 5;
+			rightCount++;
 		}
 	}
-	else {
-		if (dirTimer < distance) {
-			
-		}
-		else {
+	else{
+		if (dirTimer > distance) {
 			dirTimer = 0;
 			dir = rand() % 5;
 		}
+	}
+	if ((maxCount * 4) <= leftCount + rightCount + upCount + downCount) {
+		leftCount = 0;
+		rightCount = 0;
+		downCount = 0;
+		upCount = 0;
 	}
 }
 

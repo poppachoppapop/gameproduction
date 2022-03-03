@@ -31,6 +31,7 @@ private:
 	int speed;
 	int dirTimer;
 	int distance;
+	int upCount, downCount, rightCount, leftCount, maxCount;
 public:
 	DragonFly(int x, int y, double h);
 	SDL_Rect flySrc, flyDst, healthBar;
