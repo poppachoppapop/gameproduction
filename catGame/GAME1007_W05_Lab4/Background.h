@@ -8,6 +8,7 @@ private:
 	int whichBg;
 public:
 	SDL_Rect bgSrcTutorial, bgDst;
+	SDL_Rect swamp1Src, swamp1Dst;
 	Background();
 };
 

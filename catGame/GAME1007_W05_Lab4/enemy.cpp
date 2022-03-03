@@ -37,7 +37,7 @@ DragonFly::DragonFly(int x, int y, double h) : flySrc({ 0,0,32,32 }), frameCtr(0
 	state = 0;
 	dir = 0;
 	dirTimer = 0;
-	speed = 20;
+	speed = 5;
 	distance = 10;
 }
 
@@ -81,7 +81,7 @@ void DragonFly::Update()
 		}
 		else {
 			dirTimer = 0;
-			dir = 1;
+			dir = rand()% 5;
 		}
 	}
 	else if (dir == 1) {
@@ -90,7 +90,7 @@ void DragonFly::Update()
 		}
 		else {
 			dirTimer = 0;
-			dir = 2;
+			dir = rand() % 5;
 		}
 	}
 	else if (dir == 2) {
@@ -99,7 +99,7 @@ void DragonFly::Update()
 		}
 		else {
 			dirTimer = 0;
-			dir = 3;
+			dir = rand() % 5;
 		}
 	}
 	else if (dir == 3) {
@@ -108,7 +108,16 @@ void DragonFly::Update()
 		}
 		else {
 			dirTimer = 0;
-			dir = 0;
+			dir = rand() % 5;
+		}
+	}
+	else {
+		if (dirTimer < distance) {
+			
+		}
+		else {
+			dirTimer = 0;
+			dir = rand() % 5;
 		}
 	}
 }
@@ -117,4 +126,48 @@ void DragonFly::Update()
 Vines::Vines(int x, int y) :vineSrc({ 0,0,32,32 })
 {
 	vineDst = { x - 10 ,y + 10,vineSrc.w * 4, vineSrc.h * 4 };
+}
+
+//frog
+Frog::Frog(int x, int y, int h) :frogSrc({ 0,0,32,32 }), frameCtr(0), frameMax(4), spriteIdx(0), spriteMax(7)
+{
+	frogDst = { x,y, 125, 125 };
+	healthBar = { x, y , 50, 5 };
+	health = h;
+	maxHealth = h;
+	state = 0;
+	
+	
+}
+
+void Frog::setHp(double h)
+{
+	health = h;
+}
+
+int Frog::getHp()
+{
+	return health;
+}
+
+void Frog::Update()
+{
+	if (state == 0)
+	{
+		spriteMax = 7;
+		if (spriteIdx > 7)
+			spriteIdx = 0;
+		if (frameCtr++ == frameMax)
+		{
+			frameCtr = 0;
+			if (++spriteIdx == spriteMax)
+			{
+				spriteIdx = 0;
+			}
+			frogSrc.x = 0 + frogSrc.w * spriteIdx;
+		}
+	}
+	healthBar.w = double(health / maxHealth) * 100;
+	healthBar.x = frogDst.x + 15;
+	healthBar.y = frogDst.y - 5;
 }

@@ -36,6 +36,7 @@ private:
 	char dir;
 public:
 	SDL_Rect rockSrc, rockDst;
+	SDL_Rect rock2Src, rock2Dst;
 	Rock(int x, int y, int s, char d);
 	void Update();
 	
