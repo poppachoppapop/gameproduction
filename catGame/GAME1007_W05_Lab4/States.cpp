@@ -787,7 +787,7 @@ void Levelone::Enter()
 	frog2.push_back(new Frog2(bg1.swamp1Dst.x + 1420, bg1.swamp1Dst.y + 950, 2));
 	frog2.shrink_to_fit();
 
-	vine.push_back(new Vines(bg1.bgDst.x + 1300, bg1.bgDst.y+1650));
+	vine.push_back(new Vines(bg1.bgDst.x + 1000, bg1.bgDst.y+1500));
 	//vine.push_back(new Vines(bg1.bgDst.x + 950, bg1.bgDst.y + 1640));
 	vine.shrink_to_fit();
 }
@@ -801,6 +801,7 @@ void Levelone::Update()
 		STMA::ChangeState(new EndState());
 		return;
 	}
+	cout << Noobtimer++ << endl;
 	//cout << plr1.plrDst.x - bg1.swamp1Dst.x << " - " << plr1.plrDst.y - bg1.swamp1Dst.y << endl;
 	//cout << plr1.plrDst.x << " , " << plr1.plrDst.y  << endl;
 	if (Engine::Instance().KeyDown(SDL_SCANCODE_R))
@@ -859,7 +860,7 @@ void Levelone::Update()
 	bg1.swamp1Dst.x -= speedx;
 	bg1.swamp1Dst.y -= speedy;
 
-
+	
 	stepSoundTimer++; turnSoundTimer++;
 	dashCooldown++;
 	plr1.Update();
@@ -953,6 +954,25 @@ void Levelone::Update()
 			cout << tempSpeed << endl;
 		}
 
+	}
+
+	ezModeCD++;
+	if (ezModeCD > 3000)
+	{
+		if (EVMA::KeyPressed(SDL_SCANCODE_E))
+		{
+			isEzModeActive = true;
+			Noobtimer = 0;
+			ezModeCD = 0;
+		}
+	}
+	Noobtimer++;
+	if (isEzModeActive)	
+	{		
+		if (Noobtimer > 500)
+		{
+			isEzModeActive = false;
+		}
 	}
 	
 
@@ -1067,16 +1087,40 @@ void Levelone::Update()
 		frog2[i]->frog2Dst.y -= speedy;
 		frog2[i]->Update();
 	}
-	//testing for collision with player and frog2 
-	for (unsigned i = 0; i < frog2.size();i++)
+
+	//testing for collision with player and frog2	
+	for (unsigned i = 0; i < playerpew.size(); i++)
 	{
-		if (SDL_HasIntersection(&frog2[i]->frog2Dst, &plr1.plrDst))
+		for(unsigned j = 0; j < frog2.size(); j++)
 		{
-			cout << "died to frog2" << endl;
-			STMA::ChangeState(new EndState());
-			return;
+			if (SDL_HasIntersection(&playerpew[i]->rockDst, &frog2[j]->frog2Dst)) //AABB Check
+			{
+					Mix_PlayChannel(-1, hurtSfx, 0);
+					delete playerpew[i];
+					playerpew[i] = nullptr;
+					playerpew.erase(playerpew.begin() + i);
+					playerpew.shrink_to_fit();
+					break;
+			}
 		}
 	}
+
+	
+	
+	//player v frog
+	if (isEzModeActive == false) 
+	{
+		for (unsigned i = 0; i < frog2.size();i++)
+		{
+			if (SDL_HasIntersection(&frog2[i]->frog2Dst, &plr1.plrDst))
+			{
+				cout << "died to frog2" << endl;
+				STMA::ChangeState(new EndState());
+				return;
+			}
+		}
+	}
+	
 	
 	for (unsigned i = 0; i < attack.size(); i++)
 	{
@@ -1088,8 +1132,8 @@ void Levelone::Update()
 			attack.shrink_to_fit();
 			plr1.takeDamage(5);
 			break;
-			//STMA::ChangeState(new EndState());
-			//return;
+			STMA::ChangeState(new EndState());
+			return;
 		}
 	}
 	
@@ -1099,6 +1143,7 @@ void Levelone::Update()
 		attack[i]->frogAttackDst.y -= speedy;
 		attack[i]->Update(-1);
 	}
+	
 
 	//vines
 	for (unsigned i = 0; i < vine.size(); i++)
@@ -1146,7 +1191,7 @@ void Levelone::Update()
 		fly[i]->flyDst.y -= speedy;
 
 		if (SDL_HasIntersection(&fly[i]->flyDst, &plr1.plrDst)) {
-			plr1.takeDamage(1.5);
+			plr1.takeDamage(1);
 		}
 
 		if (fly[i]->getHp() <= 0) {

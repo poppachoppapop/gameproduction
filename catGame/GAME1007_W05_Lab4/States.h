@@ -33,6 +33,10 @@ protected: //priv but inherited
 	int textBoxTimer = 0;
 	int dummiesTimer = 0;
 
+	bool isEzModeActive = false;
+	int Noobtimer = 0;
+	int ezModeCD = 3000; 	
+
 	//modifiable variables
 	int playerDamage = 1;
 
