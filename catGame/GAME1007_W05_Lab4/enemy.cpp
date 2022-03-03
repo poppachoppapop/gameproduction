@@ -127,3 +127,47 @@ Vines::Vines(int x, int y) :vineSrc({ 0,0,32,32 })
 {
 	vineDst = { x - 10 ,y + 10,vineSrc.w * 4, vineSrc.h * 4 };
 }
+
+//frog
+Frog::Frog(int x, int y, int h) :frogSrc({ 0,0,32,32 }), frameCtr(0), frameMax(3), spriteIdx(0), spriteMax(7)
+{
+	frogDst = { x,y, 125, 125 };
+	healthBar = { x, y , 50, 5 };
+	health = h;
+	maxHealth = h;
+	state = 0;
+	
+	
+}
+
+void Frog::setHp(double h)
+{
+	health = h;
+}
+
+int Frog::getHp()
+{
+	return health;
+}
+
+void Frog::Update()
+{
+	if (state == 0)
+	{
+		spriteMax = 7;
+		if (spriteIdx > 7)
+			spriteIdx = 0;
+		if (frameCtr++ == frameMax)
+		{
+			frameCtr = 0;
+			if (++spriteIdx == spriteMax)
+			{
+				spriteIdx = 0;
+			}
+			frogSrc.x = 0 + frogSrc.w * spriteIdx;
+		}
+	}
+	healthBar.w = double(health / maxHealth) * 100;
+	healthBar.x = frogDst.x + 15;
+	healthBar.y = frogDst.y - 5;
+}

@@ -62,15 +62,17 @@ protected: //priv but inherited
 	SDL_Texture* rockTxtr;
 	SDL_Texture* dumbieTxtr;
 	SDL_Texture* bgTutorial;
-	SDL_Texture* swamplv1;
+	SDL_Texture* swamp1;
 	SDL_Texture* DragonFlyTxt;
 	SDL_Texture* vineTexture;
+	SDL_Texture* FrogTxtr;
 
 	vector<Rock*> playerpew;
 	vector<Enemy*> dumbie;
 	vector<Items*> item1;
 	vector<Vines*> vine;
 	vector<DragonFly*> fly;
+	vector<Frog*>frog;
 
 	SDL_Rect textBoxRect;
 	SDL_Rect textBoxBorder;

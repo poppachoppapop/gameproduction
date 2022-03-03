@@ -111,5 +111,14 @@
     <Image Include="art\dragonfly.png">
       <Filter>Resource Files</Filter>
     </Image>
+    <Image Include="bgs\tutorial.png">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="bgs\swamp1.png">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="art\frogWalking.png">
+      <Filter>Resource Files</Filter>
+    </Image>
   </ItemGroup>
 </Project>
