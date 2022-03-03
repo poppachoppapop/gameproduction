@@ -1,5 +1,5 @@
 #include "player1.h"
-
+#include "States.h"
 
 Player::Player() :plrFrontIdle({ 0,0,32,32 }), plrMoveDown({ 0,128,32,32 }), plrMoveUp({ 0,160,32,32 }), plrMoveLeft({ 0,192,32,32 }), plrMoveRight({ 0,224,32,32 }) ,
 frameCtr(0), frameMax(3), spriteIdx(0), spriteMax(6)
@@ -113,10 +113,10 @@ int Player::getMaxSpd()
 	return plrMaxSpd;
 }
 
-void Player::takeDamage(int howMuch)
-{
+void Player::takeDamage(double howMuch)
+{ 
 	if (damageCD > 20) {
-		plrHp--;
+		plrHp -= howMuch;
 		damageCD = 0;
 		Mix_PlayChannel(-1, hurtSfx, 0);
 	}

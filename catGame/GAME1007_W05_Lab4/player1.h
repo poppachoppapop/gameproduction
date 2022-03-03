@@ -24,7 +24,7 @@ public:
 	void setPlrPos(int x, int y);
 	int getPlrSpd();
 	int getMaxSpd();
-	void takeDamage(int howMuch);
+	void takeDamage(double howMuch);
 
 };
 

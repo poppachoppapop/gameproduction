@@ -1086,8 +1086,10 @@ void Levelone::Update()
 			attack[i] = nullptr;
 			attack.erase(attack.begin() + i);
 			attack.shrink_to_fit();
-			STMA::ChangeState(new EndState());
-			return;
+			plr1.takeDamage(5);
+			break;
+			//STMA::ChangeState(new EndState());
+			//return;
 		}
 	}
 	
@@ -1144,7 +1146,7 @@ void Levelone::Update()
 		fly[i]->flyDst.y -= speedy;
 
 		if (SDL_HasIntersection(&fly[i]->flyDst, &plr1.plrDst)) {
-			plr1.takeDamage(1);
+			plr1.takeDamage(1.5);
 		}
 
 		if (fly[i]->getHp() <= 0) {
