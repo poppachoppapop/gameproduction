@@ -783,8 +783,8 @@ void Levelone::Enter()
 
 	frog.push_back(new Frog(bg1.swamp1Dst.x + 1150 , bg1.swamp1Dst.y + 500, 2));
 	frog.shrink_to_fit();
-	frog2.push_back(new Frog2(bg1.swamp1Dst.x + 1380, bg1.swamp1Dst.y + 375, 2));
-	//frog2.push_back(new Frog2(bg1.swamp1Dst.x + 1390, bg1.swamp1Dst.y + 380, 2));
+	frog2.push_back(new Frog2(bg1.swamp1Dst.x + 1420, bg1.swamp1Dst.y + 380, 2));
+	frog2.push_back(new Frog2(bg1.swamp1Dst.x + 1420, bg1.swamp1Dst.y + 950, 2));
 	frog2.shrink_to_fit();
 
 	vine.push_back(new Vines(bg1.bgDst.x + 1300, bg1.bgDst.y+1650));
