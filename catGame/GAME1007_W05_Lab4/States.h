@@ -71,7 +71,8 @@ protected: //priv but inherited
 	SDL_Texture* vineTexture;
 	SDL_Texture* FrogTxtr;
 
-	vector<Attack*>attack;
+	vector<Attack*>attack;//shoots left
+	vector<Attack*>rattack;//shoots right
 	vector<Rock*> playerpew;
 	vector<Enemy*> dumbie;
 	vector<Items*> item1;

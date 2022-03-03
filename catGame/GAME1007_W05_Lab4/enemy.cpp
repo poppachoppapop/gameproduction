@@ -4,13 +4,14 @@ Attack::Attack(int x, int y)
 {
 	//temp sdl rect for attack
 	frogAttackDst = { x,y,29,7 };
+	rfrogAttackDst = { x,y,29,7 };
 }
 
 void Attack::Update(int move)
 {
 	//frogAttackSrc
-
 	frogAttackDst.x += SPEED * move;
+	rfrogAttackDst.x -= SPEED * move;
 }
 
 //Dumbie
