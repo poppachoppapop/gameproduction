@@ -1,13 +1,3 @@
 ﻿C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\MSBuild\Microsoft\VC\v160\Microsoft.CppBuild.targets(513,5): warning MSB8028: The intermediate directory (Debug\) contains files shared from another project (GAME1007_W05_Lab4.vcxproj).  This can lead to incorrect clean and rebuild behavior.
-  enemy.cpp
-C:\Users\Michael\OneDrive\Desktop\gbc\GAME1017\gameproduction\catGame\GAME1007_W05_Lab4\enemy.cpp(33,9): warning C4244: 'return': conversion from 'double' to 'int', possible loss of data
-C:\Users\Michael\OneDrive\Desktop\gbc\GAME1017\gameproduction\catGame\GAME1007_W05_Lab4\enemy.cpp(38,43): warning C4244: '=': conversion from 'double' to 'int', possible loss of data
-C:\Users\Michael\OneDrive\Desktop\gbc\GAME1017\gameproduction\catGame\GAME1007_W05_Lab4\enemy.cpp(70,9): warning C4244: 'return': conversion from 'double' to 'int', possible loss of data
-C:\Users\Michael\OneDrive\Desktop\gbc\GAME1017\gameproduction\catGame\GAME1007_W05_Lab4\enemy.cpp(92,43): warning C4244: '=': conversion from 'double' to 'int', possible loss of data
-C:\Users\Michael\OneDrive\Desktop\gbc\GAME1017\gameproduction\catGame\GAME1007_W05_Lab4\enemy.cpp(176,9): warning C4244: 'return': conversion from 'double' to 'int', possible loss of data
-C:\Users\Michael\OneDrive\Desktop\gbc\GAME1017\gameproduction\catGame\GAME1007_W05_Lab4\enemy.cpp(198,43): warning C4244: '=': conversion from 'double' to 'int', possible loss of data
-C:\Users\Michael\OneDrive\Desktop\gbc\GAME1017\gameproduction\catGame\GAME1007_W05_Lab4\enemy.cpp(237,9): warning C4244: 'return': conversion from 'double' to 'int', possible loss of data
-C:\Users\Michael\OneDrive\Desktop\gbc\GAME1017\gameproduction\catGame\GAME1007_W05_Lab4\enemy.cpp(258,43): warning C4244: '=': conversion from 'double' to 'int', possible loss of data
-C:\Users\Michael\OneDrive\Desktop\gbc\GAME1017\gameproduction\catGame\GAME1007_W05_Lab4\enemy.cpp(312,9): warning C4244: 'return': conversion from 'double' to 'int', possible loss of data
-C:\Users\Michael\OneDrive\Desktop\gbc\GAME1017\gameproduction\catGame\GAME1007_W05_Lab4\enemy.cpp(333,43): warning C4244: '=': conversion from 'double' to 'int', possible loss of data
+  Background.cpp
   GAME1007_W05_Lab4.vcxproj -> C:\Users\Michael\OneDrive\Desktop\gbc\GAME1017\gameproduction\catGame\Debug\catGamePreRelease.exe

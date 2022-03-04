@@ -753,6 +753,10 @@ void Levelone::Enter()
 {
 	cout << "entering lv1" << endl;
 	swamp1 = IMG_LoadTexture(Engine::Instance().GetRenderer(), "bgs/swamp1.png");
+	swamp1a = IMG_LoadTexture(Engine::Instance().GetRenderer(), "bgs/swamp1a.png");
+	swamp1b = IMG_LoadTexture(Engine::Instance().GetRenderer(), "bgs/swamp1b.png");
+	swamp1bdown = IMG_LoadTexture(Engine::Instance().GetRenderer(), "bgs/swamp1bdown.png");
+
 	plrTxtr = IMG_LoadTexture(Engine::Instance().GetRenderer(), "art/catboy.png");
 	rockTxtr = IMG_LoadTexture(Engine::Instance().GetRenderer(), "art/Rocko100.png");
 	DragonFlyTxt = IMG_LoadTexture(Engine::Instance().GetRenderer(), "art/dragonfly.png");
@@ -877,6 +881,15 @@ void Levelone::Update()
 
 	bg1.swamp1Dst.x -= speedx;
 	bg1.swamp1Dst.y -= speedy;
+
+	bg1.swamp1aDst.x -= speedx;
+	bg1.swamp1aDst.y -= speedy;
+
+	bg1.swamp1bDst.x -= speedx;
+	bg1.swamp1bDst.y -= speedy;
+
+	bg1.swamp1bdownDst.x -= speedx;
+	bg1.swamp1bdownDst.y -= speedy;
 
 	
 	stepSoundTimer++; turnSoundTimer++;
@@ -1303,6 +1316,10 @@ void Levelone::Render()
 
 	//Background
 	SDL_RenderCopy(Engine::Instance().GetRenderer(), swamp1,&bg1.swamp1Src,&bg1.swamp1Dst);
+	SDL_RenderCopy(Engine::Instance().GetRenderer(), swamp1a, &bg1.swamp1aSrc, &bg1.swamp1aDst);
+	SDL_RenderCopy(Engine::Instance().GetRenderer(), swamp1b, &bg1.swamp1bSrc, &bg1.swamp1bDst);
+	SDL_RenderCopy(Engine::Instance().GetRenderer(), swamp1bdown, &bg1.swamp1bdownSrc, &bg1.swamp1bdownDst);
+
 	if (plr1.state == 0)
 		SDL_RenderCopy(Engine::Instance().GetRenderer(), plrTxtr, &plr1.plrFrontIdle, &plr1.plrDst);
 	else if (plr1.state == 1)
@@ -1446,6 +1463,9 @@ void Levelone::Exit()
 	item1.clear();
 	item1.shrink_to_fit();
 	SDL_DestroyTexture(swamp1);
+	SDL_DestroyTexture(swamp1a);
+	SDL_DestroyTexture(swamp1b);
+	SDL_DestroyTexture(swamp1bdown);
 	SDL_DestroyTexture(plrTxtr);
 	SDL_DestroyTexture(rockTxtr);
 	SDL_DestroyTexture(ShroomTxtr);

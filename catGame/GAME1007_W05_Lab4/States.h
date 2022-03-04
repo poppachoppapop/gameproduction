@@ -67,6 +67,10 @@ protected: //priv but inherited
 	SDL_Texture* dumbieTxtr;
 	SDL_Texture* bgTutorial;
 	SDL_Texture* swamp1;
+	SDL_Texture* swamp1a;
+	SDL_Texture* swamp1b;
+	SDL_Texture* swamp1bdown;
+
 	SDL_Texture* DragonFlyTxt;
 	SDL_Texture* vineTexture;
 	SDL_Texture* FrogTxtr;
