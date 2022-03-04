@@ -293,4 +293,46 @@ void Frog2::Update()
 	}
 }
 
+Shroom::Shroom(int x, int y, int h) : shroomSrc({0,0,32,32}), frameCtr(0), frameMax(9), spriteIdx(0), spriteMax(4)
+{
+	shroomDst = { x,y,64,64 };
+	healthBar = { x, y , 50, 5 };
+	health = h;
+	maxHealth = h;
+	state = 0;
+}
+
+void Shroom::setHp(double h)
+{
+	health = h;
+}
+
+int Shroom::getHp()
+{
+	return health;
+}
+
+void Shroom::Update()
+{
+	if (state == 0)
+	{
+		spriteMax = 4;
+		if (spriteIdx > 4)
+			spriteIdx = 0;
+		if (frameCtr++ == frameMax)
+		{
+			frameCtr = 0;
+			if (++spriteIdx == spriteMax)
+			{
+				spriteIdx = 0;
+			}
+			shroomSrc.x = 0 + shroomSrc.w * spriteIdx;
+		}
+	}
+
+	healthBar.w = double(health / maxHealth) * 100;
+	healthBar.x = shroomDst.x + 15;
+	healthBar.y = shroomDst.y - 5;
 	
+}
+

@@ -129,5 +129,8 @@
     <Image Include="art\frogWalking.png">
       <Filter>Resource Files</Filter>
     </Image>
+    <Image Include="art\mushroom.png">
+      <Filter>Resource Files</Filter>
+    </Image>
   </ItemGroup>
 </Project>

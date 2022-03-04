@@ -70,7 +70,9 @@ protected: //priv but inherited
 	SDL_Texture* DragonFlyTxt;
 	SDL_Texture* vineTexture;
 	SDL_Texture* FrogTxtr;
+	SDL_Texture* ShroomTxtr;
 
+	
 	vector<Attack*>attack;//shoots left
 	vector<Attack*>rattack;//shoots right
 	vector<Rock*> playerpew;
@@ -80,6 +82,7 @@ protected: //priv but inherited
 	vector<DragonFly*> fly;
 	vector<Frog*>frog;
 	vector<Frog2*>frog2;
+	vector <Shroom*>shroom;
 
 	SDL_Rect textBoxRect;
 	SDL_Rect textBoxBorder;

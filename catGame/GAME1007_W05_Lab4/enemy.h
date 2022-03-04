@@ -102,4 +102,21 @@ public:
 	void Update();
 	//void resetFrames();
 };
+class Shroom
+{
+private:
+	unsigned short frameCtr, frameMax, spriteIdx, spriteMin, spriteMax;
+	int state;
+	double health;
+	double maxHealth;
+public:
+	SDL_Rect shroomSrc, shroomDst, healthBar;
+	Shroom(int x, int y, int h);
+	Uint16 frames = 0;
+	void setHp(double h);
+	int getHp();
+	void Update();
+	//void resetFrames();
+
+};
 

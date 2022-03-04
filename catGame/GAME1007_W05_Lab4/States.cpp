@@ -758,6 +758,7 @@ void Levelone::Enter()
 	DragonFlyTxt = IMG_LoadTexture(Engine::Instance().GetRenderer(), "art/dragonfly.png");
 	vineTexture = IMG_LoadTexture(Engine::Instance().GetRenderer(), "art/vines.png");
 	FrogTxtr = IMG_LoadTexture(Engine::Instance().GetRenderer(), "art/frogWalking7.png");
+	ShroomTxtr= IMG_LoadTexture(Engine::Instance().GetRenderer(), "art/mushroom.png");
 	stepSfx = Mix_LoadWAV("sfx/step.wav");
 	turnSfx = Mix_LoadWAV("sfx/turn.wav");
 	deathSfx = Mix_LoadWAV("sfx/dedEnemy.wav");
@@ -775,8 +776,10 @@ void Levelone::Enter()
 	Mix_VolumeMusic(12); //0-128
 	Mix_Volume(-1, 50);
 	playerpew.reserve(4);
+
 	
 	//tile 1 crap 
+	shroom.push_back(new Shroom(bg1.swamp1Dst.x + 1000, bg1.swamp1Dst.y + 500, 2));
 	fly.push_back(new DragonFly(bg1.bgDst.x + 750, bg1.bgDst.y + 1640, 2));
 	fly.push_back(new DragonFly(bg1.bgDst.x + 750, bg1.bgDst.y + 1440, 2));
 	fly.push_back(new DragonFly(bg1.bgDst.x + 950, bg1.bgDst.y + 1440, 2));
@@ -786,16 +789,16 @@ void Levelone::Enter()
 	
 
 	//shooting frog at bridge edge of tile 2
-	frog.push_back(new Frog(bg1.swamp1Dst.x + 1150 , bg1.swamp1Dst.y + 500, 2));
+	//frog.push_back(new Frog(bg1.swamp1Dst.x + 1150 , bg1.swamp1Dst.y + 500, 2));
 	
 	//moving frogs from tile 2 & 3
-	frog2.push_back(new Frog2(bg1.swamp1Dst.x + 1420, bg1.swamp1Dst.y + 380, 2));
-	frog2.push_back(new Frog2(bg1.swamp1Dst.x + 1420, bg1.swamp1Dst.y + 950, 2));
+	//frog2.push_back(new Frog2(bg1.swamp1Dst.x + 1420, bg1.swamp1Dst.y + 380, 2));
+	//frog2.push_back(new Frog2(bg1.swamp1Dst.x + 1420, bg1.swamp1Dst.y + 950, 2));
 	
 	//tile 4 
-	frog.push_back(new Frog(bg1.swamp1Dst.x + 50, bg1.swamp1Dst.y + 1100, 2));
-	frog2.push_back(new Frog2(bg1.swamp1Dst.x + 330, bg1.swamp1Dst.y + 1120, 2));
-	frog2.push_back(new Frog2(bg1.swamp1Dst.x + 480, bg1.swamp1Dst.y + 1120, 2));
+	//frog.push_back(new Frog(bg1.swamp1Dst.x + 50, bg1.swamp1Dst.y + 1100, 2));
+	//frog2.push_back(new Frog2(bg1.swamp1Dst.x + 330, bg1.swamp1Dst.y + 1120, 2));
+	//frog2.push_back(new Frog2(bg1.swamp1Dst.x + 480, bg1.swamp1Dst.y + 1120, 2));
 	fly.push_back(new DragonFly(bg1.bgDst.x + 1100, bg1.bgDst.y + 2340, 2));
 	fly.push_back(new DragonFly(bg1.bgDst.x + 750, bg1.bgDst.y + 2340, 2));
 	fly.push_back(new DragonFly(bg1.bgDst.x + 750, bg1.bgDst.y + 2240, 2));
@@ -804,6 +807,7 @@ void Levelone::Enter()
 	frog2.shrink_to_fit();
 	vine.shrink_to_fit();
 	frog.shrink_to_fit();
+	shroom.shrink_to_fit();
 }
 
 
@@ -815,9 +819,9 @@ void Levelone::Update()
 		STMA::ChangeState(new EndState());
 		return;
 	}
-	cout <<"noobtimer"<< Noobtimer++ <<" | "<<ezModeCD++ << "ezmodecd<-" << endl;
+	//cout <<"noobtimer"<< Noobtimer++ <<" | "<<ezModeCD++ << "ezmodecd<-" << endl;
 	//cout << plr1.plrDst.x - bg1.swamp1Dst.x << " - " << plr1.plrDst.y - bg1.swamp1Dst.y << endl;
-	//cout << plr1.plrDst.x << " , " << plr1.plrDst.y  << endl;
+     // cout << plr1.plrDst.x << " , " << plr1.plrDst.y  << endl;
 	if (Engine::Instance().KeyDown(SDL_SCANCODE_R))
 	{
 
@@ -1246,6 +1250,44 @@ void Levelone::Update()
 			fly.shrink_to_fit();
 		}
 	}
+	//shroom
+	for (unsigned i = 0; i < playerpew.size(); i++)
+	{
+		for (unsigned j = 0; j < shroom.size(); j++)
+		{
+			if (SDL_HasIntersection(&playerpew[i]->rockDst, &shroom[j]->shroomDst)) //AABB Check
+			{
+				Mix_PlayChannel(-1, hurtSfx, 0);
+				delete playerpew[i];
+				playerpew[i] = nullptr;
+				playerpew.erase(playerpew.begin() + i);
+				playerpew.shrink_to_fit();
+				//set dumbie hp
+				shroom[j]->setHp(shroom[j]->getHp() - playerDamage);
+				break;
+			}
+		}
+	}
+
+	for (unsigned i = 0; i < shroom.size();i++)
+	{
+		shroom[i]->Update();
+		shroom[i]->shroomDst.x -= speedx;
+		shroom[i]->shroomDst.y -= speedy;
+
+		if (SDL_HasIntersection(&shroom[i]->shroomDst, &plr1.plrDst)) {
+			plr1.takeDamage(1);
+		}
+
+		if (shroom[i]->getHp() <= 0)
+		{
+			Mix_PlayChannel(-1, deathSfx, 0);
+			delete shroom[i];
+			shroom[i] = nullptr;
+			shroom.erase(shroom.begin() + i);
+			shroom.shrink_to_fit();
+		}
+	}
 
 
 }
@@ -1280,7 +1322,7 @@ void Levelone::Render()
 		SDL_RenderCopy(Engine::Instance().GetRenderer(), rockTxtr,
 			&(playerpew[i]->rockSrc), &(playerpew[i]->rockDst));
 	}
-
+	
 	//item
 	for (unsigned i = 0; i < item1.size(); i++)
 	{
@@ -1293,6 +1335,7 @@ void Levelone::Render()
 	{
 		SDL_RenderCopy(Engine::Instance().GetRenderer(), vineTexture, &(vine[i]->vineSrc), &(vine[i]->vineDst));
 	}
+
 	//frog
 	for(unsigned i =0; i <frog.size(); i++)
 	{
@@ -1329,6 +1372,15 @@ void Levelone::Render()
 		SDL_SetRenderDrawColor(Engine::Instance().GetRenderer(), 255, 0, 0, 255);
 		SDL_RenderFillRect(Engine::Instance().GetRenderer(), &fly[i]->healthBar);
 	}
+	//shroom
+	for (unsigned i = 0; i < shroom.size(); i++)
+	{
+		SDL_RenderCopy(Engine::Instance().GetRenderer(), ShroomTxtr, &shroom[i]->shroomSrc, &shroom[i]->shroomDst);
+		//health bar
+		SDL_SetRenderDrawColor(Engine::Instance().GetRenderer(), 255, 0, 0, 255);
+		SDL_RenderFillRect(Engine::Instance().GetRenderer(), &shroom[i]->healthBar);
+	}
+	
 	
 
 	if (dynamic_cast<Levelone*>(STMA::GetStates().back()))//if current state is gamestate	
@@ -1372,6 +1424,13 @@ void Levelone::Exit()
 		delete frog2[i];
 		frog2[i] = nullptr;
 	}
+	for (unsigned i = 0; i < shroom.size();i++)
+	{
+		delete shroom[i];
+		shroom[i] = nullptr;
+	}
+	shroom.clear();
+	shroom.shrink_to_fit();
 	frog2.clear();
 	frog2.shrink_to_fit();
 	fly.clear();
@@ -1389,6 +1448,7 @@ void Levelone::Exit()
 	SDL_DestroyTexture(swamp1);
 	SDL_DestroyTexture(plrTxtr);
 	SDL_DestroyTexture(rockTxtr);
+	SDL_DestroyTexture(ShroomTxtr);
 	SDL_DestroyTexture(DragonFlyTxt);
 	SDL_DestroyTexture(vineTexture);
 	SDL_DestroyTexture(FrogTxtr);
