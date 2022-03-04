@@ -151,6 +151,7 @@
     <ClCompile Include="player1.cpp" />
     <ClCompile Include="StateManager.cpp" />
     <ClCompile Include="States.cpp" />
+    <ClCompile Include="Tile.cpp" />
     <ClCompile Include="Util.cpp" />
   </ItemGroup>
   <ItemGroup>
@@ -163,6 +164,7 @@
     <ClInclude Include="player1.h" />
     <ClInclude Include="StateManager.h" />
     <ClInclude Include="States.h" />
+    <ClInclude Include="Tile.h" />
     <ClInclude Include="Util.h" />
   </ItemGroup>
   <ItemGroup>

@@ -9,13 +9,13 @@ class Player
 private:
 	unsigned short frameCtr, frameMax, spriteIdx, spriteMin, spriteMax;
 	int damageCD = 100;
-	double plrHp, maxHp;
 	Mix_Chunk* hurtSfx;
 
 public:
 	int state;
 	SDL_Rect plrFrontIdle, plrMoveLeft, plrMoveRight, plrMoveUp, plrMoveDown, plrDst, plrHpBar;
 	int plrSpd, plrDsh, plrMaxSpd;
+	double plrHp, maxHp;
 	Player();
 	//Player(int h, int w, int s);
 	void Update();
@@ -24,7 +24,7 @@ public:
 	void setPlrPos(int x, int y);
 	int getPlrSpd();
 	int getMaxSpd();
-	void takeDamage(int howMuch);
+	void takeDamage(double howMuch);
 
 };
 
