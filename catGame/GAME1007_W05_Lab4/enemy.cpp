@@ -11,7 +11,7 @@ void Attack::Update(int move)
 {
 	//frogAttackSrc
 	frogAttackDst.x += SPEED * move;
-	rfrogAttackDst.x -= SPEED * move;
+	rfrogAttackDst.x += SPEED * move;
 }
 
 //Dumbie

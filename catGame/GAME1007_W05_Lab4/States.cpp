@@ -793,14 +793,14 @@ void Levelone::Enter()
 	
 
 	//shooting frog at bridge edge of tile 2
-	//frog.push_back(new Frog(bg1.swamp1Dst.x + 1150 , bg1.swamp1Dst.y + 500, 2));
+	frog.push_back(new Frog(bg1.swamp1Dst.x + 1150 , bg1.swamp1Dst.y + 500, 2));
 	
 	//moving frogs from tile 2 & 3
 	//frog2.push_back(new Frog2(bg1.swamp1Dst.x + 1420, bg1.swamp1Dst.y + 380, 2));
 	//frog2.push_back(new Frog2(bg1.swamp1Dst.x + 1420, bg1.swamp1Dst.y + 950, 2));
 	
 	//tile 4 
-	//frog.push_back(new Frog(bg1.swamp1Dst.x + 50, bg1.swamp1Dst.y + 1100, 2));
+	frog.push_back(new Frog(bg1.swamp1Dst.x + 50, bg1.swamp1Dst.y + 1100, 2));
 	//frog2.push_back(new Frog2(bg1.swamp1Dst.x + 330, bg1.swamp1Dst.y + 1120, 2));
 	//frog2.push_back(new Frog2(bg1.swamp1Dst.x + 480, bg1.swamp1Dst.y + 1120, 2));
 	fly.push_back(new DragonFly(bg1.bgDst.x + 1100, bg1.bgDst.y + 2340, 2));
@@ -823,7 +823,7 @@ void Levelone::Update()
 		STMA::ChangeState(new EndState());
 		return;
 	}
-	//cout <<"noobtimer"<< Noobtimer++ <<" | "<<ezModeCD++ << "ezmodecd<-" << endl;
+	cout <<"noobtimer"<< Noobtimer++ <<" | "<<ezModeCD++ << "ezmodecd<-" << endl;
 	//cout << plr1.plrDst.x - bg1.swamp1Dst.x << " - " << plr1.plrDst.y - bg1.swamp1Dst.y << endl;
      // cout << plr1.plrDst.x << " , " << plr1.plrDst.y  << endl;
 	if (Engine::Instance().KeyDown(SDL_SCANCODE_R))
@@ -1073,25 +1073,46 @@ void Levelone::Update()
 		}
 	}
 	//frog stuff
-	for (unsigned i =0; i < frog.size();i++)
+	for (unsigned i = 0; i < attack.size();i++) 
 	{
-		frog[i]->Update(i);
+		if (attack[i]->frogAttackDst.x >= WIDTH || attack[i]->frogAttackDst.x <= -64 || attack[i]->frogAttackDst.y >= HEIGHT || attack[i]->frogAttackDst.y <= -64)
+		{
+			delete attack[i];
+			attack[i] = nullptr;
+			attack.erase(attack.begin() + i);
+			attack.shrink_to_fit();
+			break;
+		}
+	}
+	for (unsigned i = 0; i < rattack.size();i++)
+	{
+		if (rattack[i]->rfrogAttackDst.x >= WIDTH || rattack[i]->rfrogAttackDst.x <= -64 || rattack[i]->rfrogAttackDst.y >= HEIGHT || rattack[i]->rfrogAttackDst.y <= -64)
+		{
+			delete rattack[i];
+			rattack[i] = nullptr;
+			rattack.erase(rattack.begin() + i);
+			rattack.shrink_to_fit();
+			break;
+		}
+	}
+	for (unsigned i = 0; i < frog.size();i++)
+	{
+		frog[i]->Update(1);
 		frog[i]->frogDst.x -= speedx;
-		frog[i]->frogDst.y -= speedy;		
+		frog[i]->frogDst.y -= speedy;	
+		
 
 		if (frog[i]->frames >= FPS * ATTACKRATE / 2)
 		{
 			frog[i]->resetFrames();
 			cout << "frog attack!" << endl;
-			attack.push_back(new Attack(frog[i]->frogDst.x, frog[i]->frogDst.y));
-			attack.shrink_to_fit();			
-		}
-		if (frog[i]->frames >= FPS * ATTACKRATE / 2) {
-			frog[i]->resetFrames();
 			cout << "frog 2nd attack\wow!" << endl;
 			rattack.push_back(new Attack(frog[i]->frogDst.x, frog[i]->frogDst.y));
 			rattack.shrink_to_fit();
+			attack.push_back(new Attack(frog[i]->frogDst.x, frog[i]->frogDst.y));
+			attack.shrink_to_fit();			
 		}
+		
 
 		if (frog[i]->getHp() <= 0) {
 			//Mix_PlayChannel(-1,, 0);
@@ -1161,7 +1182,7 @@ void Levelone::Update()
 	{
 		rattack[i]->rfrogAttackDst.x -= speedx;
 		rattack[i]->rfrogAttackDst.y -= speedy;
-		rattack[i]->Update(3);
+		rattack[i]->Update(1);
 	}
 
 	//rng frog

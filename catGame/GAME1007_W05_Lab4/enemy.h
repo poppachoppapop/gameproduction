@@ -15,6 +15,7 @@ public:
 	SDL_Rect rfrogAttackDst, rfrogAttackSrc;
 	Uint16 frames = 0;
 	Attack(int = 0, int = 0);	
+
 	void Update(int move);
 
 };
