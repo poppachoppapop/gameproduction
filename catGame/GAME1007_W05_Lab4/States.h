@@ -31,11 +31,13 @@ protected: //priv but inherited
 	int score = 0;
 	int textBoxCounter = 0;
 	int textBoxTimer = 0;
-	int dummiesTimer = 0;
-
+	int dummiesTimer = 0;	
 	bool isEzModeActive = false;
 	int Noobtimer = 0;
 	int ezModeCD = 3000; 	
+	bool isfreezeActive = false;
+	int freezetimer = 0;
+	int freezeCD = 3000;
 
 	//modifiable variables
 	int playerDamage = 1;

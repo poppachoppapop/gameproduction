@@ -817,7 +817,7 @@ void Levelone::Enter()
 
 
 void Levelone::Update()
-{ 
+{ 	
 	if (plr1.plrHp <= 0)
 	{
 		STMA::ChangeState(new EndState());
@@ -826,6 +826,89 @@ void Levelone::Update()
 	cout <<"noobtimer"<< Noobtimer++ <<" | "<<ezModeCD++ << "ezmodecd<-" << endl;
 	//cout << plr1.plrDst.x - bg1.swamp1Dst.x << " - " << plr1.plrDst.y - bg1.swamp1Dst.y << endl;
      // cout << plr1.plrDst.x << " , " << plr1.plrDst.y  << endl;
+	//Dash
+	if (dashCooldown > 100) {
+		if (EVMA::KeyPressed(SDL_SCANCODE_LSHIFT)) {
+			Mix_PlayChannel(-1, dashMeow, 0);
+			dashPressed = true;
+			dashTimer = 0;
+			dashCooldown = 0;
+		}
+	}
+	dashTimer++;
+	if (dashPressed) {
+		plr1.plrSpd = plr1.plrDsh;
+		if (dashTimer > 10) {
+			dashPressed = false;
+			dashTimer = 0;
+			dashCooldown = 0;
+			plr1.plrSpd = 5;
+			cout << tempSpeed << endl;
+		}
+
+	}
+
+	//ezModeCD++;
+	if (ezModeCD > 3000)
+	{
+		if (EVMA::KeyPressed(SDL_SCANCODE_E))
+		{
+			isEzModeActive = true;
+			Noobtimer = 0;
+			ezModeCD = 0;
+		}
+	}
+	Noobtimer++;
+	if (isEzModeActive)
+	{
+		if (Noobtimer > 500)
+		{
+			isEzModeActive = false;
+			Noobtimer = 0;
+			ezModeCD = 0;
+		}
+	}
+
+	//freeze
+	if (freezeCD > 3000)
+	{
+		if (EVMA::KeyPressed(SDL_SCANCODE_F))
+		{
+			isfreezeActive = true;
+			freezetimer = 0;
+			freezeCD = 0;
+		}
+	}
+	freezetimer++;
+	if (isfreezeActive)
+	{
+		if (freezetimer > 500)
+		{
+			isfreezeActive = false;
+			freezetimer = 0;
+			freezeCD = 0;
+		}
+	}
+
+	bg1.swamp1Dst.x -= speedx;
+	bg1.swamp1Dst.y -= speedy;
+
+	bg1.swamp1aDst.x -= speedx;
+	bg1.swamp1aDst.y -= speedy;
+
+	bg1.swamp1bDst.x -= speedx;
+	bg1.swamp1bDst.y -= speedy;
+
+	bg1.swamp1bdownDst.x -= speedx;
+	bg1.swamp1bdownDst.y -= speedy;
+
+
+	stepSoundTimer++; turnSoundTimer++;
+	dashCooldown++;
+	plr1.Update();
+	rockCooldown++;
+	spcooldown++;
+
 	if (Engine::Instance().KeyDown(SDL_SCANCODE_R))
 	{
 
@@ -879,25 +962,6 @@ void Levelone::Update()
 		Mix_HaltChannel(7);
 	}
 
-	bg1.swamp1Dst.x -= speedx;
-	bg1.swamp1Dst.y -= speedy;
-
-	bg1.swamp1aDst.x -= speedx;
-	bg1.swamp1aDst.y -= speedy;
-
-	bg1.swamp1bDst.x -= speedx;
-	bg1.swamp1bDst.y -= speedy;
-
-	bg1.swamp1bdownDst.x -= speedx;
-	bg1.swamp1bdownDst.y -= speedy;
-
-	
-	stepSoundTimer++; turnSoundTimer++;
-	dashCooldown++;
-	plr1.Update();
-	rockCooldown++;
-	spcooldown++;
-	
 
 	//For special Ability1
 	if (EVMA::KeyPressed(SDL_SCANCODE_SPACE))
@@ -954,8 +1018,22 @@ void Levelone::Update()
 			playerpew.shrink_to_fit();
 		}
 	}
+	//delete rock after off screen and move rock
+	for (unsigned i = 0; i < playerpew.size(); i++)
+	{
+		playerpew[i]->Update();
+		playerpew[i]->rockDst.x -= speedx;
+		playerpew[i]->rockDst.y -= speedy;
 
-
+		if (playerpew[i]->rockDst.x >= WIDTH || playerpew[i]->rockDst.x <= -64 || playerpew[i]->rockDst.y >= HEIGHT || playerpew[i]->rockDst.y <= -64)
+		{
+			delete playerpew[i];
+			playerpew[i] = nullptr;
+			playerpew.erase(playerpew.begin() + i);
+			playerpew.shrink_to_fit();
+			break;
+		}
+	}
 	if (speedx > plr1.plrSpd)
 		speedx = plr1.plrSpd;
 	if (speedy > plr1.plrSpd)
@@ -964,51 +1042,6 @@ void Levelone::Update()
 		speedy = plr1.plrSpd * -1;
 	if (speedx * -1 > plr1.plrSpd)
 		speedx = plr1.plrSpd * -1;
-
-	//Dash
-	if (dashCooldown > 100) {
-		if (EVMA::KeyPressed(SDL_SCANCODE_LSHIFT)) {
-			Mix_PlayChannel(-1, dashMeow, 0);
-			dashPressed = true;
-			dashTimer = 0;
-			dashCooldown = 0;
-		}
-	}
-	dashTimer++;
-	if (dashPressed) {
-		plr1.plrSpd = plr1.plrDsh;
-		if (dashTimer > 10) {
-			dashPressed = false;
-			dashTimer = 0;
-			dashCooldown = 0;
-			plr1.plrSpd = 5;
-			cout << tempSpeed << endl;
-		}
-
-	}
-
-	//ezModeCD++;
-	if (ezModeCD > 3000)
-	{
-		if (EVMA::KeyPressed(SDL_SCANCODE_E))
-		{
-			isEzModeActive = true;
-			Noobtimer = 0;
-			ezModeCD = 0;
-		}
-	}
-	Noobtimer++;
-	if (isEzModeActive)	
-	{		
-		if (Noobtimer > 500)
-		{
-			isEzModeActive = false;
-			Noobtimer = 0;
-			ezModeCD = 0;
-		}
-	}
-	
-
 	//YAXIS
 
 	if (EVMA::KeyHeld(SDL_SCANCODE_S)) {
@@ -1055,23 +1088,14 @@ void Levelone::Update()
 	if (!EVMA::KeyHeld(SDL_SCANCODE_W) && !EVMA::KeyHeld(SDL_SCANCODE_S) && !EVMA::KeyHeld(SDL_SCANCODE_D) && !EVMA::KeyHeld(SDL_SCANCODE_A)) {
 		plr1.state = 0;
 	}
+	
+	//if (isfreezeActive = false)
+	//{
 
-	//delete rock after off screen and move rock
-	for (unsigned i = 0; i < playerpew.size(); i++)
-	{
-		playerpew[i]->Update();
-		playerpew[i]->rockDst.x -= speedx;
-		playerpew[i]->rockDst.y -= speedy;
+	//}
 
-		if (playerpew[i]->rockDst.x >= WIDTH || playerpew[i]->rockDst.x <= -64 || playerpew[i]->rockDst.y >= HEIGHT || playerpew[i]->rockDst.y <= -64)
-		{
-			delete playerpew[i];
-			playerpew[i] = nullptr;
-			playerpew.erase(playerpew.begin() + i);
-			playerpew.shrink_to_fit();
-			break;
-		}
-	}
+  
+	
 	//frog stuff
 	for (unsigned i = 0; i < attack.size();i++) 
 	{
@@ -1099,8 +1123,7 @@ void Levelone::Update()
 	{
 		frog[i]->Update(1);
 		frog[i]->frogDst.x -= speedx;
-		frog[i]->frogDst.y -= speedy;	
-		
+		frog[i]->frogDst.y -= speedy;			
 
 		if (frog[i]->frames >= FPS * ATTACKRATE / 2)
 		{
