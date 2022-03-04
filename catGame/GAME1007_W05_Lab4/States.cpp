@@ -1303,16 +1303,26 @@ void Levelone::Update()
 		}
 	}
 
+
 	for (unsigned i = 0; i < shroom.size();i++)
 	{
 		shroom[i]->Update();
 		shroom[i]->shroomDst.x -= speedx;
 		shroom[i]->shroomDst.y -= speedy;
 
-		if (SDL_HasIntersection(&shroom[i]->shroomDst, &plr1.plrDst)) {
-			plr1.takeDamage(1);
+		if (shroom[i]->frames >= FPS * CLOUDRATE / 2)
+		{
+			shroom[i]->resetFrames();
+			cout << "shroom pew" << endl;			
+			ushroomatk.push_back(new Attack(shroom[i]->shroomDst.x + 17, shroom[i]->shroomDst.y + 23));
+			ushroomatk.shrink_to_fit();
+			lshroomatk.push_back(new Attack(shroom[i]->shroomDst.x + 17, shroom[i]->shroomDst.y + 23));
+			lshroomatk.shrink_to_fit();
+			rshroomatk.push_back(new Attack(shroom[i]->shroomDst.x + 17, shroom[i]->shroomDst.y +23));
+			rshroomatk.shrink_to_fit();
+			dshroomatk.push_back(new Attack(shroom[i]->shroomDst.x + 17, shroom[i]->shroomDst.y + 23));
+			dshroomatk.shrink_to_fit();			
 		}
-
 		if (shroom[i]->getHp() <= 0)
 		{
 			Mix_PlayChannel(-1, deathSfx, 0);
@@ -1322,6 +1332,44 @@ void Levelone::Update()
 			shroom.shrink_to_fit();
 		}
 	}
+	for (unsigned i = 0; i < ushroomatk.size(); i++)
+	{
+		ushroomatk[i]->Update(-1);
+		ushroomatk[i]->ushroomAtkDst.x -= speedx;
+		ushroomatk[i]->ushroomAtkDst.y -= speedy;
+		if (SDL_HasIntersection(&ushroomatk[i]->ushroomAtkDst, &plr1.plrDst)) {
+			plr1.takeDamage(0.5);
+		}
+
+	}
+	for (unsigned i = 0; i < lshroomatk.size(); i++)
+	{
+		lshroomatk[i]->Update(-1);
+		lshroomatk[i]->lshroomAtkDst.x -= speedx;
+		lshroomatk[i]->lshroomAtkDst.y -= speedy;
+		if (SDL_HasIntersection(&lshroomatk[i]->lshroomAtkDst, &plr1.plrDst)) {
+			plr1.takeDamage(0.5);
+		}
+	}
+	for (unsigned i = 0; i < rshroomatk.size(); i++)
+	{
+		rshroomatk[i]->Update(1);
+		rshroomatk[i]->rshroomAtkDst.x -= speedx;
+		rshroomatk[i]->rshroomAtkDst.y -= speedy;
+		if (SDL_HasIntersection(&rshroomatk[i]->rshroomAtkDst, &plr1.plrDst)) {
+			plr1.takeDamage(0.5);
+		}
+	}
+	for (unsigned i = 0; i < dshroomatk.size(); i++)
+	{
+		dshroomatk[i]->Update(1);
+		dshroomatk[i]->dshroomAtkDst.x -= speedx;
+		dshroomatk[i]->dshroomAtkDst.y -= speedy;
+		if (SDL_HasIntersection(&dshroomatk[i]->dshroomAtkDst, &plr1.plrDst)) {
+			plr1.takeDamage(0.5);
+		}
+	}
+	
 
 
 }
@@ -1418,6 +1466,27 @@ void Levelone::Render()
 		SDL_SetRenderDrawColor(Engine::Instance().GetRenderer(), 255, 0, 0, 255);
 		SDL_RenderFillRect(Engine::Instance().GetRenderer(), &shroom[i]->healthBar);
 	}
+	//shroom atk stufff
+	SDL_SetRenderDrawColor(Engine::Instance().GetRenderer(), 0, 255, 100, 230);
+	for (unsigned i = 0; i < ushroomatk.size(); i++)
+	{
+		SDL_RenderFillRect(Engine::Instance().GetRenderer(), &(ushroomatk[i]->ushroomAtkDst));
+	}
+	SDL_SetRenderDrawColor(Engine::Instance().GetRenderer(), 0, 255, 100, 230);
+	for (unsigned i = 0; i < lshroomatk.size(); i++)
+	{
+		SDL_RenderFillRect(Engine::Instance().GetRenderer(), &(lshroomatk[i]->lshroomAtkDst));
+	}
+	SDL_SetRenderDrawColor(Engine::Instance().GetRenderer(), 0, 255, 100, 230);
+	for (unsigned i = 0; i < rshroomatk.size(); i++)
+	{
+		SDL_RenderFillRect(Engine::Instance().GetRenderer(), &(rshroomatk[i]->rshroomAtkDst));
+	}
+	SDL_SetRenderDrawColor(Engine::Instance().GetRenderer(), 0, 255, 100, 230);
+	for (unsigned i = 0; i < dshroomatk.size(); i++)
+	{
+		SDL_RenderFillRect(Engine::Instance().GetRenderer(), &(dshroomatk[i]->dshroomAtkDst));
+	}
 	
 	
 
@@ -1467,8 +1536,36 @@ void Levelone::Exit()
 		delete shroom[i];
 		shroom[i] = nullptr;
 	}
+	for (unsigned i = 0; i < ushroomatk.size();i++)
+	{
+		delete ushroomatk[i];
+		ushroomatk[i] = nullptr;
+	}
+	for (unsigned i = 0; i < lshroomatk.size();i++)
+	{
+		delete lshroomatk[i];
+		lshroomatk[i] = nullptr;
+	}
+	for (unsigned i = 0; i < rshroomatk.size();i++)
+	{
+		delete rshroomatk[i];
+		rshroomatk[i] = nullptr;
+	}
+	for (unsigned i = 0; i < dshroomatk.size();i++)
+	{
+		delete dshroomatk[i];
+		dshroomatk[i] = nullptr;
+	}
 	shroom.clear();
 	shroom.shrink_to_fit();
+	ushroomatk.clear();
+	ushroomatk.shrink_to_fit();
+	lshroomatk.clear();
+	lshroomatk.shrink_to_fit();
+	rshroomatk.clear();
+	rshroomatk.shrink_to_fit();
+	dshroomatk.clear();
+	dshroomatk.shrink_to_fit();
 	frog2.clear();
 	frog2.shrink_to_fit();
 	fly.clear();
