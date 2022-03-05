@@ -101,28 +101,6 @@ public:
 	void Update();
 };
 
-class Frog2
-{
-private:
-	unsigned short frameCtr, frameMax, spriteIdx, spriteMin, spriteMax;
-	 int state;
-	 double health;
-	 double maxHealth;
-	 int dir;
-	 int speed;
-	 int dirTimer;
-	 int distance;
-	 int upCount, downCount, rightCount, leftCount, maxCount;
-
-public:
-	SDL_Rect frog2Src, frog2Dst, healthBar;
-	Frog2(int x, int y, int h);
-	Uint16 frames = 0;
-	void setHp(double h);
-	int getHp();
-	void Update();
-	//void resetFrames();
-};
 class Shroom
 {
 private:
