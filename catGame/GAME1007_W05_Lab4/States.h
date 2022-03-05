@@ -34,7 +34,8 @@ protected: //priv but inherited
 	int dummiesTimer = 0;	
 	bool isEzModeActive = false;
 	int Noobtimer = 0;
-	int ezModeCD = 3000; 	
+	int ezModeCD = 3000; 
+
 	bool isfreezeActive = false;
 	int freezetimer = 0;
 	int freezeCD = 3000;
@@ -42,7 +43,7 @@ protected: //priv but inherited
 	//modifiable variables
 	int playerDamage = 1;
 
-	double speedAcc = 1, speedy = 0, speedx = 0;
+	int speedAcc = 1, speedy = 0, speedx = 0;
 	double rockSpeed = 15;
 	double dumbieTimerMax = 200;
 
