@@ -1,8 +1,8 @@
 #include "player1.h"
 #include "States.h"
 
-Player::Player() :plrFrontIdle({ 0,0,32,32 }), plrMoveDown({ 0,128,32,32 }), plrMoveUp({ 0,160,32,32 }), plrMoveLeft({ 0,192,32,32 }), plrMoveRight({ 0,224,32,32 }) ,
-frameCtr(0), frameMax(3), spriteIdx(0), spriteMax(6)
+Player::Player() :plrFrontIdle({ 0,0,32,32 }), plrMoveDown({ 0,128,32,32 }), plrMoveUp({ 0,96,32,32 }), plrMoveLeft({ 0,32,32,32 }), plrMoveRight({ 0,64,32,32 }) ,
+frameCtr(0), frameMax(3), spriteIdx(0), spriteMax(8)
 { 
 	plrDst = {448 ,320 ,128, 128};
 	plrHpBar = { 10 ,10 ,200, 25 };
@@ -18,8 +18,8 @@ frameCtr(0), frameMax(3), spriteIdx(0), spriteMax(6)
 void Player::Update()
 {
 	if (state == 0) { // idle down
-		spriteMax = 6;
-		if (spriteIdx > 6)
+		spriteMax = 8;
+		if (spriteIdx > 8)
 			spriteIdx = 0;
 		if (frameCtr++ == frameMax)
 		{
@@ -32,7 +32,7 @@ void Player::Update()
 		}
 	}
 	else if(state == 1) { // walk down
-		spriteMax = 10;
+		spriteMax = 8;
 		if (frameCtr++ == frameMax)
 		{
 			frameCtr = 0;
@@ -44,7 +44,7 @@ void Player::Update()
 		}
 	}
 	else if(state == 2) { // walk up
-		spriteMax = 10;
+		spriteMax = 8;
 		if (frameCtr++ == frameMax)
 		{
 			frameCtr = 0;
@@ -56,7 +56,7 @@ void Player::Update()
 		}
 	}
 	else if(state == 3) { // walk left
-		spriteMax = 10;
+		spriteMax = 8;
 		if (frameCtr++ == frameMax)
 		{
 			frameCtr = 0;
@@ -68,7 +68,7 @@ void Player::Update()
 		}
 	}
 	else if(state == 4) { // walk right
-		spriteMax = 10;
+		spriteMax = 8;
 		if (frameCtr++ == frameMax)
 		{
 			frameCtr = 0;
