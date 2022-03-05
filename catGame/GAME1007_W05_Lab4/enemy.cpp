@@ -172,7 +172,7 @@ Frog::Frog(int x, int y, int h) :frogSrc({ 0,0,32,32 }), frameCtr(0), frameMax(4
 	health = h;
 	maxHealth = h;
 	state = 0;	
-	
+	speed = 2;
 }
 	
 
@@ -186,7 +186,7 @@ int Frog::getHp()
 	return health;
 }
 
-void Frog::Update()
+void Frog::Update(SDL_Rect plr)
 {
 	//shooting frog
 	if (state == 0)
@@ -208,7 +208,21 @@ void Frog::Update()
 	healthBar.w = double(health / maxHealth) * 100;
 	healthBar.x = frogDst.x + 15;
 	healthBar.y = frogDst.y - 5;
-	frames++;	
+	frames++;
+	if (Util::distanceOffset(plr, frogDst) < 550) {
+		if (plr.x - frogDst.x > 0) {
+			frogDst.x += speed;
+		}
+		if (plr.x - frogDst.x < 0) {
+			frogDst.x -= speed;
+		}
+		if (plr.y - frogDst.y > 0) {
+			frogDst.y += speed;
+		}
+		if (plr.y - frogDst.y < 0) {
+			frogDst.y -= speed;
+		}
+	}
 	
 }
 
@@ -351,3 +365,10 @@ void Shroom::resetFrames()
 	frames = 0;
 }
 
+Bubble::Bubble(int x, int y, int s, char d)
+{
+}
+
+void Bubble::Update()
+{
+}

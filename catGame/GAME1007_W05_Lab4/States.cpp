@@ -153,6 +153,8 @@ void GameState::Enter()
 	Score = SDL_CreateTextureFromSurface(Engine::Instance().GetRenderer(), dummyScore);
 
 	vine.push_back(new Vines(bg1.bgDst.x + 400, bg1.bgDst.y + 1000));
+	vine.push_back(new Vines(bg1.bgDst.x + 400, bg1.bgDst.y + 1200));
+	vine.push_back(new Vines(bg1.bgDst.x + 400, bg1.bgDst.y + 1400));
 	vine.shrink_to_fit();
 	fly.push_back(new DragonFly(bg1.bgDst.x + 650, bg1.bgDst.y + 1000, 2));
 	fly.shrink_to_fit();
@@ -264,20 +266,22 @@ void GameState::Update()
 	bg1.bgDst.x -= speedx;
 	bg1.bgDst.y -= speedy;
 	
+	//player
+	if (!dashPressed)
+		plr1.plrSpd = plr1.plrMaxSpd;
 	//vines
 	for (unsigned i = 0; i < vine.size(); i++)
 	{
-		vine[i]->vineDst.x = bg1.bgDst.x + 400;
-		vine[i]->vineDst.y = bg1.bgDst.y + 1000;
+		if (!wallHitx)
+			vine[i]->vineDst.x -= speedx;
+		if (!wallHity)
+			vine[i]->vineDst.y -= speedy;
+		cout << (Util::distanceOffset(plr1.plrDst, vine[i]->vineDst) < 80) << endl;
 		if (!dashPressed) {
 			if (Util::distanceOffset(plr1.plrDst, vine[i]->vineDst) < 80) {
 				plr1.plrSpd = 1;
 			}
-			else{
-				plr1.plrSpd = plr1.plrMaxSpd;
-			}
 		}
-
 	}
 	//DragonFly
 	for (unsigned i = 0; i < fly.size(); i++)
@@ -299,21 +303,67 @@ void GameState::Update()
 			fly.erase(fly.begin() + i);
 			fly.shrink_to_fit();
 		}
+		//bullet collision
+		for (unsigned j = 0; j < playerpew.size(); j++)
+		{
+			if (SDL_HasIntersection(&playerpew[j]->rockDst, &fly[i]->flyDst)) //AABB Check
+			{
+				Mix_PlayChannel(-1, hurtSfx, 0);
+				delete playerpew[j];
+				playerpew[j] = nullptr;
+				playerpew.erase(playerpew.begin() + j);
+				playerpew.shrink_to_fit();
+				//set dumbie hp
+				fly[i]->setHp(fly[i]->getHp() - playerDamage);
+				break;
+			}
+		}
+
 	}
 
 	//frog
 	for (unsigned i = 0; i < frog.size(); i++) {
-		frog[i]->Update();
+		frog[i]->Update(plr1.plrDst);
 		if (!wallHitx)
 			frog[i]->frogDst.x -= speedx;
 		if (!wallHity)
 			frog[i]->frogDst.y -= speedy;
-	
-		cout << frog[i]->frogDst.x << endl;
-		cout << frog[i]->frogDst.y << endl;
-
+		//bullet collision
+		for (unsigned j = 0; j < playerpew.size(); j++)
+		{
+			if (SDL_HasIntersection(&playerpew[j]->rockDst, &frog[i]->frogDst)) //AABB Check
+			{
+				Mix_PlayChannel(-1, hurtSfx, 0);
+				delete playerpew[j];
+				playerpew[j] = nullptr;
+				playerpew.erase(playerpew.begin() + j);
+				playerpew.shrink_to_fit();
+				//set dumbie hp
+				frog[i]->setHp(frog[i]->getHp() - playerDamage);
+				break;
+			}
+		}
 	}
 	
+	//dummie
+	for (unsigned i = 0; i < playerpew.size(); i++)
+	{
+		for (unsigned j = 0; j < dumbie.size(); j++)
+		{
+			if (SDL_HasIntersection(&playerpew[i]->rockDst, &dumbie[j]->enemyDst)) //AABB Check
+			{
+				//cout << "catboy hits dumbie" << endl;
+				Mix_PlayChannel(-1, hurtSfx, 0);
+				delete playerpew[i];
+				playerpew[i] = nullptr;
+				playerpew.erase(playerpew.begin() + i);
+				playerpew.shrink_to_fit();
+				//set dumbie hp
+				dumbie[j]->setHp(dumbie[j]->getHp() - playerDamage);
+				break;
+			}
+		}
+	}	
 
 	if (spawnDummies) {
 		dummiesTimer++;
@@ -433,7 +483,7 @@ void GameState::Update()
 	//Dash
 	if (dashCooldown > 100) {
 		if (EVMA::KeyPressed(SDL_SCANCODE_LSHIFT)) {
-			Mix_PlayChannel(-1, dashMeow, 0);
+			Mix_PlayChannel(-1, dashing, 0);
 			dashPressed = true;
 			dashTimer = 0;
 			dashCooldown = 0;			
@@ -527,62 +577,7 @@ void GameState::Update()
 			dumbie.shrink_to_fit();
 			cout << "spawning dumbie" << endl;
 		}
-	}
-
-	//hitbox stuff/Collision
-	for (unsigned i = 0; i < playerpew.size(); i++)
-	{
-		for (unsigned j = 0; j < dumbie.size(); j++)
-		{
-			if (SDL_HasIntersection(&playerpew[i]->rockDst, &dumbie[j]->enemyDst)) //AABB Check
-			{
-				//cout << "catboy hits dumbie" << endl;
-				Mix_PlayChannel(-1, hurtSfx, 0);
-				delete playerpew[i];
-				playerpew[i] = nullptr;
-				playerpew.erase(playerpew.begin() + i);
-				playerpew.shrink_to_fit();
-				//set dumbie hp
-				dumbie[j]->setHp(dumbie[j]->getHp() - playerDamage);
-				break;
-			}
-		}
-	}
-	for (unsigned i = 0; i < playerpew.size(); i++)
-	{
-		for (unsigned a = 0; a < fly.size(); a++)
-		{
-			if (SDL_HasIntersection(&playerpew[i]->rockDst, &fly[a]->flyDst)) //AABB Check
-			{
-				Mix_PlayChannel(-1, hurtSfx, 0);
-				delete playerpew[i];
-				playerpew[i] = nullptr;
-				playerpew.erase(playerpew.begin() + i);
-				playerpew.shrink_to_fit();
-				//set dumbie hp
-				fly[a]->setHp(fly[a]->getHp() - playerDamage);
-				break;
-			}
-		}
-	}
-	for (unsigned i = 0; i < playerpew.size(); i++)
-	{
-		for (unsigned a = 0; a < frog.size(); a++)
-		{
-			if (SDL_HasIntersection(&playerpew[i]->rockDst, &frog[a]->frogDst)) //AABB Check
-			{
-				Mix_PlayChannel(-1, hurtSfx, 0);
-				delete playerpew[i];
-				playerpew[i] = nullptr;
-				playerpew.erase(playerpew.begin() + i);
-				playerpew.shrink_to_fit();
-				//set dumbie hp
-				frog[a]->setHp(frog[a]->getHp() - playerDamage);
-				break;
-			}
-		}
-	}
-		
+	}	
 	
 	//delete dumbie when at 0 hp
 	for (unsigned i = 0; i < dumbie.size(); i++)
@@ -1223,7 +1218,7 @@ void Levelone::Update()
 	{
 		for (unsigned i = 0; i < frog.size();i++)
 		{
-			frog[i]->Update();
+			frog[i]->Update(plr1.plrDst);
 
 
 			if (frog[i]->frames >= FPS * ATTACKRATE / 2)
