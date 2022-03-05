@@ -2,6 +2,8 @@
 #include "SDL.h"
 #include <ctime>
 #include "engine.h"
+#include "Util.h"
+
 #define MOVESPEED
 //#define FROGSPEED 2
 #define SHROOM 1//shroom spore move speed 
@@ -76,39 +78,29 @@ class Frog
 		unsigned short frameCtr, frameMax, spriteIdx, spriteMin, spriteMax;
 		int state;
 		double health;
-		double maxHealth;				
+		double maxHealth;			
+		double speed;
+		bool frogLeft, frogRight, frogUp, frogDown;
 public:	
 	SDL_Rect frogSrc, frogDst, healthBar;
 	Frog(int x, int y, int h);
 	Uint16 frames = 0;
 	void setHp(double h);
 	int getHp();
-	void Update();
+	void Update(SDL_Rect plr);
 	void resetFrames();
 };
 
-class Frog2
-{
+class Bubble {
 private:
-	unsigned short frameCtr, frameMax, spriteIdx, spriteMin, spriteMax;
-	 int state;
-	 double health;
-	 double maxHealth;
-	 int dir;
-	 int speed;
-	 int dirTimer;
-	 int distance;
-	 int upCount, downCount, rightCount, leftCount, maxCount;
-
+	int speed;
+	char dir;
 public:
-	SDL_Rect frog2Src, frog2Dst, healthBar;
-	Frog2(int x, int y, int h);
-	Uint16 frames = 0;
-	void setHp(double h);
-	int getHp();
+	SDL_Rect rockDst;
+	Bubble(int x, int y, int s, char d);
 	void Update();
-	//void resetFrames();
 };
+
 class Shroom
 {
 private:

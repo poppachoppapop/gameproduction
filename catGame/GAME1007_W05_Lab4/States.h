@@ -93,7 +93,6 @@ protected: //priv but inherited
 	vector<Vines*> vine;
 	vector<DragonFly*> fly;
 	vector<Frog*>frog;
-	vector<Frog2*>frog2;
 	vector <Shroom*>shroom;
 
 	SDL_Rect textBoxRect;

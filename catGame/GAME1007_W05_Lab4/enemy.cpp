@@ -172,7 +172,7 @@ Frog::Frog(int x, int y, int h) :frogSrc({ 0,0,32,32 }), frameCtr(0), frameMax(4
 	health = h;
 	maxHealth = h;
 	state = 0;	
-	
+	speed = 2;
 }
 	
 
@@ -186,7 +186,7 @@ int Frog::getHp()
 	return health;
 }
 
-void Frog::Update()
+void Frog::Update(SDL_Rect plr)
 {
 	//shooting frog
 	if (state == 0)
@@ -208,99 +208,27 @@ void Frog::Update()
 	healthBar.w = double(health / maxHealth) * 100;
 	healthBar.x = frogDst.x + 15;
 	healthBar.y = frogDst.y - 5;
-	frames++;	
+	frames++;
+	if (Util::distanceOffset(plr, frogDst) < 550) {
+		if (plr.x - frogDst.x > 0) {
+			frogDst.x += speed;
+		}
+		if (plr.x - frogDst.x < 0) {
+			frogDst.x -= speed;
+		}
+		if (plr.y - frogDst.y > 0) {
+			frogDst.y += speed;
+		}
+		if (plr.y - frogDst.y < 0) {
+			frogDst.y -= speed;
+		}
+	}
 	
 }
 
 void Frog::resetFrames()
 {
 	frames = 0;
-}
-
-//frog that moves rand & doesnt shoot
-Frog2::Frog2(int x, int y, int h): frog2Src({ 0,0,32,32 }), frameCtr(0), frameMax(4), spriteIdx(0), spriteMax(7)
-{
-	//frog2Src = { 0,0,32,32 };
-	frog2Dst = { x,y, 125, 125 };
-	healthBar = { x, y , 50, 5 };
-	health = h;
-	maxHealth = h;
-	state = 0;
-	dir = 0;
-	dirTimer = 0;
-	speed = 7;
-	distance = 15;
-	upCount = 0;
-	downCount = 0;
-	leftCount = 0;
-	rightCount = 0;
-	maxCount = 2;
-}
-
-void Frog2::setHp(double h)
-{
-	health = h;
-}
-
-int Frog2::getHp()
-{
-	return health;
-}
-
-void Frog2::Update()
-{
-	//moving frog
-	if (state == 0)
-	{
-		spriteMax = 7;
-		if (spriteIdx > 7)
-			spriteIdx = 0;
-		if (frameCtr++ == frameMax)
-		{
-			frameCtr = 0;
-			if (++spriteIdx == spriteMax)
-			{
-				spriteIdx = 0;
-			}
-			frog2Src.x = 0 + frog2Src.w * spriteIdx;
-		}
-	}
-	healthBar.w = double(health / maxHealth) * 100;
-	healthBar.x = frog2Dst.x + 15;
-	healthBar.y = frog2Dst.y - 5;
-
-	dirTimer++;
-	if (dir == 0 && maxCount > upCount) {
-		if (dirTimer < distance) {
-			frog2Dst.y -= speed;
-		}
-		else {
-			dirTimer = 0;
-			dir = rand() % 5;
-			upCount++;
-		}
-	}
-	else if (dir == 1 && maxCount > downCount) {
-		if (dirTimer < distance) {
-			frog2Dst.y += speed;
-		}
-		else {
-			dirTimer = 0;
-			dir = rand() % 5;
-			downCount++;
-		}
-	}
-	else {
-		if (dirTimer > distance) {
-			dirTimer = 0;
-			dir = rand() % 5;
-		}
-	}
-	if ((maxCount * 2) <=  upCount + downCount)
-	{
-		downCount = 0;
-		upCount = 0;
-	}
 }
 
 Shroom::Shroom(int x, int y, int h) : shroomSrc({0,0,32,32}), frameCtr(0), frameMax(9), spriteIdx(0), spriteMax(4)
@@ -351,3 +279,10 @@ void Shroom::resetFrames()
 	frames = 0;
 }
 
+Bubble::Bubble(int x, int y, int s, char d)
+{
+}
+
+void Bubble::Update()
+{
+}
