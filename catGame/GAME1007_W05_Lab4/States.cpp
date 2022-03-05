@@ -796,8 +796,8 @@ void Levelone::Enter()
 	frog.push_back(new Frog(bg1.swamp1Dst.x + 1150 , bg1.swamp1Dst.y + 500, 2));
 	
 	//moving frogs from tile 2 & 3
-	//frog2.push_back(new Frog2(bg1.swamp1Dst.x + 1420, bg1.swamp1Dst.y + 380, 2));
-	//frog2.push_back(new Frog2(bg1.swamp1Dst.x + 1420, bg1.swamp1Dst.y + 950, 2));
+	frog2.push_back(new Frog2(bg1.swamp1Dst.x + 1420, bg1.swamp1Dst.y + 380, 2));
+	frog2.push_back(new Frog2(bg1.swamp1Dst.x + 1420, bg1.swamp1Dst.y + 950, 2));
 	
 	//tile 4 
 	frog.push_back(new Frog(bg1.swamp1Dst.x + 50, bg1.swamp1Dst.y + 1100, 2));
@@ -848,8 +848,8 @@ void Levelone::Update()
 		}
 
 	}
-
-	//ezModeCD++;
+	
+	ezModeCD++;
 	if (ezModeCD > 3000)
 	{
 		if (EVMA::KeyPressed(SDL_SCANCODE_E))
