@@ -754,7 +754,7 @@ void Levelone::Enter()
 	cout << "entering lv1" << endl;
 	swamp1 = IMG_LoadTexture(Engine::Instance().GetRenderer(), "bgs/swamp1.png");
 	swamp1a = IMG_LoadTexture(Engine::Instance().GetRenderer(), "bgs/swamp1a.png");
-	swamp1b = IMG_LoadTexture(Engine::Instance().GetRenderer(), "bgs/swamp1b.png");
+	swamp1b = IMG_LoadTexture(Engine::Instance().GetRenderer(), "bgs/swamp1b2.png");
 	swamp1bdown = IMG_LoadTexture(Engine::Instance().GetRenderer(), "bgs/swamp1bdown.png");
 
 	plrTxtr = IMG_LoadTexture(Engine::Instance().GetRenderer(), "art/catboy.png");
@@ -1475,7 +1475,7 @@ void Levelone::Update()
 void Levelone::Render()
 {
 	SDL_RenderClear(Engine::Instance().GetRenderer());
-	SDL_SetRenderDrawColor(Engine::Instance().GetRenderer(),148,0,211,0);
+	SDL_SetRenderDrawColor(Engine::Instance().GetRenderer(),100,11,169,255);
 	SDL_RenderClear(Engine::Instance().GetRenderer());
 	// Any drawing here...
 	//SDL_SetRenderDrawColor(m_pRenderer, 255, 255, 255, 255);
