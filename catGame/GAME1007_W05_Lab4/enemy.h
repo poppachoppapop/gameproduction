@@ -83,7 +83,7 @@ public:
 	Uint16 frames = 0;
 	void setHp(double h);
 	int getHp();
-	void Update(int move);
+	void Update();
 	void resetFrames();
 };
 

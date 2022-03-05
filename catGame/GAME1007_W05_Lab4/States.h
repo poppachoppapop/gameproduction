@@ -33,6 +33,8 @@ protected: //priv but inherited
 	int textBoxTimer = 0;
 	int dummiesTimer = 0;	
 	bool isEzModeActive = false;
+	bool wallHitx = false;
+	bool wallHity = false;
 	int Noobtimer = 0;
 	int ezModeCD = 3000; 
 

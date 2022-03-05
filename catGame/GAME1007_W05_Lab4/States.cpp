@@ -107,6 +107,8 @@ void GameState::Enter()
 	npcTxtr = IMG_LoadTexture(Engine::Instance().GetRenderer(), "art/catDude.png");
 	DragonFlyTxt = IMG_LoadTexture(Engine::Instance().GetRenderer(), "art/dragonfly.png");
 	vineTexture = IMG_LoadTexture(Engine::Instance().GetRenderer(), "art/vines.png");
+	FrogTxtr = IMG_LoadTexture(Engine::Instance().GetRenderer(), "art/frogWalking7.png");
+
 
 
 	stepSfx = Mix_LoadWAV("sfx/step.wav");
@@ -151,17 +153,17 @@ void GameState::Enter()
 	Score = SDL_CreateTextureFromSurface(Engine::Instance().GetRenderer(), dummyScore);
 
 	vine.push_back(new Vines(bg1.bgDst.x + 400, bg1.bgDst.y + 1000));
-	vine.push_back(new Vines(bg1.bgDst.x + 400, bg1.bgDst.y + 1000));
 	vine.shrink_to_fit();
 	fly.push_back(new DragonFly(bg1.bgDst.x + 650, bg1.bgDst.y + 1000, 2));
 	fly.shrink_to_fit();
-
+	frog.push_back(new Frog(bg1.bgDst.x + 800, bg1.bgDst.y + 1000, 5));
+	frog.shrink_to_fit();
 }
 
 void GameState::Update()
 {
 	//debug
-	cout << plr1.plrDst.x - bg1.bgDst.x << " - " << plr1.plrDst.y - bg1.bgDst.y << endl;
+	//cout << plr1.plrDst.x - bg1.bgDst.x << " - " << plr1.plrDst.y - bg1.bgDst.y << endl;
 	if (plr1.plrHp <= 0)
 	{
 		STMA::ChangeState(new EndState());
@@ -240,8 +242,6 @@ void GameState::Update()
 	dashCooldown++;
 	textBoxTimer++;
 	dumbieTimerMax -= 0.1;
-	bg1.bgDst.x -= speedx;
-	bg1.bgDst.y -= speedy;
 	plr1.Update();
 	catDude.Update();
 	rockCooldown++;
@@ -249,19 +249,26 @@ void GameState::Update()
 	//NPC
 	catDude.npcDst.x = bg1.bgDst.x + 1000;
 	catDude.npcDst.y = bg1.bgDst.y + 1350;
-
-	if (plr1.plrDst.x < bg1.bgDst.x - 50)
+	
+	//wallcollision
+	bool wallHitx = false;
+	bool wallHity = false;
+	if (plr1.plrDst.x < bg1.bgDst.x - 50) {
 		bg1.bgDst.x = plr1.plrDst.x + 50;
-	if (plr1.plrDst.y < bg1.bgDst.y + 630)
+		wallHitx = true;
+	}
+	if (plr1.plrDst.y < bg1.bgDst.y + 630) {
 		bg1.bgDst.y = plr1.plrDst.y - 630;
-
+		wallHity = true;
+	}
+	bg1.bgDst.x -= speedx;
+	bg1.bgDst.y -= speedy;
 	
 	//vines
 	for (unsigned i = 0; i < vine.size(); i++)
 	{
-		vine[i]->vineDst.x -= speedx;
-		vine[i]->vineDst.y -= speedy;
-		//cout << Util::distanceOffset(plr1.plrDst, vine[i]->vineDst) << endl;
+		vine[i]->vineDst.x = bg1.bgDst.x + 400;
+		vine[i]->vineDst.y = bg1.bgDst.y + 1000;
 		if (!dashPressed) {
 			if (Util::distanceOffset(plr1.plrDst, vine[i]->vineDst) < 80) {
 				plr1.plrSpd = 1;
@@ -270,18 +277,16 @@ void GameState::Update()
 				plr1.plrSpd = plr1.plrMaxSpd;
 			}
 		}
-		//if a vine is ontop another vine they seperate
-		/*if (SDL_HasIntersection(&vine[i]->vineDst, &vine[i + 1]->vineDst)) {
-			vine[i + 1]->vineDst.x += vine[i]->vineDst.w;
-		}*/
 
 	}
 	//DragonFly
 	for (unsigned i = 0; i < fly.size(); i++)
 	{
 		fly[i]->Update();
-		fly[i]->flyDst.x -= speedx;
-		fly[i]->flyDst.y -= speedy;
+		if (!wallHitx)
+			fly[i]->flyDst.x -= speedx;
+		if (!wallHity)
+			fly[i]->flyDst.y -= speedy;
 		
 		if (SDL_HasIntersection(&fly[i]->flyDst, &plr1.plrDst)) {
 			plr1.takeDamage(1);
@@ -295,9 +300,20 @@ void GameState::Update()
 			fly.shrink_to_fit();
 		}
 	}
+
+	//frog
+	for (unsigned i = 0; i < frog.size(); i++) {
+		frog[i]->Update();
+		if (!wallHitx)
+			frog[i]->frogDst.x -= speedx;
+		if (!wallHity)
+			frog[i]->frogDst.y -= speedy;
 	
+		cout << frog[i]->frogDst.x << endl;
+		cout << frog[i]->frogDst.y << endl;
 
-
+	}
+	
 
 	if (spawnDummies) {
 		dummiesTimer++;
@@ -484,8 +500,10 @@ void GameState::Update()
 	for (unsigned i = 0; i < playerpew.size(); i++)
 	{
 		playerpew[i]->Update();
-		playerpew[i]->rockDst.x -= speedx;
-		playerpew[i]->rockDst.y -= speedy;
+		if (!wallHitx)
+			playerpew[i]->rockDst.x -= speedx;
+		if (!wallHity)
+			playerpew[i]->rockDst.y -= speedy;
 
 		if (playerpew[i]->rockDst.x >= WIDTH || playerpew[i]->rockDst.x <= -64 || playerpew[i]->rockDst.y >= HEIGHT || playerpew[i]->rockDst.y <= -64)
 		{
@@ -547,6 +565,23 @@ void GameState::Update()
 			}
 		}
 	}
+	for (unsigned i = 0; i < playerpew.size(); i++)
+	{
+		for (unsigned a = 0; a < frog.size(); a++)
+		{
+			if (SDL_HasIntersection(&playerpew[i]->rockDst, &frog[a]->frogDst)) //AABB Check
+			{
+				Mix_PlayChannel(-1, hurtSfx, 0);
+				delete playerpew[i];
+				playerpew[i] = nullptr;
+				playerpew.erase(playerpew.begin() + i);
+				playerpew.shrink_to_fit();
+				//set dumbie hp
+				frog[a]->setHp(frog[a]->getHp() - playerDamage);
+				break;
+			}
+		}
+	}
 		
 	
 	//delete dumbie when at 0 hp
@@ -554,8 +589,11 @@ void GameState::Update()
 	{
 		//updates healthbar
 		dumbie[i]->update();
-		dumbie[i]->enemyDst.x -= speedx;
-		dumbie[i]->enemyDst.y -= speedy;
+		if (!wallHitx)
+			dumbie[i]->enemyDst.x -= speedx;
+		if (!wallHity)
+			dumbie[i]->enemyDst.y -= speedy;
+		
 
 		//deletes enemy if dead
 		if (dumbie[i]->getHp() <= 0) {
@@ -583,8 +621,11 @@ void GameState::Update()
 	}
 	for (unsigned i = 0; i < item1.size(); i++)
 	{
-		item1[i]->item.x -= speedx;
-		item1[i]->item.y -= speedy;
+		if (!wallHitx)
+			item1[i]->item.x -= speedx;
+		if (!wallHity)
+			item1[i]->item.y -= speedy;
+		
 
 		if (SDL_HasIntersection(&plr1.plrDst, &item1[i]->item)) //AABB Check
 		{
@@ -667,6 +708,13 @@ void GameState::Render()
 		//health bar
 		SDL_SetRenderDrawColor(Engine::Instance().GetRenderer(), 255, 0, 0, 255);
 		SDL_RenderFillRect(Engine::Instance().GetRenderer(), &fly[i]->healthBar);
+	}
+	//frog
+	for (unsigned i = 0; i < frog.size(); i++) {
+		SDL_RenderCopy(Engine::Instance().GetRenderer(), FrogTxtr, &frog[i]->frogSrc, &frog[i]->frogDst);
+		//health bar
+		SDL_SetRenderDrawColor(Engine::Instance().GetRenderer(), 255, 0, 0, 255);
+		SDL_RenderFillRect(Engine::Instance().GetRenderer(), &frog[i]->healthBar);
 	}
 
 	//text box
@@ -1175,7 +1223,7 @@ void Levelone::Update()
 	{
 		for (unsigned i = 0; i < frog.size();i++)
 		{
-			frog[i]->Update(1);
+			frog[i]->Update();
 
 
 			if (frog[i]->frames >= FPS * ATTACKRATE / 2)

@@ -1,4 +1,7 @@
 #include "Util.h"
+#include <iostream>
+
+using namespace std;
 
 double Util::distance(SDL_Rect a, SDL_Rect b)
 {
@@ -21,3 +24,7 @@ double Util::distanceOffset(SDL_Rect a, SDL_Rect b) // b is enemy
     
     return distance;
 }
+
+
+
+

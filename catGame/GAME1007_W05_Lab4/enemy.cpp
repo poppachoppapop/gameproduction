@@ -186,7 +186,7 @@ int Frog::getHp()
 	return health;
 }
 
-void Frog::Update(int move)
+void Frog::Update()
 {
 	//shooting frog
 	if (state == 0)
