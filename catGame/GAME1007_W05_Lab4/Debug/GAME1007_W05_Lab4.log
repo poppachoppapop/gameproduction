@@ -1,9 +1,4 @@
 ﻿C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\MSBuild\Microsoft\VC\v160\Microsoft.CppBuild.targets(513,5): warning MSB8028: The intermediate directory (Debug\) contains files shared from another project (GAME1007_W05_Lab4.vcxproj).  This can lead to incorrect clean and rebuild behavior.
-  Engine.cpp
-C:\Users\Michael\OneDrive\Desktop\gbc\GAME1017\gameproduction\catGame\GAME1007_W05_Lab4\Engine.cpp(46,12): warning C4244: 'argument': conversion from 'time_t' to 'unsigned int', possible loss of data
-  EventManager.cpp
-  Main.cpp
-  StateManager.cpp
   States.cpp
 C:\Users\Michael\OneDrive\Desktop\gbc\GAME1017\gameproduction\catGame\GAME1007_W05_Lab4\States.cpp(243,23): warning C4244: '-=': conversion from 'double' to 'int', possible loss of data
 C:\Users\Michael\OneDrive\Desktop\gbc\GAME1017\gameproduction\catGame\GAME1007_W05_Lab4\States.cpp(244,23): warning C4244: '-=': conversion from 'double' to 'int', possible loss of data
@@ -22,37 +17,41 @@ C:\Users\Michael\OneDrive\Desktop\gbc\GAME1017\gameproduction\catGame\GAME1007_W
 C:\Users\Michael\OneDrive\Desktop\gbc\GAME1017\gameproduction\catGame\GAME1007_W05_Lab4\States.cpp(586,29): warning C4244: '-=': conversion from 'double' to 'int', possible loss of data
 C:\Users\Michael\OneDrive\Desktop\gbc\GAME1017\gameproduction\catGame\GAME1007_W05_Lab4\States.cpp(587,29): warning C4244: '-=': conversion from 'double' to 'int', possible loss of data
 C:\Users\Michael\OneDrive\Desktop\gbc\GAME1017\gameproduction\catGame\GAME1007_W05_Lab4\States.cpp(742,27): warning C4805: '==': unsafe mix of type 'int' and type 'bool' in operation
-C:\Users\Michael\OneDrive\Desktop\gbc\GAME1017\gameproduction\catGame\GAME1007_W05_Lab4\States.cpp(874,27): warning C4244: '-=': conversion from 'double' to 'int', possible loss of data
-C:\Users\Michael\OneDrive\Desktop\gbc\GAME1017\gameproduction\catGame\GAME1007_W05_Lab4\States.cpp(875,27): warning C4244: '-=': conversion from 'double' to 'int', possible loss of data
-C:\Users\Michael\OneDrive\Desktop\gbc\GAME1017\gameproduction\catGame\GAME1007_W05_Lab4\States.cpp(906,83): warning C4244: 'argument': conversion from 'double' to 'int', possible loss of data
-C:\Users\Michael\OneDrive\Desktop\gbc\GAME1017\gameproduction\catGame\GAME1007_W05_Lab4\States.cpp(916,73): warning C4244: 'argument': conversion from 'double' to 'int', possible loss of data
-C:\Users\Michael\OneDrive\Desktop\gbc\GAME1017\gameproduction\catGame\GAME1007_W05_Lab4\States.cpp(926,83): warning C4244: 'argument': conversion from 'double' to 'int', possible loss of data
-C:\Users\Michael\OneDrive\Desktop\gbc\GAME1017\gameproduction\catGame\GAME1007_W05_Lab4\States.cpp(936,73): warning C4244: 'argument': conversion from 'double' to 'int', possible loss of data
-C:\Users\Michael\OneDrive\Desktop\gbc\GAME1017\gameproduction\catGame\GAME1007_W05_Lab4\States.cpp(1046,36): warning C4244: '-=': conversion from 'double' to 'int', possible loss of data
-C:\Users\Michael\OneDrive\Desktop\gbc\GAME1017\gameproduction\catGame\GAME1007_W05_Lab4\States.cpp(1047,36): warning C4244: '-=': conversion from 'double' to 'int', possible loss of data
-C:\Users\Michael\OneDrive\Desktop\gbc\GAME1017\gameproduction\catGame\GAME1007_W05_Lab4\States.cpp(1062,31): warning C4244: '-=': conversion from 'double' to 'int', possible loss of data
-C:\Users\Michael\OneDrive\Desktop\gbc\GAME1017\gameproduction\catGame\GAME1007_W05_Lab4\States.cpp(1063,31): warning C4244: '-=': conversion from 'double' to 'int', possible loss of data
-C:\Users\Michael\OneDrive\Desktop\gbc\GAME1017\gameproduction\catGame\GAME1007_W05_Lab4\States.cpp(1074,12): warning C4129: 'w': unrecognized character escape sequence
-C:\Users\Michael\OneDrive\Desktop\gbc\GAME1017\gameproduction\catGame\GAME1007_W05_Lab4\States.cpp(1139,39): warning C4244: '-=': conversion from 'double' to 'int', possible loss of data
-C:\Users\Michael\OneDrive\Desktop\gbc\GAME1017\gameproduction\catGame\GAME1007_W05_Lab4\States.cpp(1140,39): warning C4244: '-=': conversion from 'double' to 'int', possible loss of data
-C:\Users\Michael\OneDrive\Desktop\gbc\GAME1017\gameproduction\catGame\GAME1007_W05_Lab4\States.cpp(1145,41): warning C4244: '-=': conversion from 'double' to 'int', possible loss of data
-C:\Users\Michael\OneDrive\Desktop\gbc\GAME1017\gameproduction\catGame\GAME1007_W05_Lab4\States.cpp(1146,41): warning C4244: '-=': conversion from 'double' to 'int', possible loss of data
-C:\Users\Michael\OneDrive\Desktop\gbc\GAME1017\gameproduction\catGame\GAME1007_W05_Lab4\States.cpp(1153,33): warning C4244: '-=': conversion from 'double' to 'int', possible loss of data
-C:\Users\Michael\OneDrive\Desktop\gbc\GAME1017\gameproduction\catGame\GAME1007_W05_Lab4\States.cpp(1154,33): warning C4244: '-=': conversion from 'double' to 'int', possible loss of data
-C:\Users\Michael\OneDrive\Desktop\gbc\GAME1017\gameproduction\catGame\GAME1007_W05_Lab4\States.cpp(1195,31): warning C4244: '-=': conversion from 'double' to 'int', possible loss of data
-C:\Users\Michael\OneDrive\Desktop\gbc\GAME1017\gameproduction\catGame\GAME1007_W05_Lab4\States.cpp(1196,31): warning C4244: '-=': conversion from 'double' to 'int', possible loss of data
-C:\Users\Michael\OneDrive\Desktop\gbc\GAME1017\gameproduction\catGame\GAME1007_W05_Lab4\States.cpp(1234,29): warning C4244: '-=': conversion from 'double' to 'int', possible loss of data
-C:\Users\Michael\OneDrive\Desktop\gbc\GAME1017\gameproduction\catGame\GAME1007_W05_Lab4\States.cpp(1235,29): warning C4244: '-=': conversion from 'double' to 'int', possible loss of data
-  enemy.cpp
-C:\Users\Michael\OneDrive\Desktop\gbc\GAME1017\gameproduction\catGame\GAME1007_W05_Lab4\enemy.cpp(33,9): warning C4244: 'return': conversion from 'double' to 'int', possible loss of data
-C:\Users\Michael\OneDrive\Desktop\gbc\GAME1017\gameproduction\catGame\GAME1007_W05_Lab4\enemy.cpp(38,43): warning C4244: '=': conversion from 'double' to 'int', possible loss of data
-C:\Users\Michael\OneDrive\Desktop\gbc\GAME1017\gameproduction\catGame\GAME1007_W05_Lab4\enemy.cpp(70,9): warning C4244: 'return': conversion from 'double' to 'int', possible loss of data
-C:\Users\Michael\OneDrive\Desktop\gbc\GAME1017\gameproduction\catGame\GAME1007_W05_Lab4\enemy.cpp(92,43): warning C4244: '=': conversion from 'double' to 'int', possible loss of data
-C:\Users\Michael\OneDrive\Desktop\gbc\GAME1017\gameproduction\catGame\GAME1007_W05_Lab4\enemy.cpp(176,9): warning C4244: 'return': conversion from 'double' to 'int', possible loss of data
-C:\Users\Michael\OneDrive\Desktop\gbc\GAME1017\gameproduction\catGame\GAME1007_W05_Lab4\enemy.cpp(198,43): warning C4244: '=': conversion from 'double' to 'int', possible loss of data
-C:\Users\Michael\OneDrive\Desktop\gbc\GAME1017\gameproduction\catGame\GAME1007_W05_Lab4\enemy.cpp(237,9): warning C4244: 'return': conversion from 'double' to 'int', possible loss of data
-C:\Users\Michael\OneDrive\Desktop\gbc\GAME1017\gameproduction\catGame\GAME1007_W05_Lab4\enemy.cpp(258,43): warning C4244: '=': conversion from 'double' to 'int', possible loss of data
-  player1.cpp
-C:\Users\Michael\OneDrive\Desktop\gbc\GAME1017\gameproduction\catGame\GAME1007_W05_Lab4\player1.cpp(83,37): warning C4244: '=': conversion from 'double' to 'int', possible loss of data
-  Generating Code...
+C:\Users\Michael\OneDrive\Desktop\gbc\GAME1017\gameproduction\catGame\GAME1007_W05_Lab4\States.cpp(893,27): warning C4244: '-=': conversion from 'double' to 'int', possible loss of data
+C:\Users\Michael\OneDrive\Desktop\gbc\GAME1017\gameproduction\catGame\GAME1007_W05_Lab4\States.cpp(894,27): warning C4244: '-=': conversion from 'double' to 'int', possible loss of data
+C:\Users\Michael\OneDrive\Desktop\gbc\GAME1017\gameproduction\catGame\GAME1007_W05_Lab4\States.cpp(896,28): warning C4244: '-=': conversion from 'double' to 'int', possible loss of data
+C:\Users\Michael\OneDrive\Desktop\gbc\GAME1017\gameproduction\catGame\GAME1007_W05_Lab4\States.cpp(897,28): warning C4244: '-=': conversion from 'double' to 'int', possible loss of data
+C:\Users\Michael\OneDrive\Desktop\gbc\GAME1017\gameproduction\catGame\GAME1007_W05_Lab4\States.cpp(899,28): warning C4244: '-=': conversion from 'double' to 'int', possible loss of data
+C:\Users\Michael\OneDrive\Desktop\gbc\GAME1017\gameproduction\catGame\GAME1007_W05_Lab4\States.cpp(900,28): warning C4244: '-=': conversion from 'double' to 'int', possible loss of data
+C:\Users\Michael\OneDrive\Desktop\gbc\GAME1017\gameproduction\catGame\GAME1007_W05_Lab4\States.cpp(902,32): warning C4244: '-=': conversion from 'double' to 'int', possible loss of data
+C:\Users\Michael\OneDrive\Desktop\gbc\GAME1017\gameproduction\catGame\GAME1007_W05_Lab4\States.cpp(903,32): warning C4244: '-=': conversion from 'double' to 'int', possible loss of data
+C:\Users\Michael\OneDrive\Desktop\gbc\GAME1017\gameproduction\catGame\GAME1007_W05_Lab4\States.cpp(987,83): warning C4244: 'argument': conversion from 'double' to 'int', possible loss of data
+C:\Users\Michael\OneDrive\Desktop\gbc\GAME1017\gameproduction\catGame\GAME1007_W05_Lab4\States.cpp(997,73): warning C4244: 'argument': conversion from 'double' to 'int', possible loss of data
+C:\Users\Michael\OneDrive\Desktop\gbc\GAME1017\gameproduction\catGame\GAME1007_W05_Lab4\States.cpp(1007,83): warning C4244: 'argument': conversion from 'double' to 'int', possible loss of data
+C:\Users\Michael\OneDrive\Desktop\gbc\GAME1017\gameproduction\catGame\GAME1007_W05_Lab4\States.cpp(1017,73): warning C4244: 'argument': conversion from 'double' to 'int', possible loss of data
+C:\Users\Michael\OneDrive\Desktop\gbc\GAME1017\gameproduction\catGame\GAME1007_W05_Lab4\States.cpp(1025,36): warning C4244: '-=': conversion from 'double' to 'int', possible loss of data
+C:\Users\Michael\OneDrive\Desktop\gbc\GAME1017\gameproduction\catGame\GAME1007_W05_Lab4\States.cpp(1026,36): warning C4244: '-=': conversion from 'double' to 'int', possible loss of data
+C:\Users\Michael\OneDrive\Desktop\gbc\GAME1017\gameproduction\catGame\GAME1007_W05_Lab4\States.cpp(1125,31): warning C4244: '-=': conversion from 'double' to 'int', possible loss of data
+C:\Users\Michael\OneDrive\Desktop\gbc\GAME1017\gameproduction\catGame\GAME1007_W05_Lab4\States.cpp(1126,31): warning C4244: '-=': conversion from 'double' to 'int', possible loss of data
+C:\Users\Michael\OneDrive\Desktop\gbc\GAME1017\gameproduction\catGame\GAME1007_W05_Lab4\States.cpp(1135,13): warning C4129: 'w': unrecognized character escape sequence
+C:\Users\Michael\OneDrive\Desktop\gbc\GAME1017\gameproduction\catGame\GAME1007_W05_Lab4\States.cpp(1204,39): warning C4244: '-=': conversion from 'double' to 'int', possible loss of data
+C:\Users\Michael\OneDrive\Desktop\gbc\GAME1017\gameproduction\catGame\GAME1007_W05_Lab4\States.cpp(1205,39): warning C4244: '-=': conversion from 'double' to 'int', possible loss of data
+C:\Users\Michael\OneDrive\Desktop\gbc\GAME1017\gameproduction\catGame\GAME1007_W05_Lab4\States.cpp(1210,41): warning C4244: '-=': conversion from 'double' to 'int', possible loss of data
+C:\Users\Michael\OneDrive\Desktop\gbc\GAME1017\gameproduction\catGame\GAME1007_W05_Lab4\States.cpp(1211,41): warning C4244: '-=': conversion from 'double' to 'int', possible loss of data
+C:\Users\Michael\OneDrive\Desktop\gbc\GAME1017\gameproduction\catGame\GAME1007_W05_Lab4\States.cpp(1218,33): warning C4244: '-=': conversion from 'double' to 'int', possible loss of data
+C:\Users\Michael\OneDrive\Desktop\gbc\GAME1017\gameproduction\catGame\GAME1007_W05_Lab4\States.cpp(1219,33): warning C4244: '-=': conversion from 'double' to 'int', possible loss of data
+C:\Users\Michael\OneDrive\Desktop\gbc\GAME1017\gameproduction\catGame\GAME1007_W05_Lab4\States.cpp(1260,31): warning C4244: '-=': conversion from 'double' to 'int', possible loss of data
+C:\Users\Michael\OneDrive\Desktop\gbc\GAME1017\gameproduction\catGame\GAME1007_W05_Lab4\States.cpp(1261,31): warning C4244: '-=': conversion from 'double' to 'int', possible loss of data
+C:\Users\Michael\OneDrive\Desktop\gbc\GAME1017\gameproduction\catGame\GAME1007_W05_Lab4\States.cpp(1299,29): warning C4244: '-=': conversion from 'double' to 'int', possible loss of data
+C:\Users\Michael\OneDrive\Desktop\gbc\GAME1017\gameproduction\catGame\GAME1007_W05_Lab4\States.cpp(1300,29): warning C4244: '-=': conversion from 'double' to 'int', possible loss of data
+C:\Users\Michael\OneDrive\Desktop\gbc\GAME1017\gameproduction\catGame\GAME1007_W05_Lab4\States.cpp(1337,35): warning C4244: '-=': conversion from 'double' to 'int', possible loss of data
+C:\Users\Michael\OneDrive\Desktop\gbc\GAME1017\gameproduction\catGame\GAME1007_W05_Lab4\States.cpp(1338,35): warning C4244: '-=': conversion from 'double' to 'int', possible loss of data
+C:\Users\Michael\OneDrive\Desktop\gbc\GAME1017\gameproduction\catGame\GAME1007_W05_Lab4\States.cpp(1365,43): warning C4244: '-=': conversion from 'double' to 'int', possible loss of data
+C:\Users\Michael\OneDrive\Desktop\gbc\GAME1017\gameproduction\catGame\GAME1007_W05_Lab4\States.cpp(1366,43): warning C4244: '-=': conversion from 'double' to 'int', possible loss of data
+C:\Users\Michael\OneDrive\Desktop\gbc\GAME1017\gameproduction\catGame\GAME1007_W05_Lab4\States.cpp(1375,43): warning C4244: '-=': conversion from 'double' to 'int', possible loss of data
+C:\Users\Michael\OneDrive\Desktop\gbc\GAME1017\gameproduction\catGame\GAME1007_W05_Lab4\States.cpp(1376,43): warning C4244: '-=': conversion from 'double' to 'int', possible loss of data
+C:\Users\Michael\OneDrive\Desktop\gbc\GAME1017\gameproduction\catGame\GAME1007_W05_Lab4\States.cpp(1384,43): warning C4244: '-=': conversion from 'double' to 'int', possible loss of data
+C:\Users\Michael\OneDrive\Desktop\gbc\GAME1017\gameproduction\catGame\GAME1007_W05_Lab4\States.cpp(1385,43): warning C4244: '-=': conversion from 'double' to 'int', possible loss of data
+C:\Users\Michael\OneDrive\Desktop\gbc\GAME1017\gameproduction\catGame\GAME1007_W05_Lab4\States.cpp(1393,43): warning C4244: '-=': conversion from 'double' to 'int', possible loss of data
+C:\Users\Michael\OneDrive\Desktop\gbc\GAME1017\gameproduction\catGame\GAME1007_W05_Lab4\States.cpp(1394,43): warning C4244: '-=': conversion from 'double' to 'int', possible loss of data
   GAME1007_W05_Lab4.vcxproj -> C:\Users\Michael\OneDrive\Desktop\gbc\GAME1017\gameproduction\catGame\Debug\catGamePreRelease.exe

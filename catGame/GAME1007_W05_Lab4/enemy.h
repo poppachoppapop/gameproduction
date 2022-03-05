@@ -4,8 +4,10 @@
 #include "engine.h"
 #define MOVESPEED
 //#define FROGSPEED 2
+#define SHROOM 1//shroom spore move speed 
 #define FROGATTACK 7
 #define ATTACKRATE 3
+#define CLOUDRATE 8 //shroom spore spawn rate
 class Attack
 {
 private:
@@ -13,8 +15,13 @@ private:
 public:
 	SDL_Rect frogAttackDst,frogAttackSrc;
 	SDL_Rect rfrogAttackDst, rfrogAttackSrc;
+	SDL_Rect ushroomAtkDst, ushroomAtkSrc;
+	SDL_Rect lshroomAtkDst, lshroomAtkSrc;
+	SDL_Rect rshroomAtkDst, rshroomAtkSrc;
+	SDL_Rect dshroomAtkDst, dshroomAtkSrc;
 	Uint16 frames = 0;
 	Attack(int = 0, int = 0);	
+
 	void Update(int move);
 
 };
@@ -101,5 +108,22 @@ public:
 	int getHp();
 	void Update();
 	//void resetFrames();
+};
+class Shroom
+{
+private:
+	unsigned short frameCtr, frameMax, spriteIdx, spriteMin, spriteMax;
+	int state;
+	double health;
+	double maxHealth;
+public:
+	SDL_Rect shroomSrc, shroomDst, healthBar;
+	Shroom(int x, int y, int h);
+	Uint16 frames = 0;
+	void setHp(double h);
+	int getHp();
+	void Update();
+	void resetFrames();
+
 };
 

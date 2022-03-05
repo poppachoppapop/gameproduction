@@ -753,11 +753,16 @@ void Levelone::Enter()
 {
 	cout << "entering lv1" << endl;
 	swamp1 = IMG_LoadTexture(Engine::Instance().GetRenderer(), "bgs/swamp1.png");
+	swamp1a = IMG_LoadTexture(Engine::Instance().GetRenderer(), "bgs/swamp1a.png");
+	swamp1b = IMG_LoadTexture(Engine::Instance().GetRenderer(), "bgs/swamp1b.png");
+	swamp1bdown = IMG_LoadTexture(Engine::Instance().GetRenderer(), "bgs/swamp1bdown.png");
+
 	plrTxtr = IMG_LoadTexture(Engine::Instance().GetRenderer(), "art/catboy.png");
 	rockTxtr = IMG_LoadTexture(Engine::Instance().GetRenderer(), "art/Rocko100.png");
 	DragonFlyTxt = IMG_LoadTexture(Engine::Instance().GetRenderer(), "art/dragonfly.png");
 	vineTexture = IMG_LoadTexture(Engine::Instance().GetRenderer(), "art/vines.png");
 	FrogTxtr = IMG_LoadTexture(Engine::Instance().GetRenderer(), "art/frogWalking7.png");
+	ShroomTxtr= IMG_LoadTexture(Engine::Instance().GetRenderer(), "art/mushroom.png");
 	stepSfx = Mix_LoadWAV("sfx/step.wav");
 	turnSfx = Mix_LoadWAV("sfx/turn.wav");
 	deathSfx = Mix_LoadWAV("sfx/dedEnemy.wav");
@@ -775,8 +780,10 @@ void Levelone::Enter()
 	Mix_VolumeMusic(12); //0-128
 	Mix_Volume(-1, 50);
 	playerpew.reserve(4);
+
 	
 	//tile 1 crap 
+	shroom.push_back(new Shroom(bg1.swamp1Dst.x + 1000, bg1.swamp1Dst.y + 500, 2));
 	fly.push_back(new DragonFly(bg1.bgDst.x + 750, bg1.bgDst.y + 1640, 2));
 	fly.push_back(new DragonFly(bg1.bgDst.x + 750, bg1.bgDst.y + 1440, 2));
 	fly.push_back(new DragonFly(bg1.bgDst.x + 950, bg1.bgDst.y + 1440, 2));
@@ -789,13 +796,13 @@ void Levelone::Enter()
 	frog.push_back(new Frog(bg1.swamp1Dst.x + 1150 , bg1.swamp1Dst.y + 500, 2));
 	
 	//moving frogs from tile 2 & 3
-	frog2.push_back(new Frog2(bg1.swamp1Dst.x + 1420, bg1.swamp1Dst.y + 380, 2));
-	frog2.push_back(new Frog2(bg1.swamp1Dst.x + 1420, bg1.swamp1Dst.y + 950, 2));
+	//frog2.push_back(new Frog2(bg1.swamp1Dst.x + 1420, bg1.swamp1Dst.y + 380, 2));
+	//frog2.push_back(new Frog2(bg1.swamp1Dst.x + 1420, bg1.swamp1Dst.y + 950, 2));
 	
 	//tile 4 
 	frog.push_back(new Frog(bg1.swamp1Dst.x + 50, bg1.swamp1Dst.y + 1100, 2));
-	frog2.push_back(new Frog2(bg1.swamp1Dst.x + 330, bg1.swamp1Dst.y + 1120, 2));
-	frog2.push_back(new Frog2(bg1.swamp1Dst.x + 480, bg1.swamp1Dst.y + 1120, 2));
+	//frog2.push_back(new Frog2(bg1.swamp1Dst.x + 330, bg1.swamp1Dst.y + 1120, 2));
+	//frog2.push_back(new Frog2(bg1.swamp1Dst.x + 480, bg1.swamp1Dst.y + 1120, 2));
 	fly.push_back(new DragonFly(bg1.bgDst.x + 1100, bg1.bgDst.y + 2340, 2));
 	fly.push_back(new DragonFly(bg1.bgDst.x + 750, bg1.bgDst.y + 2340, 2));
 	fly.push_back(new DragonFly(bg1.bgDst.x + 750, bg1.bgDst.y + 2240, 2));
@@ -804,12 +811,13 @@ void Levelone::Enter()
 	frog2.shrink_to_fit();
 	vine.shrink_to_fit();
 	frog.shrink_to_fit();
+	shroom.shrink_to_fit();
 }
 
 
 
 void Levelone::Update()
-{ 
+{ 	
 	if (plr1.plrHp <= 0)
 	{
 		STMA::ChangeState(new EndState());
@@ -817,7 +825,90 @@ void Levelone::Update()
 	}
 	cout <<"noobtimer"<< Noobtimer++ <<" | "<<ezModeCD++ << "ezmodecd<-" << endl;
 	//cout << plr1.plrDst.x - bg1.swamp1Dst.x << " - " << plr1.plrDst.y - bg1.swamp1Dst.y << endl;
-	//cout << plr1.plrDst.x << " , " << plr1.plrDst.y  << endl;
+     // cout << plr1.plrDst.x << " , " << plr1.plrDst.y  << endl;
+	//Dash
+	if (dashCooldown > 100) {
+		if (EVMA::KeyPressed(SDL_SCANCODE_LSHIFT)) {
+			Mix_PlayChannel(-1, dashMeow, 0);
+			dashPressed = true;
+			dashTimer = 0;
+			dashCooldown = 0;
+		}
+	}
+	dashTimer++;
+	if (dashPressed) {
+		plr1.plrSpd = plr1.plrDsh;
+		if (dashTimer > 10) {
+			dashPressed = false;
+			dashTimer = 0;
+			dashCooldown = 0;
+			plr1.plrSpd = 5;
+			cout << tempSpeed << endl;
+		}
+
+	}
+
+	//ezModeCD++;
+	if (ezModeCD > 3000)
+	{
+		if (EVMA::KeyPressed(SDL_SCANCODE_E))
+		{
+			isEzModeActive = true;
+			Noobtimer = 0;
+			ezModeCD = 0;
+		}
+	}
+	Noobtimer++;
+	if (isEzModeActive)
+	{
+		if (Noobtimer > 500)
+		{
+			isEzModeActive = false;
+			Noobtimer = 0;
+			ezModeCD = 0;
+		}
+	}
+
+	//freeze
+	if (freezeCD > 3000)
+	{
+		if (EVMA::KeyPressed(SDL_SCANCODE_F))
+		{
+			isfreezeActive = true;
+			freezetimer = 0;
+			freezeCD = 0;
+		}
+	}
+	freezetimer++;
+	if (isfreezeActive)
+	{
+		if (freezetimer > 500)
+		{
+			isfreezeActive = false;
+			freezetimer = 0;
+			freezeCD = 0;
+		}
+	}
+
+	bg1.swamp1Dst.x -= speedx;
+	bg1.swamp1Dst.y -= speedy;
+
+	bg1.swamp1aDst.x -= speedx;
+	bg1.swamp1aDst.y -= speedy;
+
+	bg1.swamp1bDst.x -= speedx;
+	bg1.swamp1bDst.y -= speedy;
+
+	bg1.swamp1bdownDst.x -= speedx;
+	bg1.swamp1bdownDst.y -= speedy;
+
+
+	stepSoundTimer++; turnSoundTimer++;
+	dashCooldown++;
+	plr1.Update();
+	rockCooldown++;
+	spcooldown++;
+
 	if (Engine::Instance().KeyDown(SDL_SCANCODE_R))
 	{
 
@@ -871,16 +962,6 @@ void Levelone::Update()
 		Mix_HaltChannel(7);
 	}
 
-	bg1.swamp1Dst.x -= speedx;
-	bg1.swamp1Dst.y -= speedy;
-
-	
-	stepSoundTimer++; turnSoundTimer++;
-	dashCooldown++;
-	plr1.Update();
-	rockCooldown++;
-	spcooldown++;
-	
 
 	//For special Ability1
 	if (EVMA::KeyPressed(SDL_SCANCODE_SPACE))
@@ -937,8 +1018,22 @@ void Levelone::Update()
 			playerpew.shrink_to_fit();
 		}
 	}
+	//delete rock after off screen and move rock
+	for (unsigned i = 0; i < playerpew.size(); i++)
+	{
+		playerpew[i]->Update();
+		playerpew[i]->rockDst.x -= speedx;
+		playerpew[i]->rockDst.y -= speedy;
 
-
+		if (playerpew[i]->rockDst.x >= WIDTH || playerpew[i]->rockDst.x <= -64 || playerpew[i]->rockDst.y >= HEIGHT || playerpew[i]->rockDst.y <= -64)
+		{
+			delete playerpew[i];
+			playerpew[i] = nullptr;
+			playerpew.erase(playerpew.begin() + i);
+			playerpew.shrink_to_fit();
+			break;
+		}
+	}
 	if (speedx > plr1.plrSpd)
 		speedx = plr1.plrSpd;
 	if (speedy > plr1.plrSpd)
@@ -947,51 +1042,6 @@ void Levelone::Update()
 		speedy = plr1.plrSpd * -1;
 	if (speedx * -1 > plr1.plrSpd)
 		speedx = plr1.plrSpd * -1;
-
-	//Dash
-	if (dashCooldown > 100) {
-		if (EVMA::KeyPressed(SDL_SCANCODE_LSHIFT)) {
-			Mix_PlayChannel(-1, dashMeow, 0);
-			dashPressed = true;
-			dashTimer = 0;
-			dashCooldown = 0;
-		}
-	}
-	dashTimer++;
-	if (dashPressed) {
-		plr1.plrSpd = plr1.plrDsh;
-		if (dashTimer > 10) {
-			dashPressed = false;
-			dashTimer = 0;
-			dashCooldown = 0;
-			plr1.plrSpd = 5;
-			cout << tempSpeed << endl;
-		}
-
-	}
-
-	//ezModeCD++;
-	if (ezModeCD > 3000)
-	{
-		if (EVMA::KeyPressed(SDL_SCANCODE_E))
-		{
-			isEzModeActive = true;
-			Noobtimer = 0;
-			ezModeCD = 0;
-		}
-	}
-	Noobtimer++;
-	if (isEzModeActive)	
-	{		
-		if (Noobtimer > 500)
-		{
-			isEzModeActive = false;
-			Noobtimer = 0;
-			ezModeCD = 0;
-		}
-	}
-	
-
 	//YAXIS
 
 	if (EVMA::KeyHeld(SDL_SCANCODE_S)) {
@@ -1038,43 +1088,54 @@ void Levelone::Update()
 	if (!EVMA::KeyHeld(SDL_SCANCODE_W) && !EVMA::KeyHeld(SDL_SCANCODE_S) && !EVMA::KeyHeld(SDL_SCANCODE_D) && !EVMA::KeyHeld(SDL_SCANCODE_A)) {
 		plr1.state = 0;
 	}
+	
+	//if (isfreezeActive = false)
+	//{
 
-	//delete rock after off screen and move rock
-	for (unsigned i = 0; i < playerpew.size(); i++)
+	//}
+
+  
+	
+	//frog stuff
+	for (unsigned i = 0; i < attack.size();i++) 
 	{
-		playerpew[i]->Update();
-		playerpew[i]->rockDst.x -= speedx;
-		playerpew[i]->rockDst.y -= speedy;
-
-		if (playerpew[i]->rockDst.x >= WIDTH || playerpew[i]->rockDst.x <= -64 || playerpew[i]->rockDst.y >= HEIGHT || playerpew[i]->rockDst.y <= -64)
+		if (attack[i]->frogAttackDst.x >= WIDTH || attack[i]->frogAttackDst.x <= -64 || attack[i]->frogAttackDst.y >= HEIGHT || attack[i]->frogAttackDst.y <= -64)
 		{
-			delete playerpew[i];
-			playerpew[i] = nullptr;
-			playerpew.erase(playerpew.begin() + i);
-			playerpew.shrink_to_fit();
+			delete attack[i];
+			attack[i] = nullptr;
+			attack.erase(attack.begin() + i);
+			attack.shrink_to_fit();
 			break;
 		}
 	}
-	//frog stuff
-	for (unsigned i =0; i < frog.size();i++)
+	for (unsigned i = 0; i < rattack.size();i++)
 	{
-		frog[i]->Update(i);
+		if (rattack[i]->rfrogAttackDst.x >= WIDTH || rattack[i]->rfrogAttackDst.x <= -64 || rattack[i]->rfrogAttackDst.y >= HEIGHT || rattack[i]->rfrogAttackDst.y <= -64)
+		{
+			delete rattack[i];
+			rattack[i] = nullptr;
+			rattack.erase(rattack.begin() + i);
+			rattack.shrink_to_fit();
+			break;
+		}
+	}
+	for (unsigned i = 0; i < frog.size();i++)
+	{
+		frog[i]->Update(1);
 		frog[i]->frogDst.x -= speedx;
-		frog[i]->frogDst.y -= speedy;		
+		frog[i]->frogDst.y -= speedy;			
 
 		if (frog[i]->frames >= FPS * ATTACKRATE / 2)
 		{
 			frog[i]->resetFrames();
 			cout << "frog attack!" << endl;
-			attack.push_back(new Attack(frog[i]->frogDst.x, frog[i]->frogDst.y));
-			attack.shrink_to_fit();			
-		}
-		if (frog[i]->frames >= FPS * ATTACKRATE / 2) {
-			frog[i]->resetFrames();
 			cout << "frog 2nd attack\wow!" << endl;
 			rattack.push_back(new Attack(frog[i]->frogDst.x, frog[i]->frogDst.y));
 			rattack.shrink_to_fit();
+			attack.push_back(new Attack(frog[i]->frogDst.x, frog[i]->frogDst.y));
+			attack.shrink_to_fit();			
 		}
+		
 
 		if (frog[i]->getHp() <= 0) {
 			//Mix_PlayChannel(-1,, 0);
@@ -1144,7 +1205,7 @@ void Levelone::Update()
 	{
 		rattack[i]->rfrogAttackDst.x -= speedx;
 		rattack[i]->rfrogAttackDst.y -= speedy;
-		rattack[i]->Update(3);
+		rattack[i]->Update(1);
 	}
 
 	//rng frog
@@ -1246,6 +1307,92 @@ void Levelone::Update()
 			fly.shrink_to_fit();
 		}
 	}
+	//shroom
+	for (unsigned i = 0; i < playerpew.size(); i++)
+	{
+		for (unsigned j = 0; j < shroom.size(); j++)
+		{
+			if (SDL_HasIntersection(&playerpew[i]->rockDst, &shroom[j]->shroomDst)) //AABB Check
+			{
+				Mix_PlayChannel(-1, hurtSfx, 0);
+				delete playerpew[i];
+				playerpew[i] = nullptr;
+				playerpew.erase(playerpew.begin() + i);
+				playerpew.shrink_to_fit();
+				//set dumbie hp
+				shroom[j]->setHp(shroom[j]->getHp() - playerDamage);
+				break;
+			}
+		}
+	}
+
+
+	for (unsigned i = 0; i < shroom.size();i++)
+	{
+		shroom[i]->Update();
+		shroom[i]->shroomDst.x -= speedx;
+		shroom[i]->shroomDst.y -= speedy;
+
+		if (shroom[i]->frames >= FPS * CLOUDRATE / 2)
+		{
+			shroom[i]->resetFrames();
+			cout << "shroom pew" << endl;			
+			ushroomatk.push_back(new Attack(shroom[i]->shroomDst.x + 17, shroom[i]->shroomDst.y + 23));
+			ushroomatk.shrink_to_fit();
+			lshroomatk.push_back(new Attack(shroom[i]->shroomDst.x + 17, shroom[i]->shroomDst.y + 23));
+			lshroomatk.shrink_to_fit();
+			rshroomatk.push_back(new Attack(shroom[i]->shroomDst.x + 17, shroom[i]->shroomDst.y +23));
+			rshroomatk.shrink_to_fit();
+			dshroomatk.push_back(new Attack(shroom[i]->shroomDst.x + 17, shroom[i]->shroomDst.y + 23));
+			dshroomatk.shrink_to_fit();			
+		}
+		if (shroom[i]->getHp() <= 0)
+		{
+			Mix_PlayChannel(-1, deathSfx, 0);
+			delete shroom[i];
+			shroom[i] = nullptr;
+			shroom.erase(shroom.begin() + i);
+			shroom.shrink_to_fit();
+		}
+	}
+	for (unsigned i = 0; i < ushroomatk.size(); i++)
+	{
+		ushroomatk[i]->Update(-1);
+		ushroomatk[i]->ushroomAtkDst.x -= speedx;
+		ushroomatk[i]->ushroomAtkDst.y -= speedy;
+		if (SDL_HasIntersection(&ushroomatk[i]->ushroomAtkDst, &plr1.plrDst)) {
+			plr1.takeDamage(0.5);
+		}
+
+	}
+	for (unsigned i = 0; i < lshroomatk.size(); i++)
+	{
+		lshroomatk[i]->Update(-1);
+		lshroomatk[i]->lshroomAtkDst.x -= speedx;
+		lshroomatk[i]->lshroomAtkDst.y -= speedy;
+		if (SDL_HasIntersection(&lshroomatk[i]->lshroomAtkDst, &plr1.plrDst)) {
+			plr1.takeDamage(0.5);
+		}
+	}
+	for (unsigned i = 0; i < rshroomatk.size(); i++)
+	{
+		rshroomatk[i]->Update(1);
+		rshroomatk[i]->rshroomAtkDst.x -= speedx;
+		rshroomatk[i]->rshroomAtkDst.y -= speedy;
+		if (SDL_HasIntersection(&rshroomatk[i]->rshroomAtkDst, &plr1.plrDst)) {
+			plr1.takeDamage(0.5);
+		}
+	}
+	for (unsigned i = 0; i < dshroomatk.size(); i++)
+	{
+		dshroomatk[i]->Update(1);
+		dshroomatk[i]->dshroomAtkDst.x -= speedx;
+		dshroomatk[i]->dshroomAtkDst.y -= speedy;
+		if (SDL_HasIntersection(&dshroomatk[i]->dshroomAtkDst, &plr1.plrDst)) {
+			plr1.takeDamage(0.5);
+		}
+	}
+	
 
 
 }
@@ -1261,6 +1408,10 @@ void Levelone::Render()
 
 	//Background
 	SDL_RenderCopy(Engine::Instance().GetRenderer(), swamp1,&bg1.swamp1Src,&bg1.swamp1Dst);
+	SDL_RenderCopy(Engine::Instance().GetRenderer(), swamp1a, &bg1.swamp1aSrc, &bg1.swamp1aDst);
+	SDL_RenderCopy(Engine::Instance().GetRenderer(), swamp1b, &bg1.swamp1bSrc, &bg1.swamp1bDst);
+	SDL_RenderCopy(Engine::Instance().GetRenderer(), swamp1bdown, &bg1.swamp1bdownSrc, &bg1.swamp1bdownDst);
+
 	if (plr1.state == 0)
 		SDL_RenderCopy(Engine::Instance().GetRenderer(), plrTxtr, &plr1.plrFrontIdle, &plr1.plrDst);
 	else if (plr1.state == 1)
@@ -1280,7 +1431,7 @@ void Levelone::Render()
 		SDL_RenderCopy(Engine::Instance().GetRenderer(), rockTxtr,
 			&(playerpew[i]->rockSrc), &(playerpew[i]->rockDst));
 	}
-
+	
 	//item
 	for (unsigned i = 0; i < item1.size(); i++)
 	{
@@ -1293,6 +1444,7 @@ void Levelone::Render()
 	{
 		SDL_RenderCopy(Engine::Instance().GetRenderer(), vineTexture, &(vine[i]->vineSrc), &(vine[i]->vineDst));
 	}
+
 	//frog
 	for(unsigned i =0; i <frog.size(); i++)
 	{
@@ -1329,6 +1481,36 @@ void Levelone::Render()
 		SDL_SetRenderDrawColor(Engine::Instance().GetRenderer(), 255, 0, 0, 255);
 		SDL_RenderFillRect(Engine::Instance().GetRenderer(), &fly[i]->healthBar);
 	}
+	//shroom
+	for (unsigned i = 0; i < shroom.size(); i++)
+	{
+		SDL_RenderCopy(Engine::Instance().GetRenderer(), ShroomTxtr, &shroom[i]->shroomSrc, &shroom[i]->shroomDst);
+		//health bar
+		SDL_SetRenderDrawColor(Engine::Instance().GetRenderer(), 255, 0, 0, 255);
+		SDL_RenderFillRect(Engine::Instance().GetRenderer(), &shroom[i]->healthBar);
+	}
+	//shroom atk stufff
+	SDL_SetRenderDrawColor(Engine::Instance().GetRenderer(), 0, 255, 100, 230);
+	for (unsigned i = 0; i < ushroomatk.size(); i++)
+	{
+		SDL_RenderFillRect(Engine::Instance().GetRenderer(), &(ushroomatk[i]->ushroomAtkDst));
+	}
+	SDL_SetRenderDrawColor(Engine::Instance().GetRenderer(), 0, 255, 100, 230);
+	for (unsigned i = 0; i < lshroomatk.size(); i++)
+	{
+		SDL_RenderFillRect(Engine::Instance().GetRenderer(), &(lshroomatk[i]->lshroomAtkDst));
+	}
+	SDL_SetRenderDrawColor(Engine::Instance().GetRenderer(), 0, 255, 100, 230);
+	for (unsigned i = 0; i < rshroomatk.size(); i++)
+	{
+		SDL_RenderFillRect(Engine::Instance().GetRenderer(), &(rshroomatk[i]->rshroomAtkDst));
+	}
+	SDL_SetRenderDrawColor(Engine::Instance().GetRenderer(), 0, 255, 100, 230);
+	for (unsigned i = 0; i < dshroomatk.size(); i++)
+	{
+		SDL_RenderFillRect(Engine::Instance().GetRenderer(), &(dshroomatk[i]->dshroomAtkDst));
+	}
+	
 	
 
 	if (dynamic_cast<Levelone*>(STMA::GetStates().back()))//if current state is gamestate	
@@ -1372,6 +1554,41 @@ void Levelone::Exit()
 		delete frog2[i];
 		frog2[i] = nullptr;
 	}
+	for (unsigned i = 0; i < shroom.size();i++)
+	{
+		delete shroom[i];
+		shroom[i] = nullptr;
+	}
+	for (unsigned i = 0; i < ushroomatk.size();i++)
+	{
+		delete ushroomatk[i];
+		ushroomatk[i] = nullptr;
+	}
+	for (unsigned i = 0; i < lshroomatk.size();i++)
+	{
+		delete lshroomatk[i];
+		lshroomatk[i] = nullptr;
+	}
+	for (unsigned i = 0; i < rshroomatk.size();i++)
+	{
+		delete rshroomatk[i];
+		rshroomatk[i] = nullptr;
+	}
+	for (unsigned i = 0; i < dshroomatk.size();i++)
+	{
+		delete dshroomatk[i];
+		dshroomatk[i] = nullptr;
+	}
+	shroom.clear();
+	shroom.shrink_to_fit();
+	ushroomatk.clear();
+	ushroomatk.shrink_to_fit();
+	lshroomatk.clear();
+	lshroomatk.shrink_to_fit();
+	rshroomatk.clear();
+	rshroomatk.shrink_to_fit();
+	dshroomatk.clear();
+	dshroomatk.shrink_to_fit();
 	frog2.clear();
 	frog2.shrink_to_fit();
 	fly.clear();
@@ -1387,8 +1604,12 @@ void Levelone::Exit()
 	item1.clear();
 	item1.shrink_to_fit();
 	SDL_DestroyTexture(swamp1);
+	SDL_DestroyTexture(swamp1a);
+	SDL_DestroyTexture(swamp1b);
+	SDL_DestroyTexture(swamp1bdown);
 	SDL_DestroyTexture(plrTxtr);
 	SDL_DestroyTexture(rockTxtr);
+	SDL_DestroyTexture(ShroomTxtr);
 	SDL_DestroyTexture(DragonFlyTxt);
 	SDL_DestroyTexture(vineTexture);
 	SDL_DestroyTexture(FrogTxtr);

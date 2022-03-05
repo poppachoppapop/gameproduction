@@ -31,11 +31,13 @@ protected: //priv but inherited
 	int score = 0;
 	int textBoxCounter = 0;
 	int textBoxTimer = 0;
-	int dummiesTimer = 0;
-
+	int dummiesTimer = 0;	
 	bool isEzModeActive = false;
 	int Noobtimer = 0;
 	int ezModeCD = 3000; 	
+	bool isfreezeActive = false;
+	int freezetimer = 0;
+	int freezeCD = 3000;
 
 	//modifiable variables
 	int playerDamage = 1;
@@ -67,12 +69,21 @@ protected: //priv but inherited
 	SDL_Texture* dumbieTxtr;
 	SDL_Texture* bgTutorial;
 	SDL_Texture* swamp1;
+	SDL_Texture* swamp1a;
+	SDL_Texture* swamp1b;
+	SDL_Texture* swamp1bdown;
+
 	SDL_Texture* DragonFlyTxt;
 	SDL_Texture* vineTexture;
 	SDL_Texture* FrogTxtr;
+	SDL_Texture* ShroomTxtr;
 
-	vector<Attack*>attack;//shoots left
-	vector<Attack*>rattack;//shoots right
+	vector<Attack*>ushroomatk;
+	vector<Attack*>lshroomatk;
+	vector<Attack*>rshroomatk;
+	vector<Attack*>dshroomatk;
+	vector<Attack*>attack;//shoots left frog atk
+	vector<Attack*>rattack;//shoots right frog atk
 	vector<Rock*> playerpew;
 	vector<Enemy*> dumbie;
 	vector<Items*> item1;
@@ -80,6 +91,7 @@ protected: //priv but inherited
 	vector<DragonFly*> fly;
 	vector<Frog*>frog;
 	vector<Frog2*>frog2;
+	vector <Shroom*>shroom;
 
 	SDL_Rect textBoxRect;
 	SDL_Rect textBoxBorder;

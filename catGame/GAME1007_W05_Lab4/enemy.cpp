@@ -5,13 +5,23 @@ Attack::Attack(int x, int y)
 	//temp sdl rect for attack
 	frogAttackDst = { x,y,29,7 };
 	rfrogAttackDst = { x,y,29,7 };
+
+	ushroomAtkDst ={ x,y,25,3 };
+	lshroomAtkDst= { x,y,3,25 };
+	rshroomAtkDst= { x,y,3,25 };
+    dshroomAtkDst= { x,y,25,3 };
 }
 
 void Attack::Update(int move)
 {
 	//frogAttackSrc
 	frogAttackDst.x += SPEED * move;
-	rfrogAttackDst.x -= SPEED * move;
+	rfrogAttackDst.x += SPEED * move;
+
+	ushroomAtkDst.y += SHROOM * move;
+	lshroomAtkDst.x += SHROOM * move;
+	rshroomAtkDst.x += SHROOM * move;
+	dshroomAtkDst.y += SHROOM * move;
 }
 
 //Dumbie
@@ -293,4 +303,51 @@ void Frog2::Update()
 	}
 }
 
-	
+Shroom::Shroom(int x, int y, int h) : shroomSrc({0,0,32,32}), frameCtr(0), frameMax(9), spriteIdx(0), spriteMax(4)
+{
+	shroomDst = { x,y,64,64 };
+	healthBar = { x, y , 25, 5 };
+	health = h;
+	maxHealth = h;
+	state = 0;
+}
+
+void Shroom::setHp(double h)
+{
+	health = h;
+}
+
+int Shroom::getHp()
+{
+	return health;
+}
+
+void Shroom::Update()
+{
+	if (state == 0)
+	{
+		spriteMax = 4;
+		if (spriteIdx > 4)
+			spriteIdx = 0;
+		if (frameCtr++ == frameMax)
+		{
+			frameCtr = 0;
+			if (++spriteIdx == spriteMax)
+			{
+				spriteIdx = 0;
+			}
+			shroomSrc.x = 0 + shroomSrc.w * spriteIdx;
+		}
+	}
+
+	healthBar.w = double(health / maxHealth) * 50;
+	healthBar.x = shroomDst.x + 5;
+	healthBar.y = shroomDst.y - 5;
+	frames++;
+}
+
+void Shroom::resetFrames()
+{
+	frames = 0;
+}
+
