@@ -66,12 +66,13 @@ void PauseState::Enter()
 {
 	
 	cout << "entering pausestate" << endl;
+	sleepingMaki = IMG_LoadTexture(Engine::Instance().GetRenderer(), "art/sleepingMaki.png");
 	
 }
 
 void PauseState::Update()
 {
-	if (EVMA::KeyPressed(SDL_SCANCODE_R))
+	if (EVMA::KeyPressed(SDL_SCANCODE_P))
 		STMA::PopState();
 }
 
@@ -81,16 +82,16 @@ void PauseState::Render()
 	STMA::GetStates().front()->Render();
 	//now render the rest of pausestate
 	SDL_SetRenderDrawBlendMode(Engine::Instance().GetRenderer(), SDL_BLENDMODE_BLEND);
-	SDL_SetRenderDrawColor(Engine::Instance().GetRenderer(), 255, 0, 0, 128);
+	SDL_SetRenderDrawColor(Engine::Instance().GetRenderer(), 102, 181, 222, 255);
 	SDL_Rect rect = { 255,128,512,512 };
 	SDL_RenderFillRect(Engine::Instance().GetRenderer(), &rect);
+	SDL_RenderCopy(Engine::Instance().GetRenderer(), sleepingMaki, &plr1.plrFrontIdle, &plr1.plrDst);
 	State::Render();
 }
 
 void PauseState::Exit()
 {
 	cout << "exiting pausestate" << endl;
-	
 }
 
 
@@ -818,9 +819,9 @@ void Levelone::Enter()
 	Mix_VolumeChunk(dashing, 25);
 	Mix_VolumeChunk(aoeSound, 50);
 	Mix_VolumeChunk(projectileRock, 50);
-	maintheme = Mix_LoadMUS("Aud/Gametheme.mp3");
-	//Mix_PlayMusic(maintheme, -1);
-	Mix_VolumeMusic(12); //0-128
+	swampSong = Mix_LoadMUS("Aud/swampLVL.mp3");
+	Mix_PlayMusic(swampSong, 5);
+	Mix_VolumeMusic(5); //0-128
 	Mix_Volume(-1, 50);
 	playerpew.reserve(4);
 
@@ -896,6 +897,13 @@ void Levelone::Update()
 			Noobtimer = 0;
 			ezModeCD = 0;
 		}
+	}
+	if (EVMA::KeyPressed(SDL_SCANCODE_P))
+	{
+		cout << "Changing to PauseState" << endl;
+		//pause the music track
+		STMA::PushState(new PauseState());
+		Mix_PauseMusic();
 	}
 	Noobtimer++;
 	if (isEzModeActive)
@@ -1682,11 +1690,12 @@ void Levelone::Exit()
 	Mix_FreeChunk(stepSfx);
 	Mix_FreeChunk(deathSfx);
 	Mix_FreeChunk(turnSfx);
-    Mix_FreeMusic(maintheme);
+    Mix_FreeMusic(swampSong);
 }
 
 void Levelone::Resume()
 {
+	Mix_ResumeMusic();
 }
 
 EndState::EndState() {}
@@ -1694,6 +1703,8 @@ EndState::EndState() {}
 void EndState::Enter()
 {
 	cout << "entering endstate\npress R to return to title state" << endl;
+	gameOverScreen = IMG_LoadTexture(Engine::Instance().GetRenderer(), "bgs/gameOverScreen2.png");
+	flyingMaki = IMG_LoadTexture(Engine::Instance().GetRenderer(), "art/makigameover.png");
 }
 
 void EndState::Update()
@@ -1710,14 +1721,17 @@ void EndState::Update()
 
 void EndState::Render()
 {
-	SDL_SetRenderDrawColor(Engine::Instance().GetRenderer(), 69, 100, 200, 230);
 	SDL_RenderClear(Engine::Instance().GetRenderer());
+	// Any drawing here...
+	//Background
+	SDL_RenderCopy(Engine::Instance().GetRenderer(), gameOverScreen, NULL, NULL);
 	State::Render();
 
 }
 
 void EndState::Exit()
 {
-	cout << "exitinggamestate" << endl;
+	cout << "exiting end state" << endl;
+	SDL_DestroyTexture(gameOverScreen);
 }
 

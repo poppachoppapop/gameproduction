@@ -75,11 +75,15 @@ protected: //priv but inherited
 	SDL_Texture* swamp1a;
 	SDL_Texture* swamp1b;
 	SDL_Texture* swamp1bdown;
+	SDL_Texture* flyingMaki;
+	SDL_Texture* sleepingMaki;
 
 	SDL_Texture* DragonFlyTxt;
 	SDL_Texture* vineTexture;
 	SDL_Texture* FrogTxtr;
 	SDL_Texture* ShroomTxtr;
+
+	SDL_Texture* gameOverScreen;
 
 	vector<Attack*>ushroomatk;
 	vector<Attack*>lshroomatk;
@@ -117,6 +121,7 @@ protected: //priv but inherited
 	Mix_Chunk* dashing;
 	Mix_Music* maintheme;
 	Mix_Chunk* dashMeow;
+	Mix_Music* swampSong;
 	State() = default;//or... State(){};
 	
 public:

@@ -159,6 +159,7 @@
     <ClInclude Include="enemy.h" />
     <ClInclude Include="Engine.h" />
     <ClInclude Include="EventManager.h" />
+    <ClInclude Include="GameObject.h" />
     <ClInclude Include="Items.h" />
     <ClInclude Include="NPC.h" />
     <ClInclude Include="player1.h" />

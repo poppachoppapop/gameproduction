@@ -114,7 +114,7 @@ int Engine::Run()
 		return 1;
 	}
 	// Start and run the "engine"
-	if (Init("Cat Game!", SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, WIDTH, HEIGHT, NULL) == false)
+	if (Init("CatNipped: Mushroom Mania!", SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, WIDTH, HEIGHT, NULL) == false)
 	{
 		return 2;
 	}
