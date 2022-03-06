@@ -885,6 +885,10 @@ void Levelone::Enter()
 
 	blackRect = { 0 , 0 , 1024 , 768 };
 	
+	for (int i = 0; i < 15; i++)
+	{
+		bg.push_back(new Level1Background(0, 15));
+	}
 }
 
 
@@ -902,6 +906,94 @@ void Levelone::Update()
 			return;
 		}
 
+		if (bg[areaNum]->getBg() == 0) {
+			//wallcollision
+			bool wallHitx = false;
+			bool wallHity = false;
+			
+			if (plr1.plrDst.x < bg[areaNum]->swamp1Dst.x - 50) {
+				bg[areaNum]->swamp1Dst.x = plr1.plrDst.x + 50;
+				wallHitx = true;
+			}
+			if (plr1.plrDst.x < bg[areaNum]->swamp1Dst.x + 190 && (plr1.plrDst.y < bg[areaNum]->swamp1Dst.y + 370 && plr1.plrDst.y > bg[areaNum]->swamp1Dst.y)
+				|| (plr1.plrDst.y > bg[areaNum]->swamp1Dst.y + 760 && plr1.plrDst.y < bg[areaNum]->swamp1Dst.y + 1150) && plr1.plrDst.x < bg[areaNum]->swamp1Dst.x + 190) {
+				bg[areaNum]->swamp1Dst.x = plr1.plrDst.x - 190;
+				cout << "out" << endl;
+				wallHity = true;
+			}
+			if (plr1.plrDst.x > bg[areaNum]->swamp1Dst.x + 830 && (plr1.plrDst.y < bg[areaNum]->swamp1Dst.y + 380 && plr1.plrDst.y > bg[areaNum]->swamp1Dst.y) && 
+				plr1.plrDst.x < bg[areaNum]->swamp1Dst.x + 1210) {
+				bg[areaNum]->swamp1Dst.x = plr1.plrDst.x - 830;
+				cout << "out" << endl;
+				wallHity = true;
+			}
+			if (plr1.plrDst.x < bg[areaNum]->swamp1Dst.x + 1220 && (plr1.plrDst.y < bg[areaNum]->swamp1Dst.y + 380 && plr1.plrDst.y > bg[areaNum]->swamp1Dst.y + 130) &&
+				plr1.plrDst.x > bg[areaNum]->swamp1Dst.x + 840) {
+				bg[areaNum]->swamp1Dst.x = plr1.plrDst.x - 1220;
+				cout << "out" << endl;
+				wallHity = true;
+			}
+			if (plr1.plrDst.x > bg[areaNum]->swamp1Dst.x + 1600 && (plr1.plrDst.y < bg[areaNum]->swamp1Dst.y + 510 && plr1.plrDst.y > bg[areaNum]->swamp1Dst.y + 130)) {
+				bg[areaNum]->swamp1Dst.x = plr1.plrDst.x - 1600;
+				cout << "out" << endl;
+				wallHity = true;
+			}
+			if (plr1.plrDst.x > bg[areaNum]->swamp1Dst.x + 1500 && (plr1.plrDst.y > bg[areaNum]->swamp1Dst.y + 510 && plr1.plrDst.y < bg[areaNum]->swamp1Dst.y + 760)) {
+				bg[areaNum]->swamp1Dst.x = plr1.plrDst.x - 1500;
+				cout << "out" << endl;
+				wallHity = true;
+			}
+			if (plr1.plrDst.x > bg[areaNum]->swamp1Dst.x + 1600 && (plr1.plrDst.y > bg[areaNum]->swamp1Dst.y + 760 && plr1.plrDst.y < bg[areaNum]->swamp1Dst.y + 1160)) {
+				bg[areaNum]->swamp1Dst.x = plr1.plrDst.x - 1600;
+				cout << "out" << endl;
+				wallHity = true;
+			}
+			if (plr1.plrDst.x > bg[areaNum]->swamp1Dst.x + 940 && (plr1.plrDst.y > bg[areaNum]->swamp1Dst.y + 1160 && plr1.plrDst.y < bg[areaNum]->swamp1Dst.y + 1280)) {
+				bg[areaNum]->swamp1Dst.x = plr1.plrDst.x - 940;
+				cout << "out" << endl;
+				wallHity = true;
+			}
+			if (plr1.plrDst.x > bg[areaNum]->swamp1Dst.x + 700 && (plr1.plrDst.y > bg[areaNum]->swamp1Dst.y + 760 && plr1.plrDst.y < bg[areaNum]->swamp1Dst.y + 1150) && 
+				plr1.plrDst.x < bg[areaNum]->swamp1Dst.x + 830) {
+				bg[areaNum]->swamp1Dst.x = plr1.plrDst.x - 700;
+				cout << "gay" << endl;
+				wallHity = true;
+			}
+			if (plr1.plrDst.x < bg[areaNum]->swamp1Dst.x + 1380 && (plr1.plrDst.y > bg[areaNum]->swamp1Dst.y + 530 && plr1.plrDst.y < bg[areaNum]->swamp1Dst.y + 760)) {
+				bg[areaNum]->swamp1Dst.x = plr1.plrDst.x - 1380;
+				cout << "out" << endl;
+				wallHity = true;
+			}
+			if (plr1.plrDst.x < bg[areaNum]->swamp1Dst.x + 1080 && (plr1.plrDst.y > bg[areaNum]->swamp1Dst.y + 760 && plr1.plrDst.y < bg[areaNum]->swamp1Dst.y + 1030)
+				&& plr1.plrDst.x > bg[areaNum]->swamp1Dst.x + 1070) {
+				bg[areaNum]->swamp1Dst.x = plr1.plrDst.x - 1080;
+				cout << "out" << endl;
+				wallHity = true;
+			}
+			if (plr1.plrDst.x < bg[areaNum]->swamp1Dst.x + 840 && (plr1.plrDst.y > bg[areaNum]->swamp1Dst.y + 1030 && plr1.plrDst.y < bg[areaNum]->swamp1Dst.y + 1150)
+				&& plr1.plrDst.x > bg[areaNum]->swamp1Dst.x + 830) {
+				bg[areaNum]->swamp1Dst.x = plr1.plrDst.x - 840;
+				cout << "out" << endl;
+				wallHity = true;
+			}
+			//============================================================================||
+			if (plr1.plrDst.y < bg[areaNum]->swamp1Dst.y + 380 && (plr1.plrDst.x > bg[areaNum]->swamp1Dst.x + -50 && plr1.plrDst.x < bg[areaNum]->swamp1Dst.x + 190)
+				&& plr1.plrDst.y > bg[areaNum]->swamp1Dst.y + 380) {
+				bg[areaNum]->swamp1Dst.y = plr1.plrDst.y - 380;
+				cout << "out" << endl;
+				wallHity = true;
+			}
+			if (plr1.plrDst.y > bg[areaNum]->swamp1Dst.y + 510 && (plr1.plrDst.x > bg[areaNum]->swamp1Dst.x + -50 && plr1.plrDst.x < bg[areaNum]->swamp1Dst.x + 1380)
+				&& plr1.plrDst.y < bg[areaNum]->swamp1Dst.y + 520) {
+				bg[areaNum]->swamp1Dst.y = plr1.plrDst.y - 510;
+				cout << "out" << endl;
+				wallHity = true;
+			}
+
+			bg[areaNum]->swamp1Dst.x -= speedx;
+			bg[areaNum]->swamp1Dst.y -= speedy;
+
+		}
 
 		if (plr1.plrHp <= 0)
 		{
@@ -910,7 +1002,7 @@ void Levelone::Update()
 		}
 		//cout <<"noobtimer"<< Noobtimer++ <<" | "<<ezModeCD++ << "ezmodecd<-" << endl;
 		//cout << "freezetimer" << freezetimer++ << " | " << freezeCD++ << "freezecd<-" << endl;
-		//cout << plr1.plrDst.x - bg1.swamp1Dst.x << " - " << plr1.plrDst.y - bg1.swamp1Dst.y << endl;
+		cout << plr1.plrDst.x - bg[areaNum]->swamp1Dst.x << " - " << plr1.plrDst.y - bg[areaNum]->swamp1Dst.y << endl;
 		 // cout << plr1.plrDst.x << " , " << plr1.plrDst.y  << endl;
 		
 		//player
@@ -1369,6 +1461,7 @@ void Levelone::Update()
 				}
 			}
 		}
+		
 	}
 	else {
 		if (!(fadeMod == 255))
@@ -1391,7 +1484,8 @@ void Levelone::Render()
 	SDL_SetRenderDrawBlendMode(Engine::Instance().GetRenderer(), SDL_BLENDMODE_BLEND);
 
 	//Background
-	//SDL_RenderCopy(Engine::Instance().GetRenderer(), swamp1,&bg.swamp1Src,&bg.swamp1Dst);
+	if (bg[areaNum]->getBg() == 0)
+		SDL_RenderCopy(Engine::Instance().GetRenderer(), swamp1, &bg[areaNum]->swamp1Src,&bg[areaNum]->swamp1Dst);
 	
 	//rock	
 	for (unsigned i = 0; i < playerpew.size(); i++)
