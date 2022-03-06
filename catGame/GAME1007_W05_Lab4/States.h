@@ -37,7 +37,8 @@ protected: //priv but inherited
 	bool wallHity = false;
 	int Noobtimer = 0;
 	int ezModeCD = 3000; 
-	int fadeMod = 0;
+	int fadeMod = 255;
+	int fadeSpeed = 5;
 	bool fadeIn = false;
 	bool fadeOut = false;
 
@@ -57,6 +58,9 @@ protected: //priv but inherited
 	bool spawnDummies = false;
 	bool renderTextBox = false;
 	bool renderScoreBox = false;
+	
+	bool titleLoading = false;
+	bool lvlLoading = false;
 
 	TTF_Font* font;
 	char message[100] = "Hello! Welcome To the alpha release";

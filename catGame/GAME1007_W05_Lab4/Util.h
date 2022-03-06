@@ -5,10 +5,10 @@
 class Util
 {
 private:
-	
+	int change;
 public:
 	static double distance(SDL_Rect a, SDL_Rect b);
 	static double distanceOffset(SDL_Rect a, SDL_Rect b);
-	static void fadeToBlack();
+	static int fadeToBlack();
 };
 
