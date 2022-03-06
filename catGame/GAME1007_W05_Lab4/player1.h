@@ -14,8 +14,10 @@ private:
 public:
 	int state;
 	SDL_Rect plrFrontIdle, plrMoveLeft, plrMoveRight, plrMoveUp, plrMoveDown, plrDst, plrHpBar;
+	SDL_Rect plrwinbar;
 	int plrSpd, plrDsh, plrMaxSpd;
 	double plrHp, maxHp;
+	double winbar, maxwin;
 	Player();
 	//Player(int h, int w, int s);
 	void Update();
@@ -25,6 +27,7 @@ public:
 	int getPlrSpd();
 	int getMaxSpd();
 	void takeDamage(double howMuch);
+	void points(double howMuch);
 
 };
 

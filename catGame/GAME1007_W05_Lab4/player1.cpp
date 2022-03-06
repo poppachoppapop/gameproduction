@@ -6,11 +6,14 @@ frameCtr(0), frameMax(3), spriteIdx(0), spriteMax(8)
 { 
 	plrDst = {448 ,320 ,128, 128};
 	plrHpBar = { 10 ,10 ,200, 25 };
+	plrwinbar = { 600 ,10 ,5, 10 };
 	plrSpd = 5;
 	plrMaxSpd = 5;
 	plrDsh = 50;
 	plrHp = 10;
 	maxHp = 5;
+	winbar = 10;
+	maxwin = 100;
 	state = 0;
 	hurtSfx = Mix_LoadWAV("sfx/ow.wav");
 }
@@ -79,9 +82,10 @@ void Player::Update()
 			plrMoveRight.x = 0 + plrMoveRight.w * spriteIdx;
 		}
 	}
-	
+	plrwinbar.w = double(winbar / maxwin) * 200;
 	plrHpBar.w = double(plrHp / maxHp) * 200;
 	damageCD++;
+	
 }
 
 
@@ -121,6 +125,11 @@ void Player::takeDamage(double howMuch)
 		damageCD = 0;
 		Mix_PlayChannel(-1, hurtSfx, 0);
 	}
+}
+
+void Player::points(double howMuch)
+{
+	winbar += howMuch;
 }
 
 Rock::Rock(int x,int y, int s, char d) :rockSrc ({0,0,32,32}),rock2Src({ 0,0,32,32 })

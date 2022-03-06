@@ -214,6 +214,17 @@ public:
 	virtual void Exit();
 
 };
+class WState : public State
+{
+
+public:
+	WState();
+	virtual void Enter();
+	virtual void Update();
+	virtual void Render();
+	virtual void Exit();
+
+};
 //add endstatehere
 //myarray[0].Render();
 #endif
