@@ -194,7 +194,8 @@ public:
 class Levelone : public State
 {
 private:
-
+	int areaNum = 0;
+	vector<Level1Background*> bg;
 public:
 	Levelone();
 	virtual void Enter();

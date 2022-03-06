@@ -909,10 +909,15 @@ void Levelone::Update()
 			return;
 		}
 		//cout <<"noobtimer"<< Noobtimer++ <<" | "<<ezModeCD++ << "ezmodecd<-" << endl;
-		cout << "freezetimer" << freezetimer++ << " | " << freezeCD++ << "freezecd<-" << endl;
+		//cout << "freezetimer" << freezetimer++ << " | " << freezeCD++ << "freezecd<-" << endl;
 		//cout << plr1.plrDst.x - bg1.swamp1Dst.x << " - " << plr1.plrDst.y - bg1.swamp1Dst.y << endl;
 		 // cout << plr1.plrDst.x << " , " << plr1.plrDst.y  << endl;
-		//Dash
+		
+		//player
+		if (!dashPressed)
+			plr1.plrSpd = plr1.plrMaxSpd;
+		 
+		 //Dash
 		if (dashCooldown > 100) {
 			if (EVMA::KeyPressed(SDL_SCANCODE_LSHIFT)) {
 				Mix_PlayChannel(-1, dashMeow, 0);
@@ -933,17 +938,6 @@ void Levelone::Update()
 			}
 
 		}
-
-		ezModeCD++;
-		if (ezModeCD > 3000)
-		{
-			if (EVMA::KeyPressed(SDL_SCANCODE_E))
-			{
-				isEzModeActive = true;
-				Noobtimer = 0;
-				ezModeCD = 0;
-			}
-		}
 		if (EVMA::KeyPressed(SDL_SCANCODE_P))
 		{
 			cout << "Changing to PauseState" << endl;
@@ -951,50 +945,6 @@ void Levelone::Update()
 			STMA::PushState(new PauseState());
 			Mix_PauseMusic();
 		}
-		Noobtimer++;
-		if (isEzModeActive)
-		{
-			if (Noobtimer > 500)
-			{
-				isEzModeActive = false;
-				Noobtimer = 0;
-				ezModeCD = 0;
-			}
-		}
-
-		//freeze
-		if (freezeCD > 3000)
-		{
-			if (EVMA::KeyPressed(SDL_SCANCODE_F))
-			{
-				isfreezeActive = true;
-				freezetimer = 0;
-				freezeCD = 0;
-			}
-		}
-		freezetimer++;
-		if (isfreezeActive)
-		{
-			if (freezetimer > 500)
-			{
-				isfreezeActive = false;
-				freezetimer = 0;
-				freezeCD = 0;
-			}
-		}
-
-		bg1.swamp1Dst.x -= speedx;
-		bg1.swamp1Dst.y -= speedy;
-
-		bg1.swamp1aDst.x -= speedx;
-		bg1.swamp1aDst.y -= speedy;
-
-		bg1.swamp1bDst.x -= speedx;
-		bg1.swamp1bDst.y -= speedy;
-
-		bg1.swamp1bdownDst.x -= speedx;
-		bg1.swamp1bdownDst.y -= speedy;
-
 
 		stepSoundTimer++; turnSoundTimer++;
 		dashCooldown++;
@@ -1181,33 +1131,12 @@ void Levelone::Update()
 		if (!EVMA::KeyHeld(SDL_SCANCODE_W) && !EVMA::KeyHeld(SDL_SCANCODE_S) && !EVMA::KeyHeld(SDL_SCANCODE_D) && !EVMA::KeyHeld(SDL_SCANCODE_A)) {
 			plr1.state = 0;
 		}		
-		for (unsigned i = 0; i < attack.size(); i++)
-		{
-			attack[i]->frogAttackDst.x -= speedx;
-			attack[i]->frogAttackDst.y -= speedy;
-		}
-		for (unsigned i = 0; i < rattack.size(); i++)
-		{
-			rattack[i]->rfrogAttackDst.x -= speedx;
-			rattack[i]->rfrogAttackDst.y -= speedy;
-		}
-
-		for (unsigned i = 0; i < vine.size(); i++)
-		{
-			vine[i]->vineDst.x -= speedx;
-			vine[i]->vineDst.y -= speedy;
-		}
-		for (unsigned i = 0; i < fly.size(); i++)
-		{
-			fly[i]->flyDst.x -= speedx;
-			fly[i]->flyDst.y -= speedy;
-		}
-		for (unsigned i = 0; i < shroom.size(); i++)
+		/*for (unsigned i = 0; i < shroom.size(); i++)
 		{
 			shroom[i]->shroomDst.x -= speedx;
 			shroom[i]->shroomDst.y -= speedy;
-		}
-		for (unsigned i = 0; i < ushroomatk.size(); i++)
+		}*/
+		/*for (unsigned i = 0; i < ushroomatk.size(); i++)
 		{
 			ushroomatk[i]->ushroomAtkDst.x -= speedx;
 			ushroomatk[i]->ushroomAtkDst.y -= speedy;
@@ -1227,9 +1156,9 @@ void Levelone::Update()
 		{
 			dshroomatk[i]->dshroomAtkDst.x -= speedx;
 			dshroomatk[i]->dshroomAtkDst.y -= speedy;
-		}
+		}*/
 
-		//frog2
+		//frog
 		for (unsigned i = 0; i < frog.size(); i++) {
 			frog[i]->Update(plr1.plrDst);
 			if (!wallHitx)
@@ -1290,30 +1219,20 @@ void Levelone::Update()
 				bub.shrink_to_fit();
 			}
 		}
-
-		
-
-
 		//vines
 		for (unsigned i = 0; i < vine.size(); i++)
 		{
-
-			//cout << Util::distanceOffset(plr1.plrDst, vine[i]->vineDst) << endl;
+			if (!wallHitx)
+				vine[i]->vineDst.x -= speedx;
+			if (!wallHity)
+				vine[i]->vineDst.y -= speedy;
 			if (!dashPressed) {
 				if (Util::distanceOffset(plr1.plrDst, vine[i]->vineDst) < 80) {
 					plr1.plrSpd = 1;
 				}
-				else
-				{
-					plr1.plrSpd = plr1.plrMaxSpd;
-				}
 			}
-			//if a vine is ontop another vine they seperate
-			/*if (SDL_HasIntersection(&vine[i]->vineDst, &vine[i + 1]->vineDst)) {
-				vine[i + 1]->vineDst.x += vine[i]->vineDst.w;
-			}*/
-
 		}
+		
 		//DragonFly		
 		for (unsigned i = 0; i < playerpew.size(); i++)
 		{
@@ -1472,10 +1391,7 @@ void Levelone::Render()
 	SDL_SetRenderDrawBlendMode(Engine::Instance().GetRenderer(), SDL_BLENDMODE_BLEND);
 
 	//Background
-	SDL_RenderCopy(Engine::Instance().GetRenderer(), swamp1,&bg1.swamp1Src,&bg1.swamp1Dst);
-	SDL_RenderCopy(Engine::Instance().GetRenderer(), swamp1a, &bg1.swamp1aSrc, &bg1.swamp1aDst);
-	SDL_RenderCopy(Engine::Instance().GetRenderer(), swamp1b, &bg1.swamp1bSrc, &bg1.swamp1bDst);
-	SDL_RenderCopy(Engine::Instance().GetRenderer(), swamp1bdown, &bg1.swamp1bdownSrc, &bg1.swamp1bdownDst);
+	//SDL_RenderCopy(Engine::Instance().GetRenderer(), swamp1,&bg.swamp1Src,&bg.swamp1Dst);
 	
 	//rock	
 	for (unsigned i = 0; i < playerpew.size(); i++)

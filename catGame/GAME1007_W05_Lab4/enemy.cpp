@@ -312,19 +312,15 @@ void Bubble::Update(SDL_Rect plr)
 		right = false;
 		up = false;
 		down = false;
-		if (plr.x - bubbleDst.x > 0) // left
+		if (plr.x - bubbleDst.x >= 0) // left
 			left = true;
-		if (plr.x - bubbleDst.x < 0) // right
+		if (plr.x - bubbleDst.x <= 0) // right
 			right = true;
-		if (plr.y - bubbleDst.y > 0) // down
+		if (plr.y - bubbleDst.y >= 0) // down
 			down = true;
-		if (plr.y - bubbleDst.y < 0) // up
+		if (plr.y - bubbleDst.y <= 0) // up
 			up = true;
 		foundDir = true;
-		cout << left << " - left" << endl;
-		cout << right << " - right" << endl;
-		cout << up << " - up" << endl;
-		cout << down << " - down" << endl;
 
 	}
 	if (left)
