@@ -169,6 +169,7 @@ Frog::Frog(int x, int y, int h) :frogSrc({ 0,0,32,32 }), frameCtr(0), frameMax(4
 {
 	frogDst = { x,y, 125, 125 };	
 	healthBar = { x, y , 50, 5 };	
+	shootTimer = 0;
 	health = h;
 	maxHealth = h;
 	state = 0;	
@@ -184,6 +185,16 @@ void Frog::setHp(double h)
 int Frog::getHp()
 {
 	return health;
+}
+
+int Frog::getShootTimer()
+{
+	return shootTimer;
+}
+
+int Frog::getDir()
+{
+	return dir;
 }
 
 void Frog::Update(SDL_Rect plr)
@@ -209,21 +220,28 @@ void Frog::Update(SDL_Rect plr)
 	healthBar.x = frogDst.x + 15;
 	healthBar.y = frogDst.y - 5;
 	frames++;
+
 	if (Util::distanceOffset(plr, frogDst) < 550) {
 		if (plr.x - frogDst.x > 0) {
 			frogDst.x += speed;
+			dir = 0;
 		}
 		if (plr.x - frogDst.x < 0) {
 			frogDst.x -= speed;
+			dir = 1;
 		}
 		if (plr.y - frogDst.y > 0) {
 			frogDst.y += speed;
+			dir = 2;
 		}
 		if (plr.y - frogDst.y < 0) {
 			frogDst.y -= speed;
+			dir = 3;
 		}
 	}
-	
+	shootTimer++;
+	if (shootTimer > 100)
+		shootTimer = 0;
 }
 
 void Frog::resetFrames()
@@ -279,10 +297,43 @@ void Shroom::resetFrames()
 	frames = 0;
 }
 
-Bubble::Bubble(int x, int y, int s, char d)
+Bubble::Bubble(int x, int y)
 {
+	bubbleDst = { x,y,32,32 };
+	speed = 8;
+	foundDir = false;
+	left, right, up, down = false;
 }
 
-void Bubble::Update()
+void Bubble::Update(SDL_Rect plr)
 {
+	if (!foundDir) {
+		left = false;
+		right = false;
+		up = false;
+		down = false;
+		if (plr.x - bubbleDst.x > 0) // left
+			left = true;
+		if (plr.x - bubbleDst.x < 0) // right
+			right = true;
+		if (plr.y - bubbleDst.y > 0) // down
+			down = true;
+		if (plr.y - bubbleDst.y < 0) // up
+			up = true;
+		foundDir = true;
+		cout << left << " - left" << endl;
+		cout << right << " - right" << endl;
+		cout << up << " - up" << endl;
+		cout << down << " - down" << endl;
+
+	}
+	if (left)
+		bubbleDst.x += speed;
+	if (right)
+		bubbleDst.x -= speed;
+	if (down)
+		bubbleDst.y += speed;
+	if (up)
+		bubbleDst.y -= speed;
+
 }

@@ -25,6 +25,14 @@ double Util::distanceOffset(SDL_Rect a, SDL_Rect b) // b is enemy
     return distance;
 }
 
+void Util::fadeToBlack()
+{
+    int change = 0;
+    change++;
+    if (change == 255)
+        change = 255;
+}
+
 
 
 

@@ -146,6 +146,7 @@ void GameState::Enter()
 	textBoxBorder = { 10, HEIGHT - 200, WIDTH - 20, 190 };
 
 	scoreRect = { 800, 10, 150, 40 };
+	blackRect = { 0 , 0 , 1024 , 768 };
 
 	surfaceMessage = TTF_RenderText_Solid(font, message, White);
 	dummyScore = TTF_RenderText_Solid(font, scoreMessage, White);
@@ -277,7 +278,6 @@ void GameState::Update()
 			vine[i]->vineDst.x -= speedx;
 		if (!wallHity)
 			vine[i]->vineDst.y -= speedy;
-		cout << (Util::distanceOffset(plr1.plrDst, vine[i]->vineDst) < 80) << endl;
 		if (!dashPressed) {
 			if (Util::distanceOffset(plr1.plrDst, vine[i]->vineDst) < 80) {
 				plr1.plrSpd = 1;
@@ -304,7 +304,6 @@ void GameState::Update()
 			fly.erase(fly.begin() + i);
 			fly.shrink_to_fit();
 		}
-		//bullet collision
 		for (unsigned j = 0; j < playerpew.size(); j++)
 		{
 			if (SDL_HasIntersection(&playerpew[j]->rockDst, &fly[i]->flyDst)) //AABB Check
@@ -329,7 +328,6 @@ void GameState::Update()
 			frog[i]->frogDst.x -= speedx;
 		if (!wallHity)
 			frog[i]->frogDst.y -= speedy;
-		//bullet collision
 		for (unsigned j = 0; j < playerpew.size(); j++)
 		{
 			if (SDL_HasIntersection(&playerpew[j]->rockDst, &frog[i]->frogDst)) //AABB Check
@@ -344,7 +342,46 @@ void GameState::Update()
 				break;
 			}
 		}
+		if (SDL_HasIntersection(&frog[i]->frogDst, &plr1.plrDst)) {
+			plr1.takeDamage(2);
+		}
+		if ((Util::distanceOffset(plr1.plrDst, frog[i]->frogDst) < 550)) {
+			if (frog[i]->getShootTimer() == 0) {
+				if (frog[i]->getDir() == 0)
+					bub.push_back(new Bubble(frog[i]->frogDst.x, frog[i]->frogDst.y));
+				if (frog[i]->getDir() == 1)
+					bub.push_back(new Bubble(frog[i]->frogDst.x, frog[i]->frogDst.y));
+				if (frog[i]->getDir() == 2)
+					bub.push_back(new Bubble(frog[i]->frogDst.x, frog[i]->frogDst.y));
+				if (frog[i]->getDir() == 3)
+					bub.push_back(new Bubble(frog[i]->frogDst.x, frog[i]->frogDst.y));
+			}
+		}
+		if (frog[i]->getHp() <= 0) {
+			Mix_PlayChannel(-1, deathSfx, 0);
+			delete frog[i];
+			frog[i] = nullptr;
+			frog.erase(frog.begin() + i);
+			frog.shrink_to_fit();
+		}
 	}
+	//bubble
+	for (int i = 0; i < bub.size(); i++)
+	{
+		bub[i]->Update(plr1.plrDst);
+		if (!wallHitx)
+			bub[i]->bubbleDst.x -= speedx;
+		if (!wallHity)
+			bub[i]->bubbleDst.y -= speedy;
+		if (Util::distanceOffset(plr1.plrDst, bub[i]->bubbleDst) < 50) {
+			plr1.takeDamage(1);
+			delete bub[i];
+			bub[i] = nullptr;
+			bub.erase(bub.begin() + i);
+			bub.shrink_to_fit();
+		}
+	}
+
 	
 	//dummie
 	for (unsigned i = 0; i < playerpew.size(); i++)
@@ -605,8 +642,6 @@ void GameState::Update()
 			Score = SDL_CreateTextureFromSurface(Engine::Instance().GetRenderer(), dummyScore);
 		}
 	}
-
-
 	
 	//for items
 	itemSpawnTimer++;
@@ -635,8 +670,6 @@ void GameState::Update()
 		}
 
 	}
-
-
 
 }
 
@@ -682,6 +715,12 @@ void GameState::Render()
 			&(playerpew[i]->rockSrc), &(playerpew[i]->rockDst));
 	}
 
+	//bubble 
+	for (unsigned i = 0; i < bub.size(); i++) 
+	{
+		SDL_SetRenderDrawColor(Engine::Instance().GetRenderer(), 0, 0, 255, 255);
+		SDL_RenderFillRect(Engine::Instance().GetRenderer(), &bub[i]->bubbleDst);
+	}
 	//item
 	for (unsigned i = 0; i < item1.size(); i++)
 	{
@@ -725,7 +764,8 @@ void GameState::Render()
 		SDL_RenderCopy(Engine::Instance().GetRenderer(), Score, NULL, &scoreRect);
 	}
 	//SDL_RenderPresent(Engine::Instance().GetRenderer()); // Flip buffers - send data to window.
-
+	SDL_SetRenderDrawColor(Engine::Instance().GetRenderer(), 0, 0, 0, fadeMod);
+	SDL_RenderFillRect(Engine::Instance().GetRenderer(), &blackRect);
 
 	if(dynamic_cast<GameState*>(STMA::GetStates().back() ) )//if current state is gamestate	
 	State::Render();

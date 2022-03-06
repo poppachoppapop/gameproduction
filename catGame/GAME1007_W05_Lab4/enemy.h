@@ -77,16 +77,20 @@ class Frog
 	private:
 		unsigned short frameCtr, frameMax, spriteIdx, spriteMin, spriteMax;
 		int state;
+		int dir;
 		double health;
 		double maxHealth;			
 		double speed;
 		bool frogLeft, frogRight, frogUp, frogDown;
+		int shootTimer;
 public:	
 	SDL_Rect frogSrc, frogDst, healthBar;
 	Frog(int x, int y, int h);
 	Uint16 frames = 0;
 	void setHp(double h);
 	int getHp();
+	int getShootTimer();
+	int getDir();
 	void Update(SDL_Rect plr);
 	void resetFrames();
 };
@@ -94,11 +98,12 @@ public:
 class Bubble {
 private:
 	int speed;
-	char dir;
+	bool foundDir;
+	bool up, down, left, right;
 public:
-	SDL_Rect rockDst;
-	Bubble(int x, int y, int s, char d);
-	void Update();
+	SDL_Rect bubbleDst;
+	Bubble(int x, int y);
+	void Update(SDL_Rect plr);
 };
 
 class Shroom

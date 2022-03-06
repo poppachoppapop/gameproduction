@@ -37,6 +37,9 @@ protected: //priv but inherited
 	bool wallHity = false;
 	int Noobtimer = 0;
 	int ezModeCD = 3000; 
+	int fadeMod = 0;
+	bool fadeIn = false;
+	bool fadeOut = false;
 
 	bool isfreezeActive = false;
 	int freezetimer = 0;
@@ -97,11 +100,13 @@ protected: //priv but inherited
 	vector<Vines*> vine;
 	vector<DragonFly*> fly;
 	vector<Frog*>frog;
+	vector<Bubble*> bub;
 	vector <Shroom*>shroom;
 
 	SDL_Rect textBoxRect;
 	SDL_Rect textBoxBorder;
 	SDL_Rect scoreRect;
+	SDL_Rect blackRect;
 		
 	Player plr1;
 	NPC catDude;
