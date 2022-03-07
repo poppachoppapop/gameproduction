@@ -180,6 +180,7 @@
     <Image Include="art\frogWalking.png" />
     <Image Include="art\mushroom.png" />
     <Image Include="art\Rocko100.png" />
+    <Image Include="bgs\raftscreen.png" />
     <Image Include="bgs\swamp1.png" />
     <Image Include="bgs\tutorial.png" />
     <Image Include="Enemy.png" />

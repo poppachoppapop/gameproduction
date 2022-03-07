@@ -17,22 +17,41 @@ void State::Render()
 	SDL_RenderPresent(Engine::Instance().GetRenderer());
 }
 
-TitleState::TitleState(){}
+TitleState::TitleState() :bg1Ani({ 0,0,256,198 }), frameCtr(0), frameMax(7), spriteIdx(0), spriteMax(4) {}
 
 
 void TitleState::Enter()
 {	
 		cout << "enter titlestate" << endl;	
 		Titletheme = Mix_LoadMUS("aud/Titletheme.mp3");//gametheme
-		Title = IMG_LoadTexture(Engine::Instance().GetRenderer(), "bgs/Title.png");
+		TitleScreen = IMG_LoadTexture(Engine::Instance().GetRenderer(), "bgs/raftscreen.png");
 		//bgSrc = { 0,0,1024,768 };
 		Mix_PlayMusic(Titletheme, -1);
 		Mix_VolumeMusic(24); //0-128
+		
 }
 
 void TitleState::Update()
 {
-	if (Engine::Instance().KeyDown(SDL_SCANCODE_N))
+	
+	//bg1Ani = { 0,0,256,198 };
+	if (state == 0)
+	{	
+		spriteMax = 4;
+		if (spriteIdx > 4)
+			spriteIdx = 0;
+		if (frameCtr++ == frameMax)
+		{
+			frameCtr = 0;
+			if (++spriteIdx == spriteMax)
+			{
+				spriteIdx = 0;
+			}
+			bg1Ani.x = 0 + bg1Ani.w * spriteIdx;
+		}
+	}
+	
+	if (Engine::Instance().KeyDown(SDL_SCANCODE_RETURN))
 	{
 
 		cout << "changing to gamestate" << endl;
@@ -44,7 +63,7 @@ void TitleState::Update()
 void TitleState::Render()
 {
 	SDL_RenderClear(Engine::Instance().GetRenderer());
-	SDL_RenderCopy(Engine::Instance().GetRenderer(), Title,NULL,NULL);	
+	SDL_RenderCopy(Engine::Instance().GetRenderer(), TitleScreen,&bg1Ani,NULL);	
 	if (dynamic_cast<TitleState*>(STMA::GetStates().back()))//if current state is gamestate
 	State::Render();
 }
@@ -53,7 +72,7 @@ void TitleState::Exit()
 {
 	cout << "exiting titlestate" << endl;
 	Mix_FreeMusic(Titletheme);
-	SDL_DestroyTexture(Title);
+	SDL_DestroyTexture(TitleScreen);
 }
 
 
@@ -67,13 +86,45 @@ void PauseState::Enter()
 	
 	cout << "entering pausestate" << endl;
 	sleepingMaki = IMG_LoadTexture(Engine::Instance().GetRenderer(), "art/sleepingMaki.png");
+	resumeButton = IMG_LoadTexture(Engine::Instance().GetRenderer(), "art/resumeButton.png");
+	restartButton = IMG_LoadTexture(Engine::Instance().GetRenderer(), "art/restartButton.png");
+	exitButton = IMG_LoadTexture(Engine::Instance().GetRenderer(), "art/exitButton.png");
+	paused = IMG_LoadTexture(Engine::Instance().GetRenderer(), "art/paused.png");
 	
+
+	resumeButtonSrc = { 0 , 0, 92, 32 };
+	restartButtonSrc = { 0 , 0, 92, 32 };
+	exitButtonSrc = { 0 , 0, 92, 32 };
+	pausedSrc = { 0, 0, 92, 32 };
+
+	resumeButtonDst = { 450, 475, 120, 48 };
+	restartButtonDst = {450, 525, 120, 48};
+	exitButtonDst = { 450, 575, 120, 48 };
+	pausedDst = { 370, 165, 280, 128 };
 }
 
 void PauseState::Update()
 {
 	if (EVMA::KeyPressed(SDL_SCANCODE_P))
 		STMA::PopState();
+	//resume button
+	if (SDL_GetMouseState(&g_mousePos.x, &g_mousePos.y) == true && g_mousePos.x > resumeButtonDst.x && g_mousePos.x < resumeButtonDst.x + resumeButtonDst.w
+		&& g_mousePos.y > resumeButtonDst.y && g_mousePos.y < resumeButtonDst.y + resumeButtonDst.h)
+	{
+		STMA::PopState();
+	}
+	//restart button
+	if (SDL_GetMouseState(&g_mousePos.x, &g_mousePos.y) == true && g_mousePos.x > restartButtonDst.x && g_mousePos.x < restartButtonDst.x + restartButtonDst.w
+		&& g_mousePos.y > restartButtonDst.y && g_mousePos.y < restartButtonDst.y + restartButtonDst.h)
+	{
+		STMA::ChangeState(new GameState());
+	}
+	//exit button
+	if (SDL_GetMouseState(&g_mousePos.x, &g_mousePos.y) == true && g_mousePos.x > exitButtonDst.x && g_mousePos.x < exitButtonDst.x + exitButtonDst.w
+		&& g_mousePos.y > exitButtonDst.y && g_mousePos.y < exitButtonDst.y + exitButtonDst.h)
+	{
+		Engine::Instance().Running() = false;
+	}
 }
 
 void PauseState::Render()
@@ -82,16 +133,22 @@ void PauseState::Render()
 	STMA::GetStates().front()->Render();
 	//now render the rest of pausestate
 	SDL_SetRenderDrawBlendMode(Engine::Instance().GetRenderer(), SDL_BLENDMODE_BLEND);
-	SDL_SetRenderDrawColor(Engine::Instance().GetRenderer(), 102, 181, 222, 255);
+	//SDL_SetRenderDrawColor(Engine::Instance().GetRenderer(), 255, 181, 222, 255);
 	SDL_Rect rect = { 255,128,512,512 };
 	SDL_RenderFillRect(Engine::Instance().GetRenderer(), &rect);
+	//SDL_RenderCopy(Engine::Instance().GetRenderer(), sleepingMaki, &plr1.plrFrontIdle, &plr1.plrDst);
 	SDL_RenderCopy(Engine::Instance().GetRenderer(), sleepingMaki, &plr1.plrFrontIdle, &plr1.plrDst);
+	SDL_RenderCopy(Engine::Instance().GetRenderer(), resumeButton, &resumeButtonSrc, &resumeButtonDst);
+	SDL_RenderCopy(Engine::Instance().GetRenderer(), restartButton, &restartButtonSrc, &restartButtonDst);
+	SDL_RenderCopy(Engine::Instance().GetRenderer(), exitButton, &exitButtonSrc, &exitButtonDst);
+	SDL_RenderCopy(Engine::Instance().GetRenderer(), paused, &pausedSrc, &pausedDst);
 	State::Render();
 }
 
 void PauseState::Exit()
 {
 	cout << "exiting pausestate" << endl;
+	/*isPauseActive = false;*/
 }
 
 
@@ -708,17 +765,17 @@ void GameState::Render()
 		SDL_RenderCopy(Engine::Instance().GetRenderer(), vineTexture, &(vine[i]->vineSrc), &(vine[i]->vineDst));
 	}
 
-	if (plr1.state == 0)
-		SDL_RenderCopy(Engine::Instance().GetRenderer(), plrTxtr, &plr1.plrFrontIdle, &plr1.plrDst);
-	else if (plr1.state == 1)
-		SDL_RenderCopy(Engine::Instance().GetRenderer(), plrTxtr, &plr1.plrMoveDown, &plr1.plrDst);
-	else if (plr1.state == 2)
-		SDL_RenderCopy(Engine::Instance().GetRenderer(), plrTxtr, &plr1.plrMoveUp, &plr1.plrDst);
-	else if (plr1.state == 3)
-		SDL_RenderCopy(Engine::Instance().GetRenderer(), plrTxtr, &plr1.plrMoveLeft, &plr1.plrDst);
-	else if (plr1.state == 4)
-		SDL_RenderCopy(Engine::Instance().GetRenderer(), plrTxtr, &plr1.plrMoveRight, &plr1.plrDst);
-	
+		if (plr1.state == 0)
+			SDL_RenderCopy(Engine::Instance().GetRenderer(), plrTxtr, &plr1.plrFrontIdle, &plr1.plrDst);
+		else if (plr1.state == 1)
+			SDL_RenderCopy(Engine::Instance().GetRenderer(), plrTxtr, &plr1.plrMoveDown, &plr1.plrDst);
+		else if (plr1.state == 2)
+			SDL_RenderCopy(Engine::Instance().GetRenderer(), plrTxtr, &plr1.plrMoveUp, &plr1.plrDst);
+		else if (plr1.state == 3)
+			SDL_RenderCopy(Engine::Instance().GetRenderer(), plrTxtr, &plr1.plrMoveLeft, &plr1.plrDst);
+		else if (plr1.state == 4)
+			SDL_RenderCopy(Engine::Instance().GetRenderer(), plrTxtr, &plr1.plrMoveRight, &plr1.plrDst);
+
 	SDL_SetRenderDrawColor(Engine::Instance().GetRenderer(), 255, 0, 0, 255);
 	SDL_RenderFillRect(Engine::Instance().GetRenderer(), &plr1.plrHpBar);
 
@@ -902,7 +959,7 @@ void Levelone::Update()
 			fadeMod == 0;
 		if (plr1.winbar >= 50)
 		{
-			STMA::ChangeState(new TitleState());
+			STMA::ChangeState(new WState());
 			return;
 		}
 
@@ -1740,25 +1797,45 @@ void EndState::Exit()
 	SDL_DestroyTexture(gameOverScreen);
 }
 
-WState::WState()
-{
-}
+WState::WState(){}
 
 void WState::Enter()
 {
+	cout << "enter winstate" << endl;
+	// = Mix_LoadMUS("aud/.mp3");//gametheme
+	// = IMG_LoadTexture(Engine::Instance().GetRenderer(), "bgs/.png");
+	//bgSrc = { 0,0,1024,768 };
+	//Mix_PlayMusic(Titletheme, -1);
+	//Mix_VolumeMusic(24); //0-128
 }
 
 void WState::Update()
 {
+	/*if (Engine::Instance().KeyDown(SDL_SCANCODE_N))
+	{
+
+		cout << "changing to titlestate" << endl;
+		STMA::ChangeState(new TitleState());
+		return;
+	}*/
 }
 
 void WState::Render()
 {
+	//SDL_RenderClear(Engine::Instance().GetRenderer());
+	//SDL_RenderCopy(Engine::Instance().GetRenderer(), Title, NULL, NULL);
+	//if (dynamic_cast<TitleState*>(STMA::GetStates().back()))//if current state is gamestate
+	//	State::Render();
 }
 
 void WState::Exit()
 {
+	//cout << "exiting titlestate" << endl;
+	//Mix_FreeMusic(Titletheme);
+	//SDL_DestroyTexture(Title);
 }
+
+	
 ////frog stuff
 		//for (unsigned i = 0; i < attack.size(); i++)
 		//{
