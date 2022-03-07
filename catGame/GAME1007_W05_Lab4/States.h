@@ -83,6 +83,7 @@ protected: //priv but inherited
 	SDL_Texture* swamp1a;
 	SDL_Texture* swamp1b;
 	SDL_Texture* swamp1bdown;
+	SDL_Texture* swampIsland;
 	SDL_Texture* flyingMaki;
 	SDL_Texture* sleepingMaki;
 	SDL_Texture* resumeButton;
@@ -211,6 +212,10 @@ class Levelone : public State
 private:
 	int areaNum = 0;
 	vector<Level1Background*> bg;
+	vector<SDL_Rect*> levelRect;
+	SDL_Rect exitRect;
+	bool loadArea = false;
+	int entrance;
 public:
 	Levelone();
 	virtual void Enter();
