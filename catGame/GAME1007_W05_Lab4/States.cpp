@@ -86,13 +86,45 @@ void PauseState::Enter()
 	
 	cout << "entering pausestate" << endl;
 	sleepingMaki = IMG_LoadTexture(Engine::Instance().GetRenderer(), "art/sleepingMaki.png");
+	resumeButton = IMG_LoadTexture(Engine::Instance().GetRenderer(), "art/resumeButton.png");
+	restartButton = IMG_LoadTexture(Engine::Instance().GetRenderer(), "art/restartButton.png");
+	exitButton = IMG_LoadTexture(Engine::Instance().GetRenderer(), "art/exitButton.png");
+	paused = IMG_LoadTexture(Engine::Instance().GetRenderer(), "art/paused.png");
 	
+
+	resumeButtonSrc = { 0 , 0, 92, 32 };
+	restartButtonSrc = { 0 , 0, 92, 32 };
+	exitButtonSrc = { 0 , 0, 92, 32 };
+	pausedSrc = { 0, 0, 92, 32 };
+
+	resumeButtonDst = { 450, 475, 120, 48 };
+	restartButtonDst = {450, 525, 120, 48};
+	exitButtonDst = { 450, 575, 120, 48 };
+	pausedDst = { 370, 165, 280, 128 };
 }
 
 void PauseState::Update()
 {
 	if (EVMA::KeyPressed(SDL_SCANCODE_P))
 		STMA::PopState();
+	//resume button
+	if (SDL_GetMouseState(&g_mousePos.x, &g_mousePos.y) == true && g_mousePos.x > resumeButtonDst.x && g_mousePos.x < resumeButtonDst.x + resumeButtonDst.w
+		&& g_mousePos.y > resumeButtonDst.y && g_mousePos.y < resumeButtonDst.y + resumeButtonDst.h)
+	{
+		STMA::PopState();
+	}
+	//restart button
+	if (SDL_GetMouseState(&g_mousePos.x, &g_mousePos.y) == true && g_mousePos.x > restartButtonDst.x && g_mousePos.x < restartButtonDst.x + restartButtonDst.w
+		&& g_mousePos.y > restartButtonDst.y && g_mousePos.y < restartButtonDst.y + restartButtonDst.h)
+	{
+		STMA::ChangeState(new GameState());
+	}
+	//exit button
+	if (SDL_GetMouseState(&g_mousePos.x, &g_mousePos.y) == true && g_mousePos.x > exitButtonDst.x && g_mousePos.x < exitButtonDst.x + exitButtonDst.w
+		&& g_mousePos.y > exitButtonDst.y && g_mousePos.y < exitButtonDst.y + exitButtonDst.h)
+	{
+		Engine::Instance().Running() = false;
+	}
 }
 
 void PauseState::Render()
@@ -101,16 +133,22 @@ void PauseState::Render()
 	STMA::GetStates().front()->Render();
 	//now render the rest of pausestate
 	SDL_SetRenderDrawBlendMode(Engine::Instance().GetRenderer(), SDL_BLENDMODE_BLEND);
-	SDL_SetRenderDrawColor(Engine::Instance().GetRenderer(), 102, 181, 222, 255);
+	//SDL_SetRenderDrawColor(Engine::Instance().GetRenderer(), 255, 181, 222, 255);
 	SDL_Rect rect = { 255,128,512,512 };
 	SDL_RenderFillRect(Engine::Instance().GetRenderer(), &rect);
 	//SDL_RenderCopy(Engine::Instance().GetRenderer(), sleepingMaki, &plr1.plrFrontIdle, &plr1.plrDst);
+	SDL_RenderCopy(Engine::Instance().GetRenderer(), sleepingMaki, &plr1.plrFrontIdle, &plr1.plrDst);
+	SDL_RenderCopy(Engine::Instance().GetRenderer(), resumeButton, &resumeButtonSrc, &resumeButtonDst);
+	SDL_RenderCopy(Engine::Instance().GetRenderer(), restartButton, &restartButtonSrc, &restartButtonDst);
+	SDL_RenderCopy(Engine::Instance().GetRenderer(), exitButton, &exitButtonSrc, &exitButtonDst);
+	SDL_RenderCopy(Engine::Instance().GetRenderer(), paused, &pausedSrc, &pausedDst);
 	State::Render();
 }
 
 void PauseState::Exit()
 {
 	cout << "exiting pausestate" << endl;
+	/*isPauseActive = false;*/
 }
 
 
@@ -727,17 +765,17 @@ void GameState::Render()
 		SDL_RenderCopy(Engine::Instance().GetRenderer(), vineTexture, &(vine[i]->vineSrc), &(vine[i]->vineDst));
 	}
 
-	if (plr1.state == 0)
-		SDL_RenderCopy(Engine::Instance().GetRenderer(), plrTxtr, &plr1.plrFrontIdle, &plr1.plrDst);
-	else if (plr1.state == 1)
-		SDL_RenderCopy(Engine::Instance().GetRenderer(), plrTxtr, &plr1.plrMoveDown, &plr1.plrDst);
-	else if (plr1.state == 2)
-		SDL_RenderCopy(Engine::Instance().GetRenderer(), plrTxtr, &plr1.plrMoveUp, &plr1.plrDst);
-	else if (plr1.state == 3)
-		SDL_RenderCopy(Engine::Instance().GetRenderer(), plrTxtr, &plr1.plrMoveLeft, &plr1.plrDst);
-	else if (plr1.state == 4)
-		SDL_RenderCopy(Engine::Instance().GetRenderer(), plrTxtr, &plr1.plrMoveRight, &plr1.plrDst);
-	
+		if (plr1.state == 0)
+			SDL_RenderCopy(Engine::Instance().GetRenderer(), plrTxtr, &plr1.plrFrontIdle, &plr1.plrDst);
+		else if (plr1.state == 1)
+			SDL_RenderCopy(Engine::Instance().GetRenderer(), plrTxtr, &plr1.plrMoveDown, &plr1.plrDst);
+		else if (plr1.state == 2)
+			SDL_RenderCopy(Engine::Instance().GetRenderer(), plrTxtr, &plr1.plrMoveUp, &plr1.plrDst);
+		else if (plr1.state == 3)
+			SDL_RenderCopy(Engine::Instance().GetRenderer(), plrTxtr, &plr1.plrMoveLeft, &plr1.plrDst);
+		else if (plr1.state == 4)
+			SDL_RenderCopy(Engine::Instance().GetRenderer(), plrTxtr, &plr1.plrMoveRight, &plr1.plrDst);
+
 	SDL_SetRenderDrawColor(Engine::Instance().GetRenderer(), 255, 0, 0, 255);
 	SDL_RenderFillRect(Engine::Instance().GetRenderer(), &plr1.plrHpBar);
 

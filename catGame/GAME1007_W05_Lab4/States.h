@@ -58,6 +58,7 @@ protected: //priv but inherited
 	bool spawnDummies = false;
 	bool renderTextBox = false;
 	bool renderScoreBox = false;
+	bool isPauseActive = false;
 	
 	bool titleLoading = false;
 	bool lvlLoading = false;
@@ -84,6 +85,10 @@ protected: //priv but inherited
 	SDL_Texture* swamp1bdown;
 	SDL_Texture* flyingMaki;
 	SDL_Texture* sleepingMaki;
+	SDL_Texture* resumeButton;
+	SDL_Texture* restartButton;
+	SDL_Texture* exitButton;
+	SDL_Texture* paused;
 
 	SDL_Texture* DragonFlyTxt;
 	SDL_Texture* vineTexture;
@@ -111,6 +116,10 @@ protected: //priv but inherited
 	SDL_Rect textBoxBorder;
 	SDL_Rect scoreRect;
 	SDL_Rect blackRect;
+	SDL_Rect resumeButtonSrc, resumeButtonDst;
+	SDL_Rect restartButtonSrc, restartButtonDst;
+	SDL_Rect exitButtonSrc, exitButtonDst;
+	SDL_Rect pausedSrc, pausedDst;
 		
 	Player plr1;
 	NPC catDude;
@@ -131,6 +140,9 @@ protected: //priv but inherited
 	Mix_Music* maintheme;
 	Mix_Chunk* dashMeow;
 	Mix_Music* swampSong;
+
+	SDL_Point g_mousePos;
+
 	State() = default;//or... State(){};
 	
 public:
