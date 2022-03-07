@@ -91,6 +91,7 @@ protected: //priv but inherited
 	SDL_Texture* exitButton;
 	SDL_Texture* paused;
 	SDL_Texture* pauseBg;
+	SDL_Texture* mainMenuButton;
 
 	SDL_Texture* DragonFlyTxt;
 	SDL_Texture* vineTexture;
@@ -123,6 +124,7 @@ protected: //priv but inherited
 	SDL_Rect exitButtonSrc, exitButtonDst;
 	SDL_Rect pausedSrc, pausedDst;
 	SDL_Rect pausedBgSrc, pausedBgDst;
+	SDL_Rect mainMenuButtonSrc, mainMenuButtonDst;
 		
 	Player plr1;
 	NPC catDude;
@@ -228,7 +230,10 @@ public:
 };
 class EndState : public State
 {
-
+private:
+	unsigned short frameCtr, frameMax, spriteIdx, spriteMin, spriteMax;
+	SDL_Rect makiFlying, makiFlyingDst;
+	int state;
 public:
 	EndState();
 	virtual void Enter();
