@@ -90,17 +90,20 @@ void PauseState::Enter()
 	restartButton = IMG_LoadTexture(Engine::Instance().GetRenderer(), "art/restartButton.png");
 	exitButton = IMG_LoadTexture(Engine::Instance().GetRenderer(), "art/exitButton.png");
 	paused = IMG_LoadTexture(Engine::Instance().GetRenderer(), "art/paused.png");
+	pauseBg = IMG_LoadTexture(Engine::Instance().GetRenderer(), "bgs/pauseBg.png");
 	
 
 	resumeButtonSrc = { 0 , 0, 92, 32 };
 	restartButtonSrc = { 0 , 0, 92, 32 };
 	exitButtonSrc = { 0 , 0, 92, 32 };
 	pausedSrc = { 0, 0, 92, 32 };
+	pausedBgSrc = { 0, 0, 128, 128 };
 
 	resumeButtonDst = { 450, 475, 120, 48 };
 	restartButtonDst = {450, 525, 120, 48};
 	exitButtonDst = { 450, 575, 120, 48 };
 	pausedDst = { 370, 165, 280, 128 };
+	pausedBgDst = { 255, 128, 512, 512 };
 }
 
 void PauseState::Update()
@@ -133,10 +136,14 @@ void PauseState::Render()
 	STMA::GetStates().front()->Render();
 	//now render the rest of pausestate
 	SDL_SetRenderDrawBlendMode(Engine::Instance().GetRenderer(), SDL_BLENDMODE_BLEND);
-	//SDL_SetRenderDrawColor(Engine::Instance().GetRenderer(), 255, 181, 222, 255);
-	SDL_Rect rect = { 255,128,512,512 };
-	SDL_RenderFillRect(Engine::Instance().GetRenderer(), &rect);
+
+	//transparent background (filled rect)
+	//SDL_SetRenderDrawColor(Engine::Instance().GetRenderer(), 0, 0, 0, 200);
+	//SDL_Rect rect = { 255,128,512,512 };
+	//SDL_RenderFillRect(Engine::Instance().GetRenderer(), &rect);
+	
 	//SDL_RenderCopy(Engine::Instance().GetRenderer(), sleepingMaki, &plr1.plrFrontIdle, &plr1.plrDst);
+	SDL_RenderCopy(Engine::Instance().GetRenderer(), pauseBg, &pausedBgSrc, &pausedBgDst);
 	SDL_RenderCopy(Engine::Instance().GetRenderer(), sleepingMaki, &plr1.plrFrontIdle, &plr1.plrDst);
 	SDL_RenderCopy(Engine::Instance().GetRenderer(), resumeButton, &resumeButtonSrc, &resumeButtonDst);
 	SDL_RenderCopy(Engine::Instance().GetRenderer(), restartButton, &restartButtonSrc, &restartButtonDst);

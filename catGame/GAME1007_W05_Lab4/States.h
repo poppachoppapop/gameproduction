@@ -90,6 +90,7 @@ protected: //priv but inherited
 	SDL_Texture* restartButton;
 	SDL_Texture* exitButton;
 	SDL_Texture* paused;
+	SDL_Texture* pauseBg;
 
 	SDL_Texture* DragonFlyTxt;
 	SDL_Texture* vineTexture;
@@ -121,6 +122,7 @@ protected: //priv but inherited
 	SDL_Rect restartButtonSrc, restartButtonDst;
 	SDL_Rect exitButtonSrc, exitButtonDst;
 	SDL_Rect pausedSrc, pausedDst;
+	SDL_Rect pausedBgSrc, pausedBgDst;
 		
 	Player plr1;
 	NPC catDude;
