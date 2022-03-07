@@ -17,22 +17,41 @@ void State::Render()
 	SDL_RenderPresent(Engine::Instance().GetRenderer());
 }
 
-TitleState::TitleState(){}
+TitleState::TitleState() :bg1Ani({ 0,0,256,198 }), frameCtr(0), frameMax(7), spriteIdx(0), spriteMax(4) {}
 
 
 void TitleState::Enter()
 {	
 		cout << "enter titlestate" << endl;	
 		Titletheme = Mix_LoadMUS("aud/Titletheme.mp3");//gametheme
-		Title = IMG_LoadTexture(Engine::Instance().GetRenderer(), "bgs/Title.png");
+		TitleScreen = IMG_LoadTexture(Engine::Instance().GetRenderer(), "bgs/raftscreen.png");
 		//bgSrc = { 0,0,1024,768 };
 		Mix_PlayMusic(Titletheme, -1);
 		Mix_VolumeMusic(24); //0-128
+		
 }
 
 void TitleState::Update()
 {
-	if (Engine::Instance().KeyDown(SDL_SCANCODE_N))
+	
+	//bg1Ani = { 0,0,256,198 };
+	if (state == 0)
+	{	
+		spriteMax = 4;
+		if (spriteIdx > 4)
+			spriteIdx = 0;
+		if (frameCtr++ == frameMax)
+		{
+			frameCtr = 0;
+			if (++spriteIdx == spriteMax)
+			{
+				spriteIdx = 0;
+			}
+			bg1Ani.x = 0 + bg1Ani.w * spriteIdx;
+		}
+	}
+	
+	if (Engine::Instance().KeyDown(SDL_SCANCODE_RETURN))
 	{
 
 		cout << "changing to gamestate" << endl;
@@ -44,7 +63,7 @@ void TitleState::Update()
 void TitleState::Render()
 {
 	SDL_RenderClear(Engine::Instance().GetRenderer());
-	SDL_RenderCopy(Engine::Instance().GetRenderer(), Title,NULL,NULL);	
+	SDL_RenderCopy(Engine::Instance().GetRenderer(), TitleScreen,&bg1Ani,NULL);	
 	if (dynamic_cast<TitleState*>(STMA::GetStates().back()))//if current state is gamestate
 	State::Render();
 }
@@ -53,7 +72,7 @@ void TitleState::Exit()
 {
 	cout << "exiting titlestate" << endl;
 	Mix_FreeMusic(Titletheme);
-	SDL_DestroyTexture(Title);
+	SDL_DestroyTexture(TitleScreen);
 }
 
 
@@ -85,7 +104,7 @@ void PauseState::Render()
 	SDL_SetRenderDrawColor(Engine::Instance().GetRenderer(), 102, 181, 222, 255);
 	SDL_Rect rect = { 255,128,512,512 };
 	SDL_RenderFillRect(Engine::Instance().GetRenderer(), &rect);
-	SDL_RenderCopy(Engine::Instance().GetRenderer(), sleepingMaki, &plr1.plrFrontIdle, &plr1.plrDst);
+	//SDL_RenderCopy(Engine::Instance().GetRenderer(), sleepingMaki, &plr1.plrFrontIdle, &plr1.plrDst);
 	State::Render();
 }
 
@@ -898,7 +917,7 @@ void Levelone::Update()
 			fadeMod == 0;
 		if (plr1.winbar >= 50)
 		{
-			STMA::ChangeState(new TitleState());
+			STMA::ChangeState(new WState());
 			return;
 		}
 
@@ -1646,25 +1665,45 @@ void EndState::Exit()
 	SDL_DestroyTexture(gameOverScreen);
 }
 
-WState::WState()
-{
-}
+WState::WState(){}
 
 void WState::Enter()
 {
+	cout << "enter winstate" << endl;
+	// = Mix_LoadMUS("aud/.mp3");//gametheme
+	// = IMG_LoadTexture(Engine::Instance().GetRenderer(), "bgs/.png");
+	//bgSrc = { 0,0,1024,768 };
+	//Mix_PlayMusic(Titletheme, -1);
+	//Mix_VolumeMusic(24); //0-128
 }
 
 void WState::Update()
 {
+	/*if (Engine::Instance().KeyDown(SDL_SCANCODE_N))
+	{
+
+		cout << "changing to titlestate" << endl;
+		STMA::ChangeState(new TitleState());
+		return;
+	}*/
 }
 
 void WState::Render()
 {
+	//SDL_RenderClear(Engine::Instance().GetRenderer());
+	//SDL_RenderCopy(Engine::Instance().GetRenderer(), Title, NULL, NULL);
+	//if (dynamic_cast<TitleState*>(STMA::GetStates().back()))//if current state is gamestate
+	//	State::Render();
 }
 
 void WState::Exit()
 {
+	//cout << "exiting titlestate" << endl;
+	//Mix_FreeMusic(Titletheme);
+	//SDL_DestroyTexture(Title);
 }
+
+	
 ////frog stuff
 		//for (unsigned i = 0; i < attack.size(); i++)
 		//{

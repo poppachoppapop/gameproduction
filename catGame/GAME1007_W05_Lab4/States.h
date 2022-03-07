@@ -146,8 +146,11 @@ public:
 class TitleState : public State
 {
 private:
-	SDL_Texture* Title;
+	unsigned short frameCtr, frameMax, spriteIdx, spriteMin, spriteMax;
+	SDL_Texture* TitleScreen;
 	Mix_Music* Titletheme;
+	SDL_Rect bg1Ani;
+	int state;
 public:
 	TitleState();
 	virtual void Enter();
