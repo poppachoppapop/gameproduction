@@ -953,37 +953,37 @@ void Levelone::Enter()
 	
 	for (int i = 0; i < 15; i++)
 	{
-		bg.push_back(new Level1Background(rand()%2, 15));
+		bg.push_back(new Level1Background(rand()%1, 15));
 	}
 
 	
 	if (bg[areaNum]->getBg() == 0) {
 		levelRect.push_back(new SDL_Rect{ bg[areaNum]->swamp1Dst.x + -50,bg[areaNum]->swamp1Dst.y + 370,240,10 });
 		levelRect.push_back(new SDL_Rect{ bg[areaNum]->swamp1Dst.x + 190,bg[areaNum]->swamp1Dst.y + 0,10,380 });
-		levelRect.push_back(new SDL_Rect{ bg[areaNum]->swamp1Dst.x + 190,bg[areaNum]->swamp1Dst.y + -10,640,10 });
+		levelRect.push_back(new SDL_Rect{ bg[areaNum]->swamp1Dst.x + 190,bg[areaNum]->swamp1Dst.y + -10,640+128,10 });
 		levelRect.push_back(new SDL_Rect{ bg[areaNum]->swamp1Dst.x + 830 + 128,bg[areaNum]->swamp1Dst.y + 0,10,380 });
 		levelRect.push_back(new SDL_Rect{ bg[areaNum]->swamp1Dst.x + 830 + 128,bg[areaNum]->swamp1Dst.y + 370,390 - 128,10 });
 
 		levelRect.push_back(new SDL_Rect{ bg[areaNum]->swamp1Dst.x + 1210,bg[areaNum]->swamp1Dst.y + 130,10,250 });
-		levelRect.push_back(new SDL_Rect{ bg[areaNum]->swamp1Dst.x + 1220,bg[areaNum]->swamp1Dst.y + 120,380,10 });
-		levelRect.push_back(new SDL_Rect{ bg[areaNum]->swamp1Dst.x + 1600+ 128,bg[areaNum]->swamp1Dst.y + 130,10,380 });
+		levelRect.push_back(new SDL_Rect{ bg[areaNum]->swamp1Dst.x + 1220,bg[areaNum]->swamp1Dst.y + 120,380 + 128,10 });
+		levelRect.push_back(new SDL_Rect{ bg[areaNum]->swamp1Dst.x + 1600+ 128,bg[areaNum]->swamp1Dst.y + 130,10,380 + 128 });
 		levelRect.push_back(new SDL_Rect{ bg[areaNum]->swamp1Dst.x + 1500 + 128,bg[areaNum]->swamp1Dst.y + 510 + 128,100,10 });
 		levelRect.push_back(new SDL_Rect{ bg[areaNum]->swamp1Dst.x + 1500 + 128,bg[areaNum]->swamp1Dst.y + 510 + 128,10,250 - 128 });
 
 		levelRect.push_back(new SDL_Rect{ bg[areaNum]->swamp1Dst.x + 1500 + 128,bg[areaNum]->swamp1Dst.y + 750,100,10 });
-		levelRect.push_back(new SDL_Rect{ bg[areaNum]->swamp1Dst.x + 1600+128,bg[areaNum]->swamp1Dst.y + 760 +  128,10,400 });
+		levelRect.push_back(new SDL_Rect{ bg[areaNum]->swamp1Dst.x + 1600+128,bg[areaNum]->swamp1Dst.y + 760,10,400 +128 });
 		levelRect.push_back(new SDL_Rect{ bg[areaNum]->swamp1Dst.x + 940 + 128,bg[areaNum]->swamp1Dst.y + 1160 + 128,660,10 });
 		levelRect.push_back(new SDL_Rect{ bg[areaNum]->swamp1Dst.x + 940 + 128,bg[areaNum]->swamp1Dst.y + 1160 + 128,10,120 });
 		levelRect.push_back(new SDL_Rect{ bg[areaNum]->swamp1Dst.x + -50 + 128,bg[areaNum]->swamp1Dst.y + 1280 + 128,990,10 });
 
 		levelRect.push_back(new SDL_Rect{ bg[areaNum]->swamp1Dst.x + -50,bg[areaNum]->swamp1Dst.y + 1140,240,10 });
 		levelRect.push_back(new SDL_Rect{ bg[areaNum]->swamp1Dst.x + 180,bg[areaNum]->swamp1Dst.y + 750,10,390 });
-		levelRect.push_back(new SDL_Rect{ bg[areaNum]->swamp1Dst.x + 190,bg[areaNum]->swamp1Dst.y + 750,510,10 });
+		levelRect.push_back(new SDL_Rect{ bg[areaNum]->swamp1Dst.x + 190,bg[areaNum]->swamp1Dst.y + 750,510 + 128,10 });
 		levelRect.push_back(new SDL_Rect{ bg[areaNum]->swamp1Dst.x + 700 + 128,bg[areaNum]->swamp1Dst.y + 750,10,390 });
 		levelRect.push_back(new SDL_Rect{ bg[areaNum]->swamp1Dst.x + 700 + 128,bg[areaNum]->swamp1Dst.y + 1145,30,10 });
 
 		levelRect.push_back(new SDL_Rect{ bg[areaNum]->swamp1Dst.x + 860,bg[areaNum]->swamp1Dst.y + 1030,10,120 });
-		levelRect.push_back(new SDL_Rect{ bg[areaNum]->swamp1Dst.x + 840 + 30,bg[areaNum]->swamp1Dst.y + 1025,240 - 128,10 });
+		levelRect.push_back(new SDL_Rect{ bg[areaNum]->swamp1Dst.x + 840 + 30,bg[areaNum]->swamp1Dst.y + 1025,240 - 64,10 });
 		levelRect.push_back(new SDL_Rect{ bg[areaNum]->swamp1Dst.x + 1070,bg[areaNum]->swamp1Dst.y + 760,10,270 });
 		levelRect.push_back(new SDL_Rect{ bg[areaNum]->swamp1Dst.x + 1080,bg[areaNum]->swamp1Dst.y + 750,300,10 });
 		levelRect.push_back(new SDL_Rect{ bg[areaNum]->swamp1Dst.x + 1370,bg[areaNum]->swamp1Dst.y + 510+ 128,10,250 - 128 });
@@ -991,6 +991,13 @@ void Levelone::Enter()
 		levelRect.push_back(new SDL_Rect{ bg[areaNum]->swamp1Dst.x + -50,bg[areaNum]->swamp1Dst.y + 510 + 128,1430,10 });
 	
 	}
+	for (int i = 0; i < 10; i++)
+	{
+		fly.push_back(new DragonFly(bg[areaNum]->swamp1Dst.x + 800, bg[areaNum]->swamp1Dst.y + 400, 2));
+		fly.shrink_to_fit();
+	}
+	frog.push_back(new Frog(bg[areaNum]->swamp1Dst.x + 1000, bg[areaNum]->swamp1Dst.y + 500, 5));
+	frog.shrink_to_fit();
 }
 
 
@@ -1002,7 +1009,7 @@ void Levelone::Update()
 			fadeMod -= fadeSpeed;
 		if (fadeMod == 0)
 			fadeMod == 0;
-		if (plr1.winbar >= 50)
+		if (plr1.winbar >= 150)
 		{
 			STMA::ChangeState(new WState());
 			return;
@@ -1044,30 +1051,158 @@ void Levelone::Update()
 			//wallcollision
 			bool wallHitx = false;
 			bool wallHity = false;
-			/*if (SDL_HasIntersection(levelRect[0], &plr1.plrDst)) {
+			if (SDL_HasIntersection(levelRect[0], &plr1.plrDst)) {//down
 				speedx = 0;
+				speedy = 0;
+				speedy++;
+			}
+			if (SDL_HasIntersection(levelRect[1], &plr1.plrDst)) { //right
+				speedx = 0;
+				speedx++;
 				speedy = 0;
 			}
-		
-			if (SDL_HasIntersection(levelRect[1], &plr1.plrDst)) {
+			if (SDL_HasIntersection(levelRect[2], &plr1.plrDst)) { //down
 				speedx = 0;
 				speedy = 0;
-			}
-			
-			if (SDL_HasIntersection(levelRect[2], &plr1.plrDst)) {
-				speedx = 0;
-				speedy = 0;
-			}
-			
-			if (SDL_HasIntersection(levelRect[3], &plr1.plrDst)) {
-				speedx = 0;
-				speedy = 0;
+				speedy++;
 			}
 			
-			if (SDL_HasIntersection(levelRect[4], &plr1.plrDst)) {
+			if (SDL_HasIntersection(levelRect[3], &plr1.plrDst)) { //left
 				speedx = 0;
 				speedy = 0;
-			}*/
+				speedx--;
+			}
+			
+			if (SDL_HasIntersection(levelRect[4], &plr1.plrDst)) {//down
+				speedx = 0;
+				speedy = 0;
+				speedy++;
+			}
+			
+			if (SDL_HasIntersection(levelRect[5], &plr1.plrDst)) {//right
+				speedx = 0;
+				speedy = 0;
+				speedx++;
+			}
+			
+			if (SDL_HasIntersection(levelRect[6], &plr1.plrDst)) {//down
+				speedx = 0;
+				speedy = 0;
+				speedy++;
+			}
+			
+			if (SDL_HasIntersection(levelRect[7], &plr1.plrDst)) {//left
+				speedx = 0;
+				speedy = 0;
+				speedx--;
+			}
+			
+			if (SDL_HasIntersection(levelRect[8], &plr1.plrDst)) {//up
+				speedx = 0;
+				speedy = 0;
+				speedy--;
+			}
+			
+			if (SDL_HasIntersection(levelRect[9], &plr1.plrDst)) {//left
+				speedx = 0;
+				speedy = 0;
+				speedx--;
+			}
+			
+			if (SDL_HasIntersection(levelRect[10], &plr1.plrDst)) {//down
+				speedx = 0;
+				speedy = 0;
+				speedy++;
+			}
+			
+			if (SDL_HasIntersection(levelRect[11], &plr1.plrDst)) {//left
+				speedx = 0;
+				speedy = 0;
+				speedx--;
+			}
+			
+			if (SDL_HasIntersection(levelRect[12], &plr1.plrDst)) {//up
+				speedx = 0;
+				speedy = 0;
+				speedy--;
+			}
+			
+			if (SDL_HasIntersection(levelRect[13], &plr1.plrDst)) {//left
+				speedx = 0;
+				speedy = 0;
+				speedx--;
+			}
+			
+			if (SDL_HasIntersection(levelRect[14], &plr1.plrDst)) {//up
+				speedx = 0;
+				speedy = 0;
+				speedy--;
+			}
+
+			if (SDL_HasIntersection(levelRect[15], &plr1.plrDst)) {//down
+				speedx = 0;
+				speedy = 0;
+				speedy++;
+			}
+			
+			if (SDL_HasIntersection(levelRect[16], &plr1.plrDst)) {//down
+				speedx = 0;
+				speedy = 0;
+				speedy++;
+			}
+
+			if (SDL_HasIntersection(levelRect[17], &plr1.plrDst)) {//down
+				speedx = 0;
+				speedy = 0;
+				speedy++;
+			}
+
+			if (SDL_HasIntersection(levelRect[18], &plr1.plrDst)) {//left
+				speedx = 0;
+				speedy = 0;
+				speedx--;
+			}
+
+			if (SDL_HasIntersection(levelRect[19], &plr1.plrDst)) {//down
+				speedx = 0;
+				speedy = 0;
+				speedy++;
+			}
+			if (SDL_HasIntersection(levelRect[20], &plr1.plrDst)) {//left
+				speedx = 0;
+				speedy = 0;
+				speedx++;
+			}
+			if (SDL_HasIntersection(levelRect[21], &plr1.plrDst)) {//down
+				speedx = 0;
+				speedy = 0;
+				speedy++;
+			}
+
+			if (SDL_HasIntersection(levelRect[22], &plr1.plrDst)) {//right
+				speedx = 0;
+				speedy = 0;
+				speedx++;
+			}
+
+			if (SDL_HasIntersection(levelRect[23], &plr1.plrDst)) {//right
+				speedx = 0;
+				speedy = 0;
+				speedy++;
+			}
+
+			if (SDL_HasIntersection(levelRect[24], &plr1.plrDst)) {//right
+				speedx = 0;
+				speedy = 0;
+				speedx++;
+			}
+			
+			if (SDL_HasIntersection(levelRect[25], &plr1.plrDst)) {//right
+				speedx = 0;
+				speedy = 0;
+				speedy--;
+			}
+
 			for (int i = 0; i < levelRect.size(); i++)
 			{
 				if (!wallHitx)
@@ -1500,25 +1635,42 @@ void Levelone::Update()
 				}
 			}
 		}
-		
-		//DragonFly		
-		for (unsigned i = 0; i < playerpew.size(); i++)
+				
+		//DragonFly
+		for (unsigned i = 0; i < fly.size(); i++)
 		{
-			for (unsigned j = 0; j < fly.size(); j++)
-			{
-				if (SDL_HasIntersection(&playerpew[i]->rockDst, &fly[j]->flyDst)) //AABB Check
-				{
+			fly[i]->Update();
+			if (!wallHitx)
+				fly[i]->flyDst.x -= speedx;
+			if (!wallHity)
+				fly[i]->flyDst.y -= speedy;
 
+			if (SDL_HasIntersection(&fly[i]->flyDst, &plr1.plrDst)) {
+				plr1.takeDamage(1);
+			}
+
+			if (fly[i]->getHp() <= 0) {
+				Mix_PlayChannel(-1, deathSfx, 0);
+				delete fly[i];
+				fly[i] = nullptr;
+				fly.erase(fly.begin() + i);
+				fly.shrink_to_fit();
+			}
+			for (unsigned j = 0; j < playerpew.size(); j++)
+			{
+				if (SDL_HasIntersection(&playerpew[j]->rockDst, &fly[i]->flyDst)) //AABB Check
+				{
 					Mix_PlayChannel(-1, hurtSfx, 0);
-					delete playerpew[i];
-					playerpew[i] = nullptr;
-					playerpew.erase(playerpew.begin() + i);
+					delete playerpew[j];
+					playerpew[j] = nullptr;
+					playerpew.erase(playerpew.begin() + j);
 					playerpew.shrink_to_fit();
-					//set dumbie hp										
-					fly[j]->setHp(fly[j]->getHp() - playerDamage);
+					//set dumbie hp
+					fly[i]->setHp(fly[i]->getHp() - playerDamage);
 					break;
 				}
 			}
+
 		}
 
 		if (isfreezeActive == false)
