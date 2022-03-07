@@ -83,19 +83,21 @@ protected: //priv but inherited
 	SDL_Texture* swamp1a;
 	SDL_Texture* swamp1b;
 	SDL_Texture* swamp1bdown;
+
 	SDL_Texture* flyingMaki;
 	SDL_Texture* sleepingMaki;
 	SDL_Texture* resumeButton;
 	SDL_Texture* restartButton;
 	SDL_Texture* exitButton;
 	SDL_Texture* paused;
+	SDL_Texture* gameOverScreen;
+	SDL_Texture* rockui;
 
 	SDL_Texture* DragonFlyTxt;
 	SDL_Texture* vineTexture;
 	SDL_Texture* FrogTxtr;
 	SDL_Texture* ShroomTxtr;
-
-	SDL_Texture* gameOverScreen;
+	
 
 	vector<Attack*>ushroomatk;
 	vector<Attack*>lshroomatk;
@@ -120,7 +122,11 @@ protected: //priv but inherited
 	SDL_Rect restartButtonSrc, restartButtonDst;
 	SDL_Rect exitButtonSrc, exitButtonDst;
 	SDL_Rect pausedSrc, pausedDst;
-		
+	SDL_Rect rockuiSrc, rockuiDst;
+
+	SDL_Rect GrockcdDst;
+	SDL_Rect RrockcdDst;
+
 	Player plr1;
 	NPC catDude;
 	Background bg1;

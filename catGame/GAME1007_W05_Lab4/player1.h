@@ -10,7 +10,7 @@ private:
 	unsigned short frameCtr, frameMax, spriteIdx, spriteMin, spriteMax;
 	int damageCD = 100;
 	Mix_Chunk* hurtSfx;
-
+	
 public:
 	int state;
 	SDL_Rect plrFrontIdle, plrMoveLeft, plrMoveRight, plrMoveUp, plrMoveDown, plrDst, plrHpBar;
@@ -28,7 +28,7 @@ public:
 	int getMaxSpd();
 	void takeDamage(double howMuch);
 	void points(double howMuch);
-
+	
 };
 
 

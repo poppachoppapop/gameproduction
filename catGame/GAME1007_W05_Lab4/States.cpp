@@ -166,8 +166,7 @@ void GameState::Enter()
 	DragonFlyTxt = IMG_LoadTexture(Engine::Instance().GetRenderer(), "art/dragonfly.png");
 	vineTexture = IMG_LoadTexture(Engine::Instance().GetRenderer(), "art/vines.png");
 	FrogTxtr = IMG_LoadTexture(Engine::Instance().GetRenderer(), "art/frogWalking7.png");
-
-
+	rockui = IMG_LoadTexture(Engine::Instance().GetRenderer(), "art/rockui.png");
 
 	stepSfx = Mix_LoadWAV("sfx/step.wav");
 	turnSfx = Mix_LoadWAV("sfx/turn.wav");
@@ -204,6 +203,11 @@ void GameState::Enter()
 
 	scoreRect = { 800, 10, 150, 40 };
 	blackRect = { 0 , 0 , 1024 , 768 };
+
+	rockuiSrc = {0,0,64,64};
+	rockuiDst = {-10,650,128,128};
+	RrockcdDst = { 64,730,20,20 };
+	GrockcdDst = { 64,730,20,20 };
 
 	surfaceMessage = TTF_RenderText_Solid(font, message, White);
 	dummyScore = TTF_RenderText_Solid(font, scoreMessage, White);
@@ -758,7 +762,23 @@ void GameState::Render()
 
 	//Background
 	SDL_RenderCopy(Engine::Instance().GetRenderer(),bgTutorial, &bg1.bgSrcTutorial, &bg1.bgDst);
+	//rock ui
+	if (spcooldown > 200)
+	{		
+		SDL_RenderCopy(Engine::Instance().GetRenderer(), rockui, &rockuiSrc, &rockuiDst);
+	}
 	
+	//SDL_SetRenderDrawColor(Engine::Instance().GetRenderer(), 255, 255, 255, 255);
+	//SDL_RenderFillRect(Engine::Instance().GetRenderer(), &RrockcdDst);
+	//SDL_SetRenderDrawColor(Engine::Instance().GetRenderer(), 255, 0, 0, 255);
+	
+	/*if (spcooldown > 200)
+	{
+		SDL_SetRenderDrawColor(Engine::Instance().GetRenderer(), 111, 111, 0, 255);
+		SDL_RenderFillRect(Engine::Instance().GetRenderer(), &GrockcdDst);
+	}*/
+	
+
 	//vines
 	for (unsigned i = 0; i < vine.size(); i++)
 	{
@@ -878,7 +898,7 @@ void GameState::Exit()
 	SDL_DestroyTexture(npcTxtr);
 	SDL_DestroyTexture(DragonFlyTxt);
 	SDL_DestroyTexture(vineTexture);
-
+	SDL_DestroyTexture(rockui);
 
 Mix_FreeChunk(hurtSfx);
 Mix_FreeChunk(powerSfx);
