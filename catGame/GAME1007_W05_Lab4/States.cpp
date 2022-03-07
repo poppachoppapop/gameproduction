@@ -90,17 +90,20 @@ void PauseState::Enter()
 	restartButton = IMG_LoadTexture(Engine::Instance().GetRenderer(), "art/restartButton.png");
 	exitButton = IMG_LoadTexture(Engine::Instance().GetRenderer(), "art/exitButton.png");
 	paused = IMG_LoadTexture(Engine::Instance().GetRenderer(), "art/paused.png");
-	
+	pauseBg = IMG_LoadTexture(Engine::Instance().GetRenderer(), "bgs/pauseBg.png");
+
 
 	resumeButtonSrc = { 0 , 0, 92, 32 };
 	restartButtonSrc = { 0 , 0, 92, 32 };
 	exitButtonSrc = { 0 , 0, 92, 32 };
 	pausedSrc = { 0, 0, 92, 32 };
+	pausedBgSrc = { 0, 0, 128, 128 };
 
 	resumeButtonDst = { 450, 475, 120, 48 };
-	restartButtonDst = {450, 525, 120, 48};
+	restartButtonDst = { 450, 525, 120, 48 };
 	exitButtonDst = { 450, 575, 120, 48 };
 	pausedDst = { 370, 165, 280, 128 };
+	pausedBgDst = { 255, 128, 512, 512 };
 }
 
 void PauseState::Update()
@@ -138,6 +141,7 @@ void PauseState::Render()
 	SDL_Rect rect = { 255,128,512,512 };
 	SDL_RenderFillRect(Engine::Instance().GetRenderer(), &rect);
 	//SDL_RenderCopy(Engine::Instance().GetRenderer(), sleepingMaki, &plr1.plrFrontIdle, &plr1.plrDst);
+	SDL_RenderCopy(Engine::Instance().GetRenderer(), pauseBg, &pausedBgSrc, &pausedBgDst);
 	SDL_RenderCopy(Engine::Instance().GetRenderer(), sleepingMaki, &plr1.plrFrontIdle, &plr1.plrDst);
 	SDL_RenderCopy(Engine::Instance().GetRenderer(), resumeButton, &resumeButtonSrc, &resumeButtonDst);
 	SDL_RenderCopy(Engine::Instance().GetRenderer(), restartButton, &restartButtonSrc, &restartButtonDst);
@@ -1819,25 +1823,58 @@ void Levelone::Resume()
 	Mix_ResumeMusic();
 }
 
-EndState::EndState() {}
+EndState::EndState() :makiFlying({ 0,0,48,74 }), frameCtr(0), frameMax(9), spriteIdx(0), spriteMax(6) {}
 
 void EndState::Enter()
 {
 	cout << "entering endstate\npress R to return to title state" << endl;
 	gameOverScreen = IMG_LoadTexture(Engine::Instance().GetRenderer(), "bgs/gameOverScreen2.png");
 	flyingMaki = IMG_LoadTexture(Engine::Instance().GetRenderer(), "art/makigameover.png");
-	
+	mainMenuButton = IMG_LoadTexture(Engine::Instance().GetRenderer(), "art/mainMenuButton.png");
+	exitButton = IMG_LoadTexture(Engine::Instance().GetRenderer(), "art/exitButton.png");
 
+
+	exitButtonSrc = { 0 , 0, 92, 32 };
+	mainMenuButtonSrc = { 0, 0, 92, 32 };
+
+	exitButtonDst = { 450, 625, 120, 48 };
+	mainMenuButtonDst = { 450, 575, 120, 48 };
+	makiFlyingDst = { 375, 265, 256, 256 };
 }
 
 void EndState::Update()
 {
-	if (Engine::Instance().KeyDown(SDL_SCANCODE_R))
-	{
+	//if (Engine::Instance().KeyDown(SDL_SCANCODE_R))
+	//{
 
-		cout << "changing to endstate" << endl;
+	//	cout << "changing to endstate" << endl;
+	//	STMA::ChangeState(new TitleState());
+	//	return;
+	//}
+	if (SDL_GetMouseState(&g_mousePos.x, &g_mousePos.y) == true && g_mousePos.x > exitButtonDst.x && g_mousePos.x < exitButtonDst.x + exitButtonDst.w
+		&& g_mousePos.y > exitButtonDst.y && g_mousePos.y < exitButtonDst.y + exitButtonDst.h)
+	{
+		Engine::Instance().Running() = false;
+	}
+	if (SDL_GetMouseState(&g_mousePos.x, &g_mousePos.y) == true && g_mousePos.x > mainMenuButtonDst.x && g_mousePos.x < mainMenuButtonDst.x + mainMenuButtonDst.w
+		&& g_mousePos.y > mainMenuButtonDst.y && g_mousePos.y < mainMenuButtonDst.y + mainMenuButtonDst.h)
+	{
 		STMA::ChangeState(new TitleState());
-		return;
+	}
+	if (state == 0)
+	{
+		spriteMax = 6;
+		if (spriteIdx > 6)
+			spriteIdx = 0;
+		if (frameCtr++ == frameMax)
+		{
+			frameCtr = 0;
+			if (++spriteIdx == spriteMax)
+			{
+				spriteIdx = 0;
+			}
+			makiFlying.x = 0 + makiFlying.w * spriteIdx;
+		}
 	}
 
 }
@@ -1848,6 +1885,10 @@ void EndState::Render()
 	// Any drawing here...
 	//Background
 	SDL_RenderCopy(Engine::Instance().GetRenderer(), gameOverScreen, NULL, NULL);
+	SDL_RenderCopy(Engine::Instance().GetRenderer(), exitButton, &exitButtonSrc, &exitButtonDst);
+	SDL_RenderCopy(Engine::Instance().GetRenderer(), mainMenuButton, &mainMenuButtonSrc, &mainMenuButtonDst);
+	SDL_RenderCopy(Engine::Instance().GetRenderer(), flyingMaki, &makiFlying, &makiFlyingDst);
+
 	State::Render();
 
 }
@@ -1856,6 +1897,9 @@ void EndState::Exit()
 {
 	cout << "exiting end state" << endl;
 	SDL_DestroyTexture(gameOverScreen);
+	SDL_DestroyTexture(flyingMaki);
+	SDL_DestroyTexture(mainMenuButton);
+	SDL_DestroyTexture(exitButton);
 }
 
 WState::WState(){}

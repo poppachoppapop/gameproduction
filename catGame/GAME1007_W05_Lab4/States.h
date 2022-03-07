@@ -92,6 +92,8 @@ protected: //priv but inherited
 	SDL_Texture* paused;
 	SDL_Texture* gameOverScreen;
 	SDL_Texture* rockui;
+	SDL_Texture* pauseBg;
+	SDL_Texture* mainMenuButton;
 
 	SDL_Texture* DragonFlyTxt;
 	SDL_Texture* vineTexture;
@@ -122,7 +124,9 @@ protected: //priv but inherited
 	SDL_Rect restartButtonSrc, restartButtonDst;
 	SDL_Rect exitButtonSrc, exitButtonDst;
 	SDL_Rect pausedSrc, pausedDst;
+	SDL_Rect pausedBgSrc, pausedBgDst;
 	SDL_Rect rockuiSrc, rockuiDst;
+	SDL_Rect mainMenuButtonSrc, mainMenuButtonDst;
 
 	SDL_Rect GrockcdDst;
 	SDL_Rect RrockcdDst;
@@ -229,7 +233,10 @@ public:
 };
 class EndState : public State
 {
-
+private:
+	unsigned short frameCtr, frameMax, spriteIdx, spriteMin, spriteMax;
+	SDL_Rect makiFlying, makiFlyingDst;
+	int state;
 public:
 	EndState();
 	virtual void Enter();
