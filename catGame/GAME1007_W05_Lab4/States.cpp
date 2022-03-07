@@ -105,6 +105,7 @@ void PauseState::Enter()
 
 void PauseState::Update()
 {
+	
 	if (EVMA::KeyPressed(SDL_SCANCODE_P))
 		STMA::PopState();
 	//resume button
@@ -967,7 +968,7 @@ void Levelone::Enter()
 	blackRect = { 0 , 0 , 1024 , 768 };
 	//area 1
 	frog.push_back(new Frog(bg1.swamp1Dst.x+ 1400, bg1.swamp1Dst.y + 990, 3));
-	fly.push_back(new DragonFly(bg1.bgDst.x + 750, bg1.bgDst.y + 1640, 2));
+	fly.push_back(new DragonFly(bg1.bgDst.x + 1800, bg1.bgDst.y + 1400, 2));
 	fly.push_back(new DragonFly(bg1.bgDst.x + 750, bg1.bgDst.y + 1440, 2));
 	fly.push_back(new DragonFly(bg1.bgDst.x + 950, bg1.bgDst.y + 1440, 2));
 	vine.push_back(new Vines(bg1.bgDst.x + 1000, bg1.bgDst.y + 1500));
@@ -1014,7 +1015,7 @@ void Levelone::Update()
 			fadeMod == 0;
 		if (plr1.winbar >= 200)
 		{
-			STMA::ChangeState(new WState());
+			STMA::PushState(new WState());
 			return;
 		}
 
@@ -1032,7 +1033,8 @@ void Levelone::Update()
 		//player
 		if (!dashPressed)
 			plr1.plrSpd = plr1.plrMaxSpd;
-		 
+
+
 		 //Dash
 		if (dashCooldown > 100) {
 			if (EVMA::KeyPressed(SDL_SCANCODE_LSHIFT)) {
@@ -1563,6 +1565,11 @@ void Levelone::Render()
 	SDL_RenderCopy(Engine::Instance().GetRenderer(), swamp1a, &bg1.swamp1aSrc, &bg1.swamp1aDst);
 	SDL_RenderCopy(Engine::Instance().GetRenderer(), swamp1b, &bg1.swamp1bSrc, &bg1.swamp1bDst);
 	SDL_RenderCopy(Engine::Instance().GetRenderer(), swamp1bdown, &bg1.swamp1bdownSrc, &bg1.swamp1bdownDst);
+	//vines
+	for (unsigned i = 0; i < vine.size(); i++)
+	{
+		SDL_RenderCopy(Engine::Instance().GetRenderer(), vineTexture, &(vine[i]->vineSrc), &(vine[i]->vineDst));
+	}
 	//rock	
 	for (unsigned i = 0; i < playerpew.size(); i++)
 	{
@@ -1577,11 +1584,7 @@ void Levelone::Render()
 		SDL_RenderFillRect(Engine::Instance().GetRenderer(), &item1[i]->item);
 	}
 	
-	//vines
-	for (unsigned i = 0; i < vine.size(); i++)
-	{
-		SDL_RenderCopy(Engine::Instance().GetRenderer(), vineTexture, &(vine[i]->vineSrc), &(vine[i]->vineDst));
-	}
+	
 
 	//frog
 	for(unsigned i =0; i <frog.size(); i++)
@@ -1734,6 +1737,13 @@ void Levelone::Exit()
 		delete dshroomatk[i];
 		dshroomatk[i] = nullptr;
 	}
+	for (unsigned i = 0; i < vine.size();i++)
+	{
+		delete vine[i];
+		vine[i] = nullptr;
+	}
+	vine.clear();
+	vine.shrink_to_fit();	
 	shroom.clear();
 	shroom.shrink_to_fit();
 	ushroomatk.clear();
@@ -1789,6 +1799,8 @@ void EndState::Enter()
 	cout << "entering endstate\npress R to return to title state" << endl;
 	gameOverScreen = IMG_LoadTexture(Engine::Instance().GetRenderer(), "bgs/gameOverScreen2.png");
 	flyingMaki = IMG_LoadTexture(Engine::Instance().GetRenderer(), "art/makigameover.png");
+	
+
 }
 
 void EndState::Update()
@@ -1823,38 +1835,42 @@ WState::WState(){}
 
 void WState::Enter()
 {
-	cout << "enter winstate" << endl;
-	// = Mix_LoadMUS("aud/.mp3");//gametheme
-	// = IMG_LoadTexture(Engine::Instance().GetRenderer(), "bgs/.png");
-	//bgSrc = { 0,0,1024,768 };
-	//Mix_PlayMusic(Titletheme, -1);
-	//Mix_VolumeMusic(24); //0-128
+	cout << "enter winstate" << endl;	
+	alphaW = IMG_LoadTexture(Engine::Instance().GetRenderer(), "art/WinStateBg.png");
+	wSrc = { 0,0,256,198 };
+	wDst = { 0,0,512,512 };
 }
 
 void WState::Update()
 {
-	/*if (Engine::Instance().KeyDown(SDL_SCANCODE_N))
+	if (EVMA::KeyPressed(SDL_SCANCODE_RETURN))
 	{
-
-		cout << "changing to titlestate" << endl;
-		STMA::ChangeState(new TitleState());
+		STMA::ChangeState(new TitleState);
 		return;
-	}*/
+	}
+		
+	
 }
 
 void WState::Render()
 {
-	//SDL_RenderClear(Engine::Instance().GetRenderer());
-	//SDL_RenderCopy(Engine::Instance().GetRenderer(), Title, NULL, NULL);
-	//if (dynamic_cast<TitleState*>(STMA::GetStates().back()))//if current state is gamestate
-	//	State::Render();
+	//1st render the gamestate
+	STMA::GetStates().front()->Render();
+	//now render the rest of pausestate
+	//SDL_SetRenderDrawBlendMode(Engine::Instance().GetRenderer(), SDL_BLENDMODE_BLEND);
+	//SDL_SetRenderDrawColor(Engine::Instance().GetRenderer(), 255, 181, 222, 255);
+	SDL_Rect rect = { 255,128,512,400 };
+	SDL_RenderFillRect(Engine::Instance().GetRenderer(), &rect);
+	SDL_RenderCopy(Engine::Instance().GetRenderer(), alphaW, &wSrc, &rect);
+	
+	State::Render();
 }
 
 void WState::Exit()
 {
-	//cout << "exiting titlestate" << endl;
+	cout << "exiting wstate" << endl;
 	//Mix_FreeMusic(Titletheme);
-	//SDL_DestroyTexture(Title);
+	SDL_DestroyTexture(alphaW);
 }
 
 	

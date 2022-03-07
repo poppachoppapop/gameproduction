@@ -239,6 +239,9 @@ class WState : public State
 {
 
 public:
+	SDL_Texture* alphaW;
+	SDL_Rect wSrc,wDst;
+
 	WState();
 	virtual void Enter();
 	virtual void Update();
