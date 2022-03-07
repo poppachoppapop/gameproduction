@@ -92,9 +92,6 @@
     <ClInclude Include="Tile.h">
       <Filter>Source Files\tile stuff</Filter>
     </ClInclude>
-    <ClInclude Include="GameObject.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Media Include="Aud\TitleTheme.mp3">

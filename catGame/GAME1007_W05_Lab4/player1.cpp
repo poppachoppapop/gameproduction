@@ -119,7 +119,7 @@ int Player::getMaxSpd()
 
 void Player::takeDamage(double howMuch)
 { 
-	if (damageCD > 40) 
+	if (damageCD > 30) 
 	{
 		plrHp -= howMuch;
 		damageCD = 0;

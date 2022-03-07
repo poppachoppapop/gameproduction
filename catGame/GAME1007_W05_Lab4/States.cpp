@@ -942,6 +942,8 @@ void Levelone::Enter()
 	vineTexture = IMG_LoadTexture(Engine::Instance().GetRenderer(), "art/vines.png");
 	FrogTxtr = IMG_LoadTexture(Engine::Instance().GetRenderer(), "art/frogWalking7.png");
 	ShroomTxtr = IMG_LoadTexture(Engine::Instance().GetRenderer(), "art/mushroom.png");
+	rockui = IMG_LoadTexture(Engine::Instance().GetRenderer(), "art/rockui.png");
+
 	stepSfx = Mix_LoadWAV("sfx/step.wav");
 	turnSfx = Mix_LoadWAV("sfx/turn.wav");
 	deathSfx = Mix_LoadWAV("sfx/dedEnemy.wav");
@@ -961,19 +963,54 @@ void Levelone::Enter()
 	playerpew.reserve(4);
 
 	blackRect = { 0 , 0 , 1024 , 768 };
-	
+	//area 1
+	frog.push_back(new Frog(bg1.swamp1Dst.x+ 1400, bg1.swamp1Dst.y + 990, 3));
+	fly.push_back(new DragonFly(bg1.bgDst.x + 750, bg1.bgDst.y + 1640, 2));
+	fly.push_back(new DragonFly(bg1.bgDst.x + 750, bg1.bgDst.y + 1440, 2));
+	fly.push_back(new DragonFly(bg1.bgDst.x + 950, bg1.bgDst.y + 1440, 2));
+	vine.push_back(new Vines(bg1.bgDst.x + 1000, bg1.bgDst.y + 1500));
+	shroom.push_back(new Shroom(bg1.swamp1Dst.x + 900, bg1.swamp1Dst.y + 450, 2));	
+	fly.push_back(new DragonFly(bg1.bgDst.x + 750, bg1.bgDst.y + 2340, 2));
+	fly.push_back(new DragonFly(bg1.bgDst.x + 950, bg1.bgDst.y + 2300, 2));
+	//2
+	frog.push_back(new Frog(bg1.swamp1Dst.x -1600, bg1.swamp1Dst.y + 1100, 3));
+	fly.push_back(new DragonFly(bg1.bgDst.x - 1900, bg1.bgDst.y + 1900, 2));
+	fly.push_back(new DragonFly(bg1.bgDst.x - 1700, bg1.bgDst.y + 1800, 2));
+	fly.push_back(new DragonFly(bg1.bgDst.x - 1900, bg1.bgDst.y + 1500, 2));
+	fly.push_back(new DragonFly(bg1.bgDst.x - 1700, bg1.bgDst.y + 1400, 2));
+	shroom.push_back(new Shroom(bg1.swamp1Dst.x -1700, bg1.swamp1Dst.y + 770, 2));
+	//3
+	fly.push_back(new DragonFly(bg1.bgDst.x - 2200, bg1.bgDst.y + 1900, 2));
+	frog.push_back(new Frog(bg1.swamp1Dst.x - 2200, bg1.swamp1Dst.y + 600, 3));
+	frog.push_back(new Frog(bg1.swamp1Dst.x - 3300, bg1.swamp1Dst.y + 1100, 3));
+	frog.push_back(new Frog(bg1.swamp1Dst.x - 3300, bg1.swamp1Dst.y + 700, 4));
+	shroom.push_back(new Shroom(bg1.swamp1Dst.x - 3300, bg1.swamp1Dst.y + 600, 2));
+	shroom.push_back(new Shroom(bg1.swamp1Dst.x - 2900, bg1.swamp1Dst.y + 800, 2));
 }
 
 
 
 void Levelone::Update()
 {
+
+	bg1.swamp1Dst.x -= speedx;
+	bg1.swamp1Dst.y -= speedy;
+
+	bg1.swamp1aDst.x -= speedx;
+	bg1.swamp1aDst.y -= speedy;
+
+	bg1.swamp1bDst.x -= speedx;
+	bg1.swamp1bDst.y -= speedy;
+
+	bg1.swamp1bdownDst.x -= speedx;
+	bg1.swamp1bdownDst.y -= speedy;
+
 	if (!lvlLoading) {
 		if (!(fadeMod == 0))
 			fadeMod -= fadeSpeed;
 		if (fadeMod == 0)
 			fadeMod == 0;
-		if (plr1.winbar >= 50)
+		if (plr1.winbar >= 200)
 		{
 			STMA::ChangeState(new WState());
 			return;
@@ -985,8 +1022,8 @@ void Levelone::Update()
 			STMA::ChangeState(new EndState());
 			return;
 		}
-		//cout <<"noobtimer"<< Noobtimer++ <<" | "<<ezModeCD++ << "ezmodecd<-" << endl;
-		//cout << "freezetimer" << freezetimer++ << " | " << freezeCD++ << "freezecd<-" << endl;
+		cout <<"noobtimer"<< Noobtimer++ <<" | "<<ezModeCD++ << "ezmodecd<-";
+	     cout << "freezetimer" << freezetimer++ << " | " << freezeCD++ << "freezecd<-" << endl;
 		//cout << plr1.plrDst.x - bg1.swamp1Dst.x << " - " << plr1.plrDst.y - bg1.swamp1Dst.y << endl;
 		 // cout << plr1.plrDst.x << " , " << plr1.plrDst.y  << endl;
 		
@@ -1006,7 +1043,9 @@ void Levelone::Update()
 		dashTimer++;
 		if (dashPressed) {
 			plr1.plrSpd = plr1.plrDsh;
-			if (dashTimer > 10) {
+			if (dashTimer > 10) 
+			{
+				Mix_PlayChannel(-1, dashing, 0);
 				dashPressed = false;
 				dashTimer = 0;
 				dashCooldown = 0;
@@ -1014,6 +1053,47 @@ void Levelone::Update()
 				cout << tempSpeed << endl;
 			}
 
+		}
+		//ezModeCD++;
+		if (ezModeCD > 800)
+		{
+			if (EVMA::KeyPressed(SDL_SCANCODE_E))
+			{
+				isEzModeActive = true;
+				Noobtimer = 0;
+				ezModeCD = 0;
+			}
+		}
+		Noobtimer++;
+		if (isEzModeActive)
+		{
+			if (Noobtimer > 500)
+			{
+				isEzModeActive = false;
+				Noobtimer = 0;
+				ezModeCD = 0;
+			}
+		}
+
+		//freeze
+		if (freezeCD > 800)
+		{
+			if (EVMA::KeyPressed(SDL_SCANCODE_F))
+			{
+				isfreezeActive = true;
+				freezetimer = 0;
+				freezeCD = 0;
+			}
+		}
+		freezetimer++;
+		if (isfreezeActive)
+		{
+			if (freezetimer > 200)
+			{
+				isfreezeActive = false;
+				freezetimer = 0;
+				freezeCD = 0;
+			}
 		}
 		if (EVMA::KeyPressed(SDL_SCANCODE_P))
 		{
@@ -1207,13 +1287,18 @@ void Levelone::Update()
 		}
 		if (!EVMA::KeyHeld(SDL_SCANCODE_W) && !EVMA::KeyHeld(SDL_SCANCODE_S) && !EVMA::KeyHeld(SDL_SCANCODE_D) && !EVMA::KeyHeld(SDL_SCANCODE_A)) {
 			plr1.state = 0;
-		}		
-		/*for (unsigned i = 0; i < shroom.size(); i++)
+		}	
+		for (unsigned i = 0; i < fly.size(); i++)
+		{
+			fly[i]->flyDst.x -= speedx;
+			fly[i]->flyDst.y -= speedy;
+		}
+		for (unsigned i = 0; i < shroom.size(); i++)
 		{
 			shroom[i]->shroomDst.x -= speedx;
 			shroom[i]->shroomDst.y -= speedy;
-		}*/
-		/*for (unsigned i = 0; i < ushroomatk.size(); i++)
+		}
+		for (unsigned i = 0; i < ushroomatk.size(); i++)
 		{
 			ushroomatk[i]->ushroomAtkDst.x -= speedx;
 			ushroomatk[i]->ushroomAtkDst.y -= speedy;
@@ -1233,11 +1318,15 @@ void Levelone::Update()
 		{
 			dshroomatk[i]->dshroomAtkDst.x -= speedx;
 			dshroomatk[i]->dshroomAtkDst.y -= speedy;
-		}*/
+		}
 
 		//frog
-		for (unsigned i = 0; i < frog.size(); i++) {
-			frog[i]->Update(plr1.plrDst);
+		for (unsigned i = 0; i < frog.size(); i++)
+		{
+			if (isfreezeActive == false) 
+			{
+				frog[i]->Update(plr1.plrDst);
+			}
 			if (!wallHitx)
 				frog[i]->frogDst.x -= speedx;
 			if (!wallHity)
@@ -1468,8 +1557,10 @@ void Levelone::Render()
 	SDL_SetRenderDrawBlendMode(Engine::Instance().GetRenderer(), SDL_BLENDMODE_BLEND);
 
 	//Background
-	//SDL_RenderCopy(Engine::Instance().GetRenderer(), swamp1,&bg.swamp1Src,&bg.swamp1Dst);
-	
+	SDL_RenderCopy(Engine::Instance().GetRenderer(), swamp1,&bg1.swamp1Src,&bg1.swamp1Dst);
+	SDL_RenderCopy(Engine::Instance().GetRenderer(), swamp1a, &bg1.swamp1aSrc, &bg1.swamp1aDst);
+	SDL_RenderCopy(Engine::Instance().GetRenderer(), swamp1b, &bg1.swamp1bSrc, &bg1.swamp1bDst);
+	SDL_RenderCopy(Engine::Instance().GetRenderer(), swamp1bdown, &bg1.swamp1bdownSrc, &bg1.swamp1bdownDst);
 	//rock	
 	for (unsigned i = 0; i < playerpew.size(); i++)
 	{
@@ -1561,7 +1652,10 @@ void Levelone::Render()
 	SDL_SetRenderDrawColor(Engine::Instance().GetRenderer(), 255, 0, 0, 255);
 	SDL_RenderFillRect(Engine::Instance().GetRenderer(), &plr1.plrHpBar);
 
-
+	if (spcooldown > 200)
+	{
+		SDL_RenderCopy(Engine::Instance().GetRenderer(), rockui, &rockuiSrc, &rockuiDst);
+	}
 	SDL_SetRenderDrawColor(Engine::Instance().GetRenderer(), 0, 0, 0, fadeMod);
 	SDL_RenderFillRect(Engine::Instance().GetRenderer(), &blackRect);
 

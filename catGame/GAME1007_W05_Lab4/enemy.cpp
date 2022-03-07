@@ -173,7 +173,7 @@ Frog::Frog(int x, int y, int h) :frogSrc({ 0,0,32,32 }), frameCtr(0), frameMax(4
 	health = h;
 	maxHealth = h;
 	state = 0;	
-	speed = 2;
+	speed = 3;
 }
 	
 
