@@ -962,6 +962,8 @@ void Levelone::Enter()
 	Mix_Volume(-1, 50);
 	playerpew.reserve(4);
 
+	rockuiSrc = { 0,0,64,64 };
+	rockuiDst = { -10,650,128,128 };
 	blackRect = { 0 , 0 , 1024 , 768 };
 	//area 1
 	frog.push_back(new Frog(bg1.swamp1Dst.x+ 1400, bg1.swamp1Dst.y + 990, 3));
