@@ -163,7 +163,7 @@ void GameState::Enter()
 	rockTxtr = IMG_LoadTexture(Engine::Instance().GetRenderer(), "art/Rocko100.png");
 	dumbieTxtr = IMG_LoadTexture(Engine::Instance().GetRenderer(), "art/Dumbie.png");
 	bgTutorial = IMG_LoadTexture(Engine::Instance().GetRenderer(), "bgs/tutorial.png");
-	npcTxtr = IMG_LoadTexture(Engine::Instance().GetRenderer(), "art/catDude.png");
+	npcTxtr = IMG_LoadTexture(Engine::Instance().GetRenderer(), "art/wizzySprite.png");
 	DragonFlyTxt = IMG_LoadTexture(Engine::Instance().GetRenderer(), "art/dragonfly.png");
 	vineTexture = IMG_LoadTexture(Engine::Instance().GetRenderer(), "art/vines.png");
 	FrogTxtr = IMG_LoadTexture(Engine::Instance().GetRenderer(), "art/frogWalking7.png");
@@ -800,7 +800,7 @@ void GameState::Render()
 	SDL_SetRenderDrawColor(Engine::Instance().GetRenderer(), 255, 0, 0, 255);
 	SDL_RenderFillRect(Engine::Instance().GetRenderer(), &plr1.plrHpBar);
 
-	
+
 	//NPC
 	SDL_RenderCopyEx(Engine::Instance().GetRenderer(), npcTxtr, &catDude.npcSrc, &catDude.npcDst, NULL, NULL, SDL_FLIP_HORIZONTAL);
 
@@ -929,6 +929,8 @@ void GameState::Resume()
 
 Levelone::Levelone() {}
 
+
+
 void Levelone::Enter()
 {
 	cout << "entering lv1" << endl;
@@ -944,8 +946,10 @@ void Levelone::Enter()
 	FrogTxtr = IMG_LoadTexture(Engine::Instance().GetRenderer(), "art/frogWalking7.png");
 	ShroomTxtr = IMG_LoadTexture(Engine::Instance().GetRenderer(), "art/mushroom.png");
 	rockui = IMG_LoadTexture(Engine::Instance().GetRenderer(), "art/rockui.png");
+	npcTxtr = IMG_LoadTexture(Engine::Instance().GetRenderer(), "art/wizzySprite.png");
 
 	stepSfx = Mix_LoadWAV("sfx/step.wav");
+	story = Mix_LoadWAV("Aud/dontopen.mp3");
 	turnSfx = Mix_LoadWAV("sfx/turn.wav");
 	deathSfx = Mix_LoadWAV("sfx/dedEnemy.wav");
 	hurtSfx = Mix_LoadWAV("sfx/enemyHurt.wav");
@@ -965,7 +969,8 @@ void Levelone::Enter()
 
 	rockuiSrc = { 0,0,64,64 };
 	rockuiDst = { -10,650,128,128 };
-	blackRect = { 0 , 0 , 1024 , 768 };
+	
+	
 	//area 1
 	frog.push_back(new Frog(bg1.swamp1Dst.x+ 1400, bg1.swamp1Dst.y + 990, 3));
 	fly.push_back(new DragonFly(bg1.bgDst.x + 1800, bg1.bgDst.y + 1400, 2));
@@ -989,566 +994,582 @@ void Levelone::Enter()
 	frog.push_back(new Frog(bg1.swamp1Dst.x - 3300, bg1.swamp1Dst.y + 700, 4));
 	shroom.push_back(new Shroom(bg1.swamp1Dst.x - 3300, bg1.swamp1Dst.y + 600, 2));
 	shroom.push_back(new Shroom(bg1.swamp1Dst.x - 2900, bg1.swamp1Dst.y + 800, 2));
+	catDude.npcDst.x = bg1.swamp1Dst.x + -500;
+	catDude.npcDst.y = bg1.swamp1Dst.y + 200;
+
 }
 
 
 
 void Levelone::Update()
 {
+	catDude.npcDst.x -= speedx;
+	catDude.npcDst.y -= speedy;
 
-	bg1.swamp1Dst.x -= speedx;
-	bg1.swamp1Dst.y -= speedy;
-
-	bg1.swamp1aDst.x -= speedx;
-	bg1.swamp1aDst.y -= speedy;
-
-	bg1.swamp1bDst.x -= speedx;
-	bg1.swamp1bDst.y -= speedy;
-
-	bg1.swamp1bdownDst.x -= speedx;
-	bg1.swamp1bdownDst.y -= speedy;
-
-	if (!lvlLoading) {
-		if (!(fadeMod == 0))
-			fadeMod -= fadeSpeed;
-		if (fadeMod == 0)
-			fadeMod == 0;
-		if (plr1.winbar >= 200)
+	if (SDL_HasIntersection(&plr1.plrDst, &catDude.npcDst))
+	{
+		if (EVMA::KeyPressed(SDL_SCANCODE_E))
 		{
-			STMA::PushState(new WState());
-			return;
+			Mix_PlayChannel(-1, story, 0);
+
 		}
+	}
 
 
-		if (plr1.plrHp <= 0)
-		{
-			STMA::ChangeState(new EndState());
-			return;
-		}
-		cout <<"noobtimer"<< Noobtimer++ <<" | "<<ezModeCD++ << "ezmodecd<-";
-	     cout << "freezetimer" << freezetimer++ << " | " << freezeCD++ << "freezecd<-" << endl;
-		//cout << plr1.plrDst.x - bg1.swamp1Dst.x << " - " << plr1.plrDst.y - bg1.swamp1Dst.y << endl;
-		 // cout << plr1.plrDst.x << " , " << plr1.plrDst.y  << endl;
-		
-		//player
-		if (!dashPressed)
-			plr1.plrSpd = plr1.plrMaxSpd;
+		bg1.swamp1Dst.x -= speedx;
+		bg1.swamp1Dst.y -= speedy;
 
+		bg1.swamp1aDst.x -= speedx;
+		bg1.swamp1aDst.y -= speedy;
 
-		 //Dash
-		if (dashCooldown > 100) {
-			if (EVMA::KeyPressed(SDL_SCANCODE_LSHIFT)) {
-				Mix_PlayChannel(-1, dashMeow, 0);
-				dashPressed = true;
-				dashTimer = 0;
-				dashCooldown = 0;
-			}
-		}
-		dashTimer++;
-		if (dashPressed) {
-			plr1.plrSpd = plr1.plrDsh;
-			if (dashTimer > 10) 
+		bg1.swamp1bDst.x -= speedx;
+		bg1.swamp1bDst.y -= speedy;
+
+		bg1.swamp1bdownDst.x -= speedx;
+		bg1.swamp1bdownDst.y -= speedy;
+
+		if (!lvlLoading) {
+			if (!(fadeMod == 0))
+				fadeMod -= fadeSpeed;
+			if (fadeMod == 0)
+				fadeMod == 0;
+			if (plr1.winbar >= 200)
 			{
-				Mix_PlayChannel(-1, dashing, 0);
-				dashPressed = false;
-				dashTimer = 0;
-				dashCooldown = 0;
-				plr1.plrSpd = 5;
-				cout << tempSpeed << endl;
+				STMA::PushState(new WState());
+				return;
 			}
 
-		}
-		//ezModeCD++;
-		if (ezModeCD > 800)
-		{
-			if (EVMA::KeyPressed(SDL_SCANCODE_E))
+
+			if (plr1.plrHp <= 0)
 			{
-				isEzModeActive = true;
-				Noobtimer = 0;
-				ezModeCD = 0;
+				STMA::ChangeState(new EndState());
+				return;
 			}
-		}
-		Noobtimer++;
-		if (isEzModeActive)
-		{
-			if (Noobtimer > 500)
-			{
-				isEzModeActive = false;
-				Noobtimer = 0;
-				ezModeCD = 0;
+			cout << "noobtimer" << Noobtimer++ << " | " << ezModeCD++ << "ezmodecd<-";
+			cout << "freezetimer" << freezetimer++ << " | " << freezeCD++ << "freezecd<-" << endl;
+			//cout << plr1.plrDst.x - bg1.swamp1Dst.x << " - " << plr1.plrDst.y - bg1.swamp1Dst.y << endl;
+			 // cout << plr1.plrDst.x << " , " << plr1.plrDst.y  << endl;
+
+			//player
+			if (!dashPressed)
+				plr1.plrSpd = plr1.plrMaxSpd;
+
+
+			//Dash
+			if (dashCooldown > 100) {
+				if (EVMA::KeyPressed(SDL_SCANCODE_LSHIFT)) {
+					Mix_PlayChannel(-1, dashMeow, 0);
+					dashPressed = true;
+					dashTimer = 0;
+					dashCooldown = 0;
+				}
 			}
-		}
-
-		//freeze
-		if (freezeCD > 800)
-		{
-			if (EVMA::KeyPressed(SDL_SCANCODE_F))
-			{
-				isfreezeActive = true;
-				freezetimer = 0;
-				freezeCD = 0;
-			}
-		}
-		freezetimer++;
-		if (isfreezeActive)
-		{
-			if (freezetimer > 200)
-			{
-				isfreezeActive = false;
-				freezetimer = 0;
-				freezeCD = 0;
-			}
-		}
-		if (EVMA::KeyPressed(SDL_SCANCODE_P))
-		{
-			cout << "Changing to PauseState" << endl;
-			//pause the music track
-			STMA::PushState(new PauseState());
-			Mix_PauseMusic();
-		}
-
-		stepSoundTimer++; turnSoundTimer++;
-		dashCooldown++;
-		plr1.Update();
-		rockCooldown++;
-		spcooldown++;
-
-		if (Engine::Instance().KeyDown(SDL_SCANCODE_R))
-		{
-
-			cout << "changing to gamestate" << endl;
-			STMA::ChangeState(new TitleState());
-			return;
-		}
-		if (EVMA::KeyHeld(SDL_SCANCODE_W))
-		{
-			if (!Mix_Playing(7))
-			{
-				Mix_PlayChannel(7, stepSfx, -1);
-			}
-		}
-		if (EVMA::KeyHeld(SDL_SCANCODE_A))
-		{
-			if (!Mix_Playing(7))
-			{
-				Mix_PlayChannel(7, stepSfx, -1);
-			}
-		}
-		if (EVMA::KeyHeld(SDL_SCANCODE_S))
-		{
-			if (!Mix_Playing(7))
-			{
-				Mix_PlayChannel(7, stepSfx, -1);
-			}
-		}
-		if (EVMA::KeyHeld(SDL_SCANCODE_D))
-		{
-			if (!Mix_Playing(7))
-			{
-				Mix_PlayChannel(7, stepSfx, -1);
-			}
-		}
-
-		//HALT!
-		if (EVMA::KeyReleased(SDL_SCANCODE_S)) {
-			Mix_HaltChannel(7);
-		}
-
-		if (EVMA::KeyReleased(SDL_SCANCODE_W)) {
-			Mix_HaltChannel(7);
-		}
-
-		if (EVMA::KeyReleased(SDL_SCANCODE_A)) {
-			Mix_HaltChannel(7);
-		}
-
-		if (EVMA::KeyReleased(SDL_SCANCODE_D)) {
-			Mix_HaltChannel(7);
-		}
-
-
-		//For special Ability1
-		if (EVMA::KeyPressed(SDL_SCANCODE_SPACE))
-		{
-			if (spcooldown > 200)
-			{
-				Mix_PlayChannel(-1, aoeSound, 0);
-				spcooldown = 0;
-				playerpew.push_back(new Rock(plr1.plrDst.x + 10, plr1.plrDst.y + 30, 10, 'y'));
-				playerpew.push_back(new Rock(plr1.plrDst.x + 10, plr1.plrDst.y + 30, 10 * -1, 'y'));
-				playerpew.push_back(new Rock(plr1.plrDst.x + 10, plr1.plrDst.y + 30, 10, 'x'));
-				playerpew.push_back(new Rock(plr1.plrDst.x + 10, plr1.plrDst.y + 30, 10 * -1, 'x'));
-				playerpew.shrink_to_fit();
-			}
-		}
-
-		//For throwing Rock
-		if (EVMA::KeyPressed(SDL_SCANCODE_UP))
-		{
-			if (rockCooldown > 50) {
-				Mix_PlayChannel(-1, projectileRock, 0);
-				rockCooldown = 0;
-				playerpew.push_back(new Rock(plr1.plrDst.x + 10, plr1.plrDst.y + 30, rockSpeed * -1, 'y'));
-				playerpew.shrink_to_fit();
-			}
-		}
-		else if (EVMA::KeyPressed(SDL_SCANCODE_DOWN))
-		{
-
-			if (rockCooldown > 50) {
-				Mix_PlayChannel(-1, projectileRock, 0);
-				rockCooldown = 0;
-				playerpew.push_back(new Rock(plr1.plrDst.x + 10, plr1.plrDst.y + 30, rockSpeed, 'y'));
-				playerpew.shrink_to_fit();
-			}
-		}
-		else if (EVMA::KeyPressed(SDL_SCANCODE_LEFT))
-		{
-
-			if (rockCooldown > 50) {
-				Mix_PlayChannel(-1, projectileRock, 0);
-				rockCooldown = 0;
-				playerpew.push_back(new Rock(plr1.plrDst.x + 10, plr1.plrDst.y + 30, rockSpeed * -1, 'x'));
-				playerpew.shrink_to_fit();
-			}
-		}
-		else if (EVMA::KeyPressed(SDL_SCANCODE_RIGHT))
-		{
-
-			if (rockCooldown > 50) {
-				Mix_PlayChannel(-1, projectileRock, 0);
-				rockCooldown = 0;
-				playerpew.push_back(new Rock(plr1.plrDst.x + 10, plr1.plrDst.y + 30, rockSpeed, 'x'));
-				playerpew.shrink_to_fit();
-			}
-		}
-		//delete rock after off screen and move rock
-		for (unsigned i = 0; i < playerpew.size(); i++)
-		{
-			playerpew[i]->Update();
-			playerpew[i]->rockDst.x -= speedx;
-			playerpew[i]->rockDst.y -= speedy;
-
-			if (playerpew[i]->rockDst.x >= WIDTH || playerpew[i]->rockDst.x <= -64 || playerpew[i]->rockDst.y >= HEIGHT || playerpew[i]->rockDst.y <= -64)
-			{
-				delete playerpew[i];
-				playerpew[i] = nullptr;
-				playerpew.erase(playerpew.begin() + i);
-				playerpew.shrink_to_fit();
-				break;
-			}
-		}
-		if (speedx > plr1.plrSpd)
-			speedx = plr1.plrSpd;
-		if (speedy > plr1.plrSpd)
-			speedy = plr1.plrSpd;
-		if (speedy * -1 > plr1.plrSpd)
-			speedy = plr1.plrSpd * -1;
-		if (speedx * -1 > plr1.plrSpd)
-			speedx = plr1.plrSpd * -1;
-		//YAXIS
-
-		if (EVMA::KeyHeld(SDL_SCANCODE_S)) {
-
-			speedy += speedAcc;
-			plr1.state = 1;
-
-		}
-
-		if (EVMA::KeyHeld(SDL_SCANCODE_W)) {
-
-			speedy -= speedAcc;
-			plr1.state = 2;
-		}
-
-		//XAXIS
-		if (EVMA::KeyHeld(SDL_SCANCODE_A)) {
-			speedx -= speedAcc;
-			plr1.state = 3;
-		}
-
-		if (EVMA::KeyHeld(SDL_SCANCODE_D)) {
-			speedx += speedAcc;
-			plr1.state = 4;
-		}
-
-
-
-		//Slow Down!
-		if (!EVMA::KeyHeld(SDL_SCANCODE_D) && !EVMA::KeyHeld(SDL_SCANCODE_A)) {
-			if (speedx > 0)
-				speedx--;
-			else if (speedx < 0) {
-				speedx++;
-			}
-		}
-		if (!EVMA::KeyHeld(SDL_SCANCODE_W) && !EVMA::KeyHeld(SDL_SCANCODE_S)) {
-			if (speedy > 0)
-				speedy--;
-			else if (speedy < 0) {
-				speedy++;
-			}
-		}
-		if (!EVMA::KeyHeld(SDL_SCANCODE_W) && !EVMA::KeyHeld(SDL_SCANCODE_S) && !EVMA::KeyHeld(SDL_SCANCODE_D) && !EVMA::KeyHeld(SDL_SCANCODE_A)) {
-			plr1.state = 0;
-		}	
-		for (unsigned i = 0; i < fly.size(); i++)
-		{
-			fly[i]->flyDst.x -= speedx;
-			fly[i]->flyDst.y -= speedy;
-		}
-		for (unsigned i = 0; i < shroom.size(); i++)
-		{
-			shroom[i]->shroomDst.x -= speedx;
-			shroom[i]->shroomDst.y -= speedy;
-		}
-		for (unsigned i = 0; i < ushroomatk.size(); i++)
-		{
-			ushroomatk[i]->ushroomAtkDst.x -= speedx;
-			ushroomatk[i]->ushroomAtkDst.y -= speedy;
-
-		}
-		for (unsigned i = 0; i < lshroomatk.size(); i++)
-		{
-			lshroomatk[i]->lshroomAtkDst.x -= speedx;
-			lshroomatk[i]->lshroomAtkDst.y -= speedy;
-		}
-		for (unsigned i = 0; i < rshroomatk.size(); i++)
-		{
-			rshroomatk[i]->rshroomAtkDst.x -= speedx;
-			rshroomatk[i]->rshroomAtkDst.y -= speedy;
-		}
-		for (unsigned i = 0; i < dshroomatk.size(); i++)
-		{
-			dshroomatk[i]->dshroomAtkDst.x -= speedx;
-			dshroomatk[i]->dshroomAtkDst.y -= speedy;
-		}
-
-		//frog
-		for (unsigned i = 0; i < frog.size(); i++)
-		{
-			if (isfreezeActive == false) 
-			{
-				frog[i]->Update(plr1.plrDst);
-			}
-			if (!wallHitx)
-				frog[i]->frogDst.x -= speedx;
-			if (!wallHity)
-				frog[i]->frogDst.y -= speedy;
-			for (unsigned j = 0; j < playerpew.size(); j++)
-			{
-				if (SDL_HasIntersection(&playerpew[j]->rockDst, &frog[i]->frogDst)) //AABB Check
+			dashTimer++;
+			if (dashPressed) {
+				plr1.plrSpd = plr1.plrDsh;
+				if (dashTimer > 10)
 				{
-					Mix_PlayChannel(-1, hurtSfx, 0);
-					delete playerpew[j];
-					playerpew[j] = nullptr;
-					playerpew.erase(playerpew.begin() + j);
+					Mix_PlayChannel(-1, dashing, 0);
+					dashPressed = false;
+					dashTimer = 0;
+					dashCooldown = 0;
+					plr1.plrSpd = 5;
+					cout << tempSpeed << endl;
+				}
+
+			}
+			//ezModeCD++;
+			if (ezModeCD > 800)
+			{
+				if (EVMA::KeyPressed(SDL_SCANCODE_E))
+				{
+					isEzModeActive = true;
+					Noobtimer = 0;
+					ezModeCD = 0;
+				}
+			}
+			Noobtimer++;
+			if (isEzModeActive)
+			{
+				if (Noobtimer > 500)
+				{
+					isEzModeActive = false;
+					Noobtimer = 0;
+					ezModeCD = 0;
+				}
+			}
+
+			//freeze
+			if (freezeCD > 800)
+			{
+				if (EVMA::KeyPressed(SDL_SCANCODE_F))
+				{
+					isfreezeActive = true;
+					freezetimer = 0;
+					freezeCD = 0;
+				}
+			}
+			freezetimer++;
+			if (isfreezeActive)
+			{
+				if (freezetimer > 200)
+				{
+					isfreezeActive = false;
+					freezetimer = 0;
+					freezeCD = 0;
+				}
+			}
+			if (EVMA::KeyPressed(SDL_SCANCODE_P))
+			{
+				cout << "Changing to PauseState" << endl;
+				//pause the music track
+				STMA::PushState(new PauseState());
+				Mix_PauseMusic();
+			}
+
+			stepSoundTimer++; turnSoundTimer++;
+			dashCooldown++;
+			plr1.Update();
+			rockCooldown++;
+			spcooldown++;
+
+			if (Engine::Instance().KeyDown(SDL_SCANCODE_R))
+			{
+
+				cout << "changing to gamestate" << endl;
+				STMA::ChangeState(new TitleState());
+				return;
+			}
+			if (EVMA::KeyHeld(SDL_SCANCODE_W))
+			{
+				if (!Mix_Playing(7))
+				{
+					Mix_PlayChannel(7, stepSfx, -1);
+				}
+			}
+			if (EVMA::KeyHeld(SDL_SCANCODE_A))
+			{
+				if (!Mix_Playing(7))
+				{
+					Mix_PlayChannel(7, stepSfx, -1);
+				}
+			}
+			if (EVMA::KeyHeld(SDL_SCANCODE_S))
+			{
+				if (!Mix_Playing(7))
+				{
+					Mix_PlayChannel(7, stepSfx, -1);
+				}
+			}
+			if (EVMA::KeyHeld(SDL_SCANCODE_D))
+			{
+				if (!Mix_Playing(7))
+				{
+					Mix_PlayChannel(7, stepSfx, -1);
+				}
+			}
+
+			//HALT!
+			if (EVMA::KeyReleased(SDL_SCANCODE_S)) {
+				Mix_HaltChannel(7);
+			}
+
+			if (EVMA::KeyReleased(SDL_SCANCODE_W)) {
+				Mix_HaltChannel(7);
+			}
+
+			if (EVMA::KeyReleased(SDL_SCANCODE_A)) {
+				Mix_HaltChannel(7);
+			}
+
+			if (EVMA::KeyReleased(SDL_SCANCODE_D)) {
+				Mix_HaltChannel(7);
+			}
+
+
+			//For special Ability1
+			if (EVMA::KeyPressed(SDL_SCANCODE_SPACE))
+			{
+				if (spcooldown > 200)
+				{
+					Mix_PlayChannel(-1, aoeSound, 0);
+					spcooldown = 0;
+					playerpew.push_back(new Rock(plr1.plrDst.x + 10, plr1.plrDst.y + 30, 10, 'y'));
+					playerpew.push_back(new Rock(plr1.plrDst.x + 10, plr1.plrDst.y + 30, 10 * -1, 'y'));
+					playerpew.push_back(new Rock(plr1.plrDst.x + 10, plr1.plrDst.y + 30, 10, 'x'));
+					playerpew.push_back(new Rock(plr1.plrDst.x + 10, plr1.plrDst.y + 30, 10 * -1, 'x'));
 					playerpew.shrink_to_fit();
-					//set dumbie hp
-					frog[i]->setHp(frog[i]->getHp() - playerDamage);
-					break;
 				}
 			}
-			if (SDL_HasIntersection(&frog[i]->frogDst, &plr1.plrDst)) {
-				plr1.takeDamage(2);
-			}
-			if ((Util::distanceOffset(plr1.plrDst, frog[i]->frogDst) < 550)) {
-				if (frog[i]->getShootTimer() == 0) {
-					if (frog[i]->getDir() == 0)
-						bub.push_back(new Bubble(frog[i]->frogDst.x, frog[i]->frogDst.y));
-					if (frog[i]->getDir() == 1)
-						bub.push_back(new Bubble(frog[i]->frogDst.x, frog[i]->frogDst.y));
-					if (frog[i]->getDir() == 2)
-						bub.push_back(new Bubble(frog[i]->frogDst.x, frog[i]->frogDst.y));
-					if (frog[i]->getDir() == 3)
-						bub.push_back(new Bubble(frog[i]->frogDst.x, frog[i]->frogDst.y));
-				}
-			}
-			if (frog[i]->getHp() <= 0) {
-				plr1.points(10);
-				Mix_PlayChannel(-1, deathSfx, 0);
-				delete frog[i];
-				frog[i] = nullptr;
-				frog.erase(frog.begin() + i);
-				frog.shrink_to_fit();
-			}
-		}
-		//bubble
-		for (int i = 0; i < bub.size(); i++)
-		{
-			bub[i]->Update(plr1.plrDst);
-			if (!wallHitx)
-				bub[i]->bubbleDst.x -= speedx;
-			if (!wallHity)
-				bub[i]->bubbleDst.y -= speedy;
-			if (Util::distanceOffset(plr1.plrDst, bub[i]->bubbleDst) < 50) {
-				plr1.takeDamage(1);
-				delete bub[i];
-				bub[i] = nullptr;
-				bub.erase(bub.begin() + i);
-				bub.shrink_to_fit();
-			}
-		}
-		//vines
-		for (unsigned i = 0; i < vine.size(); i++)
-		{
-			if (!wallHitx)
-				vine[i]->vineDst.x -= speedx;
-			if (!wallHity)
-				vine[i]->vineDst.y -= speedy;
-			if (!dashPressed) {
-				if (Util::distanceOffset(plr1.plrDst, vine[i]->vineDst) < 80) {
-					plr1.plrSpd = 1;
-				}
-			}
-		}
-		
-		//DragonFly		
-		for (unsigned i = 0; i < playerpew.size(); i++)
-		{
-			for (unsigned j = 0; j < fly.size(); j++)
-			{
-				if (SDL_HasIntersection(&playerpew[i]->rockDst, &fly[j]->flyDst)) //AABB Check
-				{
 
-					Mix_PlayChannel(-1, hurtSfx, 0);
+			//For throwing Rock
+			if (EVMA::KeyPressed(SDL_SCANCODE_UP))
+			{
+				if (rockCooldown > 50) {
+					Mix_PlayChannel(-1, projectileRock, 0);
+					rockCooldown = 0;
+					playerpew.push_back(new Rock(plr1.plrDst.x + 10, plr1.plrDst.y + 30, rockSpeed * -1, 'y'));
+					playerpew.shrink_to_fit();
+				}
+			}
+			else if (EVMA::KeyPressed(SDL_SCANCODE_DOWN))
+			{
+
+				if (rockCooldown > 50) {
+					Mix_PlayChannel(-1, projectileRock, 0);
+					rockCooldown = 0;
+					playerpew.push_back(new Rock(plr1.plrDst.x + 10, plr1.plrDst.y + 30, rockSpeed, 'y'));
+					playerpew.shrink_to_fit();
+				}
+			}
+			else if (EVMA::KeyPressed(SDL_SCANCODE_LEFT))
+			{
+
+				if (rockCooldown > 50) {
+					Mix_PlayChannel(-1, projectileRock, 0);
+					rockCooldown = 0;
+					playerpew.push_back(new Rock(plr1.plrDst.x + 10, plr1.plrDst.y + 30, rockSpeed * -1, 'x'));
+					playerpew.shrink_to_fit();
+				}
+			}
+			else if (EVMA::KeyPressed(SDL_SCANCODE_RIGHT))
+			{
+
+				if (rockCooldown > 50) {
+					Mix_PlayChannel(-1, projectileRock, 0);
+					rockCooldown = 0;
+					playerpew.push_back(new Rock(plr1.plrDst.x + 10, plr1.plrDst.y + 30, rockSpeed, 'x'));
+					playerpew.shrink_to_fit();
+				}
+			}
+			//delete rock after off screen and move rock
+			for (unsigned i = 0; i < playerpew.size(); i++)
+			{
+				playerpew[i]->Update();
+				playerpew[i]->rockDst.x -= speedx;
+				playerpew[i]->rockDst.y -= speedy;
+
+				if (playerpew[i]->rockDst.x >= WIDTH || playerpew[i]->rockDst.x <= -64 || playerpew[i]->rockDst.y >= HEIGHT || playerpew[i]->rockDst.y <= -64)
+				{
 					delete playerpew[i];
 					playerpew[i] = nullptr;
 					playerpew.erase(playerpew.begin() + i);
 					playerpew.shrink_to_fit();
-					//set dumbie hp										
-					fly[j]->setHp(fly[j]->getHp() - playerDamage);
 					break;
 				}
 			}
-		}
+			if (speedx > plr1.plrSpd)
+				speedx = plr1.plrSpd;
+			if (speedy > plr1.plrSpd)
+				speedy = plr1.plrSpd;
+			if (speedy * -1 > plr1.plrSpd)
+				speedy = plr1.plrSpd * -1;
+			if (speedx * -1 > plr1.plrSpd)
+				speedx = plr1.plrSpd * -1;
+			//YAXIS
 
-		if (isfreezeActive == false)
-		{
+			if (EVMA::KeyHeld(SDL_SCANCODE_S)) {
+
+				speedy += speedAcc;
+				plr1.state = 1;
+
+			}
+
+			if (EVMA::KeyHeld(SDL_SCANCODE_W)) {
+
+				speedy -= speedAcc;
+				plr1.state = 2;
+			}
+
+			//XAXIS
+			if (EVMA::KeyHeld(SDL_SCANCODE_A)) {
+				speedx -= speedAcc;
+				plr1.state = 3;
+			}
+
+			if (EVMA::KeyHeld(SDL_SCANCODE_D)) {
+				speedx += speedAcc;
+				plr1.state = 4;
+			}
+
+
+
+			//Slow Down!
+			if (!EVMA::KeyHeld(SDL_SCANCODE_D) && !EVMA::KeyHeld(SDL_SCANCODE_A)) {
+				if (speedx > 0)
+					speedx--;
+				else if (speedx < 0) {
+					speedx++;
+				}
+			}
+			if (!EVMA::KeyHeld(SDL_SCANCODE_W) && !EVMA::KeyHeld(SDL_SCANCODE_S)) {
+				if (speedy > 0)
+					speedy--;
+				else if (speedy < 0) {
+					speedy++;
+				}
+			}
+			if (!EVMA::KeyHeld(SDL_SCANCODE_W) && !EVMA::KeyHeld(SDL_SCANCODE_S) && !EVMA::KeyHeld(SDL_SCANCODE_D) && !EVMA::KeyHeld(SDL_SCANCODE_A)) {
+				plr1.state = 0;
+			}
 			for (unsigned i = 0; i < fly.size(); i++)
 			{
-				fly[i]->Update();
-				if (SDL_HasIntersection(&fly[i]->flyDst, &plr1.plrDst)) {
-					plr1.takeDamage(1);
-				}
-
-				if (fly[i]->getHp() <= 0) {
-					plr1.points(10);
-					Mix_PlayChannel(-1, deathSfx, 0);
-					delete fly[i];
-					fly[i] = nullptr;
-					fly.erase(fly.begin() + i);
-					fly.shrink_to_fit();
-				}
+				fly[i]->flyDst.x -= speedx;
+				fly[i]->flyDst.y -= speedy;
 			}
-		}
-
-		//shroom
-		for (unsigned i = 0; i < playerpew.size(); i++)
-		{
-			for (unsigned j = 0; j < shroom.size(); j++)
-			{
-				if (SDL_HasIntersection(&playerpew[i]->rockDst, &shroom[j]->shroomDst)) //AABB Check
-				{
-
-					Mix_PlayChannel(-1, hurtSfx, 0);
-					delete playerpew[i];
-					playerpew[i] = nullptr;
-					playerpew.erase(playerpew.begin() + i);
-					playerpew.shrink_to_fit();
-					//set dumbie hp					
-					shroom[j]->setHp(shroom[j]->getHp() - playerDamage);
-					break;					
-				}
-			}
-		}
-		if (isfreezeActive == false)
-		{
 			for (unsigned i = 0; i < shroom.size(); i++)
 			{
-				shroom[i]->Update();
-
-
-				if (shroom[i]->frames >= FPS * CLOUDRATE / 2)
-				{
-					shroom[i]->resetFrames();
-					cout << "shroom pew" << endl;
-					ushroomatk.push_back(new Attack(shroom[i]->shroomDst.x + 17, shroom[i]->shroomDst.y + 23));
-					ushroomatk.shrink_to_fit();
-					lshroomatk.push_back(new Attack(shroom[i]->shroomDst.x + 17, shroom[i]->shroomDst.y + 23));
-					lshroomatk.shrink_to_fit();
-					rshroomatk.push_back(new Attack(shroom[i]->shroomDst.x + 17, shroom[i]->shroomDst.y + 23));
-					rshroomatk.shrink_to_fit();
-					dshroomatk.push_back(new Attack(shroom[i]->shroomDst.x + 17, shroom[i]->shroomDst.y + 23));
-					dshroomatk.shrink_to_fit();
-				}
-				if (shroom[i]->getHp() <= 0)
-				{
-					plr1.points(10);
-					Mix_PlayChannel(-1, deathSfx, 0);
-					delete shroom[i];
-					shroom[i] = nullptr;
-					shroom.erase(shroom.begin() + i);
-					shroom.shrink_to_fit();
-				}
+				shroom[i]->shroomDst.x -= speedx;
+				shroom[i]->shroomDst.y -= speedy;
 			}
-		}
-		if (isfreezeActive == false)
-		{
 			for (unsigned i = 0; i < ushroomatk.size(); i++)
 			{
-				ushroomatk[i]->Update(-1);
-
-				if (SDL_HasIntersection(&ushroomatk[i]->ushroomAtkDst, &plr1.plrDst)) {
-					plr1.takeDamage(0.5);
-				}
+				ushroomatk[i]->ushroomAtkDst.x -= speedx;
+				ushroomatk[i]->ushroomAtkDst.y -= speedy;
 
 			}
-
-		}
-		if (isfreezeActive == false)
-		{
 			for (unsigned i = 0; i < lshroomatk.size(); i++)
 			{
-				lshroomatk[i]->Update(-1);
-
-				if (SDL_HasIntersection(&lshroomatk[i]->lshroomAtkDst, &plr1.plrDst)) {
-					plr1.takeDamage(0.5);
-				}
+				lshroomatk[i]->lshroomAtkDst.x -= speedx;
+				lshroomatk[i]->lshroomAtkDst.y -= speedy;
 			}
-		}
-		if (isfreezeActive == false)
-		{
 			for (unsigned i = 0; i < rshroomatk.size(); i++)
 			{
-				rshroomatk[i]->Update(1);
-
-				if (SDL_HasIntersection(&rshroomatk[i]->rshroomAtkDst, &plr1.plrDst)) {
-					plr1.takeDamage(0.5);
-				}
+				rshroomatk[i]->rshroomAtkDst.x -= speedx;
+				rshroomatk[i]->rshroomAtkDst.y -= speedy;
 			}
-		}
-		if (isfreezeActive == false)
-		{
 			for (unsigned i = 0; i < dshroomatk.size(); i++)
 			{
-				dshroomatk[i]->Update(1);
+				dshroomatk[i]->dshroomAtkDst.x -= speedx;
+				dshroomatk[i]->dshroomAtkDst.y -= speedy;
+			}
 
-				if (SDL_HasIntersection(&dshroomatk[i]->dshroomAtkDst, &plr1.plrDst)) {
-					plr1.takeDamage(0.5);
+			//frog
+			for (unsigned i = 0; i < frog.size(); i++)
+			{
+				if (isfreezeActive == false)
+				{
+					frog[i]->Update(plr1.plrDst);
+				}
+				if (!wallHitx)
+					frog[i]->frogDst.x -= speedx;
+				if (!wallHity)
+					frog[i]->frogDst.y -= speedy;
+				for (unsigned j = 0; j < playerpew.size(); j++)
+				{
+					if (SDL_HasIntersection(&playerpew[j]->rockDst, &frog[i]->frogDst)) //AABB Check
+					{
+						Mix_PlayChannel(-1, hurtSfx, 0);
+						delete playerpew[j];
+						playerpew[j] = nullptr;
+						playerpew.erase(playerpew.begin() + j);
+						playerpew.shrink_to_fit();
+						//set dumbie hp
+						frog[i]->setHp(frog[i]->getHp() - playerDamage);
+						break;
+					}
+				}
+				if (SDL_HasIntersection(&frog[i]->frogDst, &plr1.plrDst)) {
+					plr1.takeDamage(2);
+				}
+				if ((Util::distanceOffset(plr1.plrDst, frog[i]->frogDst) < 550)) {
+					if (frog[i]->getShootTimer() == 0) {
+						if (frog[i]->getDir() == 0)
+							bub.push_back(new Bubble(frog[i]->frogDst.x, frog[i]->frogDst.y));
+						if (frog[i]->getDir() == 1)
+							bub.push_back(new Bubble(frog[i]->frogDst.x, frog[i]->frogDst.y));
+						if (frog[i]->getDir() == 2)
+							bub.push_back(new Bubble(frog[i]->frogDst.x, frog[i]->frogDst.y));
+						if (frog[i]->getDir() == 3)
+							bub.push_back(new Bubble(frog[i]->frogDst.x, frog[i]->frogDst.y));
+					}
+				}
+				if (frog[i]->getHp() <= 0) {
+					plr1.points(10);
+					Mix_PlayChannel(-1, deathSfx, 0);
+					delete frog[i];
+					frog[i] = nullptr;
+					frog.erase(frog.begin() + i);
+					frog.shrink_to_fit();
+				}
+			}
+			//bubble
+			for (int i = 0; i < bub.size(); i++)
+			{
+				bub[i]->Update(plr1.plrDst);
+				if (!wallHitx)
+					bub[i]->bubbleDst.x -= speedx;
+				if (!wallHity)
+					bub[i]->bubbleDst.y -= speedy;
+				if (Util::distanceOffset(plr1.plrDst, bub[i]->bubbleDst) < 50) {
+					plr1.takeDamage(1);
+					delete bub[i];
+					bub[i] = nullptr;
+					bub.erase(bub.begin() + i);
+					bub.shrink_to_fit();
+				}
+			}
+			//vines
+			for (unsigned i = 0; i < vine.size(); i++)
+			{
+				if (!wallHitx)
+					vine[i]->vineDst.x -= speedx;
+				if (!wallHity)
+					vine[i]->vineDst.y -= speedy;
+				if (!dashPressed) {
+					if (Util::distanceOffset(plr1.plrDst, vine[i]->vineDst) < 80) {
+						plr1.plrSpd = 1;
+					}
+				}
+			}
+
+			//DragonFly		
+			for (unsigned i = 0; i < playerpew.size(); i++)
+			{
+				for (unsigned j = 0; j < fly.size(); j++)
+				{
+					if (SDL_HasIntersection(&playerpew[i]->rockDst, &fly[j]->flyDst)) //AABB Check
+					{
+
+						Mix_PlayChannel(-1, hurtSfx, 0);
+						delete playerpew[i];
+						playerpew[i] = nullptr;
+						playerpew.erase(playerpew.begin() + i);
+						playerpew.shrink_to_fit();
+						//set dumbie hp										
+						fly[j]->setHp(fly[j]->getHp() - playerDamage);
+						break;
+					}
+				}
+			}
+
+			if (isfreezeActive == false)
+			{
+				for (unsigned i = 0; i < fly.size(); i++)
+				{
+					fly[i]->Update();
+					if (SDL_HasIntersection(&fly[i]->flyDst, &plr1.plrDst)) {
+						plr1.takeDamage(1);
+					}
+
+					if (fly[i]->getHp() <= 0) {
+						plr1.points(10);
+						Mix_PlayChannel(-1, deathSfx, 0);
+						delete fly[i];
+						fly[i] = nullptr;
+						fly.erase(fly.begin() + i);
+						fly.shrink_to_fit();
+					}
+				}
+			}
+
+			//shroom
+			for (unsigned i = 0; i < playerpew.size(); i++)
+			{
+				for (unsigned j = 0; j < shroom.size(); j++)
+				{
+					if (SDL_HasIntersection(&playerpew[i]->rockDst, &shroom[j]->shroomDst)) //AABB Check
+					{
+
+						Mix_PlayChannel(-1, hurtSfx, 0);
+						delete playerpew[i];
+						playerpew[i] = nullptr;
+						playerpew.erase(playerpew.begin() + i);
+						playerpew.shrink_to_fit();
+						//set dumbie hp					
+						shroom[j]->setHp(shroom[j]->getHp() - playerDamage);
+						break;
+					}
+				}
+			}
+			if (isfreezeActive == false)
+			{
+				for (unsigned i = 0; i < shroom.size(); i++)
+				{
+					shroom[i]->Update();
+
+
+					if (shroom[i]->frames >= FPS * CLOUDRATE / 2)
+					{
+						shroom[i]->resetFrames();
+						cout << "shroom pew" << endl;
+						ushroomatk.push_back(new Attack(shroom[i]->shroomDst.x + 17, shroom[i]->shroomDst.y + 23));
+						ushroomatk.shrink_to_fit();
+						lshroomatk.push_back(new Attack(shroom[i]->shroomDst.x + 17, shroom[i]->shroomDst.y + 23));
+						lshroomatk.shrink_to_fit();
+						rshroomatk.push_back(new Attack(shroom[i]->shroomDst.x + 17, shroom[i]->shroomDst.y + 23));
+						rshroomatk.shrink_to_fit();
+						dshroomatk.push_back(new Attack(shroom[i]->shroomDst.x + 17, shroom[i]->shroomDst.y + 23));
+						dshroomatk.shrink_to_fit();
+					}
+					if (shroom[i]->getHp() <= 0)
+					{
+						plr1.points(10);
+						Mix_PlayChannel(-1, deathSfx, 0);
+						delete shroom[i];
+						shroom[i] = nullptr;
+						shroom.erase(shroom.begin() + i);
+						shroom.shrink_to_fit();
+					}
+				}
+			}
+			if (isfreezeActive == false)
+			{
+				for (unsigned i = 0; i < ushroomatk.size(); i++)
+				{
+					ushroomatk[i]->Update(-1);
+
+					if (SDL_HasIntersection(&ushroomatk[i]->ushroomAtkDst, &plr1.plrDst)) {
+						plr1.takeDamage(0.5);
+					}
+
+				}
+
+			}
+			if (isfreezeActive == false)
+			{
+				for (unsigned i = 0; i < lshroomatk.size(); i++)
+				{
+					lshroomatk[i]->Update(-1);
+
+					if (SDL_HasIntersection(&lshroomatk[i]->lshroomAtkDst, &plr1.plrDst)) {
+						plr1.takeDamage(0.5);
+					}
+				}
+			}
+			if (isfreezeActive == false)
+			{
+				for (unsigned i = 0; i < rshroomatk.size(); i++)
+				{
+					rshroomatk[i]->Update(1);
+
+					if (SDL_HasIntersection(&rshroomatk[i]->rshroomAtkDst, &plr1.plrDst)) {
+						plr1.takeDamage(0.5);
+					}
+				}
+			}
+			if (isfreezeActive == false)
+			{
+				for (unsigned i = 0; i < dshroomatk.size(); i++)
+				{
+					dshroomatk[i]->Update(1);
+
+					if (SDL_HasIntersection(&dshroomatk[i]->dshroomAtkDst, &plr1.plrDst)) {
+						plr1.takeDamage(0.5);
+					}
 				}
 			}
 		}
-	}
-	else {
-		if (!(fadeMod == 255))
-			fadeMod += fadeSpeed;
-		if (fadeMod == 255) {
-			fadeMod == 255;
-			lvlLoading = false;
+		else {
+			if (!(fadeMod == 255))
+				fadeMod += fadeSpeed;
+			if (fadeMod == 255) {
+				fadeMod == 255;
+				lvlLoading = false;
+			}
 		}
-	}
 
+	
 }
 void Levelone::Render()
 {
@@ -1565,6 +1586,9 @@ void Levelone::Render()
 	SDL_RenderCopy(Engine::Instance().GetRenderer(), swamp1a, &bg1.swamp1aSrc, &bg1.swamp1aDst);
 	SDL_RenderCopy(Engine::Instance().GetRenderer(), swamp1b, &bg1.swamp1bSrc, &bg1.swamp1bDst);
 	SDL_RenderCopy(Engine::Instance().GetRenderer(), swamp1bdown, &bg1.swamp1bdownSrc, &bg1.swamp1bdownDst);
+	//NPC
+	SDL_RenderCopy(Engine::Instance().GetRenderer(), npcTxtr, &catDude.npcSrc, &catDude.npcDst);
+
 	//vines
 	for (unsigned i = 0; i < vine.size(); i++)
 	{
@@ -1641,6 +1665,7 @@ void Levelone::Render()
 	{
 		SDL_RenderFillRect(Engine::Instance().GetRenderer(), &(dshroomatk[i]->dshroomAtkDst));
 	}
+
 	if (plr1.state == 0)
 		SDL_RenderCopy(Engine::Instance().GetRenderer(), plrTxtr, &plr1.plrFrontIdle, &plr1.plrDst);
 	else if (plr1.state == 1)
@@ -1776,6 +1801,7 @@ void Levelone::Exit()
 	SDL_DestroyTexture(DragonFlyTxt);
 	SDL_DestroyTexture(vineTexture);
 	SDL_DestroyTexture(FrogTxtr);
+	SDL_DestroyTexture(npcTxtr);
 	Mix_FreeChunk(hurtSfx);
 	Mix_FreeChunk(powerSfx);;
 	Mix_FreeChunk(projectileRock);
@@ -1785,6 +1811,7 @@ void Levelone::Exit()
 	Mix_FreeChunk(deathSfx);
 	Mix_FreeChunk(turnSfx);
     Mix_FreeMusic(swampSong);
+	Mix_FreeChunk(story);
 }
 
 void Levelone::Resume()

@@ -1,13 +1,17 @@
 #include "NPC.h"
 
-NPC::NPC() : npcSrc({ 0,0,64,64 }), frameCtr(0), frameMax(3), spriteIdx(0), spriteMax(6)
+
+NPC::NPC() /*: npcSrc({ 0,0,64,64 }), frameCtr(0), frameMax(3), spriteIdx(0), spriteMax(6)*/
 {
+	
+	npcSrc= { 0,0,64,64 };
 	npcDst = { 0, 0 ,128, 128 };
 }
 
 void NPC::Update()
 {
-	if (frameCtr++ == frameMax)
+	
+	/*if (frameCtr++ == frameMax)
 	{
 		frameCtr = 0;
 		if (++spriteIdx == spriteMax)
@@ -15,7 +19,7 @@ void NPC::Update()
 			spriteIdx = 0;
 		}
 		npcSrc.x = 0 + npcSrc.w * spriteIdx;
-	}
+	}*/
 }
 
 void NPC::setNPCSize(int h, int w)

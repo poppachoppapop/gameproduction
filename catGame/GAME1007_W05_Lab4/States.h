@@ -131,7 +131,9 @@ protected: //priv but inherited
 	NPC catDude;
 	Background bg1;
 	Uint16 dumbietimer;
-
+	SDL_Texture* wizzy;
+	SDL_Rect wizzySrc, wizzyDst;
+	Mix_Chunk* story;//delete after 2022-03-08
 	Mix_Chunk* stepSfx;
 	Mix_Chunk* turnSfx;
 	Mix_Chunk* deathSfx;
@@ -215,6 +217,7 @@ public:
 class Levelone : public State
 {
 private:
+	
 	 
 public:
 	Levelone();

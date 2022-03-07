@@ -2,6 +2,7 @@
 #include <SDL.h>
 #include <iostream>
 
+
 class NPC
 {
 private:
