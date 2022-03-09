@@ -210,6 +210,7 @@ public:
 class Levelone : public State
 {
 private:
+	SDL_Texture* swamp;
 	SDL_Texture* swamp1;
 	SDL_Texture* swamp2;
 	SDL_Texture* swamp3;

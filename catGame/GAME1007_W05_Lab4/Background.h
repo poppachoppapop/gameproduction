@@ -18,7 +18,7 @@ private:
 	int whichBg;
 	int howMany;
 public:
-	SDL_Rect swamp1Src, swamp1Dst;
+	SDL_Rect swampSrc, swampDst;
 	Level1Background(int bg, int length);
 	void Update();
 	int getBg();
