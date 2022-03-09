@@ -78,11 +78,7 @@ protected: //priv but inherited
 	SDL_Texture* plrTxtr;
 	SDL_Texture* rockTxtr;
 	SDL_Texture* dumbieTxtr;
-	SDL_Texture* bgTutorial;
-	SDL_Texture* swamp1;
-	SDL_Texture* swamp1a;
-	SDL_Texture* swamp1b;
-	SDL_Texture* swamp1bdown;
+	SDL_Texture* bgTutorial;	
 	SDL_Texture* swampIsland;
 	SDL_Texture* flyingMaki;
 	SDL_Texture* sleepingMaki;
@@ -214,6 +210,11 @@ public:
 class Levelone : public State
 {
 private:
+	SDL_Texture* swamp1;
+	SDL_Texture* swamp2;
+	SDL_Texture* swamp3;
+	SDL_Texture* swamp4;
+	SDL_Texture* swamp5;
 	int areaNum = 0;
 	vector<Level1Background*> bg;
 	vector<SDL_Rect*> levelRect;

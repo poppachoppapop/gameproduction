@@ -919,9 +919,10 @@ void Levelone::Enter()
 {
 	cout << "entering lv1" << endl;
 	swamp1 = IMG_LoadTexture(Engine::Instance().GetRenderer(), "bgs/swamp1.png");
-	swamp1a = IMG_LoadTexture(Engine::Instance().GetRenderer(), "bgs/swamp1a.png");
-	swamp1b = IMG_LoadTexture(Engine::Instance().GetRenderer(), "bgs/swamp1b2.png");
-	swamp1bdown = IMG_LoadTexture(Engine::Instance().GetRenderer(), "bgs/swamp1bdown.png");
+	swamp2 = IMG_LoadTexture(Engine::Instance().GetRenderer(), "bgs/swamp2.png");
+	swamp3 = IMG_LoadTexture(Engine::Instance().GetRenderer(), "bgs/swamp3.png");
+	swamp4 = IMG_LoadTexture(Engine::Instance().GetRenderer(), "bgs/swamp4.png");
+	swamp5 = IMG_LoadTexture(Engine::Instance().GetRenderer(), "bgs/swamp5.png");
 	swampIsland = IMG_LoadTexture(Engine::Instance().GetRenderer(), "bgs/swamp1bl.png");
 
 	plrTxtr = IMG_LoadTexture(Engine::Instance().GetRenderer(), "art/catboy.png");
@@ -953,7 +954,7 @@ void Levelone::Enter()
 	
 	for (int i = 0; i < 15; i++)
 	{
-		bg.push_back(new Level1Background(rand()%1, 15));
+		bg.push_back(new Level1Background(2, 15));
 	}
 
 	
@@ -991,13 +992,26 @@ void Levelone::Enter()
 		levelRect.push_back(new SDL_Rect{ bg[areaNum]->swamp1Dst.x + -50,bg[areaNum]->swamp1Dst.y + 510 + 128,1430,10 });
 	
 	}
-	for (int i = 0; i < 10; i++)
+	if (bg[areaNum]->getBg() == 2)
 	{
-		fly.push_back(new DragonFly(bg[areaNum]->swamp1Dst.x + 800, bg[areaNum]->swamp1Dst.y + 400, 2));
-		fly.shrink_to_fit();
+		levelRect.push_back(new SDL_Rect{ bg[areaNum]->swamp1Dst.x +70,bg[areaNum]->swamp1Dst.y + 100,10,1210});
+		levelRect.push_back(new SDL_Rect{ bg[areaNum]->swamp1Dst.x + 65,bg[areaNum]->swamp1Dst.y + 100 ,630,10 });
+		levelRect.push_back(new SDL_Rect{ bg[areaNum]->swamp1Dst.x + 695,bg[areaNum]->swamp1Dst.y -150,10,200 });
+		levelRect.push_back(new SDL_Rect{ bg[areaNum]->swamp1Dst.x + 1365,bg[areaNum]->swamp1Dst.y + 100 ,630,10 });
+		levelRect.push_back(new SDL_Rect{ bg[areaNum]->swamp1Dst.x + 1365,bg[areaNum]->swamp1Dst.y - 150,10,200 });
+		levelRect.push_back(new SDL_Rect{ bg[areaNum]->swamp1Dst.x + 2000,bg[areaNum]->swamp1Dst.y + 100,10,1210 });
+		levelRect.push_back(new SDL_Rect{ bg[areaNum]->swamp1Dst.x +2000,bg[areaNum]->swamp1Dst.y +300,10,910 });
+		levelRect.push_back(new SDL_Rect{ bg[areaNum]->swamp1Dst.x + 1355,bg[areaNum]->swamp1Dst.y + 1300,630,10 });
+		levelRect.push_back(new SDL_Rect{ bg[areaNum]->swamp1Dst.x + 75,bg[areaNum]->swamp1Dst.y + 1300,630,10 });
+		levelRect.push_back(new SDL_Rect{ bg[areaNum]->swamp1Dst.x + 695,bg[areaNum]->swamp1Dst.y + 1300,10,240 });
+		levelRect.push_back(new SDL_Rect{ bg[areaNum]->swamp1Dst.x + 1355,bg[areaNum]->swamp1Dst.y + 1300,10,240 });
+		//levelRect.push_back(new SDL_Rect{ bg[areaNum]->swamp1Dst.x,bg[areaNum]->swamp1Dst.y });
 	}
-	frog.push_back(new Frog(bg[areaNum]->swamp1Dst.x + 1000, bg[areaNum]->swamp1Dst.y + 500, 5));
-	frog.shrink_to_fit();
+	if (bg[areaNum]->getBg() == 3)
+	{
+		levelRect.push_back(new SDL_Rect{ bg[areaNum]->swamp1Dst.x,bg[areaNum]->swamp1Dst.y,10,100 });
+	}
+
 }
 
 
@@ -1046,7 +1060,76 @@ void Levelone::Update()
 
 			loadArea = false;
 		}
+		if (bg[areaNum]->getBg() == 2)
+		{
+			//wallcollision
+			bool wallHitx = false;
+			bool wallHity = false;
+			if (SDL_HasIntersection(levelRect[0], &plr1.plrDst)) {//right
+				speedx = 0;
+				speedy = 0;
+				speedx++;
+			}
+			if (SDL_HasIntersection(levelRect[1], &plr1.plrDst)) {//
+				speedx = 0;
+				speedy = 0;
+				speedy++;
+			}
+			if (SDL_HasIntersection(levelRect[2], &plr1.plrDst)) {//right
+				speedx = 0;
+				speedy = 0;
+				speedx++;
+			}
+			if (SDL_HasIntersection(levelRect[3], &plr1.plrDst)) {//right
+				speedx = 0;
+				speedy = 0;
+				speedy++;
+			}
+			if (SDL_HasIntersection(levelRect[4], &plr1.plrDst)) {//right
+				speedx = 0;
+				speedy = 0;
+				speedx--;
+			}
+			if (SDL_HasIntersection(levelRect[5], &plr1.plrDst)) {//right
+				speedx = 0;
+				speedy = 0;
+				speedx--;
+			}
+			if (SDL_HasIntersection(levelRect[6], &plr1.plrDst)) {//
+				speedx = 0;
+				speedy = 0;
+				speedx--;
+			}
+			if (SDL_HasIntersection(levelRect[7], &plr1.plrDst)) {//
+				speedx = 0;
+				speedy = 0;
+				speedy--;
+			}
+			if (SDL_HasIntersection(levelRect[8], &plr1.plrDst)) {//
+				speedx = 0;
+				speedy = 0;
+				speedy--;
+			}
+			if (SDL_HasIntersection(levelRect[9], &plr1.plrDst)) {//
+				speedx = 0;
+				speedy = 0;
+				speedx++;
+			}
+			if (SDL_HasIntersection(levelRect[10], &plr1.plrDst)) {//
+				speedx = 0;
+				speedy = 0;
+				speedx--;
+			}
 
+		
+		}
+		for (int i = 0; i < levelRect.size(); i++)
+		{
+			if (!wallHitx)
+				levelRect[i]->x -= speedx;
+			if (!wallHity)
+				levelRect[i]->y -= speedy;
+		}	
 		if (bg[areaNum]->getBg() == 0) {
 			//wallcollision
 			bool wallHitx = false;
@@ -1212,87 +1295,6 @@ void Levelone::Update()
 			}
 
 
-			{
-				//if (plr1.plrDst.x < bg[areaNum]->swamp1Dst.x - 50) {
-				//	bg[areaNum]->swamp1Dst.x = plr1.plrDst.x + 50;
-				//	wallHitx = true;
-				//}
-				//if (plr1.plrDst.x < bg[areaNum]->swamp1Dst.x + 190 && (plr1.plrDst.y < bg[areaNum]->swamp1Dst.y + 370 && plr1.plrDst.y > bg[areaNum]->swamp1Dst.y)
-				//	|| (plr1.plrDst.y > bg[areaNum]->swamp1Dst.y + 760 && plr1.plrDst.y < bg[areaNum]->swamp1Dst.y + 1150) && plr1.plrDst.x < bg[areaNum]->swamp1Dst.x + 190) {
-				//	bg[areaNum]->swamp1Dst.x = plr1.plrDst.x - 190;
-				//	cout << "out" << endl;
-				//	wallHity = true;
-				//}
-				//if (plr1.plrDst.x > bg[areaNum]->swamp1Dst.x + 830 && (plr1.plrDst.y < bg[areaNum]->swamp1Dst.y + 380 && plr1.plrDst.y > bg[areaNum]->swamp1Dst.y) && 
-				//	plr1.plrDst.x < bg[areaNum]->swamp1Dst.x + 1210) {
-				//	bg[areaNum]->swamp1Dst.x = plr1.plrDst.x - 830;
-				//	cout << "out" << endl;
-				//	wallHity = true;
-				//}
-				//if (plr1.plrDst.x < bg[areaNum]->swamp1Dst.x + 1220 && (plr1.plrDst.y < bg[areaNum]->swamp1Dst.y + 380 && plr1.plrDst.y > bg[areaNum]->swamp1Dst.y + 130) &&
-				//	plr1.plrDst.x > bg[areaNum]->swamp1Dst.x + 840) {
-				//	bg[areaNum]->swamp1Dst.x = plr1.plrDst.x - 1220;
-				//	cout << "out" << endl;
-				//	wallHity = true;
-				//}
-				//if (plr1.plrDst.x > bg[areaNum]->swamp1Dst.x + 1600 && (plr1.plrDst.y < bg[areaNum]->swamp1Dst.y + 510 && plr1.plrDst.y > bg[areaNum]->swamp1Dst.y + 130)) {
-				//	bg[areaNum]->swamp1Dst.x = plr1.plrDst.x - 1600;
-				//	cout << "out" << endl;
-				//	wallHity = true;
-				//}
-				//if (plr1.plrDst.x > bg[areaNum]->swamp1Dst.x + 1500 && (plr1.plrDst.y > bg[areaNum]->swamp1Dst.y + 510 && plr1.plrDst.y < bg[areaNum]->swamp1Dst.y + 760)) {
-				//	bg[areaNum]->swamp1Dst.x = plr1.plrDst.x - 1500;
-				//	cout << "out" << endl;
-				//	wallHity = true;
-				//}
-				//if (plr1.plrDst.x > bg[areaNum]->swamp1Dst.x + 1600 && (plr1.plrDst.y > bg[areaNum]->swamp1Dst.y + 760 && plr1.plrDst.y < bg[areaNum]->swamp1Dst.y + 1160)) {
-				//	bg[areaNum]->swamp1Dst.x = plr1.plrDst.x - 1600;
-				//	cout << "out" << endl;
-				//	wallHity = true;
-				//}
-				//if (plr1.plrDst.x > bg[areaNum]->swamp1Dst.x + 940 && (plr1.plrDst.y > bg[areaNum]->swamp1Dst.y + 1160 && plr1.plrDst.y < bg[areaNum]->swamp1Dst.y + 1280)) {
-				//	bg[areaNum]->swamp1Dst.x = plr1.plrDst.x - 940;
-				//	cout << "out" << endl;
-				//	wallHity = true;
-				//}
-				//if (plr1.plrDst.x > bg[areaNum]->swamp1Dst.x + 700 && (plr1.plrDst.y > bg[areaNum]->swamp1Dst.y + 760 && plr1.plrDst.y < bg[areaNum]->swamp1Dst.y + 1150) && 
-				//	plr1.plrDst.x < bg[areaNum]->swamp1Dst.x + 830) {
-				//	bg[areaNum]->swamp1Dst.x = plr1.plrDst.x - 700;
-				//	cout << "gay" << endl;
-				//	wallHity = true;
-				//}
-				//if (plr1.plrDst.x < bg[areaNum]->swamp1Dst.x + 1380 && (plr1.plrDst.y > bg[areaNum]->swamp1Dst.y + 530 && plr1.plrDst.y < bg[areaNum]->swamp1Dst.y + 760)) {
-				//	bg[areaNum]->swamp1Dst.x = plr1.plrDst.x - 1380;
-				//	cout << "out" << endl;
-				//	wallHity = true;
-				//}
-				//if (plr1.plrDst.x < bg[areaNum]->swamp1Dst.x + 1080 && (plr1.plrDst.y > bg[areaNum]->swamp1Dst.y + 760 && plr1.plrDst.y < bg[areaNum]->swamp1Dst.y + 1030)
-				//	&& plr1.plrDst.x > bg[areaNum]->swamp1Dst.x + 1070) {
-				//	bg[areaNum]->swamp1Dst.x = plr1.plrDst.x - 1080;
-				//	cout << "out" << endl;
-				//	wallHity = true;
-				//}
-				//if (plr1.plrDst.x < bg[areaNum]->swamp1Dst.x + 840 && (plr1.plrDst.y > bg[areaNum]->swamp1Dst.y + 1030 && plr1.plrDst.y < bg[areaNum]->swamp1Dst.y + 1150)
-				//	&& plr1.plrDst.x > bg[areaNum]->swamp1Dst.x + 830) {
-				//	bg[areaNum]->swamp1Dst.x = plr1.plrDst.x - 840;
-				//	cout << "out" << endl;
-				//	wallHity = true;
-				//}
-				////============================================================================||
-				//if (plr1.plrDst.y < bg[areaNum]->swamp1Dst.y + 380 && (plr1.plrDst.x > bg[areaNum]->swamp1Dst.x + -50 && plr1.plrDst.x < bg[areaNum]->swamp1Dst.x + 190)
-				//	&& plr1.plrDst.y > bg[areaNum]->swamp1Dst.y + 380) {
-				//	bg[areaNum]->swamp1Dst.y = plr1.plrDst.y - 380;
-				//	cout << "out" << endl;
-				//	wallHity = true;
-				//}
-				//if (plr1.plrDst.y > bg[areaNum]->swamp1Dst.y + 510 && (plr1.plrDst.x > bg[areaNum]->swamp1Dst.x + -50 && plr1.plrDst.x < bg[areaNum]->swamp1Dst.x + 1380)
-				//	&& plr1.plrDst.y < bg[areaNum]->swamp1Dst.y + 520) {
-				//	bg[areaNum]->swamp1Dst.y = plr1.plrDst.y - 510;
-				//	cout << "out" << endl;
-				//	wallHity = true;
-				//}
-			}
-
 		}
 		bg[areaNum]->swamp1Dst.x -= speedx;
 		bg[areaNum]->swamp1Dst.y -= speedy;
@@ -1314,7 +1316,8 @@ void Levelone::Update()
 		//cout <<"noobtimer"<< Noobtimer++ <<" | "<<ezModeCD++ << "ezmodecd<-" << endl;
 		//cout << "freezetimer" << freezetimer++ << " | " << freezeCD++ << "freezecd<-" << endl;
 		//cout << plr1.plrDst.x - bg[areaNum]->swamp1Dst.x << " - " << plr1.plrDst.y - bg[areaNum]->swamp1Dst.y << endl;
-		 // cout << plr1.plrDst.x << " , " << plr1.plrDst.y  << endl;
+		// cout << plr1.plrDst.x << " , " << plr1.plrDst.y  << endl;
+		cout << bg[areaNum]->swamp1Dst.x << "||" << bg[areaNum]->swamp1Dst.y << endl;
 		
 		//player
 		if (!dashPressed)
@@ -1814,8 +1817,14 @@ void Levelone::Render()
 	//Background
 	if (bg[areaNum]->getBg() == 0)
 		SDL_RenderCopy(Engine::Instance().GetRenderer(), swamp1, &bg[areaNum]->swamp1Src,&bg[areaNum]->swamp1Dst);
-	if (bg[areaNum]->getBg() == 1)
-		SDL_RenderCopy(Engine::Instance().GetRenderer(), swampIsland, &bg[areaNum]->swamp1Src, &bg[areaNum]->swamp1Dst);
+	/*if (bg[areaNum]->getBg() == 1)
+		SDL_RenderCopy(Engine::Instance().GetRenderer(), swamp2, &bg[areaNum]->swamp1Src, &bg[areaNum]->swamp1Dst);*/
+	if (bg[areaNum]->getBg() == 2)
+		SDL_RenderCopy(Engine::Instance().GetRenderer(), swamp2, &bg[areaNum]->swamp1Src, &bg[areaNum]->swamp1Dst);
+	if (bg[areaNum]->getBg() == 3)
+		SDL_RenderCopy(Engine::Instance().GetRenderer(), swamp4, &bg[areaNum]->swamp1Src, &bg[areaNum]->swamp1Dst);
+	if (bg[areaNum]->getBg() == 4)
+		SDL_RenderCopy(Engine::Instance().GetRenderer(), swamp5, &bg[areaNum]->swamp1Src, &bg[areaNum]->swamp1Dst);
 	
 	//rock	
 	for (unsigned i = 0; i < playerpew.size(); i++)
@@ -2015,9 +2024,9 @@ void Levelone::Exit()
 	item1.clear();
 	item1.shrink_to_fit();
 	SDL_DestroyTexture(swamp1);
-	SDL_DestroyTexture(swamp1a);
-	SDL_DestroyTexture(swamp1b);
-	SDL_DestroyTexture(swamp1bdown);
+	SDL_DestroyTexture(swamp2);
+	SDL_DestroyTexture(swamp3);
+	SDL_DestroyTexture(swamp4);
 	SDL_DestroyTexture(plrTxtr);
 	SDL_DestroyTexture(rockTxtr);
 	SDL_DestroyTexture(ShroomTxtr);
