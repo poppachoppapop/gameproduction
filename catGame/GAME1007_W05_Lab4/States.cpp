@@ -954,7 +954,7 @@ void Levelone::Enter()
 	
 	for (int i = 0; i < 15; i++)
 	{
-		bg.push_back(new Level1Background(2, 15));
+		bg.push_back(new Level1Background(3, 15));
 	}
 
 	
@@ -1060,6 +1060,175 @@ void Levelone::Update()
 
 			loadArea = false;
 		}
+
+		if (bg[areaNum]->getBg() == 0) {
+			//wallcollision
+			bool wallHitx = false;
+			bool wallHity = false;
+			if (SDL_HasIntersection(levelRect[0], &plr1.plrDst)) {//down
+				speedx = 0;
+				speedy = 0;
+				speedy++;
+			}
+			if (SDL_HasIntersection(levelRect[1], &plr1.plrDst)) { //right
+				speedx = 0;
+				speedx++;
+				speedy = 0;
+			}
+			if (SDL_HasIntersection(levelRect[2], &plr1.plrDst)) { //down
+				speedx = 0;
+				speedy = 0;
+				speedy++;
+			}
+
+			if (SDL_HasIntersection(levelRect[3], &plr1.plrDst)) { //left
+				speedx = 0;
+				speedy = 0;
+				speedx--;
+			}
+
+			if (SDL_HasIntersection(levelRect[4], &plr1.plrDst)) {//down
+				speedx = 0;
+				speedy = 0;
+				speedy++;
+			}
+
+			if (SDL_HasIntersection(levelRect[5], &plr1.plrDst)) {//right
+				speedx = 0;
+				speedy = 0;
+				speedx++;
+			}
+
+			if (SDL_HasIntersection(levelRect[6], &plr1.plrDst)) {//down
+				speedx = 0;
+				speedy = 0;
+				speedy++;
+			}
+
+			if (SDL_HasIntersection(levelRect[7], &plr1.plrDst)) {//left
+				speedx = 0;
+				speedy = 0;
+				speedx--;
+			}
+
+			if (SDL_HasIntersection(levelRect[8], &plr1.plrDst)) {//up
+				speedx = 0;
+				speedy = 0;
+				speedy--;
+			}
+
+			if (SDL_HasIntersection(levelRect[9], &plr1.plrDst)) {//left
+				speedx = 0;
+				speedy = 0;
+				speedx--;
+			}
+
+			if (SDL_HasIntersection(levelRect[10], &plr1.plrDst)) {//down
+				speedx = 0;
+				speedy = 0;
+				speedy++;
+			}
+
+			if (SDL_HasIntersection(levelRect[11], &plr1.plrDst)) {//left
+				speedx = 0;
+				speedy = 0;
+				speedx--;
+			}
+
+			if (SDL_HasIntersection(levelRect[12], &plr1.plrDst)) {//up
+				speedx = 0;
+				speedy = 0;
+				speedy--;
+			}
+
+			if (SDL_HasIntersection(levelRect[13], &plr1.plrDst)) {//left
+				speedx = 0;
+				speedy = 0;
+				speedx--;
+			}
+
+			if (SDL_HasIntersection(levelRect[14], &plr1.plrDst)) {//up
+				speedx = 0;
+				speedy = 0;
+				speedy--;
+			}
+
+			if (SDL_HasIntersection(levelRect[15], &plr1.plrDst)) {//down
+				speedx = 0;
+				speedy = 0;
+				speedy++;
+			}
+
+			if (SDL_HasIntersection(levelRect[16], &plr1.plrDst)) {//down
+				speedx = 0;
+				speedy = 0;
+				speedy++;
+			}
+
+			if (SDL_HasIntersection(levelRect[17], &plr1.plrDst)) {//down
+				speedx = 0;
+				speedy = 0;
+				speedy++;
+			}
+
+			if (SDL_HasIntersection(levelRect[18], &plr1.plrDst)) {//left
+				speedx = 0;
+				speedy = 0;
+				speedx--;
+			}
+
+			if (SDL_HasIntersection(levelRect[19], &plr1.plrDst)) {//down
+				speedx = 0;
+				speedy = 0;
+				speedy++;
+			}
+			if (SDL_HasIntersection(levelRect[20], &plr1.plrDst)) {//left
+				speedx = 0;
+				speedy = 0;
+				speedx++;
+			}
+			if (SDL_HasIntersection(levelRect[21], &plr1.plrDst)) {//down
+				speedx = 0;
+				speedy = 0;
+				speedy++;
+			}
+
+			if (SDL_HasIntersection(levelRect[22], &plr1.plrDst)) {//right
+				speedx = 0;
+				speedy = 0;
+				speedx++;
+			}
+
+			if (SDL_HasIntersection(levelRect[23], &plr1.plrDst)) {//right
+				speedx = 0;
+				speedy = 0;
+				speedy++;
+			}
+
+			if (SDL_HasIntersection(levelRect[24], &plr1.plrDst)) {//right
+				speedx = 0;
+				speedy = 0;
+				speedx++;
+			}
+
+			if (SDL_HasIntersection(levelRect[25], &plr1.plrDst)) {//right
+				speedx = 0;
+				speedy = 0;
+				speedy--;
+			}
+
+			for (int i = 0; i < levelRect.size(); i++)
+			{
+				if (!wallHitx)
+					levelRect[i]->x -= speedx;
+				if (!wallHity)
+					levelRect[i]->y -= speedy;
+			}
+
+
+		}
+		
+
 		if (bg[areaNum]->getBg() == 2)
 		{
 			//wallcollision
@@ -1120,172 +1289,6 @@ void Levelone::Update()
 				speedy = 0;
 				speedx--;
 			}
-
-		
-		}
-		for (int i = 0; i < levelRect.size(); i++)
-		{
-			if (!wallHitx)
-				levelRect[i]->x -= speedx;
-			if (!wallHity)
-				levelRect[i]->y -= speedy;
-		}	
-		if (bg[areaNum]->getBg() == 0) {
-			//wallcollision
-			bool wallHitx = false;
-			bool wallHity = false;
-			if (SDL_HasIntersection(levelRect[0], &plr1.plrDst)) {//down
-				speedx = 0;
-				speedy = 0;
-				speedy++;
-			}
-			if (SDL_HasIntersection(levelRect[1], &plr1.plrDst)) { //right
-				speedx = 0;
-				speedx++;
-				speedy = 0;
-			}
-			if (SDL_HasIntersection(levelRect[2], &plr1.plrDst)) { //down
-				speedx = 0;
-				speedy = 0;
-				speedy++;
-			}
-			
-			if (SDL_HasIntersection(levelRect[3], &plr1.plrDst)) { //left
-				speedx = 0;
-				speedy = 0;
-				speedx--;
-			}
-			
-			if (SDL_HasIntersection(levelRect[4], &plr1.plrDst)) {//down
-				speedx = 0;
-				speedy = 0;
-				speedy++;
-			}
-			
-			if (SDL_HasIntersection(levelRect[5], &plr1.plrDst)) {//right
-				speedx = 0;
-				speedy = 0;
-				speedx++;
-			}
-			
-			if (SDL_HasIntersection(levelRect[6], &plr1.plrDst)) {//down
-				speedx = 0;
-				speedy = 0;
-				speedy++;
-			}
-			
-			if (SDL_HasIntersection(levelRect[7], &plr1.plrDst)) {//left
-				speedx = 0;
-				speedy = 0;
-				speedx--;
-			}
-			
-			if (SDL_HasIntersection(levelRect[8], &plr1.plrDst)) {//up
-				speedx = 0;
-				speedy = 0;
-				speedy--;
-			}
-			
-			if (SDL_HasIntersection(levelRect[9], &plr1.plrDst)) {//left
-				speedx = 0;
-				speedy = 0;
-				speedx--;
-			}
-			
-			if (SDL_HasIntersection(levelRect[10], &plr1.plrDst)) {//down
-				speedx = 0;
-				speedy = 0;
-				speedy++;
-			}
-			
-			if (SDL_HasIntersection(levelRect[11], &plr1.plrDst)) {//left
-				speedx = 0;
-				speedy = 0;
-				speedx--;
-			}
-			
-			if (SDL_HasIntersection(levelRect[12], &plr1.plrDst)) {//up
-				speedx = 0;
-				speedy = 0;
-				speedy--;
-			}
-			
-			if (SDL_HasIntersection(levelRect[13], &plr1.plrDst)) {//left
-				speedx = 0;
-				speedy = 0;
-				speedx--;
-			}
-			
-			if (SDL_HasIntersection(levelRect[14], &plr1.plrDst)) {//up
-				speedx = 0;
-				speedy = 0;
-				speedy--;
-			}
-
-			if (SDL_HasIntersection(levelRect[15], &plr1.plrDst)) {//down
-				speedx = 0;
-				speedy = 0;
-				speedy++;
-			}
-			
-			if (SDL_HasIntersection(levelRect[16], &plr1.plrDst)) {//down
-				speedx = 0;
-				speedy = 0;
-				speedy++;
-			}
-
-			if (SDL_HasIntersection(levelRect[17], &plr1.plrDst)) {//down
-				speedx = 0;
-				speedy = 0;
-				speedy++;
-			}
-
-			if (SDL_HasIntersection(levelRect[18], &plr1.plrDst)) {//left
-				speedx = 0;
-				speedy = 0;
-				speedx--;
-			}
-
-			if (SDL_HasIntersection(levelRect[19], &plr1.plrDst)) {//down
-				speedx = 0;
-				speedy = 0;
-				speedy++;
-			}
-			if (SDL_HasIntersection(levelRect[20], &plr1.plrDst)) {//left
-				speedx = 0;
-				speedy = 0;
-				speedx++;
-			}
-			if (SDL_HasIntersection(levelRect[21], &plr1.plrDst)) {//down
-				speedx = 0;
-				speedy = 0;
-				speedy++;
-			}
-
-			if (SDL_HasIntersection(levelRect[22], &plr1.plrDst)) {//right
-				speedx = 0;
-				speedy = 0;
-				speedx++;
-			}
-
-			if (SDL_HasIntersection(levelRect[23], &plr1.plrDst)) {//right
-				speedx = 0;
-				speedy = 0;
-				speedy++;
-			}
-
-			if (SDL_HasIntersection(levelRect[24], &plr1.plrDst)) {//right
-				speedx = 0;
-				speedy = 0;
-				speedx++;
-			}
-			
-			if (SDL_HasIntersection(levelRect[25], &plr1.plrDst)) {//right
-				speedx = 0;
-				speedy = 0;
-				speedy--;
-			}
-
 			for (int i = 0; i < levelRect.size(); i++)
 			{
 				if (!wallHitx)
@@ -1293,9 +1296,8 @@ void Levelone::Update()
 				if (!wallHity)
 					levelRect[i]->y -= speedy;
 			}
-
-
-		}
+		
+		}		
 		bg[areaNum]->swamp1Dst.x -= speedx;
 		bg[areaNum]->swamp1Dst.y -= speedy;
 		if (!wallHitx)
@@ -1303,6 +1305,7 @@ void Levelone::Update()
 		if (!wallHity)
 			exitRect.y -= speedy;
 
+		
 		if (SDL_HasIntersection(&exitRect, &plr1.plrDst)) {
 			loadArea = true;
 			cout << "hit" << endl;
@@ -1315,9 +1318,9 @@ void Levelone::Update()
 		}
 		//cout <<"noobtimer"<< Noobtimer++ <<" | "<<ezModeCD++ << "ezmodecd<-" << endl;
 		//cout << "freezetimer" << freezetimer++ << " | " << freezeCD++ << "freezecd<-" << endl;
-		//cout << plr1.plrDst.x - bg[areaNum]->swamp1Dst.x << " - " << plr1.plrDst.y - bg[areaNum]->swamp1Dst.y << endl;
+		cout << plr1.plrDst.x - bg[areaNum]->swamp1Dst.x << " - " << plr1.plrDst.y - bg[areaNum]->swamp1Dst.y << endl;
 		// cout << plr1.plrDst.x << " , " << plr1.plrDst.y  << endl;
-		cout << bg[areaNum]->swamp1Dst.x << "||" << bg[areaNum]->swamp1Dst.y << endl;
+		//cout << bg[areaNum]->swamp1Dst.x << "||" << bg[areaNum]->swamp1Dst.y << endl;
 		
 		//player
 		if (!dashPressed)
