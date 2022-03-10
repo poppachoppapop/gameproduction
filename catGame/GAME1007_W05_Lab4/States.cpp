@@ -421,13 +421,13 @@ void GameState::Update()
 			if ((Util::distanceOffset(plr1.plrDst, frog[i]->frogDst) < 550)) {
 				if (frog[i]->getShootTimer() == 0) {
 					if (frog[i]->getDir() == 0)
-						bub.push_back(new Bubble(frog[i]->frogDst.x, frog[i]->frogDst.y));
+						bub.push_back(new Bubble(frog[i]->frogDst.x + 40, frog[i]->frogDst.y+40));
 					if (frog[i]->getDir() == 1)
-						bub.push_back(new Bubble(frog[i]->frogDst.x, frog[i]->frogDst.y));
+						bub.push_back(new Bubble(frog[i]->frogDst.x + 40, frog[i]->frogDst.y + 40));
 					if (frog[i]->getDir() == 2)
-						bub.push_back(new Bubble(frog[i]->frogDst.x, frog[i]->frogDst.y));
+						bub.push_back(new Bubble(frog[i]->frogDst.x + 40, frog[i]->frogDst.y + 40));
 					if (frog[i]->getDir() == 3)
-						bub.push_back(new Bubble(frog[i]->frogDst.x, frog[i]->frogDst.y));
+						bub.push_back(new Bubble(frog[i]->frogDst.x + 40, frog[i]->frogDst.y + 40));
 				}
 			}
 			if (frog[i]->getHp() <= 0) {
@@ -838,6 +838,7 @@ void GameState::Render()
 		//health bar
 		SDL_SetRenderDrawColor(Engine::Instance().GetRenderer(), 255, 0, 0, 255);
 		SDL_RenderFillRect(Engine::Instance().GetRenderer(), &frog[i]->healthBar);
+	
 	}
 
 	//text box

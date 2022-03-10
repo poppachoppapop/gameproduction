@@ -84,6 +84,8 @@ class Frog
 		double speed;
 		bool frogLeft, frogRight, frogUp, frogDown;
 		int shootTimer;
+		int halt;
+		int movetimer;
 public:	
 	SDL_Rect frogSrc, frogDst, healthBar;
 	Frog(int x, int y, int h);
@@ -105,6 +107,7 @@ public:
 	SDL_Rect bubbleDst;
 	Bubble(int x, int y);
 	void Update(SDL_Rect plr);
+
 };
 
 class Shroom

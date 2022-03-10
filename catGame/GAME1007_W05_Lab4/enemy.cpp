@@ -177,6 +177,8 @@ Frog::Frog(int x, int y, int h) :frogSrc({ 0,0,32,32 }), frameCtr(0), frameMax(4
 	maxHealth = h;
 	state = 0;	
 	speed = 2;
+	halt = 0;
+	movetimer = 0;
 }
 	
 
@@ -223,28 +225,56 @@ void Frog::Update(SDL_Rect plr)
 	healthBar.x = frogDst.x + 15;
 	healthBar.y = frogDst.y - 5;
 	frames++;
-
-	if (Util::distanceOffset(plr, frogDst) < 550) {
-		if (plr.x - frogDst.x > 0) {
+	if (movetimer < 300)
+	if (Util::distanceOffset(plr, frogDst) < 550)
+	{
+		if (plr.x - frogDst.x > 0)
+		{
 			frogDst.x += speed;
-			dir = 0;
+			//dir = 0;
 		}
 		if (plr.x - frogDst.x < 0) {
 			frogDst.x -= speed;
-			dir = 1;
+			//dir = 1;
 		}
 		if (plr.y - frogDst.y > 0) {
 			frogDst.y += speed;
-			dir = 2;
+			//dir = 2;
 		}
 		if (plr.y - frogDst.y < 0) {
 			frogDst.y -= speed;
-			dir = 3;
+			//dir = 3;
 		}
 	}
-	shootTimer++;
-	if (shootTimer > 100)
+	if (movetimer > 300)	
+	if (Util::distanceOffset(plr, frogDst) < 500)
+	{
+		if (plr.x - frogDst.x > 0)
+		{
+			frogDst.x += halt;
+			dir = 0;
+		}
+		if (plr.x - frogDst.x < 0) {
+			frogDst.x -= halt;
+			dir = 1;
+		}
+		if (plr.y - frogDst.y > 0) {
+			frogDst.y += halt;
+			dir = 2;
+		}
+		if (plr.y - frogDst.y < 0) {
+			frogDst.y -= halt;
+			dir = 3;
+		}
+		shootTimer++;
+		if (shootTimer > 30)
 		shootTimer = 0;
+	}
+	movetimer++;
+	if (movetimer > 400)
+	movetimer = 0;
+	
+	
 }
 
 void Frog::resetFrames()
