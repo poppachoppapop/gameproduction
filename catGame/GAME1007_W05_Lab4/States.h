@@ -121,7 +121,7 @@ protected: //priv but inherited
 	SDL_Rect pausedSrc, pausedDst;
 	SDL_Rect pausedBgSrc, pausedBgDst;
 	SDL_Rect mainMenuButtonSrc, mainMenuButtonDst;
-		
+	
 	Player plr1;
 	NPC catDude;
 	Background bg1;

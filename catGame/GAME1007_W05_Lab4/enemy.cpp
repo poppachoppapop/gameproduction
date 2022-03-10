@@ -54,6 +54,7 @@ void Enemy::update()
 //DragonFly
 DragonFly::DragonFly(int x, int y, double h) : flySrc({ 0,0,32,32 }), frameCtr(0), frameMax(3), spriteIdx(0), spriteMax(3)
 {
+	HP = { 0,0,100,4 };
 	flyDst = { x, y, 128, 128 };
 	healthBar = { x, y , 50, 5 };
 	health = h;
@@ -68,7 +69,8 @@ DragonFly::DragonFly(int x, int y, double h) : flySrc({ 0,0,32,32 }), frameCtr(0
 	leftCount = 0;
 	rightCount = 0;
 	maxCount = 5;
-	lookLeft = true;
+	lookLeft = true;	
+	
 }
 
 void DragonFly::setHp(double h)
@@ -100,9 +102,11 @@ void DragonFly::Update()
 			flySrc.x = 0 + flySrc.w * spriteIdx;
 		}
 	}
+	HP.x = flyDst.x + 15;
+	HP.y = flyDst.y - 1;
 	healthBar.w = double(health / maxHealth) * 100;
 	healthBar.x = flyDst.x + 15;
-	healthBar.y = flyDst.y - 5;
+	healthBar.y = flyDst.y - 5;	
 	dirTimer++;
 
 	if (dir == 0 && maxCount > upCount) {
@@ -170,6 +174,7 @@ Vines::Vines(int x, int y) :vineSrc({ 0,0,32,32 })
 //frog
 Frog::Frog(int x, int y, int h) :frogSrc({ 0,0,32,32 }), frameCtr(0), frameMax(4), spriteIdx(0), spriteMax(7)
 {
+	HP = { 0,0,100,4 };
 	frogDst = { x,y, 125, 125 };	
 	healthBar = { x, y , 50, 5 };	
 	shootTimer = 0;
@@ -220,7 +225,8 @@ void Frog::Update(SDL_Rect plr)
 			frogSrc.x = 0 + frogSrc.w * spriteIdx;
 		}
 	}
-
+	HP.x = frogDst.x + 15;
+	HP.y = frogDst.y - 5;
 	healthBar.w = double(health / maxHealth) * 100;
 	healthBar.x = frogDst.x + 15;
 	healthBar.y = frogDst.y - 5;
@@ -284,6 +290,7 @@ void Frog::resetFrames()
 
 Shroom::Shroom(int x, int y, int h) : shroomSrc({0,0,32,32}), frameCtr(0), frameMax(9), spriteIdx(0), spriteMax(4)
 {
+	HP = { 0,0,100,4 };
 	shroomDst = { x,y,64,64 };
 	healthBar = { x, y , 25, 5 };
 	health = h;
@@ -318,7 +325,8 @@ void Shroom::Update()
 			shroomSrc.x = 0 + shroomSrc.w * spriteIdx;
 		}
 	}
-
+	HP.x = shroomDst.x + 15;
+	HP.y = shroomDst.y - 5;
 	healthBar.w = double(health / maxHealth) * 50;
 	healthBar.x = shroomDst.x + 5;
 	healthBar.y = shroomDst.y - 5;
@@ -340,29 +348,35 @@ Bubble::Bubble(int x, int y)
 
 void Bubble::Update(SDL_Rect plr)
 {
-	if (!foundDir) {
-		left = false;
-		right = false;
-		up = false;
-		down = false;
-		if (plr.x - bubbleDst.x >= 0) // left
-			left = true;
-		if (plr.x - bubbleDst.x <= 0) // right
-			right = true;
-		if (plr.y - bubbleDst.y >= 0) // down
-			down = true;
-		if (plr.y - bubbleDst.y <= 0) // up
-			up = true;
-		foundDir = true;
-
+	if (Util::distanceOffset(plr, bubbleDst) < 300)
+	{
+		bubbleDst = plr;	
+		
 	}
-	if (left)
-		bubbleDst.x += speed;
-	if (right)
-		bubbleDst.x -= speed;
-	if (down)
-		bubbleDst.y += speed;
-	if (up)
-		bubbleDst.y -= speed;
+	
+	//if (!foundDir) {
+	//	left = false;
+	//	right = false;
+	//	up = false;
+	//	down = false;
+	//	if (plr.x - bubbleDst.x >= 0) // left
+	//		left = true;
+	//	if (plr.x - bubbleDst.x <= 0) // right
+	//		right = true;
+	//	if (plr.y - bubbleDst.y >= 0) // down
+	//		down = true;
+	//	if (plr.y - bubbleDst.y <= 0) // up
+	//		up = true;
+	//	foundDir = true;
+
+	//}
+	//if (left)
+	//	bubbleDst.x += speed;
+	//if (right)
+	//	bubbleDst.x -= speed;
+	//if (down)
+	//	bubbleDst.y += speed;
+	//if (up)
+	//	bubbleDst.y -= speed;
 
 }
