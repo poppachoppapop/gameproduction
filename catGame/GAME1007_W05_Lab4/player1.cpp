@@ -16,6 +16,7 @@ frameCtr(0), frameMax(3), spriteIdx(0), spriteMax(8)
 	maxwin = 100;
 	state = 0;
 	fireRate = 50;
+	hurt = 255;
 	hurtSfx = Mix_LoadWAV("sfx/ow.wav");
 }
 
@@ -118,14 +119,22 @@ int Player::getMaxSpd()
 	return plrMaxSpd;
 }
 
+int Player::getHurtOpacity()
+{
+	return hurt;
+}
+
 void Player::takeDamage(double howMuch)
 { 
-	if (damageCD > 40) 
+	if (damageCD > 40)
 	{
 		plrHp -= howMuch;
 		damageCD = 0;
 		Mix_PlayChannel(-1, hurtSfx, 0);
+		hurt = 128;
 	}
+	else
+		hurt = 255;
 }
 
 void Player::points(double howMuch)

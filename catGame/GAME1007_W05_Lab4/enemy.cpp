@@ -68,6 +68,7 @@ DragonFly::DragonFly(int x, int y, double h) : flySrc({ 0,0,32,32 }), frameCtr(0
 	leftCount = 0;
 	rightCount = 0;
 	maxCount = 5;
+	lookLeft = true;
 }
 
 void DragonFly::setHp(double h)
@@ -117,6 +118,7 @@ void DragonFly::Update()
 	else if (dir == 1 && maxCount > leftCount) {
 		if (dirTimer < distance) {
 			flyDst.x -= speed;
+			lookLeft = true;
 		}
 		else {
 			dirTimer = 0;
@@ -137,6 +139,7 @@ void DragonFly::Update()
 	else if (dir == 3 && maxCount > rightCount) {
 		if (dirTimer < distance) {
 			flyDst.x += speed;
+			lookLeft = false;
 		}
 		else {
 			dirTimer = 0;

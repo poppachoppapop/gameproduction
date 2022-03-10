@@ -59,6 +59,7 @@ public:
 	DragonFly(int x, int y, double h);
 	SDL_Rect flySrc, flyDst, healthBar;
 	Uint16 frames = 0;
+	bool lookLeft;
 	void setHp(double h);
 	int getHp();
 	void Update();

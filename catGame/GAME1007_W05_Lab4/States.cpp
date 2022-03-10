@@ -170,7 +170,7 @@ void GameState::Enter()
 	dumbieTxtr = IMG_LoadTexture(Engine::Instance().GetRenderer(), "art/Dumbie.png");
 	bgTutorial = IMG_LoadTexture(Engine::Instance().GetRenderer(), "bgs/tutorial.png");
 	npcTxtr = IMG_LoadTexture(Engine::Instance().GetRenderer(), "art/catDude.png");
-	DragonFlyTxt = IMG_LoadTexture(Engine::Instance().GetRenderer(), "art/dragonfly.png");
+	DragonFlyTxt = IMG_LoadTexture(Engine::Instance().GetRenderer(), "art/dragonfly1.png");
 	vineTexture = IMG_LoadTexture(Engine::Instance().GetRenderer(), "art/vines.png");
 	FrogTxtr = IMG_LoadTexture(Engine::Instance().GetRenderer(), "art/frogWalking7.png");
 
@@ -542,7 +542,7 @@ void GameState::Update()
 		//For throwing Rock
 		if (EVMA::KeyHeld(SDL_SCANCODE_UP))
 		{
-			if (rockCooldown > 50) {
+			if (rockCooldown > plr1.fireRate) {
 				Mix_PlayChannel(-1, projectileRock, 0);
 				rockCooldown = 0;
 				playerpew.push_back(new Rock(plr1.plrDst.x + 10, plr1.plrDst.y + 30, rockSpeed * -1, 'y'));
@@ -552,7 +552,7 @@ void GameState::Update()
 		else if (EVMA::KeyHeld(SDL_SCANCODE_DOWN))
 		{
 
-			if (rockCooldown > 50) {
+			if (rockCooldown > plr1.fireRate) {
 				Mix_PlayChannel(-1, projectileRock, 0);
 				rockCooldown = 0;
 				playerpew.push_back(new Rock(plr1.plrDst.x + 10, plr1.plrDst.y + 30, rockSpeed, 'y'));
@@ -562,7 +562,7 @@ void GameState::Update()
 		else if (EVMA::KeyHeld(SDL_SCANCODE_LEFT))
 		{
 
-			if (rockCooldown > 50) {
+			if (rockCooldown > plr1.fireRate) {
 				Mix_PlayChannel(-1, projectileRock, 0);
 				rockCooldown = 0;
 				playerpew.push_back(new Rock(plr1.plrDst.x + 10, plr1.plrDst.y + 30, rockSpeed * -1, 'x'));
@@ -572,7 +572,7 @@ void GameState::Update()
 		else if (EVMA::KeyHeld(SDL_SCANCODE_RIGHT))
 		{
 
-			if (rockCooldown > 50) {
+			if (rockCooldown > plr1.fireRate) {
 				Mix_PlayChannel(-1, projectileRock, 0);
 				rockCooldown = 0;
 				playerpew.push_back(new Rock(plr1.plrDst.x + 10, plr1.plrDst.y + 30, rockSpeed, 'x'));
@@ -823,7 +823,11 @@ void GameState::Render()
 	//dragoon fly
 	for (unsigned i = 0; i < fly.size(); i++)
 	{
-		SDL_RenderCopy(Engine::Instance().GetRenderer(), DragonFlyTxt, &fly[i]->flySrc, &fly[i]->flyDst);
+		
+		if (fly[i]->lookLeft)
+			SDL_RenderCopyEx(Engine::Instance().GetRenderer(), DragonFlyTxt, &fly[i]->flySrc, &fly[i]->flyDst, NULL, NULL, SDL_FLIP_NONE);
+		else if (!fly[i]->lookLeft)
+			SDL_RenderCopyEx(Engine::Instance().GetRenderer(), DragonFlyTxt, &fly[i]->flySrc, &fly[i]->flyDst, NULL, NULL, SDL_FLIP_HORIZONTAL);
 		//health bar
 		SDL_SetRenderDrawColor(Engine::Instance().GetRenderer(), 255, 0, 0, 255);
 		SDL_RenderFillRect(Engine::Instance().GetRenderer(), &fly[i]->healthBar);
@@ -975,11 +979,11 @@ void Levelone::Update()
 			fadeMod -= fadeSpeed;
 		if (fadeMod == 0)
 			fadeMod == 0;
-		if (plr1.winbar >= 150)
+		/*if (plr1.winbar >= 150)
 		{
 			STMA::ChangeState(new WState());
 			return;
-		}
+		}*/
 		cout << exitRect.x << endl;
 		cout << exitRect.y << endl;
 		cout << bg[areaNum]->getBg() << endl;
@@ -1051,7 +1055,6 @@ void Levelone::Update()
 
 				levelRect.push_back(new SDL_Rect{ bg[areaNum]->swampDst.x + -50,bg[areaNum]->swampDst.y + 510 + 128,1430,10 });
 
-				//fly.push_back(new DragonFly)
 			}
 			if (bg[areaNum]->getBg() == 1)
 			{
@@ -1073,6 +1076,10 @@ void Levelone::Update()
 				levelRect.push_back(new SDL_Rect{ bg[areaNum]->swampDst.x + 695,bg[areaNum]->swampDst.y + 1300,10,240 });
 				levelRect.push_back(new SDL_Rect{ bg[areaNum]->swampDst.x + 1355,bg[areaNum]->swampDst.y + 1300,10,240 });
 				//levelRect.push_back(new SDL_Rect{ bg[areaNum]->swamp1Dst.x,bg[areaNum]->swamp1Dst.y });
+				for (int i = 0; i < 50; i++) {
+					fly.push_back(new DragonFly(bg[areaNum]->swampDst.x + 960, bg[areaNum]->swampDst.y + 900, 10));
+				}
+				frog.push_back(new Frog(bg[areaNum]->swampDst.x + 960, bg[areaNum]->swampDst.y + 900, 500));
 			}
 
 			if (bg[areaNum]->getBg() == 2)
@@ -2102,7 +2109,10 @@ void Levelone::Render()
 	//dragoon fly
 	for (unsigned i = 0; i < fly.size(); i++)
 	{
-		SDL_RenderCopy(Engine::Instance().GetRenderer(), DragonFlyTxt, &fly[i]->flySrc, &fly[i]->flyDst);
+		if (fly[i]->lookLeft)
+			SDL_RenderCopyEx(Engine::Instance().GetRenderer(), DragonFlyTxt, &fly[i]->flySrc, &fly[i]->flyDst, NULL, NULL, SDL_FLIP_NONE);
+		else if (!fly[i]->lookLeft)
+			SDL_RenderCopyEx(Engine::Instance().GetRenderer(), DragonFlyTxt, &fly[i]->flySrc, &fly[i]->flyDst, NULL, NULL, SDL_FLIP_HORIZONTAL);
 		//health bar		
 		SDL_SetRenderDrawColor(Engine::Instance().GetRenderer(), 255, 0, 0, 255);
 		if (isfreezeActive == false)

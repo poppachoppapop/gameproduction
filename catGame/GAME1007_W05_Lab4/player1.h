@@ -19,6 +19,7 @@ public:
 	int fireRate;
 	double plrHp, maxHp;
 	double winbar, maxwin;
+	int hurt;
 	Player();
 	//Player(int h, int w, int s);
 	void Update();
@@ -27,6 +28,7 @@ public:
 	void setPlrPos(int x, int y);
 	int getPlrSpd();
 	int getMaxSpd();
+	int getHurtOpacity();
 	void takeDamage(double howMuch);
 	void points(double howMuch);
 
