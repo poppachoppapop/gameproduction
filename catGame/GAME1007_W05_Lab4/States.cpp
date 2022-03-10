@@ -141,7 +141,7 @@ void PauseState::Render()
 	//SDL_SetRenderDrawColor(Engine::Instance().GetRenderer(), 0, 0, 0, 200);
 	//SDL_Rect rect = { 255,128,512,512 };
 	//SDL_RenderFillRect(Engine::Instance().GetRenderer(), &rect);
-	
+	//SDL_RenderFillRectcock and balls
 	//SDL_RenderCopy(Engine::Instance().GetRenderer(), sleepingMaki, &plr1.plrFrontIdle, &plr1.plrDst);
 	SDL_RenderCopy(Engine::Instance().GetRenderer(), pauseBg, &pausedBgSrc, &pausedBgDst);
 	SDL_RenderCopy(Engine::Instance().GetRenderer(), sleepingMaki, &plr1.plrFrontIdle, &plr1.plrDst);
@@ -154,6 +154,7 @@ void PauseState::Render()
 
 void PauseState::Exit()
 {
+	//cock and balls
 	cout << "exiting pausestate" << endl;
 	/*isPauseActive = false;*/
 }
@@ -201,7 +202,7 @@ void GameState::Enter()
 
 	playerpew.reserve(4);
 	dumbie.reserve(4);
-
+	
 	//Text box and score stuff
 	font = TTF_OpenFont("fonts/font.ttf", 24);
 	White = { 255, 255, 255 };
@@ -361,10 +362,14 @@ void GameState::Update()
 		for (unsigned i = 0; i < fly.size(); i++)
 		{
 			fly[i]->Update();
+			fly[i]->HP.x -= speedx;
+			fly[i]->HP.y -= speedy;
 			if (!wallHitx)
 				fly[i]->flyDst.x -= speedx;
 			if (!wallHity)
 				fly[i]->flyDst.y -= speedy;
+			
+
 
 			if (SDL_HasIntersection(&fly[i]->flyDst, &plr1.plrDst)) {
 				plr1.takeDamage(1);
@@ -377,6 +382,8 @@ void GameState::Update()
 				fly.erase(fly.begin() + i);
 				fly.shrink_to_fit();
 			}
+		}
+		for (unsigned i = 0; i < fly.size(); i++) {
 			for (unsigned j = 0; j < playerpew.size(); j++)
 			{
 				if (SDL_HasIntersection(&playerpew[j]->rockDst, &fly[i]->flyDst)) //AABB Check
@@ -391,7 +398,6 @@ void GameState::Update()
 					break;
 				}
 			}
-
 		}
 
 		//frog
@@ -421,13 +427,13 @@ void GameState::Update()
 			if ((Util::distanceOffset(plr1.plrDst, frog[i]->frogDst) < 550)) {
 				if (frog[i]->getShootTimer() == 0) {
 					if (frog[i]->getDir() == 0)
-						bub.push_back(new Bubble(frog[i]->frogDst.x, frog[i]->frogDst.y));
+						bub.push_back(new Bubble(frog[i]->frogDst.x + 40, frog[i]->frogDst.y+40));
 					if (frog[i]->getDir() == 1)
-						bub.push_back(new Bubble(frog[i]->frogDst.x, frog[i]->frogDst.y));
+						bub.push_back(new Bubble(frog[i]->frogDst.x + 40, frog[i]->frogDst.y + 40));
 					if (frog[i]->getDir() == 2)
-						bub.push_back(new Bubble(frog[i]->frogDst.x, frog[i]->frogDst.y));
+						bub.push_back(new Bubble(frog[i]->frogDst.x + 40, frog[i]->frogDst.y + 40));
 					if (frog[i]->getDir() == 3)
-						bub.push_back(new Bubble(frog[i]->frogDst.x, frog[i]->frogDst.y));
+						bub.push_back(new Bubble(frog[i]->frogDst.x + 40, frog[i]->frogDst.y + 40));
 				}
 			}
 			if (frog[i]->getHp() <= 0) {
@@ -829,8 +835,12 @@ void GameState::Render()
 		else if (!fly[i]->lookLeft)
 			SDL_RenderCopyEx(Engine::Instance().GetRenderer(), DragonFlyTxt, &fly[i]->flySrc, &fly[i]->flyDst, NULL, NULL, SDL_FLIP_HORIZONTAL);
 		//health bar
+		SDL_SetRenderDrawColor(Engine::Instance().GetRenderer(), 255, 255, 255, 255);
+		SDL_RenderFillRect(Engine::Instance().GetRenderer(), &fly[i]->HP);
 		SDL_SetRenderDrawColor(Engine::Instance().GetRenderer(), 255, 0, 0, 255);
 		SDL_RenderFillRect(Engine::Instance().GetRenderer(), &fly[i]->healthBar);
+		
+		
 	}
 	//frog
 	for (unsigned i = 0; i < frog.size(); i++) {
@@ -838,6 +848,7 @@ void GameState::Render()
 		//health bar
 		SDL_SetRenderDrawColor(Engine::Instance().GetRenderer(), 255, 0, 0, 255);
 		SDL_RenderFillRect(Engine::Instance().GetRenderer(), &frog[i]->healthBar);
+	
 	}
 
 	//text box

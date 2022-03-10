@@ -56,7 +56,8 @@ private:
 	int distance;
 	int upCount, downCount, rightCount, leftCount, maxCount;
 public:
-	DragonFly(int x, int y, double h);
+	SDL_Rect HP;//white hp
+	DragonFly(int x, int y, double h);	
 	SDL_Rect flySrc, flyDst, healthBar;
 	Uint16 frames = 0;
 	bool lookLeft;
@@ -84,7 +85,11 @@ class Frog
 		double speed;
 		bool frogLeft, frogRight, frogUp, frogDown;
 		int shootTimer;
+		int halt;
+		int movetimer;
+		
 public:	
+	SDL_Rect HP;//white hp
 	SDL_Rect frogSrc, frogDst, healthBar;
 	Frog(int x, int y, int h);
 	Uint16 frames = 0;
@@ -101,10 +106,12 @@ private:
 	int speed;
 	bool foundDir;
 	bool up, down, left, right;
+	bool seek;
 public:
 	SDL_Rect bubbleDst;
 	Bubble(int x, int y);
 	void Update(SDL_Rect plr);
+
 };
 
 class Shroom
@@ -115,6 +122,7 @@ private:
 	double health;
 	double maxHealth;
 public:
+	SDL_Rect HP;//white hp
 	SDL_Rect shroomSrc, shroomDst, healthBar;
 	Shroom(int x, int y, int h);
 	Uint16 frames = 0;
