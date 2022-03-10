@@ -83,6 +83,8 @@ class Frog
 		double speed;
 		bool frogLeft, frogRight, frogUp, frogDown;
 		int shootTimer;
+		int movetimer;
+		int halt;
 public:	
 	SDL_Rect frogSrc, frogDst, healthBar;
 	Frog(int x, int y, int h);
