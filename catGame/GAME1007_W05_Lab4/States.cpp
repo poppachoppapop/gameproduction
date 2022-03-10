@@ -951,98 +951,18 @@ void Levelone::Enter()
 	Mix_Volume(-1, 50);
 	playerpew.reserve(4);
 
+	loadArea = true;
+
+	areaNum = 0;
+
 	blackRect = { 0 , 0 , 1024 , 768 };
 	exitRect = { 0,0, 10, 10 };
 	
 	for (int i = 0; i < 15; i++)
 	{
-		bg.push_back(new Level1Background(0, 15));
+		bg.push_back(new Level1Background(rand()%5, 10));
 	}
 
-	
-	if (bg[areaNum]->getBg() == 0) {
-		levelRect.push_back(new SDL_Rect{ bg[areaNum]->swampDst.x + -50,bg[areaNum]->swampDst.y + 370,240,10 });
-		levelRect.push_back(new SDL_Rect{ bg[areaNum]->swampDst.x + 190,bg[areaNum]->swampDst.y + 0,10,380 });
-		levelRect.push_back(new SDL_Rect{ bg[areaNum]->swampDst.x + 190,bg[areaNum]->swampDst.y + -10,640+128,10 });
-		levelRect.push_back(new SDL_Rect{ bg[areaNum]->swampDst.x + 830 + 128,bg[areaNum]->swampDst.y + 0,10,380 });
-		levelRect.push_back(new SDL_Rect{ bg[areaNum]->swampDst.x + 830 + 128,bg[areaNum]->swampDst.y + 370,390 - 128,10 });
-
-		levelRect.push_back(new SDL_Rect{ bg[areaNum]->swampDst.x + 1210,bg[areaNum]->swampDst.y + 130,10,250 });
-		levelRect.push_back(new SDL_Rect{ bg[areaNum]->swampDst.x + 1220,bg[areaNum]->swampDst.y + 120,380 + 128,10 });
-		levelRect.push_back(new SDL_Rect{ bg[areaNum]->swampDst.x + 1600+ 128,bg[areaNum]->swampDst.y + 130,10,380 + 128 });
-		levelRect.push_back(new SDL_Rect{ bg[areaNum]->swampDst.x + 1500 + 128,bg[areaNum]->swampDst.y + 510 + 128,100,10 });
-		levelRect.push_back(new SDL_Rect{ bg[areaNum]->swampDst.x + 1500 + 128,bg[areaNum]->swampDst.y + 510 + 128,10,250 - 128 });
-
-		levelRect.push_back(new SDL_Rect{ bg[areaNum]->swampDst.x + 1500 + 128,bg[areaNum]->swampDst.y + 750,100,10 });
-		levelRect.push_back(new SDL_Rect{ bg[areaNum]->swampDst.x + 1600+128,bg[areaNum]->swampDst.y + 760,10,400 +128 });
-		levelRect.push_back(new SDL_Rect{ bg[areaNum]->swampDst.x + 940 + 128,bg[areaNum]->swampDst.y + 1160 + 128,660,10 });
-		levelRect.push_back(new SDL_Rect{ bg[areaNum]->swampDst.x + 940 + 128,bg[areaNum]->swampDst.y + 1160 + 128,10,120 });
-		levelRect.push_back(new SDL_Rect{ bg[areaNum]->swampDst.x + -50 + 128,bg[areaNum]->swampDst.y + 1280 + 128,990,10 });
-
-		levelRect.push_back(new SDL_Rect{ bg[areaNum]->swampDst.x + -50,bg[areaNum]->swampDst.y + 1140,240,10 });
-		levelRect.push_back(new SDL_Rect{ bg[areaNum]->swampDst.x + 180,bg[areaNum]->swampDst.y + 750,10,390 });
-		levelRect.push_back(new SDL_Rect{ bg[areaNum]->swampDst.x + 190,bg[areaNum]->swampDst.y + 750,510 + 128,10 });
-		levelRect.push_back(new SDL_Rect{ bg[areaNum]->swampDst.x + 700 + 128,bg[areaNum]->swampDst.y + 750,10,390 });
-		levelRect.push_back(new SDL_Rect{ bg[areaNum]->swampDst.x + 700 + 128,bg[areaNum]->swampDst.y + 1145,30,10 });
-
-		levelRect.push_back(new SDL_Rect{ bg[areaNum]->swampDst.x + 860,bg[areaNum]->swampDst.y + 1030,10,120 });
-		levelRect.push_back(new SDL_Rect{ bg[areaNum]->swampDst.x + 840 + 30,bg[areaNum]->swampDst.y + 1025,240 - 64,10 });
-		levelRect.push_back(new SDL_Rect{ bg[areaNum]->swampDst.x + 1070,bg[areaNum]->swampDst.y + 760,10,270 });
-		levelRect.push_back(new SDL_Rect{ bg[areaNum]->swampDst.x + 1080,bg[areaNum]->swampDst.y + 750,300,10 });
-		levelRect.push_back(new SDL_Rect{ bg[areaNum]->swampDst.x + 1370,bg[areaNum]->swampDst.y + 510+ 128,10,250 - 128 });
-
-		levelRect.push_back(new SDL_Rect{ bg[areaNum]->swampDst.x + -50,bg[areaNum]->swampDst.y + 510 + 128,1430,10 });
-	
-	}
-	if (bg[areaNum]->getBg() == 1)
-	{
-		levelRect.push_back(new SDL_Rect{ bg[areaNum]->swampDst.x +70,bg[areaNum]->swampDst.y + 100,10,1210});
-		levelRect.push_back(new SDL_Rect{ bg[areaNum]->swampDst.x + 65,bg[areaNum]->swampDst.y + 100 ,630,10 });
-		levelRect.push_back(new SDL_Rect{ bg[areaNum]->swampDst.x + 695,bg[areaNum]->swampDst.y -150,10,200 });
-		levelRect.push_back(new SDL_Rect{ bg[areaNum]->swampDst.x + 1365,bg[areaNum]->swampDst.y + 100 ,630,10 });
-		levelRect.push_back(new SDL_Rect{ bg[areaNum]->swampDst.x + 1365,bg[areaNum]->swampDst.y - 150,10,200 });
-		levelRect.push_back(new SDL_Rect{ bg[areaNum]->swampDst.x + 2000,bg[areaNum]->swampDst.y + 100,10,1210 });
-		levelRect.push_back(new SDL_Rect{ bg[areaNum]->swampDst.x +2000,bg[areaNum]->swampDst.y +300,10,910 });
-		levelRect.push_back(new SDL_Rect{ bg[areaNum]->swampDst.x + 1355,bg[areaNum]->swampDst.y + 1300,630,10 });
-		levelRect.push_back(new SDL_Rect{ bg[areaNum]->swampDst.x + 75,bg[areaNum]->swampDst.y + 1300,630,10 });
-		levelRect.push_back(new SDL_Rect{ bg[areaNum]->swampDst.x + 695,bg[areaNum]->swampDst.y + 1300,10,240 });
-		levelRect.push_back(new SDL_Rect{ bg[areaNum]->swampDst.x + 1355,bg[areaNum]->swampDst.y + 1300,10,240 });
-		//levelRect.push_back(new SDL_Rect{ bg[areaNum]->swamp1Dst.x,bg[areaNum]->swamp1Dst.y });
-	}
-	if (bg[areaNum]->getBg() == 2)
-	{
-		levelRect.push_back(new SDL_Rect{ bg[areaNum]->swampDst.x +50,bg[areaNum]->swampDst.y -20,10,1300 });
-		levelRect.push_back(new SDL_Rect{ bg[areaNum]->swampDst.x + 570,bg[areaNum]->swampDst.y - 20,10,270 });
-		levelRect.push_back(new SDL_Rect{ bg[areaNum]->swampDst.x + 600,bg[areaNum]->swampDst.y + 250,1280,10 });
-		levelRect.push_back(new SDL_Rect{ bg[areaNum]->swampDst.x + 1860,bg[areaNum]->swampDst.y + 250,10,1300 });
-		levelRect.push_back(new SDL_Rect{ bg[areaNum]->swampDst.x + 40,bg[areaNum]->swampDst.y + 1330,1280,10 });
-		levelRect.push_back(new SDL_Rect{ bg[areaNum]->swampDst.x + 1340,bg[areaNum]->swampDst.y + 1360,10,200 });
-	}
-	if (bg[areaNum]->getBg() == 3)
-	{
-		levelRect.push_back(new SDL_Rect{ bg[areaNum]->swampDst.x -10,bg[areaNum]->swampDst.y +998,150,10 });
-		levelRect.push_back(new SDL_Rect{ bg[areaNum]->swampDst.x +170,bg[areaNum]->swampDst.y +320,10,650 });
-		levelRect.push_back(new SDL_Rect{ bg[areaNum]->swampDst.x + 170,bg[areaNum]->swampDst.y + 230,580,10 });
-		levelRect.push_back(new SDL_Rect{ bg[areaNum]->swampDst.x + 800,bg[areaNum]->swampDst.y +20 ,10,200 });
-		levelRect.push_back(new SDL_Rect{ bg[areaNum]->swampDst.x + 900,bg[areaNum]->swampDst.y -20,1100,10 });
-		levelRect.push_back(new SDL_Rect{ bg[areaNum]->swampDst.x -10 ,bg[areaNum]->swampDst.y + 1420,1300,10 });
-		levelRect.push_back(new SDL_Rect{ bg[areaNum]->swampDst.x + 1330,bg[areaNum]->swampDst.y + 590,10,800 });
-		levelRect.push_back(new SDL_Rect{ bg[areaNum]->swampDst.x + 1350,bg[areaNum]->swampDst.y + 560,700,10 });
-
-	}
-	if (bg[areaNum]->getBg() == 4)
-	{
-		levelRect.push_back(new SDL_Rect{ bg[areaNum]->swampDst.x,bg[areaNum]->swampDst.y + 1060,280,10 });
-		levelRect.push_back(new SDL_Rect{ bg[areaNum]->swampDst.x + 320,bg[areaNum]->swampDst.y + 1090,10,380 });
-		levelRect.push_back(new SDL_Rect{ bg[areaNum]->swampDst.x + 360,bg[areaNum]->swampDst.y + 1440,1070,10 });
-		levelRect.push_back(new SDL_Rect{ bg[areaNum]->swampDst.x + 1470,bg[areaNum]->swampDst.y + 1370,10,100 });
-		levelRect.push_back(new SDL_Rect{ bg[areaNum]->swampDst.x + 1500,bg[areaNum]->swampDst.y + 1330,50,10 });
-		levelRect.push_back(new SDL_Rect{ bg[areaNum]->swampDst.x + 1600,bg[areaNum]->swampDst.y + 470,10,800 });
-		levelRect.push_back(new SDL_Rect{ bg[areaNum]->swampDst.x + 1650,bg[areaNum]->swampDst.y + 440,400,10 });
-		levelRect.push_back(new SDL_Rect{ bg[areaNum]->swampDst.x,bg[areaNum]->swampDst.y + 620,280,10 });
-		levelRect.push_back(new SDL_Rect{ bg[areaNum]->swampDst.x + 320,bg[areaNum]->swampDst.y,10,580 });
-		levelRect.push_back(new SDL_Rect{ bg[areaNum]->swampDst.x + 320,bg[areaNum]->swampDst.y - 20,1720,10 });
-	}
 
 }
 
@@ -1064,16 +984,23 @@ void Levelone::Update()
 		cout << exitRect.y << endl;
 		cout << bg[areaNum]->getBg() << endl;
 		if (loadArea) {
+			//clear vectors
+			playerpew.clear();
+			vine.clear();
+			fly.clear();
+			frog.clear();
+			levelRect.clear();
+			plr1.setPlrSpd(0);
+
 			for (int i = 0; i < 255 / fadeSpeed; i++)
 			{
 				if (!(fadeMod == 255))
 					fadeMod += fadeSpeed;
 			}
-			areaNum++;
 			entrance = rand() % 2;
 			cout << entrance << endl;
 			if (bg[areaNum]->getBg() == 0) {
-				if (entrance == 0) {
+				/*if (entrance == 0) {
 					bg[areaNum]->swampDst.x = 350;
 					bg[areaNum]->swampDst.y = -150;
 					exitRect.x = bg[areaNum]->swampDst.x;
@@ -1084,15 +1011,128 @@ void Levelone::Update()
 					bg[areaNum]->swampDst.y = -820;
 					exitRect.x = bg[areaNum]->swampDst.x;
 					exitRect.y = bg[areaNum]->swampDst.y + 550;
-				}
+				}*/
+				//spawn position
+				bg[areaNum]->swampDst.x = 350;
+				bg[areaNum]->swampDst.y = -150;
+				//exit position
+				exitRect.x = bg[areaNum]->swampDst.x + 50;
+				exitRect.y = bg[areaNum]->swampDst.y + 1280;
+
+				levelRect.push_back(new SDL_Rect{ bg[areaNum]->swampDst.x + -50,bg[areaNum]->swampDst.y + 370,240,10 });
+				levelRect.push_back(new SDL_Rect{ bg[areaNum]->swampDst.x + 190,bg[areaNum]->swampDst.y + 0,10,380 });
+				levelRect.push_back(new SDL_Rect{ bg[areaNum]->swampDst.x + 190,bg[areaNum]->swampDst.y + -10,640 + 128,10 });
+				levelRect.push_back(new SDL_Rect{ bg[areaNum]->swampDst.x + 830 + 128,bg[areaNum]->swampDst.y + 0,10,380 });
+				levelRect.push_back(new SDL_Rect{ bg[areaNum]->swampDst.x + 830 + 128,bg[areaNum]->swampDst.y + 370,390 - 128,10 });
+
+				levelRect.push_back(new SDL_Rect{ bg[areaNum]->swampDst.x + 1210,bg[areaNum]->swampDst.y + 130,10,250 });
+				levelRect.push_back(new SDL_Rect{ bg[areaNum]->swampDst.x + 1220,bg[areaNum]->swampDst.y + 120,380 + 128,10 });
+				levelRect.push_back(new SDL_Rect{ bg[areaNum]->swampDst.x + 1600 + 128,bg[areaNum]->swampDst.y + 130,10,380 + 128 });
+				levelRect.push_back(new SDL_Rect{ bg[areaNum]->swampDst.x + 1500 + 128,bg[areaNum]->swampDst.y + 510 + 128,100,10 });
+				levelRect.push_back(new SDL_Rect{ bg[areaNum]->swampDst.x + 1500 + 128,bg[areaNum]->swampDst.y + 510 + 128,10,250 - 128 });
+
+				levelRect.push_back(new SDL_Rect{ bg[areaNum]->swampDst.x + 1500 + 128,bg[areaNum]->swampDst.y + 750,100,10 });
+				levelRect.push_back(new SDL_Rect{ bg[areaNum]->swampDst.x + 1600 + 128,bg[areaNum]->swampDst.y + 760,10,400 + 128 });
+				levelRect.push_back(new SDL_Rect{ bg[areaNum]->swampDst.x + 940 + 128,bg[areaNum]->swampDst.y + 1160 + 128,660,10 });
+				levelRect.push_back(new SDL_Rect{ bg[areaNum]->swampDst.x + 940 + 128,bg[areaNum]->swampDst.y + 1160 + 128,10,120 });
+				levelRect.push_back(new SDL_Rect{ bg[areaNum]->swampDst.x + -50 + 128,bg[areaNum]->swampDst.y + 1280 + 128,990,10 });
+
+				levelRect.push_back(new SDL_Rect{ bg[areaNum]->swampDst.x + -50,bg[areaNum]->swampDst.y + 1140,240,10 });
+				levelRect.push_back(new SDL_Rect{ bg[areaNum]->swampDst.x + 180,bg[areaNum]->swampDst.y + 750,10,390 });
+				levelRect.push_back(new SDL_Rect{ bg[areaNum]->swampDst.x + 190,bg[areaNum]->swampDst.y + 750,510 + 128,10 });
+				levelRect.push_back(new SDL_Rect{ bg[areaNum]->swampDst.x + 700 + 128,bg[areaNum]->swampDst.y + 750,10,390 });
+				levelRect.push_back(new SDL_Rect{ bg[areaNum]->swampDst.x + 700 + 128,bg[areaNum]->swampDst.y + 1145,30,10 });
+
+				levelRect.push_back(new SDL_Rect{ bg[areaNum]->swampDst.x + 860,bg[areaNum]->swampDst.y + 1030,10,120 });
+				levelRect.push_back(new SDL_Rect{ bg[areaNum]->swampDst.x + 840 + 30,bg[areaNum]->swampDst.y + 1025,240 - 64,10 });
+				levelRect.push_back(new SDL_Rect{ bg[areaNum]->swampDst.x + 1070,bg[areaNum]->swampDst.y + 760,10,270 });
+				levelRect.push_back(new SDL_Rect{ bg[areaNum]->swampDst.x + 1080,bg[areaNum]->swampDst.y + 750,300,10 });
+				levelRect.push_back(new SDL_Rect{ bg[areaNum]->swampDst.x + 1370,bg[areaNum]->swampDst.y + 510 + 128,10,250 - 128 });
+
+				levelRect.push_back(new SDL_Rect{ bg[areaNum]->swampDst.x + -50,bg[areaNum]->swampDst.y + 510 + 128,1430,10 });
+
+				//fly.push_back(new DragonFly)
 			}
-			if (bg[areaNum]->getBg() == 1) {
+			if (bg[areaNum]->getBg() == 1)
+			{
+				bg[areaNum]->swampDst.x = -520;
+				bg[areaNum]->swampDst.y = 320;
+				
+				exitRect.x = bg[areaNum]->swampDst.x + 960;
+				exitRect.y = bg[areaNum]->swampDst.y + 1360;
+				
+				levelRect.push_back(new SDL_Rect{ bg[areaNum]->swampDst.x + 70,bg[areaNum]->swampDst.y + 100,10,1210 });
+				levelRect.push_back(new SDL_Rect{ bg[areaNum]->swampDst.x + 65,bg[areaNum]->swampDst.y + 100 ,630,10 });
+				levelRect.push_back(new SDL_Rect{ bg[areaNum]->swampDst.x + 695,bg[areaNum]->swampDst.y - 150,10,200 });
+				levelRect.push_back(new SDL_Rect{ bg[areaNum]->swampDst.x + 1365,bg[areaNum]->swampDst.y + 100 ,630,10 });
+				levelRect.push_back(new SDL_Rect{ bg[areaNum]->swampDst.x + 1365,bg[areaNum]->swampDst.y - 150,10,200 });
+				levelRect.push_back(new SDL_Rect{ bg[areaNum]->swampDst.x + 2000,bg[areaNum]->swampDst.y + 100,10,1210 });
+				levelRect.push_back(new SDL_Rect{ bg[areaNum]->swampDst.x + 2000,bg[areaNum]->swampDst.y + 300,10,910 });
+				levelRect.push_back(new SDL_Rect{ bg[areaNum]->swampDst.x + 1355,bg[areaNum]->swampDst.y + 1300,630,10 });
+				levelRect.push_back(new SDL_Rect{ bg[areaNum]->swampDst.x + 75,bg[areaNum]->swampDst.y + 1300,630,10 });
+				levelRect.push_back(new SDL_Rect{ bg[areaNum]->swampDst.x + 695,bg[areaNum]->swampDst.y + 1300,10,240 });
+				levelRect.push_back(new SDL_Rect{ bg[areaNum]->swampDst.x + 1355,bg[areaNum]->swampDst.y + 1300,10,240 });
+				//levelRect.push_back(new SDL_Rect{ bg[areaNum]->swamp1Dst.x,bg[areaNum]->swamp1Dst.y });
+			}
+
+			if (bg[areaNum]->getBg() == 2)
+			{
+				bg[areaNum]->swampDst.x = 200;
+				bg[areaNum]->swampDst.y = 300;
+
+				exitRect.x = bg[areaNum]->swampDst.x + 1550;
+				exitRect.y = bg[areaNum]->swampDst.y + 1400;
+				
+				levelRect.push_back(new SDL_Rect{ bg[areaNum]->swampDst.x + 50,bg[areaNum]->swampDst.y - 20,10,1300 });
+				levelRect.push_back(new SDL_Rect{ bg[areaNum]->swampDst.x + 570,bg[areaNum]->swampDst.y - 20,10,270 });
+				levelRect.push_back(new SDL_Rect{ bg[areaNum]->swampDst.x + 600,bg[areaNum]->swampDst.y + 250,1280,10 });
+				levelRect.push_back(new SDL_Rect{ bg[areaNum]->swampDst.x + 1860,bg[areaNum]->swampDst.y + 250,10,1300 });
+				levelRect.push_back(new SDL_Rect{ bg[areaNum]->swampDst.x + 40,bg[areaNum]->swampDst.y + 1330,1280,10 });
+				levelRect.push_back(new SDL_Rect{ bg[areaNum]->swampDst.x + 1340,bg[areaNum]->swampDst.y + 1360,10,200 });
+			}
+
+			if (bg[areaNum]->getBg() == 3)
+			{
+				bg[areaNum]->swampDst.x = 400;
+				bg[areaNum]->swampDst.y = -850;
+
+				exitRect.x = bg[areaNum]->swampDst.x + 1900;
+				exitRect.y = bg[areaNum]->swampDst.y + 230;
+				
+				levelRect.push_back(new SDL_Rect{ bg[areaNum]->swampDst.x - 10,bg[areaNum]->swampDst.y + 998,150,10 });
+				levelRect.push_back(new SDL_Rect{ bg[areaNum]->swampDst.x + 170,bg[areaNum]->swampDst.y + 320,10,650 });
+				levelRect.push_back(new SDL_Rect{ bg[areaNum]->swampDst.x + 170,bg[areaNum]->swampDst.y + 230,580,10 });
+				levelRect.push_back(new SDL_Rect{ bg[areaNum]->swampDst.x + 800,bg[areaNum]->swampDst.y + 20 ,10,200 });
+				levelRect.push_back(new SDL_Rect{ bg[areaNum]->swampDst.x + 900,bg[areaNum]->swampDst.y - 20,1100,10 });
+				levelRect.push_back(new SDL_Rect{ bg[areaNum]->swampDst.x - 10 ,bg[areaNum]->swampDst.y + 1420,1300,10 });
+				levelRect.push_back(new SDL_Rect{ bg[areaNum]->swampDst.x + 1330,bg[areaNum]->swampDst.y + 590,10,800 });
+				levelRect.push_back(new SDL_Rect{ bg[areaNum]->swampDst.x + 1350,bg[areaNum]->swampDst.y + 560,700,10 });
 
 			}
+
+			if (bg[areaNum]->getBg() == 4)
+			{
+				bg[areaNum]->swampDst.x = 430;
+				bg[areaNum]->swampDst.y = -430;
+
+				exitRect.x = bg[areaNum]->swampDst.x + 1920;
+				exitRect.y = bg[areaNum]->swampDst.y + 130;
+				
+				levelRect.push_back(new SDL_Rect{ bg[areaNum]->swampDst.x,bg[areaNum]->swampDst.y + 1060,280,10 });
+				levelRect.push_back(new SDL_Rect{ bg[areaNum]->swampDst.x + 320,bg[areaNum]->swampDst.y + 1090,10,380 });
+				levelRect.push_back(new SDL_Rect{ bg[areaNum]->swampDst.x + 360,bg[areaNum]->swampDst.y + 1440,1070,10 });
+				levelRect.push_back(new SDL_Rect{ bg[areaNum]->swampDst.x + 1470,bg[areaNum]->swampDst.y + 1370,10,100 });
+				levelRect.push_back(new SDL_Rect{ bg[areaNum]->swampDst.x + 1500,bg[areaNum]->swampDst.y + 1330,50,10 });
+				levelRect.push_back(new SDL_Rect{ bg[areaNum]->swampDst.x + 1600,bg[areaNum]->swampDst.y + 470,10,800 });
+				levelRect.push_back(new SDL_Rect{ bg[areaNum]->swampDst.x + 1650,bg[areaNum]->swampDst.y + 440,400,10 });
+				levelRect.push_back(new SDL_Rect{ bg[areaNum]->swampDst.x,bg[areaNum]->swampDst.y + 620,280,10 });
+				levelRect.push_back(new SDL_Rect{ bg[areaNum]->swampDst.x + 320,bg[areaNum]->swampDst.y,10,580 });
+				levelRect.push_back(new SDL_Rect{ bg[areaNum]->swampDst.x + 320,bg[areaNum]->swampDst.y - 20,1720,10 });
+			}
+
 
 			loadArea = false;
 		}
-
 		if (bg[areaNum]->getBg() == 0) {
 			//wallcollision
 			bool wallHitx = false;
@@ -1501,6 +1541,7 @@ void Levelone::Update()
 		
 		if (SDL_HasIntersection(&exitRect, &plr1.plrDst)) {
 			loadArea = true;
+			areaNum++;
 			cout << "hit" << endl;
 		}
 
@@ -1513,7 +1554,7 @@ void Levelone::Update()
 		//cout << "freezetimer" << freezetimer++ << " | " << freezeCD++ << "freezecd<-" << endl;
 		cout << plr1.plrDst.x - bg[areaNum]->swampDst.x << " - " << plr1.plrDst.y - bg[areaNum]->swampDst.y << endl;
 		// cout << plr1.plrDst.x << " , " << plr1.plrDst.y  << endl;
-		//cout << bg[areaNum]->swamp1Dst.x << "||" << bg[areaNum]->swamp1Dst.y << endl;
+		cout << bg[areaNum]->swampDst.x << "||" << bg[areaNum]->swampDst.y << endl;
 		
 		//player
 		if (!dashPressed)
@@ -1624,39 +1665,39 @@ void Levelone::Update()
 		}
 
 		//For throwing Rock
-		if (EVMA::KeyPressed(SDL_SCANCODE_UP))
+		if (EVMA::KeyHeld(SDL_SCANCODE_UP))
 		{
-			if (rockCooldown > 50) {
+			if (rockCooldown > plr1.fireRate) {
 				Mix_PlayChannel(-1, projectileRock, 0);
 				rockCooldown = 0;
 				playerpew.push_back(new Rock(plr1.plrDst.x + 10, plr1.plrDst.y + 30, rockSpeed * -1, 'y'));
 				playerpew.shrink_to_fit();
 			}
 		}
-		else if (EVMA::KeyPressed(SDL_SCANCODE_DOWN))
+		else if (EVMA::KeyHeld(SDL_SCANCODE_DOWN))
 		{
 
-			if (rockCooldown > 50) {
+			if (rockCooldown > plr1.fireRate) {
 				Mix_PlayChannel(-1, projectileRock, 0);
 				rockCooldown = 0;
 				playerpew.push_back(new Rock(plr1.plrDst.x + 10, plr1.plrDst.y + 30, rockSpeed, 'y'));
 				playerpew.shrink_to_fit();
 			}
 		}
-		else if (EVMA::KeyPressed(SDL_SCANCODE_LEFT))
+		else if (EVMA::KeyHeld(SDL_SCANCODE_LEFT))
 		{
 
-			if (rockCooldown > 50) {
+			if (rockCooldown > plr1.fireRate) {
 				Mix_PlayChannel(-1, projectileRock, 0);
 				rockCooldown = 0;
 				playerpew.push_back(new Rock(plr1.plrDst.x + 10, plr1.plrDst.y + 30, rockSpeed * -1, 'x'));
 				playerpew.shrink_to_fit();
 			}
 		}
-		else if (EVMA::KeyPressed(SDL_SCANCODE_RIGHT))
+		else if (EVMA::KeyHeld(SDL_SCANCODE_RIGHT))
 		{
 
-			if (rockCooldown > 50) {
+			if (rockCooldown > plr1.fireRate) {
 				Mix_PlayChannel(-1, projectileRock, 0);
 				rockCooldown = 0;
 				playerpew.push_back(new Rock(plr1.plrDst.x + 10, plr1.plrDst.y + 30, rockSpeed, 'x'));

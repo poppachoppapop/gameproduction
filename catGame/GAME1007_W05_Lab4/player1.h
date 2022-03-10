@@ -16,6 +16,7 @@ public:
 	SDL_Rect plrFrontIdle, plrMoveLeft, plrMoveRight, plrMoveUp, plrMoveDown, plrDst, plrHpBar;
 	SDL_Rect plrwinbar;
 	int plrSpd, plrDsh, plrMaxSpd;
+	int fireRate;
 	double plrHp, maxHp;
 	double winbar, maxwin;
 	Player();

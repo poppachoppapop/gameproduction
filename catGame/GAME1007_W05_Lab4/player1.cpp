@@ -8,13 +8,14 @@ frameCtr(0), frameMax(3), spriteIdx(0), spriteMax(8)
 	plrHpBar = { 10 ,10 ,200, 25 };
 	plrwinbar = { 600 ,10 ,5, 10 };
 	plrSpd = 5;
-	plrMaxSpd = 5;
+	plrMaxSpd = 20;
 	plrDsh = 50;
 	plrHp = 10;
 	maxHp = 5;
 	winbar = 10;
 	maxwin = 100;
 	state = 0;
+	fireRate = 50;
 	hurtSfx = Mix_LoadWAV("sfx/ow.wav");
 }
 

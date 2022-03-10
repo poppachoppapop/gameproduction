@@ -25,7 +25,7 @@ protected: //priv but inherited
 
 	int stepSoundTimer = 0, turnSoundTimer = 0;
 	int dashCooldown = 100, dashTimer = 0, tempSpeed = 0;
-	int rockCooldown = 50;
+	int rockCooldown = 20;
 	int spcooldown = 200;
 	int itemSpawnTimer = 0;
 	int score = 0;
