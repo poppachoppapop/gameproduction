@@ -89,10 +89,12 @@ class Frog
 		int movetimer;
 		
 public:	
+	
 	SDL_Rect HP;//white hp
 	SDL_Rect frogSrc, frogDst, healthBar;
 	Frog(int x, int y, int h);
 	Uint16 frames = 0;
+	int getState();
 	void setHp(double h);
 	int getHp();
 	int getShootTimer();

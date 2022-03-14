@@ -174,6 +174,7 @@ Vines::Vines(int x, int y) :vineSrc({ 0,0,32,32 })
 //frog
 Frog::Frog(int x, int y, int h) :frogSrc({ 0,0,32,32 }), frameCtr(0), frameMax(4), spriteIdx(0), spriteMax(7)
 {
+	
 	HP = { 0,0,100,4 };
 	frogDst = { x,y, 125, 125 };	
 	healthBar = { x, y , 50, 5 };	
@@ -184,8 +185,14 @@ Frog::Frog(int x, int y, int h) :frogSrc({ 0,0,32,32 }), frameCtr(0), frameMax(4
 	speed = 2;
 	halt = 0;
 	movetimer = 0;
+	//Mix_Volume(2, 12);
 }
 	
+
+int Frog::getState()
+{
+	return state;
+}
 
 void Frog::setHp(double h)
 {
@@ -231,61 +238,74 @@ void Frog::Update(SDL_Rect plr)
 	healthBar.x = frogDst.x + 15;
 	healthBar.y = frogDst.y - 5;
 	frames++;
-	if (movetimer < 300)
-	if (Util::distanceOffset(plr, frogDst) < 550)
+	if (state == 0){
+		if (movetimer < 300)
+			if (Util::distanceOffset(plr, frogDst) < 550)
+			{
+				//Mix_PlayChannel(2, beepbeep, 0);	
+				if (plr.x - frogDst.x > 0)
+				{
+					frogDst.x += speed;
+					//dir = 0;
+				}
+				if (plr.x - frogDst.x < 0) {
+					frogDst.x -= speed;
+					//dir = 1;
+				}
+				if (plr.y - frogDst.y > 0) {
+					frogDst.y += speed;
+					//dir = 2;
+				}
+				if (plr.y - frogDst.y < 0) {
+					frogDst.y -= speed;
+					//dir = 3;
+				}
+			}
+	}
+	if (movetimer > 300)
 	{
-		if (plr.x - frogDst.x > 0)
+		state = 1;
+	}
+	if (state == 1) {
+		if (Util::distanceOffset(plr, frogDst) < 500)
 		{
-			frogDst.x += speed;
-			//dir = 0;
-		}
-		if (plr.x - frogDst.x < 0) {
-			frogDst.x -= speed;
-			//dir = 1;
-		}
-		if (plr.y - frogDst.y > 0) {
-			frogDst.y += speed;
-			//dir = 2;
-		}
-		if (plr.y - frogDst.y < 0) {
-			frogDst.y -= speed;
-			//dir = 3;
+			if (plr.x - frogDst.x > 0)
+			{
+				frogDst.x += halt;
+				dir = 0;
+			}
+			if (plr.x - frogDst.x < 0) {
+				frogDst.x -= halt;
+				dir = 0;
+			}
+			if (plr.y - frogDst.y > 0) {
+				frogDst.y += halt;
+				dir = 0;
+			}
+			if (plr.y - frogDst.y < 0) {
+				frogDst.y -= halt;
+				dir = 0;
+			}
+			shootTimer++;
+			if (shootTimer > 30)
+				shootTimer = 0;
 		}
 	}
-	if (movetimer > 300)	
-	if (Util::distanceOffset(plr, frogDst) < 500)
-	{
-		if (plr.x - frogDst.x > 0)
-		{
-			frogDst.x += halt;
-			dir = 0;
-		}
-		if (plr.x - frogDst.x < 0) {
-			frogDst.x -= halt;
-			dir = 1;
-		}
-		if (plr.y - frogDst.y > 0) {
-			frogDst.y += halt;
-			dir = 2;
-		}
-		if (plr.y - frogDst.y < 0) {
-			frogDst.y -= halt;
-			dir = 3;
-		}
-		shootTimer++;
-		if (shootTimer > 30)
-		shootTimer = 0;
-	}
-	movetimer++;
+	movetimer++;	
 	if (movetimer > 400)
-	movetimer = 0;
+	{
+		movetimer = 0;
+		state = 0;
+	}
 	
+	cout << state << endl;
 	
 }
 
 void Frog::resetFrames()
 {
 	frames = 0;
+	
 }
 
 Shroom::Shroom(int x, int y, int h) : shroomSrc({0,0,32,32}), frameCtr(0), frameMax(9), spriteIdx(0), spriteMax(4)
@@ -348,7 +368,7 @@ Bubble::Bubble(int x, int y)
 
 void Bubble::Update(SDL_Rect plr)
 {
-	if (Util::distanceOffset(plr, bubbleDst) < 300)
+	if (Util::distanceOffset(plr, bubbleDst) < 400)
 	{
 		bubbleDst = plr;	
 		
