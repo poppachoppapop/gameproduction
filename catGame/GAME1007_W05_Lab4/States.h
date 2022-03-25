@@ -223,6 +223,9 @@ private:
 	SDL_Rect exitRect;
 	bool loadArea = false;
 	int entrance;
+	const int maxMushrooms = 6;
+	int mushrooms, mushroomsLeft;
+	int mushroomSpot;
 public:
 	Levelone();
 	virtual void Enter();
