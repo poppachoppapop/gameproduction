@@ -121,7 +121,7 @@ protected: //priv but inherited
 	SDL_Rect pausedSrc, pausedDst;
 	SDL_Rect pausedBgSrc, pausedBgDst;
 	SDL_Rect mainMenuButtonSrc, mainMenuButtonDst;
-	
+	SDL_Point g_mousePos;
 	Player plr1;
 	NPC catDude;
 	Background bg1;
@@ -141,8 +141,9 @@ protected: //priv but inherited
 	Mix_Music* maintheme;
 	Mix_Chunk* dashMeow;
 	Mix_Music* swampSong;
+	Mix_Chunk* beepbeep;
+	Mix_Chunk* beeppew;
 
-	SDL_Point g_mousePos;
 
 	State() = default;//or... State(){};
 	

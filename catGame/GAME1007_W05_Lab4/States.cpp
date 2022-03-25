@@ -174,9 +174,7 @@ void GameState::Enter()
 	DragonFlyTxt = IMG_LoadTexture(Engine::Instance().GetRenderer(), "art/dragonfly1.png");
 	vineTexture = IMG_LoadTexture(Engine::Instance().GetRenderer(), "art/vines.png");
 	FrogTxtr = IMG_LoadTexture(Engine::Instance().GetRenderer(), "art/frogWalking7.png");
-
-
-
+		
 	stepSfx = Mix_LoadWAV("sfx/step.wav");
 	turnSfx = Mix_LoadWAV("sfx/turn.wav");
 	deathSfx = Mix_LoadWAV("sfx/dedEnemy.wav");
@@ -188,6 +186,8 @@ void GameState::Enter()
 	projectileRock = Mix_LoadWAV("sfx/rocksound.wav");
 	aoeSound = Mix_LoadWAV("sfx/aoeAbility.wav");
 	dashing = Mix_LoadWAV("sfx/dashSound.wav");
+	beepbeep = Mix_LoadWAV("sfx/beepbeep.wav");
+	beeppew = Mix_LoadWAV("sfx/beeppew.mp3");
 	//dashMeow = Mix_LoadWAV("sfx/dashMeow.wav");
 	Mix_VolumeChunk(dashing, 25);
 	Mix_VolumeChunk(aoeSound, 50);
@@ -199,6 +199,7 @@ void GameState::Enter()
 	Mix_PlayMusic(maintheme, -1);
 	Mix_VolumeMusic(12); //0-128
 	Mix_Volume(-1, 50);
+	Mix_Volume(2, 12);
 
 	playerpew.reserve(4);
 	dumbie.reserve(4);
@@ -401,12 +402,14 @@ void GameState::Update()
 		}
 
 		//frog
-		for (unsigned i = 0; i < frog.size(); i++) {
+		for (unsigned i = 0; i < frog.size(); i++) 
+		{
 			frog[i]->Update(plr1.plrDst);
 			if (!wallHitx)
 				frog[i]->frogDst.x -= speedx;
 			if (!wallHity)
 				frog[i]->frogDst.y -= speedy;
+
 			for (unsigned j = 0; j < playerpew.size(); j++)
 			{
 				if (SDL_HasIntersection(&playerpew[j]->rockDst, &frog[i]->frogDst)) //AABB Check
@@ -421,19 +424,20 @@ void GameState::Update()
 					break;
 				}
 			}
-			if (SDL_HasIntersection(&frog[i]->frogDst, &plr1.plrDst)) {
+			if (SDL_HasIntersection(&frog[i]->frogDst, &plr1.plrDst))
+			{
 				plr1.takeDamage(2);
 			}
-			if ((Util::distanceOffset(plr1.plrDst, frog[i]->frogDst) < 550)) {
-				if (frog[i]->getShootTimer() == 0) {
-					if (frog[i]->getDir() == 0)
-						bub.push_back(new Bubble(frog[i]->frogDst.x + 40, frog[i]->frogDst.y+40));
-					if (frog[i]->getDir() == 1)
-						bub.push_back(new Bubble(frog[i]->frogDst.x + 40, frog[i]->frogDst.y + 40));
-					if (frog[i]->getDir() == 2)
-						bub.push_back(new Bubble(frog[i]->frogDst.x + 40, frog[i]->frogDst.y + 40));
-					if (frog[i]->getDir() == 3)
-						bub.push_back(new Bubble(frog[i]->frogDst.x + 40, frog[i]->frogDst.y + 40));
+			if (frog[i]->getState() == 1)
+			{
+				Mix_HaltChannel(2);
+				if ((Util::distanceOffset(plr1.plrDst, frog[i]->frogDst) < 550))
+				{
+					if (frog[i]->getShootTimer() == 0)
+					{
+						if (frog[i]->getDir() == 0)
+							bub.push_back(new Bubble(frog[i]->frogDst.x + 40, frog[i]->frogDst.y + 40));
+					}
 				}
 			}
 			if (frog[i]->getHp() <= 0) {
@@ -443,6 +447,20 @@ void GameState::Update()
 				frog.erase(frog.begin() + i);
 				frog.shrink_to_fit();
 			}
+			
+		}
+
+		for (unsigned i = 0; i < frog.size(); i++) {
+			if((Util::distanceOffset(plr1.plrDst, frog[i]->frogDst) < 400))
+			{
+				//Mix_PlayChannel(2, beepbeep, 0);
+			}
+			if((Util::distanceOffset(plr1.plrDst, frog[i]->frogDst) > 400))
+			{
+				//Mix_HaltChannel(2);
+			}
+			
+
 		}
 		//bubble
 		for (int i = 0; i < bub.size(); i++)
@@ -902,8 +920,8 @@ void GameState::Exit()
 	SDL_DestroyTexture(npcTxtr);
 	SDL_DestroyTexture(DragonFlyTxt);
 	SDL_DestroyTexture(vineTexture);
-
-
+	Mix_FreeChunk(beepbeep);
+	Mix_FreeChunk(beeppew);
 Mix_FreeChunk(hurtSfx);
 Mix_FreeChunk(powerSfx);
 Mix_FreeChunk(talk);
