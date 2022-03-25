@@ -428,16 +428,12 @@ void GameState::Update()
 			{
 				plr1.takeDamage(2);
 			}
-			if (frog[i]->getState() == 1)
+			
+			if ((Util::distanceOffset(plr1.plrDst, frog[i]->frogDst) < 550))
 			{
-				Mix_HaltChannel(2);
-				if ((Util::distanceOffset(plr1.plrDst, frog[i]->frogDst) < 550))
+				if (frog[i]->getShootTimer() == 0)
 				{
-					if (frog[i]->getShootTimer() == 0)
-					{
-						if (frog[i]->getDir() == 0)
-							bub.push_back(new Bubble(frog[i]->frogDst.x + 40, frog[i]->frogDst.y + 40));
-					}
+					bub.push_back(new Bubble(frog[i]->frogDst.x + 40, frog[i]->frogDst.y + 40));
 				}
 			}
 			if (frog[i]->getHp() <= 0) {
@@ -449,19 +445,6 @@ void GameState::Update()
 			}
 			
 		}
-
-		for (unsigned i = 0; i < frog.size(); i++) {
-			if((Util::distanceOffset(plr1.plrDst, frog[i]->frogDst) < 400))
-			{
-				//Mix_PlayChannel(2, beepbeep, 0);
-			}
-			if((Util::distanceOffset(plr1.plrDst, frog[i]->frogDst) > 400))
-			{
-				//Mix_HaltChannel(2);
-			}
-			
-
-		}
 		//bubble
 		for (int i = 0; i < bub.size(); i++)
 		{
@@ -470,16 +453,22 @@ void GameState::Update()
 				bub[i]->bubbleDst.x -= speedx;
 			if (!wallHity)
 				bub[i]->bubbleDst.y -= speedy;
-			if (Util::distanceOffset(plr1.plrDst, bub[i]->bubbleDst) < 50) {
+			cout << Util::distanceOffset(plr1.plrDst, bub[i]->bubbleDst) << endl;
+			if (Util::distanceOffset(plr1.plrDst, bub[i]->bubbleDst) < 100) {
 				plr1.takeDamage(1);
 				delete bub[i];
 				bub[i] = nullptr;
 				bub.erase(bub.begin() + i);
 				bub.shrink_to_fit();
 			}
+			else if (Util::distanceOffset(plr1.plrDst, bub[i]->bubbleDst) > 1000) {
+				delete bub[i];
+				bub[i] = nullptr;
+				bub.erase(bub.begin() + i);
+				bub.shrink_to_fit();
+			}
+
 		}
-
-
 		//dummie
 		for (unsigned i = 0; i < playerpew.size(); i++)
 		{

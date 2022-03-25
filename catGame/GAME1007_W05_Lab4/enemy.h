@@ -105,7 +105,7 @@ public:
 
 class Bubble {
 private:
-	int speed;
+	int speed , speedx, speedy;
 	bool foundDir;
 	bool up, down, left, right;
 	bool seek;

@@ -1,4 +1,6 @@
 #include "enemy.h"
+#include <cmath>
+#define PI 3.14159265 
 
 Attack::Attack(int x, int y)
 {
@@ -182,7 +184,7 @@ Frog::Frog(int x, int y, int h) :frogSrc({ 0,0,32,32 }), frameCtr(0), frameMax(4
 	health = h;
 	maxHealth = h;
 	state = 0;	
-	speed = 2;
+	speed = 5;
 	halt = 0;
 	movetimer = 0;
 	//Mix_Volume(2, 12);
@@ -238,73 +240,23 @@ void Frog::Update(SDL_Rect plr)
 	healthBar.x = frogDst.x + 15;
 	healthBar.y = frogDst.y - 5;
 	frames++;
-	if (state == 0){
-		if (movetimer < 300)
-			if (Util::distanceOffset(plr, frogDst) < 550)
-			{
-				//Mix_PlayChannel(2, beepbeep, 0);	
-				if (plr.x - frogDst.x > 0)
-				{
-					frogDst.x += speed;
-					//dir = 0;
-				}
-				if (plr.x - frogDst.x < 0) {
-					frogDst.x -= speed;
-					//dir = 1;
-				}
-				if (plr.y - frogDst.y > 0) {
-					frogDst.y += speed;
-					//dir = 2;
-				}
-				if (plr.y - frogDst.y < 0) {
-					frogDst.y -= speed;
-					//dir = 3;
-				}
-			}
-	}
-	if (movetimer > 300)
-	{
-		state = 1;
-	}
-	if (state == 1) {
-		if (Util::distanceOffset(plr, frogDst) < 500)
+	movetimer++;
+	if (movetimer < 100){
+		if (Util::distanceOffset(plr, frogDst) < 550)
 		{
-			if (plr.x - frogDst.x > 0)
-			{
-				frogDst.x += halt;
-				dir = 0;
-			}
-			if (plr.x - frogDst.x < 0) {
-				frogDst.x -= halt;
-				dir = 0;
-			}
-			if (plr.y - frogDst.y > 0) {
-				frogDst.y += halt;
-				dir = 0;
-			}
-			if (plr.y - frogDst.y < 0) {
-				frogDst.y -= halt;
-				dir = 0;
-			}
-			shootTimer++;
-			if (shootTimer > 30)
-				shootTimer = 0;
+			float angle = atan2(frogDst.y + 50 - plr.y - 50, frogDst.x + 50 - plr.x - 50) * 180 / PI;
+			frogDst.x -= speed * (cos(angle * PI / 180));
+			frogDst.y -= speed * (sin(angle * PI / 180));
 		}
-	}
-	movetimer++;	
-	if (movetimer > 400)
+	}	
+	if (movetimer > 150)
 	{
 		movetimer = 0;
-		state = 0;
 	}
-	
-	cout << state << endl;
-	
-}
-
-void Frog::resetFrames()
-{
-	frames = 0;
+	shootTimer++;
+	if (shootTimer > 100) {
+		shootTimer = 0;
+	}
 	
 }
 
@@ -368,35 +320,18 @@ Bubble::Bubble(int x, int y)
 
 void Bubble::Update(SDL_Rect plr)
 {
-	if (Util::distanceOffset(plr, bubbleDst) < 400)
-	{
-		bubbleDst = plr;	
+	float angle = atan2(bubbleDst.y - plr.y - 50, bubbleDst.x - plr.x - 50) * 180 / PI;
+	if (!foundDir) {
+		speedx = speed * (cos(angle * PI / 180));
+		speedy = speed * (sin(angle * PI / 180));
 		
+		foundDir = true;
 	}
-	
-	//if (!foundDir) {
-	//	left = false;
-	//	right = false;
-	//	up = false;
-	//	down = false;
-	//	if (plr.x - bubbleDst.x >= 0) // left
-	//		left = true;
-	//	if (plr.x - bubbleDst.x <= 0) // right
-	//		right = true;
-	//	if (plr.y - bubbleDst.y >= 0) // down
-	//		down = true;
-	//	if (plr.y - bubbleDst.y <= 0) // up
-	//		up = true;
-	//	foundDir = true;
+	bubbleDst.x -= speedx;
+	bubbleDst.y -= speedy;
 
-	//}
-	//if (left)
-	//	bubbleDst.x += speed;
-	//if (right)
-	//	bubbleDst.x -= speed;
-	//if (down)
-	//	bubbleDst.y += speed;
-	//if (up)
-	//	bubbleDst.y -= speed;
+	//follows player (maybe use for dragon fly?)
+	//bubbleDst.x -= 5 * (cos(angle * PI / 180));
+	//bubbleDst.y -= 5 * (sin(angle * PI / 180));
 
 }
