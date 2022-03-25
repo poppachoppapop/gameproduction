@@ -88,7 +88,8 @@ protected: //priv but inherited
 	SDL_Texture* paused;
 	SDL_Texture* pauseBg;
 	SDL_Texture* mainMenuButton;
-
+	SDL_Texture* frogbubble;
+	
 	SDL_Texture* DragonFlyTxt;
 	SDL_Texture* vineTexture;
 	SDL_Texture* FrogTxtr;
@@ -121,6 +122,8 @@ protected: //priv but inherited
 	SDL_Rect pausedSrc, pausedDst;
 	SDL_Rect pausedBgSrc, pausedBgDst;
 	SDL_Rect mainMenuButtonSrc, mainMenuButtonDst;
+	SDL_Rect bubbleSrc, bubbleDst;
+
 	SDL_Point g_mousePos;
 	Player plr1;
 	NPC catDude;
@@ -217,6 +220,7 @@ private:
 	SDL_Texture* swamp3;
 	SDL_Texture* swamp4;
 	SDL_Texture* swamp5;
+	
 	int areaNum = 0;
 	vector<Level1Background*> bg;
 	vector<SDL_Rect*> levelRect;

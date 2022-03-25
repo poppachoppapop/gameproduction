@@ -174,6 +174,7 @@ void GameState::Enter()
 	DragonFlyTxt = IMG_LoadTexture(Engine::Instance().GetRenderer(), "art/dragonfly1.png");
 	vineTexture = IMG_LoadTexture(Engine::Instance().GetRenderer(), "art/vines.png");
 	FrogTxtr = IMG_LoadTexture(Engine::Instance().GetRenderer(), "art/frogWalking7.png");
+	frogbubble = IMG_LoadTexture(Engine::Instance().GetRenderer(), "art/frogbubble.png");
 		
 	stepSfx = Mix_LoadWAV("sfx/step.wav");
 	turnSfx = Mix_LoadWAV("sfx/turn.wav");
@@ -814,8 +815,8 @@ void GameState::Render()
 	//bubble 
 	for (unsigned i = 0; i < bub.size(); i++) 
 	{
-		SDL_SetRenderDrawColor(Engine::Instance().GetRenderer(), 0, 0, 255, 255);
-		SDL_RenderFillRect(Engine::Instance().GetRenderer(), &bub[i]->bubbleDst);
+		//SDL_SetRenderDrawColor(Engine::Instance().GetRenderer(), 0, 0, 255, 255);
+		SDL_RenderCopy(Engine::Instance().GetRenderer(), frogbubble,NULL,&(bub[i]->bubbleDst));
 	}
 	//item
 	for (unsigned i = 0; i < item1.size(); i++)
@@ -908,6 +909,7 @@ void GameState::Exit()
 	SDL_DestroyTexture(npcTxtr);
 	SDL_DestroyTexture(DragonFlyTxt);
 	SDL_DestroyTexture(vineTexture);
+	SDL_DestroyTexture(frogbubble);
 	Mix_FreeChunk(beepbeep);
 	Mix_FreeChunk(beeppew);
 Mix_FreeChunk(hurtSfx);
