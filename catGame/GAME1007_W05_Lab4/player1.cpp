@@ -7,6 +7,7 @@ frameCtr(0), frameMax(3), spriteIdx(0), spriteMax(8)
 	plrDst = {448 ,320 ,128, 128};
 	plrHpBar = { 10 ,10 ,200, 25 };
 	plrwinbar = { 600 ,10 ,5, 10 };
+	hpborder = { 6,7,408,31 };
 	plrSpd = 5;
 	plrMaxSpd = 5;
 	plrDsh = 50;
@@ -86,6 +87,7 @@ void Player::Update()
 	}
 	plrwinbar.w = double(winbar / maxwin) * 200;
 	plrHpBar.w = double(plrHp / maxHp) * 200;
+	
 	damageCD++;
 	
 }

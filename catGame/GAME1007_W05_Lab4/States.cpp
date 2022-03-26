@@ -175,6 +175,8 @@ void GameState::Enter()
 	vineTexture = IMG_LoadTexture(Engine::Instance().GetRenderer(), "art/vines.png");
 	FrogTxtr = IMG_LoadTexture(Engine::Instance().GetRenderer(), "art/frogWalking7.png");
 	frogbubble = IMG_LoadTexture(Engine::Instance().GetRenderer(), "art/frogbubble.png");
+	tree = IMG_LoadTexture(Engine::Instance().GetRenderer(), "bgs/Trees.png");
+	portal = IMG_LoadTexture(Engine::Instance().GetRenderer(), "art/portal2.png");
 		
 	stepSfx = Mix_LoadWAV("sfx/step.wav");
 	turnSfx = Mix_LoadWAV("sfx/turn.wav");
@@ -220,10 +222,11 @@ void GameState::Enter()
 
 	Message = SDL_CreateTextureFromSurface(Engine::Instance().GetRenderer(), surfaceMessage);
 	Score = SDL_CreateTextureFromSurface(Engine::Instance().GetRenderer(), dummyScore);
-
-	vine.push_back(new Vines(bg1.bgDst.x + 400, bg1.bgDst.y + 1000));
-	vine.push_back(new Vines(bg1.bgDst.x + 400, bg1.bgDst.y + 1200));
-	vine.push_back(new Vines(bg1.bgDst.x + 400, bg1.bgDst.y + 1400));
+	portalsrc = { 0,0,32,32 };
+	portaldst = { 300,300,128,128 };
+	vine.push_back(new Vines(bg1.bgDst.x + 700, bg1.bgDst.y + 1000));
+	vine.push_back(new Vines(bg1.bgDst.x + 700, bg1.bgDst.y + 1200));
+	vine.push_back(new Vines(bg1.bgDst.x + 700, bg1.bgDst.y + 1400));
 	vine.shrink_to_fit();
 	fly.push_back(new DragonFly(bg1.bgDst.x + 650, bg1.bgDst.y + 1000, 2));
 	fly.shrink_to_fit();
@@ -328,7 +331,7 @@ void GameState::Update()
 		catDude.npcDst.y = bg1.bgDst.y + 1350;
 
 		//wallcollision
-		bool wallHitx = false;
+		/*bool wallHitx = false;
 		bool wallHity = false;
 		if (plr1.plrDst.x < bg1.bgDst.x - 50)
 		{
@@ -340,9 +343,15 @@ void GameState::Update()
 		{
 			bg1.bgDst.y = plr1.plrDst.y - 630;
 			wallHity = true;
-		}
+		}*/
 		bg1.bgDst.x -= speedx;
 		bg1.bgDst.y -= speedy;
+
+		bg1.treedst.x -= speedx;
+		bg1.treedst.y -= speedy;
+
+		portaldst.x -= speedx;
+		portaldst.y -= speedy;
 
 		//player
 		if (!dashPressed)
@@ -729,33 +738,34 @@ void GameState::Update()
 			}
 		}
 
-		//for items
-		itemSpawnTimer++;
-		if (itemSpawnTimer == 1000) {
-			//itemSpawnTimer = 0;
-			item1.push_back(new Items(1, bg1.bgDst.x + 1075, bg1.bgDst.y + 1550));
-			item1.shrink_to_fit();
-		}
-		for (unsigned i = 0; i < item1.size(); i++)
-		{
-			if (!wallHitx)
-				item1[i]->item.x -= speedx;
-			if (!wallHity)
-				item1[i]->item.y -= speedy;
+		////for items
+		//itemSpawnTimer++;
+		//if (itemSpawnTimer == 1000)
+		//{
+		//	//itemSpawnTimer = 0;
+		//	item1.push_back(new Items(1, bg1.bgDst.x + 1075, bg1.bgDst.y + 1550));
+		//	item1.shrink_to_fit();
+		//}
+		//for (unsigned i = 0; i < item1.size(); i++)
+		//{
+		//	if (!wallHitx)
+		//		item1[i]->item.x -= speedx;
+		//	if (!wallHity)
+		//		item1[i]->item.y -= speedy;
 
 
-			if (SDL_HasIntersection(&plr1.plrDst, &item1[i]->item)) //AABB Check
-			{
-				Mix_PlayChannel(-1, powerSfx, 0);
-				delete item1[i];
-				item1[i] = nullptr;
-				item1.erase(item1.begin() + i);
-				item1.shrink_to_fit();
-				playerDamage++;
+		//	if (SDL_HasIntersection(&plr1.plrDst, &item1[i]->item)) //AABB Check
+		//	{
+		//		Mix_PlayChannel(-1, powerSfx, 0);
+		//		delete item1[i];
+		//		item1[i] = nullptr;
+		//		item1.erase(item1.begin() + i);
+		//		item1.shrink_to_fit();
+		//		playerDamage++;
 
-			}
+		//	}
 
-		}
+		//}
 	}
 	else {
 		if (!(fadeMod == 255))
@@ -781,6 +791,8 @@ void GameState::Render()
 	//Background
 	SDL_RenderCopy(Engine::Instance().GetRenderer(),bgTutorial, &bg1.bgSrcTutorial, &bg1.bgDst);
 	
+
+	SDL_RenderCopy(Engine::Instance().GetRenderer(), portal, &portalsrc,&portaldst);
 	//vines
 	for (unsigned i = 0; i < vine.size(); i++)
 	{
@@ -797,9 +809,9 @@ void GameState::Render()
 			SDL_RenderCopy(Engine::Instance().GetRenderer(), plrTxtr, &plr1.plrMoveLeft, &plr1.plrDst);
 		else if (plr1.state == 4)
 			SDL_RenderCopy(Engine::Instance().GetRenderer(), plrTxtr, &plr1.plrMoveRight, &plr1.plrDst);
-
-	SDL_SetRenderDrawColor(Engine::Instance().GetRenderer(), 255, 0, 0, 255);
-	SDL_RenderFillRect(Engine::Instance().GetRenderer(), &plr1.plrHpBar);
+		
+	
+	
 
 	
 	//NPC
@@ -818,12 +830,12 @@ void GameState::Render()
 		//SDL_SetRenderDrawColor(Engine::Instance().GetRenderer(), 0, 0, 255, 255);
 		SDL_RenderCopy(Engine::Instance().GetRenderer(), frogbubble,NULL,&(bub[i]->bubbleDst));
 	}
-	//item
-	for (unsigned i = 0; i < item1.size(); i++)
-	{
-		SDL_SetRenderDrawColor(Engine::Instance().GetRenderer(), 255, 0, 0, 255);
-		SDL_RenderFillRect(Engine::Instance().GetRenderer(), &item1[i]->item);
-	}
+	////item
+	//for (unsigned i = 0; i < item1.size(); i++)
+	//{
+	//	SDL_SetRenderDrawColor(Engine::Instance().GetRenderer(), 255, 0, 0, 255);
+	//	SDL_RenderFillRect(Engine::Instance().GetRenderer(), &item1[i]->item);
+	//}
 
 	//dumbie
 	for (unsigned i = 0; i < dumbie.size();i++)
@@ -873,6 +885,11 @@ void GameState::Render()
 	SDL_SetRenderDrawColor(Engine::Instance().GetRenderer(), 0, 0, 0, fadeMod);
 	SDL_RenderFillRect(Engine::Instance().GetRenderer(), &blackRect);
 
+	SDL_RenderCopy(Engine::Instance().GetRenderer(), tree, &bg1.treesrc, &bg1.treedst);
+	SDL_SetRenderDrawColor(Engine::Instance().GetRenderer(), 0, 0, 0, 255);
+	SDL_RenderFillRect(Engine::Instance().GetRenderer(), &plr1.hpborder);
+	SDL_SetRenderDrawColor(Engine::Instance().GetRenderer(), 255, 0, 0, 255);
+	SDL_RenderFillRect(Engine::Instance().GetRenderer(), &plr1.plrHpBar);
 	if(dynamic_cast<GameState*>(STMA::GetStates().back() ) )//if current state is gamestate	
 	State::Render();
 
@@ -910,6 +927,7 @@ void GameState::Exit()
 	SDL_DestroyTexture(DragonFlyTxt);
 	SDL_DestroyTexture(vineTexture);
 	SDL_DestroyTexture(frogbubble);
+	SDL_DestroyTexture(tree);
 	Mix_FreeChunk(beepbeep);
 	Mix_FreeChunk(beeppew);
 Mix_FreeChunk(hurtSfx);

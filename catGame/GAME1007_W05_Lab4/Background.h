@@ -7,6 +7,7 @@ class Background
 private:
 	int whichBg;
 public:
+	SDL_Rect treesrc, treedst;
 	SDL_Rect bgSrcTutorial, bgDst;
 	SDL_Rect gameOverScreenSrc, gameOverScreenDst;
 	Background();

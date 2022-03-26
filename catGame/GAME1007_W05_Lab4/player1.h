@@ -13,7 +13,7 @@ private:
 
 public:
 	int state;
-	SDL_Rect plrFrontIdle, plrMoveLeft, plrMoveRight, plrMoveUp, plrMoveDown, plrDst, plrHpBar;
+	SDL_Rect plrFrontIdle, plrMoveLeft, plrMoveRight, plrMoveUp, plrMoveDown, plrDst, plrHpBar, hpborder;
 	SDL_Rect plrwinbar;
 	int plrSpd, plrDsh, plrMaxSpd;
 	int fireRate;
