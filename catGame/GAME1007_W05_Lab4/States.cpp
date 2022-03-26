@@ -224,20 +224,12 @@ void GameState::Enter()
 	Score = SDL_CreateTextureFromSurface(Engine::Instance().GetRenderer(), dummyScore);
 	portalsrc = { 0,0,32,32 };
 	portaldst = { 300,300,128,128 };
-	vine.push_back(new Vines(bg1.bgDst.x + 700, bg1.bgDst.y + 1000));
-	vine.push_back(new Vines(bg1.bgDst.x + 700, bg1.bgDst.y + 1200));
-	vine.push_back(new Vines(bg1.bgDst.x + 700, bg1.bgDst.y + 1400));
-	vine.shrink_to_fit();
-	fly.push_back(new DragonFly(bg1.bgDst.x + 650, bg1.bgDst.y + 1000, 2));
-	fly.shrink_to_fit();
-	frog.push_back(new Frog(bg1.bgDst.x + 800, bg1.bgDst.y + 1000, 5));
-	frog.shrink_to_fit();
 }
 
 void GameState::Update()
 {
 	//debug
-	//cout << plr1.plrDst.x - bg1.bgDst.x << " - " << plr1.plrDst.y - bg1.bgDst.y << endl;
+	cout << plr1.plrDst.x - bg1.bgDst.x << " - " << plr1.plrDst.y - bg1.bgDst.y << endl;
 	if (!titleLoading) {
 		if (!(fadeMod == 0))
 			fadeMod-=fadeSpeed;
@@ -700,13 +692,12 @@ void GameState::Update()
 
 		//dumbie spawning stuff
 		dumbietimer++;
-
 		if (spawnDummies) {
 			if (dumbietimer >= dumbieTimerMax)
 			{
 				dumbietimer = 0;
 
-				dumbie.push_back(new Enemy(bg1.bgDst.x + rand() % 1000 + 200, bg1.bgDst.y + rand() % 500 + 750, 3));
+				dumbie.push_back(new Enemy(bg1.bgDst.x + rand() % 1000 + 800, bg1.bgDst.y + rand() % 500 + 800, 3));
 				dumbie.shrink_to_fit();
 				cout << "spawning dumbie" << endl;
 			}
@@ -930,19 +921,18 @@ void GameState::Exit()
 	SDL_DestroyTexture(tree);
 	Mix_FreeChunk(beepbeep);
 	Mix_FreeChunk(beeppew);
-Mix_FreeChunk(hurtSfx);
-Mix_FreeChunk(powerSfx);
-Mix_FreeChunk(talk);
-Mix_FreeChunk(winscore);
-Mix_FreeChunk(hehe);
-Mix_FreeChunk(projectileRock);
-Mix_FreeChunk(aoeSound);
-Mix_FreeChunk(dashing);
-Mix_FreeChunk(stepSfx);
-Mix_FreeChunk(deathSfx);
-Mix_FreeChunk(turnSfx);
-
-Mix_FreeMusic(maintheme);
+	Mix_FreeChunk(hurtSfx);
+	Mix_FreeChunk(powerSfx);
+	Mix_FreeChunk(talk);
+	Mix_FreeChunk(winscore);
+	Mix_FreeChunk(hehe);
+	Mix_FreeChunk(projectileRock);
+	Mix_FreeChunk(aoeSound);
+	Mix_FreeChunk(dashing);
+	Mix_FreeChunk(stepSfx);
+	Mix_FreeChunk(deathSfx);
+	Mix_FreeChunk(turnSfx);
+	Mix_FreeMusic(maintheme);
 }
 
 void GameState::Resume()
@@ -953,8 +943,6 @@ void GameState::Resume()
 	//resume music track
 
 }
-
-
 
 Levelone::Levelone() {}
 
@@ -1002,10 +990,8 @@ void Levelone::Enter()
 	
 	for (int i = 0; i < 15; i++)
 	{
-		bg.push_back(new Level1Background(0/*rand() % 5*/, 10));
+		bg.push_back(new Level1Background(rand() % 5, 10));
 	}
-
-
 }
 
 
@@ -1022,9 +1008,9 @@ void Levelone::Update()
 			STMA::ChangeState(new WState());
 			return;
 		}*/
-		cout << exitRect.x << endl;
+		/*cout << exitRect.x << endl;
 		cout << exitRect.y << endl;
-		cout << bg[areaNum]->getBg() << endl;
+		cout << bg[areaNum]->getBg() << endl;*/
 		if (loadArea) {
 			//clear vectors
 			mushroomsLeft = mushrooms;
@@ -1032,6 +1018,8 @@ void Levelone::Update()
 			vine.clear();
 			fly.clear();
 			frog.clear();
+			bub.clear();
+			shroom.clear();
 			levelRect.clear();
 			plr1.setPlrSpd(0);
 
@@ -1100,16 +1088,16 @@ void Levelone::Update()
 						shroom.push_back(new Shroom(bg[areaNum]->swampDst.x + 380, bg[areaNum]->swampDst.y + 200, 3));
 					}
 					else if (mushroomSpot == 1) {
-						shroom.push_back(new Shroom(bg[areaNum]->swampDst.x + 700, bg[areaNum]->swampDst.y + 200, 3));
-					}
-					else if (mushroomSpot == 2) {
 						shroom.push_back(new Shroom(bg[areaNum]->swampDst.x + 1500, bg[areaNum]->swampDst.y + 300, 3));
 					}
+					else if (mushroomSpot == 2) {
+						shroom.push_back(new Shroom(bg[areaNum]->swampDst.x + 700, bg[areaNum]->swampDst.y + 200, 3));
+					}
 					else if (mushroomSpot == 3) {
-						shroom.push_back(new Shroom(bg[areaNum]->swampDst.x + 1200, bg[areaNum]->swampDst.y + 900, 3));
+						shroom.push_back(new Shroom(bg[areaNum]->swampDst.x + 600, bg[areaNum]->swampDst.y + 950, 3));
 					}
 					else if (mushroomSpot == 4) {
-						shroom.push_back(new Shroom(bg[areaNum]->swampDst.x + 600, bg[areaNum]->swampDst.y + 950, 3));
+						shroom.push_back(new Shroom(bg[areaNum]->swampDst.x + 1200, bg[areaNum]->swampDst.y + 900, 3));
 					}
 					else if (mushroomSpot == 5) {
 						shroom.push_back(new Shroom(bg[areaNum]->swampDst.x + 300, bg[areaNum]->swampDst.y + 950, 3));
@@ -1118,12 +1106,6 @@ void Levelone::Update()
 					if (mushroomSpot > 5)
 						mushroomSpot = 0;
 				}
-				//380,200 1 mushroom used
-				//700,200 2 mushroom
-				//1500,300 3 mushroom
-				//1200,900 4 mushroom
-				//600,950 5 mushroom
-				//300,950 6 mushroom
 
 			}
 			if (bg[areaNum]->getBg() == 1)
@@ -1148,8 +1130,32 @@ void Levelone::Update()
 				//levelRect.push_back(new SDL_Rect{ bg[areaNum]->swamp1Dst.x,bg[areaNum]->swamp1Dst.y });
 				
 				frog.push_back(new Frog(bg[areaNum]->swampDst.x + 960, bg[areaNum]->swampDst.y + 900, 5));
-			}
 
+				mushroomSpot = rand() % 6;
+				for (int i = 0; i < mushrooms; i++) {
+					if (mushroomSpot == 0) {
+						shroom.push_back(new Shroom(bg[areaNum]->swampDst.x + 260, bg[areaNum]->swampDst.y + 350, 3));
+					}
+					else if (mushroomSpot == 1) {
+						shroom.push_back(new Shroom(bg[areaNum]->swampDst.x + 1700, bg[areaNum]->swampDst.y + 1100, 3));
+					}
+					else if (mushroomSpot == 2) {
+						shroom.push_back(new Shroom(bg[areaNum]->swampDst.x + 260, bg[areaNum]->swampDst.y + 1100, 3));
+					}
+					else if (mushroomSpot == 3) {
+						shroom.push_back(new Shroom(bg[areaNum]->swampDst.x + 1700, bg[areaNum]->swampDst.y + 300, 3));
+					}
+					else if (mushroomSpot == 4) {
+						shroom.push_back(new Shroom(bg[areaNum]->swampDst.x + 950, bg[areaNum]->swampDst.y + 500, 3));
+					}
+					else if (mushroomSpot == 5) {
+						shroom.push_back(new Shroom(bg[areaNum]->swampDst.x + 950, bg[areaNum]->swampDst.y + 900, 3));
+					}
+					mushroomSpot++;
+					if (mushroomSpot > 5)
+						mushroomSpot = 0;
+				}
+			}
 			if (bg[areaNum]->getBg() == 2)
 			{
 				bg[areaNum]->swampDst.x = 200;
@@ -1164,8 +1170,32 @@ void Levelone::Update()
 				levelRect.push_back(new SDL_Rect{ bg[areaNum]->swampDst.x + 1860,bg[areaNum]->swampDst.y + 250,10,1300 });
 				levelRect.push_back(new SDL_Rect{ bg[areaNum]->swampDst.x + 40,bg[areaNum]->swampDst.y + 1330,1280,10 });
 				levelRect.push_back(new SDL_Rect{ bg[areaNum]->swampDst.x + 1340,bg[areaNum]->swampDst.y + 1360,10,200 });
-			}
 
+				mushroomSpot = rand() % 6;
+				for (int i = 0; i < mushrooms; i++) {
+					if (mushroomSpot == 0) {
+						shroom.push_back(new Shroom(bg[areaNum]->swampDst.x + 1600, bg[areaNum]->swampDst.y + 400, 3));
+					}
+					else if (mushroomSpot == 1) {
+						shroom.push_back(new Shroom(bg[areaNum]->swampDst.x + 800, bg[areaNum]->swampDst.y + 400, 3));
+					}
+					else if (mushroomSpot == 2) {
+						shroom.push_back(new Shroom(bg[areaNum]->swampDst.x + 250, bg[areaNum]->swampDst.y + 1100, 3));
+					}
+					else if (mushroomSpot == 3) {
+						shroom.push_back(new Shroom(bg[areaNum]->swampDst.x + 700, bg[areaNum]->swampDst.y + 800, 3));
+					}
+					else if (mushroomSpot == 4) {
+						shroom.push_back(new Shroom(bg[areaNum]->swampDst.x + 1600, bg[areaNum]->swampDst.y + 800, 3));
+					}
+					else if (mushroomSpot == 5) {
+						shroom.push_back(new Shroom(bg[areaNum]->swampDst.x + 1000, bg[areaNum]->swampDst.y + 1100, 3));
+					}
+					mushroomSpot++;
+					if (mushroomSpot > 5)
+						mushroomSpot = 0;
+				}
+			}
 			if (bg[areaNum]->getBg() == 3)
 			{
 				bg[areaNum]->swampDst.x = 400;
@@ -1182,9 +1212,32 @@ void Levelone::Update()
 				levelRect.push_back(new SDL_Rect{ bg[areaNum]->swampDst.x - 10 ,bg[areaNum]->swampDst.y + 1420,1300,10 });
 				levelRect.push_back(new SDL_Rect{ bg[areaNum]->swampDst.x + 1330,bg[areaNum]->swampDst.y + 590,10,800 });
 				levelRect.push_back(new SDL_Rect{ bg[areaNum]->swampDst.x + 1350,bg[areaNum]->swampDst.y + 560,700,10 });
+				mushroomSpot = rand() % 6;
+				for (int i = 0; i < mushrooms; i++) {
+					if (mushroomSpot == 0) {
+						shroom.push_back(new Shroom(bg[areaNum]->swampDst.x + 950, bg[areaNum]->swampDst.y + 200, 3));
+					}
+					else if (mushroomSpot == 1) {
+						shroom.push_back(new Shroom(bg[areaNum]->swampDst.x + 300, bg[areaNum]->swampDst.y + 400, 3));
+					}
+					else if (mushroomSpot == 2) {
+						shroom.push_back(new Shroom(bg[areaNum]->swampDst.x + 700, bg[areaNum]->swampDst.y + 700, 3));
+					}
+					else if (mushroomSpot == 3) {
+						shroom.push_back(new Shroom(bg[areaNum]->swampDst.x + 1150, bg[areaNum]->swampDst.y + 600, 3));
+					}
+					else if (mushroomSpot == 4) {
+						shroom.push_back(new Shroom(bg[areaNum]->swampDst.x + 1600, bg[areaNum]->swampDst.y + 250, 3));
+					}
+					else if (mushroomSpot == 5) {
+						shroom.push_back(new Shroom(bg[areaNum]->swampDst.x + 1150, bg[areaNum]->swampDst.y + 1200, 3));
+					}
+					mushroomSpot++;
+					if (mushroomSpot > 5)
+						mushroomSpot = 0;
+				}
 
 			}
-
 			if (bg[areaNum]->getBg() == 4)
 			{
 				bg[areaNum]->swampDst.x = 430;
@@ -1203,8 +1256,38 @@ void Levelone::Update()
 				levelRect.push_back(new SDL_Rect{ bg[areaNum]->swampDst.x,bg[areaNum]->swampDst.y + 620,280,10 });
 				levelRect.push_back(new SDL_Rect{ bg[areaNum]->swampDst.x + 320,bg[areaNum]->swampDst.y,10,580 });
 				levelRect.push_back(new SDL_Rect{ bg[areaNum]->swampDst.x + 320,bg[areaNum]->swampDst.y - 20,1720,10 });
-			}
 
+				mushroomSpot = rand() % 6;
+				for (int i = 0; i < mushrooms; i++) {
+					if (mushroomSpot == 0) {
+						shroom.push_back(new Shroom(bg[areaNum]->swampDst.x + 500, bg[areaNum]->swampDst.y + 200, 3));
+					}
+					else if (mushroomSpot == 1) {
+						shroom.push_back(new Shroom(bg[areaNum]->swampDst.x + 1600, bg[areaNum]->swampDst.y + 200, 3));
+					}
+					else if (mushroomSpot == 2) {
+						shroom.push_back(new Shroom(bg[areaNum]->swampDst.x + 1300, bg[areaNum]->swampDst.y + 1150, 3));
+					}
+					else if (mushroomSpot == 3) {
+						shroom.push_back(new Shroom(bg[areaNum]->swampDst.x + 500, bg[areaNum]->swampDst.y + 1200, 3));
+					}
+					else if (mushroomSpot == 4) {
+						shroom.push_back(new Shroom(bg[areaNum]->swampDst.x + 1000, bg[areaNum]->swampDst.y + 700, 3));
+					}
+					else if (mushroomSpot == 5) {
+						shroom.push_back(new Shroom(bg[areaNum]->swampDst.x + 1200, bg[areaNum]->swampDst.y + 1200, 3));
+					}
+					mushroomSpot++;
+					if (mushroomSpot > 5)
+						mushroomSpot = 0;
+				}
+				//500,200
+				//1600,200
+				//1300,1150
+				//500,1200
+				//1000,700
+				//650,800
+			}
 
 			loadArea = false;
 		}
@@ -1375,8 +1458,6 @@ void Levelone::Update()
 
 
 			}
-
-
 			if (bg[areaNum]->getBg() == 1)
 			{
 				//wallcollision
@@ -1446,7 +1527,6 @@ void Levelone::Update()
 				}
 
 			}
-
 			if (bg[areaNum]->getBg() == 2)
 			{
 				//wallcollision
@@ -1619,6 +1699,7 @@ void Levelone::Update()
 		if (SDL_HasIntersection(&exitRect, &plr1.plrDst)) {
 			loadArea = true;
 			areaNum++;
+			mushrooms++;
 			cout << "hit" << endl;
 		}
 
@@ -1851,11 +1932,14 @@ void Levelone::Update()
 		if (!EVMA::KeyHeld(SDL_SCANCODE_W) && !EVMA::KeyHeld(SDL_SCANCODE_S) && !EVMA::KeyHeld(SDL_SCANCODE_D) && !EVMA::KeyHeld(SDL_SCANCODE_A)) {
 			plr1.state = 0;
 		}		
-		/*for (unsigned i = 0; i < shroom.size(); i++)
+		
+		//Shrooooooms
+		for (unsigned i = 0; i < shroom.size(); i++)
 		{
 			shroom[i]->shroomDst.x -= speedx;
 			shroom[i]->shroomDst.y -= speedy;
-		}*/
+			shroom[i]->Update();
+		}
 		/*for (unsigned i = 0; i < ushroomatk.size(); i++)
 		{
 			ushroomatk[i]->ushroomAtkDst.x -= speedx;
@@ -2004,7 +2088,6 @@ void Levelone::Update()
 				if (SDL_HasIntersection(&fly[i]->flyDst, &plr1.plrDst)) {
 					plr1.takeDamage(1);
 				}
-
 				if (fly[i]->getHp() <= 0) {
 					plr1.points(10);
 					Mix_PlayChannel(-1, deathSfx, 0);
@@ -2039,10 +2122,10 @@ void Levelone::Update()
 		{
 			for (unsigned i = 0; i < shroom.size(); i++)
 			{
-				shroom[i]->Update();
+				//shroom[i]->Update();
 
 
-				if (shroom[i]->frames >= FPS * CLOUDRATE / 2)
+				/*if (shroom[i]->frames >= FPS * CLOUDRATE / 2)
 				{
 					shroom[i]->resetFrames();
 					cout << "shroom pew" << endl;
@@ -2054,7 +2137,7 @@ void Levelone::Update()
 					rshroomatk.shrink_to_fit();
 					dshroomatk.push_back(new Attack(shroom[i]->shroomDst.x + 17, shroom[i]->shroomDst.y + 23));
 					dshroomatk.shrink_to_fit();
-				}
+				}*/
 				if (shroom[i]->getHp() <= 0)
 				{
 					plr1.points(10);
@@ -2224,6 +2307,8 @@ void Levelone::Render()
 	{
 		SDL_RenderFillRect(Engine::Instance().GetRenderer(), &(dshroomatk[i]->dshroomAtkDst));
 	}
+
+	SDL_RenderCopy(Engine::Instance().GetRenderer(), Score, NULL, &scoreRect);
 
 	for (unsigned i = 0; i < levelRect.size(); i++)
 	{

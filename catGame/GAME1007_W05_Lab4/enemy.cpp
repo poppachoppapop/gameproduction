@@ -263,7 +263,7 @@ void Frog::Update(SDL_Rect plr)
 Shroom::Shroom(int x, int y, int h) : shroomSrc({0,0,32,32}), frameCtr(0), frameMax(9), spriteIdx(0), spriteMax(4)
 {
 	HP = { 0,0,100,4 };
-	shroomDst = { x,y,64,64 };
+	shroomDst = { x,y,128,128 };
 	healthBar = { x, y , 25, 5 };
 	health = h;
 	maxHealth = h;
@@ -299,7 +299,7 @@ void Shroom::Update()
 	}
 	HP.x = shroomDst.x + 15;
 	HP.y = shroomDst.y - 5;
-	healthBar.w = double(health / maxHealth) * 50;
+	healthBar.w = double(health / maxHealth) * 100;
 	healthBar.x = shroomDst.x + 5;
 	healthBar.y = shroomDst.y - 5;
 	frames++;
