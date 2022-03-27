@@ -958,6 +958,12 @@ void Levelone::Enter()
 	Mix_Volume(-1, 50);
 	playerpew.reserve(4);
 	mushrooms = mushroomsLeft = 1;
+	
+	font = TTF_OpenFont("fonts/font.ttf", 24);
+	White = { 255, 255, 255 };
+	mushScoreRect = { 700, 10, 300, 30 };
+	mushScore = TTF_RenderText_Solid(font, mushMessage, White);
+	mushLeft = SDL_CreateTextureFromSurface(Engine::Instance().GetRenderer(), mushScore);
 
 	loadArea = true;
 
@@ -965,10 +971,15 @@ void Levelone::Enter()
 
 	blackRect = { 0 , 0 , 1024 , 768 };
 	exitRect = { 0,0, 10, 10 };
+
+	mushStr = "Mushrooms Left = " + to_string(mushroomsLeft);
+	strcpy_s(mushMessage, mushStr.c_str());
+	mushScore = TTF_RenderText_Solid(font, mushMessage, White);
+	mushLeft = SDL_CreateTextureFromSurface(Engine::Instance().GetRenderer(), mushScore);
 	
 	for (int i = 0; i < 15; i++)
 	{
-		bg.push_back(new Level1Background(rand() % 5, 10));
+		bg.push_back(new Level1Background(rand() % 5, 12));
 	}
 }
 
@@ -999,7 +1010,12 @@ void Levelone::Update()
 			bub.clear();
 			shroom.clear();
 			levelRect.clear();
+			cloud.clear();
 			plr1.setPlrSpd(0);
+			mushStr = "Mushrooms Left = " + to_string(mushroomsLeft);
+			strcpy_s(mushMessage, mushStr.c_str());
+			mushScore = TTF_RenderText_Solid(font, mushMessage, White);
+			mushLeft = SDL_CreateTextureFromSurface(Engine::Instance().GetRenderer(), mushScore);
 
 			for (int i = 0; i < 255 / fadeSpeed; i++)
 			{
@@ -1890,8 +1906,6 @@ void Levelone::Update()
 			plr1.state = 4;
 		}
 
-
-
 		//Slow Down!
 		if (!EVMA::KeyHeld(SDL_SCANCODE_D) && !EVMA::KeyHeld(SDL_SCANCODE_A)) {
 			if (speedx > 0)
@@ -1910,10 +1924,6 @@ void Levelone::Update()
 		if (!EVMA::KeyHeld(SDL_SCANCODE_W) && !EVMA::KeyHeld(SDL_SCANCODE_S) && !EVMA::KeyHeld(SDL_SCANCODE_D) && !EVMA::KeyHeld(SDL_SCANCODE_A)) {
 			plr1.state = 0;
 		}		
-		
-		
-		
-		
 
 		//frog
 		for (unsigned i = 0; i < frog.size(); i++)
@@ -2058,20 +2068,45 @@ void Levelone::Update()
 			shroom[i]->shroomDst.x -= speedx;
 			shroom[i]->shroomDst.y -= speedy;
 			shroom[i]->Update();
-			if (shroom[i]->shootTimer == 100) {
-				cloud.push_back(new Cloud(shroom[i]->shroomDst.x + 45, shroom[i]->shroomDst.y + 30, 5, 'y'));
-				cloud.push_back(new Cloud(shroom[i]->shroomDst.x + 45, shroom[i]->shroomDst.y + 30, 5 * -1, 'y'));
-				cloud.push_back(new Cloud(shroom[i]->shroomDst.x + 45, shroom[i]->shroomDst.y + 30, 5, 'x'));
-				cloud.push_back(new Cloud(shroom[i]->shroomDst.x + 45, shroom[i]->shroomDst.y + 30, 5 * -1, 'x'));
-				cloud.shrink_to_fit();
+			if (Util::distanceOffset(plr1.plrDst, shroom[i]->shroomDst) < 550) {
+				if (shroom[i]->shootTimer == 0) {
+					cloud.push_back(new Cloud(shroom[i]->shroomDst.x + 45, shroom[i]->shroomDst.y + 30, 5, 'y'));
+					cloud.push_back(new Cloud(shroom[i]->shroomDst.x + 45, shroom[i]->shroomDst.y + 30, 5 * -1, 'y'));
+					cloud.push_back(new Cloud(shroom[i]->shroomDst.x + 45, shroom[i]->shroomDst.y + 30, 5, 'x'));
+					cloud.push_back(new Cloud(shroom[i]->shroomDst.x + 45, shroom[i]->shroomDst.y + 30, 5 * -1, 'x'));
+					cloud.shrink_to_fit();
+				}
+			}
+			if (shroom[i]->getHp() <= 0)
+			{
+				plr1.points(10);
+				Mix_PlayChannel(-1, deathSfx, 0);
+				delete shroom[i];
+				shroom[i] = nullptr;
+				shroom.erase(shroom.begin() + i);
+				shroom.shrink_to_fit();
+				mushroomsLeft--;
+				mushStr = "Mushrooms Left = " + to_string(mushroomsLeft);
+				strcpy_s(mushMessage, mushStr.c_str());
+				mushScore = TTF_RenderText_Solid(font, mushMessage, White);
+				mushLeft = SDL_CreateTextureFromSurface(Engine::Instance().GetRenderer(), mushScore);
 			}
 		}
+		// shroom cloud
 		for (unsigned i = 0; i < cloud.size();i++)
 		{
 			cloud[i]->cloudDst.x -= speedx;
 			cloud[i]->cloudDst.y -= speedy;
 			cloud[i]->Update();
+			if (Util::distanceOffset(plr1.plrDst, cloud[i]->cloudDst) < 100) {
+				plr1.takeDamage(1);
+				delete cloud[i];
+				cloud[i] = nullptr;
+				cloud.erase(cloud.begin() + i);
+				cloud.shrink_to_fit();
+			}
 		}
+
 		for (unsigned i = 0; i < playerpew.size(); i++)
 		{
 			for (unsigned j = 0; j < shroom.size(); j++)
@@ -2087,23 +2122,6 @@ void Levelone::Update()
 					//set dumbie hp					
 					shroom[j]->setHp(shroom[j]->getHp() - playerDamage);
 					break;					
-				}
-			}
-		}
-		if (isfreezeActive == false)
-		{
-			for (unsigned i = 0; i < shroom.size(); i++)
-			{
-				//shroom[i]->Update();
-
-				if (shroom[i]->getHp() <= 0)
-				{
-					plr1.points(10);
-					Mix_PlayChannel(-1, deathSfx, 0);
-					delete shroom[i];
-					shroom[i] = nullptr;
-					shroom.erase(shroom.begin() + i);
-					shroom.shrink_to_fit();
 				}
 			}
 		}
@@ -2205,7 +2223,8 @@ void Levelone::Render()
 	}
 	//shroom atk stuff
 	
-	SDL_RenderCopy(Engine::Instance().GetRenderer(), Score, NULL, &scoreRect);
+	//score
+	SDL_RenderCopy(Engine::Instance().GetRenderer(), mushLeft, NULL, &mushScoreRect);
 
 	for (unsigned i = 0; i < levelRect.size(); i++)
 	{

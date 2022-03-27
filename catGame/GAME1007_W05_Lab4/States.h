@@ -164,6 +164,7 @@ private:
 	Mix_Music* Titletheme;
 	SDL_Rect bg1Ani;
 	int state;
+
 public:
 	TitleState();
 	virtual void Enter();
@@ -226,6 +227,14 @@ private:
 	const int maxMushrooms = 6;
 	int mushrooms, mushroomsLeft;
 	int mushroomSpot;
+
+
+	SDL_Surface* mushScore;
+	SDL_Rect mushScoreRect;
+	SDL_Texture* mushLeft;
+	string mushStr = "Mushrooms Left =  ";
+	char mushMessage[100] = "Mushrooms Left = ";
+
 public:
 	Levelone();
 	virtual void Enter();
