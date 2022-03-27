@@ -10,22 +10,17 @@
 #define FROGATTACK 7
 #define ATTACKRATE 3
 #define CLOUDRATE 8 //shroom spore spawn rate
-class Attack
+class Cloud
 {
 private:
 
 public:
-	SDL_Rect frogAttackDst,frogAttackSrc;
-	SDL_Rect rfrogAttackDst, rfrogAttackSrc;
-	SDL_Rect ushroomAtkDst, ushroomAtkSrc;
-	SDL_Rect lshroomAtkDst, lshroomAtkSrc;
-	SDL_Rect rshroomAtkDst, rshroomAtkSrc;
-	SDL_Rect dshroomAtkDst, dshroomAtkSrc;
-	Uint16 frames = 0;
-	Attack(int = 0, int = 0);	
-
-	void Update(int move);
-
+	SDL_Rect cloudSrc, cloudDst;
+	Cloud(int x, int y,int s, char d);
+	void Update();
+	char dir;
+	int speed;
+	
 };
 class Enemy
 {
@@ -100,7 +95,7 @@ public:
 	int getShootTimer();
 	int getDir();
 	void Update(SDL_Rect plr);
-	void resetFrames();
+	
 };
 
 class Bubble {
@@ -124,6 +119,7 @@ private:
 	double health;
 	double maxHealth;
 public:
+	int shootTimer;
 	SDL_Rect HP;//white hp
 	SDL_Rect shroomSrc, shroomDst, healthBar;
 	Shroom(int x, int y, int h);
@@ -131,7 +127,7 @@ public:
 	void setHp(double h);
 	int getHp();
 	void Update();
-	void resetFrames();
+	//void resetFrames();
 
 };
 

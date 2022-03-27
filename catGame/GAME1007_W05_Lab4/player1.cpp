@@ -159,10 +159,10 @@ void Rock::Update()
 	if (dir == 'y')
 		rockDst.y += speed;
 
-	if (dir == 'x')
-		rock2Dst.x += speed;
-	if (dir == 'y')
-		rock2Dst.y += speed;
+	//if (dir == 'x')
+	//	rock2Dst.x += speed;
+	//if (dir == 'y')
+	//	rock2Dst.y += speed;
 	
 	
 }

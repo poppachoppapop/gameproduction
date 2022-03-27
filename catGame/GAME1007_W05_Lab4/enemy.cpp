@@ -2,29 +2,7 @@
 #include <cmath>
 #define PI 3.14159265 
 
-Attack::Attack(int x, int y)
-{
-	//temp sdl rect for attack
-	frogAttackDst = { x,y,29,7 };
-	rfrogAttackDst = { x,y,29,7 };
 
-	ushroomAtkDst ={ x,y,25,3 };
-	lshroomAtkDst= { x,y,3,25 };
-	rshroomAtkDst= { x,y,3,25 };
-    dshroomAtkDst= { x,y,25,3 };
-}
-
-void Attack::Update(int move)
-{
-	//frogAttackSrc
-	frogAttackDst.x += SPEED * move;
-	rfrogAttackDst.x += SPEED * move;
-
-	ushroomAtkDst.y += SHROOM * move;
-	lshroomAtkDst.x += SHROOM * move;
-	rshroomAtkDst.x += SHROOM * move;
-	dshroomAtkDst.y += SHROOM * move;
-}
 
 //Dumbie
 Enemy::Enemy(int x, int y, double h) :enemySrc({ 0,0,64,64 })
@@ -268,6 +246,7 @@ Shroom::Shroom(int x, int y, int h) : shroomSrc({0,0,32,32}), frameCtr(0), frame
 	health = h;
 	maxHealth = h;
 	state = 0;
+	shootTimer = 0;
 }
 
 void Shroom::setHp(double h)
@@ -303,12 +282,16 @@ void Shroom::Update()
 	healthBar.x = shroomDst.x + 5;
 	healthBar.y = shroomDst.y - 5;
 	frames++;
+
+	shootTimer++;
+	//cout << shootTimer << endl;
+	if (shootTimer > 100) {
+		shootTimer = 0;
+	}
+	
 }
 
-void Shroom::resetFrames()
-{
-	frames = 0;
-}
+
 
 Bubble::Bubble(int x, int y)
 {
@@ -333,5 +316,21 @@ void Bubble::Update(SDL_Rect plr)
 	//follows player (maybe use for dragon fly?)
 	//bubbleDst.x -= 5 * (cos(angle * PI / 180));
 	//bubbleDst.y -= 5 * (sin(angle * PI / 180));
+
+}
+
+Cloud::Cloud(int x, int y, int s, char d):cloudSrc({ 0,0,16,16 })
+{
+	cloudDst = { x,y,32,32 };	
+	speed = s;
+	dir = d;
+}
+
+void Cloud::Update()
+{
+	if (dir == 'x')
+		cloudDst.x += speed;
+	if (dir == 'y')
+		cloudDst.y += speed;
 
 }

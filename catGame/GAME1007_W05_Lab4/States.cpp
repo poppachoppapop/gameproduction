@@ -174,10 +174,10 @@ void GameState::Enter()
 	DragonFlyTxt = IMG_LoadTexture(Engine::Instance().GetRenderer(), "art/dragonfly1.png");
 	vineTexture = IMG_LoadTexture(Engine::Instance().GetRenderer(), "art/vines.png");
 	FrogTxtr = IMG_LoadTexture(Engine::Instance().GetRenderer(), "art/frogWalking7.png");
-	frogbubble = IMG_LoadTexture(Engine::Instance().GetRenderer(), "art/frogbubble.png");
+	frogbubble = IMG_LoadTexture(Engine::Instance().GetRenderer(), "art/bubblegreen.png");
 	tree = IMG_LoadTexture(Engine::Instance().GetRenderer(), "bgs/Trees.png");
 	portal = IMG_LoadTexture(Engine::Instance().GetRenderer(), "art/portal2.png");
-		
+	cloudtxtr = IMG_LoadTexture(Engine::Instance().GetRenderer(), "art/cloud.png");
 	stepSfx = Mix_LoadWAV("sfx/step.wav");
 	turnSfx = Mix_LoadWAV("sfx/turn.wav");
 	deathSfx = Mix_LoadWAV("sfx/dedEnemy.wav");
@@ -728,35 +728,7 @@ void GameState::Update()
 				Score = SDL_CreateTextureFromSurface(Engine::Instance().GetRenderer(), dummyScore);
 			}
 		}
-
-		////for items
-		//itemSpawnTimer++;
-		//if (itemSpawnTimer == 1000)
-		//{
-		//	//itemSpawnTimer = 0;
-		//	item1.push_back(new Items(1, bg1.bgDst.x + 1075, bg1.bgDst.y + 1550));
-		//	item1.shrink_to_fit();
-		//}
-		//for (unsigned i = 0; i < item1.size(); i++)
-		//{
-		//	if (!wallHitx)
-		//		item1[i]->item.x -= speedx;
-		//	if (!wallHity)
-		//		item1[i]->item.y -= speedy;
-
-
-		//	if (SDL_HasIntersection(&plr1.plrDst, &item1[i]->item)) //AABB Check
-		//	{
-		//		Mix_PlayChannel(-1, powerSfx, 0);
-		//		delete item1[i];
-		//		item1[i] = nullptr;
-		//		item1.erase(item1.begin() + i);
-		//		item1.shrink_to_fit();
-		//		playerDamage++;
-
-		//	}
-
-		//}
+		
 	}
 	else {
 		if (!(fadeMod == 255))
@@ -813,6 +785,11 @@ void GameState::Render()
 	{
 		SDL_RenderCopy(Engine::Instance().GetRenderer(), rockTxtr,
 			&(playerpew[i]->rockSrc), &(playerpew[i]->rockDst));
+	}
+	for (unsigned i = 0; i < cloud.size(); i++)
+	{
+		SDL_RenderCopy(Engine::Instance().GetRenderer(), cloudtxtr,
+			&(cloud[i]->cloudSrc), &(cloud[i]->cloudDst));
 	}
 
 	//bubble 
@@ -962,6 +939,7 @@ void Levelone::Enter()
 	vineTexture = IMG_LoadTexture(Engine::Instance().GetRenderer(), "art/vines.png");
 	FrogTxtr = IMG_LoadTexture(Engine::Instance().GetRenderer(), "art/frogWalking7.png");
 	ShroomTxtr = IMG_LoadTexture(Engine::Instance().GetRenderer(), "art/mushroom.png");
+	cloudtxtr = IMG_LoadTexture(Engine::Instance().GetRenderer(), "art/cloud.png");
 	stepSfx = Mix_LoadWAV("sfx/step.wav");
 	turnSfx = Mix_LoadWAV("sfx/turn.wav");
 	deathSfx = Mix_LoadWAV("sfx/dedEnemy.wav");
@@ -1933,34 +1911,9 @@ void Levelone::Update()
 			plr1.state = 0;
 		}		
 		
-		//Shrooooooms
-		for (unsigned i = 0; i < shroom.size(); i++)
-		{
-			shroom[i]->shroomDst.x -= speedx;
-			shroom[i]->shroomDst.y -= speedy;
-			shroom[i]->Update();
-		}
-		/*for (unsigned i = 0; i < ushroomatk.size(); i++)
-		{
-			ushroomatk[i]->ushroomAtkDst.x -= speedx;
-			ushroomatk[i]->ushroomAtkDst.y -= speedy;
-
-		}
-		for (unsigned i = 0; i < lshroomatk.size(); i++)
-		{
-			lshroomatk[i]->lshroomAtkDst.x -= speedx;
-			lshroomatk[i]->lshroomAtkDst.y -= speedy;
-		}
-		for (unsigned i = 0; i < rshroomatk.size(); i++)
-		{
-			rshroomatk[i]->rshroomAtkDst.x -= speedx;
-			rshroomatk[i]->rshroomAtkDst.y -= speedy;
-		}
-		for (unsigned i = 0; i < dshroomatk.size(); i++)
-		{
-			dshroomatk[i]->dshroomAtkDst.x -= speedx;
-			dshroomatk[i]->dshroomAtkDst.y -= speedy;
-		}*/
+		
+		
+		
 
 		//frog
 		for (unsigned i = 0; i < frog.size(); i++)
@@ -2100,6 +2053,25 @@ void Levelone::Update()
 		}
 
 		//shroom
+		for (unsigned i = 0; i < shroom.size(); i++)
+		{
+			shroom[i]->shroomDst.x -= speedx;
+			shroom[i]->shroomDst.y -= speedy;
+			shroom[i]->Update();
+			if (shroom[i]->shootTimer == 100) {
+				cloud.push_back(new Cloud(shroom[i]->shroomDst.x + 45, shroom[i]->shroomDst.y + 30, 5, 'y'));
+				cloud.push_back(new Cloud(shroom[i]->shroomDst.x + 45, shroom[i]->shroomDst.y + 30, 5 * -1, 'y'));
+				cloud.push_back(new Cloud(shroom[i]->shroomDst.x + 45, shroom[i]->shroomDst.y + 30, 5, 'x'));
+				cloud.push_back(new Cloud(shroom[i]->shroomDst.x + 45, shroom[i]->shroomDst.y + 30, 5 * -1, 'x'));
+				cloud.shrink_to_fit();
+			}
+		}
+		for (unsigned i = 0; i < cloud.size();i++)
+		{
+			cloud[i]->cloudDst.x -= speedx;
+			cloud[i]->cloudDst.y -= speedy;
+			cloud[i]->Update();
+		}
 		for (unsigned i = 0; i < playerpew.size(); i++)
 		{
 			for (unsigned j = 0; j < shroom.size(); j++)
@@ -2124,20 +2096,6 @@ void Levelone::Update()
 			{
 				//shroom[i]->Update();
 
-
-				/*if (shroom[i]->frames >= FPS * CLOUDRATE / 2)
-				{
-					shroom[i]->resetFrames();
-					cout << "shroom pew" << endl;
-					ushroomatk.push_back(new Attack(shroom[i]->shroomDst.x + 17, shroom[i]->shroomDst.y + 23));
-					ushroomatk.shrink_to_fit();
-					lshroomatk.push_back(new Attack(shroom[i]->shroomDst.x + 17, shroom[i]->shroomDst.y + 23));
-					lshroomatk.shrink_to_fit();
-					rshroomatk.push_back(new Attack(shroom[i]->shroomDst.x + 17, shroom[i]->shroomDst.y + 23));
-					rshroomatk.shrink_to_fit();
-					dshroomatk.push_back(new Attack(shroom[i]->shroomDst.x + 17, shroom[i]->shroomDst.y + 23));
-					dshroomatk.shrink_to_fit();
-				}*/
 				if (shroom[i]->getHp() <= 0)
 				{
 					plr1.points(10);
@@ -2149,52 +2107,7 @@ void Levelone::Update()
 				}
 			}
 		}
-		if (isfreezeActive == false)
-		{
-			for (unsigned i = 0; i < ushroomatk.size(); i++)
-			{
-				ushroomatk[i]->Update(-1);
-
-				if (SDL_HasIntersection(&ushroomatk[i]->ushroomAtkDst, &plr1.plrDst)) {
-					plr1.takeDamage(0.5);
-				}
-
-			}
-
-		}
-		if (isfreezeActive == false)
-		{
-			for (unsigned i = 0; i < lshroomatk.size(); i++)
-			{
-				lshroomatk[i]->Update(-1);
-
-				if (SDL_HasIntersection(&lshroomatk[i]->lshroomAtkDst, &plr1.plrDst)) {
-					plr1.takeDamage(0.5);
-				}
-			}
-		}
-		if (isfreezeActive == false)
-		{
-			for (unsigned i = 0; i < rshroomatk.size(); i++)
-			{
-				rshroomatk[i]->Update(1);
-
-				if (SDL_HasIntersection(&rshroomatk[i]->rshroomAtkDst, &plr1.plrDst)) {
-					plr1.takeDamage(0.5);
-				}
-			}
-		}
-		if (isfreezeActive == false)
-		{
-			for (unsigned i = 0; i < dshroomatk.size(); i++)
-			{
-				dshroomatk[i]->Update(1);
-
-				if (SDL_HasIntersection(&dshroomatk[i]->dshroomAtkDst, &plr1.plrDst)) {
-					plr1.takeDamage(0.5);
-				}
-			}
-		}
+		
 		
 	}
 	else {
@@ -2235,7 +2148,11 @@ void Levelone::Render()
 		SDL_RenderCopy(Engine::Instance().GetRenderer(), rockTxtr,
 			&(playerpew[i]->rockSrc), &(playerpew[i]->rockDst));
 	}
-	
+	for (unsigned i = 0; i < cloud.size(); i++)
+	{
+		SDL_RenderCopy(Engine::Instance().GetRenderer(), cloudtxtr,
+			&(cloud[i]->cloudSrc), &(cloud[i]->cloudDst));
+	}
 	//item
 	for (unsigned i = 0; i < item1.size(); i++)
 	{
@@ -2286,28 +2203,8 @@ void Levelone::Render()
 		if (isfreezeActive == false)
 		SDL_RenderFillRect(Engine::Instance().GetRenderer(), &shroom[i]->healthBar);
 	}
-	//shroom atk stufff
-	SDL_SetRenderDrawColor(Engine::Instance().GetRenderer(), 0, 255, 100, 230);
-	for (unsigned i = 0; i < ushroomatk.size(); i++)
-	{
-		SDL_RenderFillRect(Engine::Instance().GetRenderer(), &(ushroomatk[i]->ushroomAtkDst));
-	}
-	SDL_SetRenderDrawColor(Engine::Instance().GetRenderer(), 0, 255, 100, 230);
-	for (unsigned i = 0; i < lshroomatk.size(); i++)
-	{
-		SDL_RenderFillRect(Engine::Instance().GetRenderer(), &(lshroomatk[i]->lshroomAtkDst));
-	}
-	SDL_SetRenderDrawColor(Engine::Instance().GetRenderer(), 0, 255, 100, 230);
-	for (unsigned i = 0; i < rshroomatk.size(); i++)
-	{
-		SDL_RenderFillRect(Engine::Instance().GetRenderer(), &(rshroomatk[i]->rshroomAtkDst));
-	}
-	SDL_SetRenderDrawColor(Engine::Instance().GetRenderer(), 0, 255, 100, 230);
-	for (unsigned i = 0; i < dshroomatk.size(); i++)
-	{
-		SDL_RenderFillRect(Engine::Instance().GetRenderer(), &(dshroomatk[i]->dshroomAtkDst));
-	}
-
+	//shroom atk stuff
+	
 	SDL_RenderCopy(Engine::Instance().GetRenderer(), Score, NULL, &scoreRect);
 
 	for (unsigned i = 0; i < levelRect.size(); i++)
@@ -2374,55 +2271,11 @@ void Levelone::Exit()
 		delete item1[i];
 		item1[i] = nullptr;
 	}
-	for (unsigned i = 0; i < attack.size();i++)
-	{
-		delete attack[i];
-		attack[i] = nullptr;
-	}
-	for (unsigned i = 0; i < rattack.size();i++)
-	{
-		delete rattack[i];
-		rattack[i] = nullptr;
-	}
-	for (unsigned i = 0; i < shroom.size();i++)
-	{
-		delete shroom[i];
-		shroom[i] = nullptr;
-	}
-	for (unsigned i = 0; i < ushroomatk.size();i++)
-	{
-		delete ushroomatk[i];
-		ushroomatk[i] = nullptr;
-	}
-	for (unsigned i = 0; i < lshroomatk.size();i++)
-	{
-		delete lshroomatk[i];
-		lshroomatk[i] = nullptr;
-	}
-	for (unsigned i = 0; i < rshroomatk.size();i++)
-	{
-		delete rshroomatk[i];
-		rshroomatk[i] = nullptr;
-	}
-	for (unsigned i = 0; i < dshroomatk.size();i++)
-	{
-		delete dshroomatk[i];
-		dshroomatk[i] = nullptr;
-	}
+	
 	shroom.clear();
 	shroom.shrink_to_fit();
-	ushroomatk.clear();
-	ushroomatk.shrink_to_fit();
-	lshroomatk.clear();
-	lshroomatk.shrink_to_fit();
-	rshroomatk.clear();
-	rshroomatk.shrink_to_fit();
-	dshroomatk.clear();
-	dshroomatk.shrink_to_fit();
 	fly.clear();
 	fly.shrink_to_fit();
-	attack.clear();
-	attack.shrink_to_fit();
 	frog.clear();
 	frog.shrink_to_fit();
 	playerpew.clear();
@@ -2443,6 +2296,7 @@ void Levelone::Exit()
 	SDL_DestroyTexture(DragonFlyTxt);
 	SDL_DestroyTexture(vineTexture);
 	SDL_DestroyTexture(FrogTxtr);
+	SDL_DestroyTexture(cloudtxtr);
 	Mix_FreeChunk(hurtSfx);
 	Mix_FreeChunk(powerSfx);;
 	Mix_FreeChunk(projectileRock);

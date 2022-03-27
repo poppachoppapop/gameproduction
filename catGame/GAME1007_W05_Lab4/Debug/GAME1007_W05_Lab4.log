@@ -1,83 +1,28 @@
 ﻿C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\MSBuild\Microsoft\VC\v160\Microsoft.CppBuild.targets(513,5): warning MSB8028: The intermediate directory (Debug\) contains files shared from another project (GAME1007_W05_Lab4.vcxproj).  This can lead to incorrect clean and rebuild behavior.
-  Engine.cpp
-C:\Users\Michael\OneDrive\Desktop\gbc\GAME1017\gameproduction\catGame\GAME1007_W05_Lab4\Engine.cpp(46,12): warning C4244: 'argument': conversion from 'time_t' to 'unsigned int', possible loss of data
-  EventManager.cpp
-  Items.cpp
-  Main.cpp
-  StateManager.cpp
   States.cpp
-<<<<<<< Updated upstream
 C:\Users\Michael\OneDrive\Desktop\gbc\GAME1017\gameproduction\catGame\GAME1007_W05_Lab4\States.cpp(114,57): warning C4805: '==': unsafe mix of type 'Uint32' and type 'bool' in operation
 C:\Users\Michael\OneDrive\Desktop\gbc\GAME1017\gameproduction\catGame\GAME1007_W05_Lab4\States.cpp(120,57): warning C4805: '==': unsafe mix of type 'Uint32' and type 'bool' in operation
 C:\Users\Michael\OneDrive\Desktop\gbc\GAME1017\gameproduction\catGame\GAME1007_W05_Lab4\States.cpp(126,57): warning C4805: '==': unsafe mix of type 'Uint32' and type 'bool' in operation
-C:\Users\Michael\OneDrive\Desktop\gbc\GAME1017\gameproduction\catGame\GAME1007_W05_Lab4\States.cpp(245,12): warning C4553: '==': result of expression not used; did you intend '='?
-C:\Users\Michael\OneDrive\Desktop\gbc\GAME1017\gameproduction\catGame\GAME1007_W05_Lab4\States.cpp(459,21): warning C4018: '<': signed/unsigned mismatch
-C:\Users\Michael\OneDrive\Desktop\gbc\GAME1017\gameproduction\catGame\GAME1007_W05_Lab4\States.cpp(570,84): warning C4244: 'argument': conversion from 'double' to 'int', possible loss of data
-C:\Users\Michael\OneDrive\Desktop\gbc\GAME1017\gameproduction\catGame\GAME1007_W05_Lab4\States.cpp(580,74): warning C4244: 'argument': conversion from 'double' to 'int', possible loss of data
-C:\Users\Michael\OneDrive\Desktop\gbc\GAME1017\gameproduction\catGame\GAME1007_W05_Lab4\States.cpp(590,84): warning C4244: 'argument': conversion from 'double' to 'int', possible loss of data
-C:\Users\Michael\OneDrive\Desktop\gbc\GAME1017\gameproduction\catGame\GAME1007_W05_Lab4\States.cpp(600,74): warning C4244: 'argument': conversion from 'double' to 'int', possible loss of data
-C:\Users\Michael\OneDrive\Desktop\gbc\GAME1017\gameproduction\catGame\GAME1007_W05_Lab4\States.cpp(774,12): warning C4553: '==': result of expression not used; did you intend '='?
-C:\Users\Michael\OneDrive\Desktop\gbc\GAME1017\gameproduction\catGame\GAME1007_W05_Lab4\States.cpp(951,27): warning C4805: '==': unsafe mix of type 'int' and type 'bool' in operation
-C:\Users\Michael\OneDrive\Desktop\gbc\GAME1017\gameproduction\catGame\GAME1007_W05_Lab4\States.cpp(1019,12): warning C4553: '==': result of expression not used; did you intend '='?
-C:\Users\Michael\OneDrive\Desktop\gbc\GAME1017\gameproduction\catGame\GAME1007_W05_Lab4\States.cpp(1368,23): warning C4018: '<': signed/unsigned mismatch
-C:\Users\Michael\OneDrive\Desktop\gbc\GAME1017\gameproduction\catGame\GAME1007_W05_Lab4\States.cpp(1440,23): warning C4018: '<': signed/unsigned mismatch
-C:\Users\Michael\OneDrive\Desktop\gbc\GAME1017\gameproduction\catGame\GAME1007_W05_Lab4\States.cpp(1485,23): warning C4018: '<': signed/unsigned mismatch
-C:\Users\Michael\OneDrive\Desktop\gbc\GAME1017\gameproduction\catGame\GAME1007_W05_Lab4\States.cpp(1539,23): warning C4018: '<': signed/unsigned mismatch
-C:\Users\Michael\OneDrive\Desktop\gbc\GAME1017\gameproduction\catGame\GAME1007_W05_Lab4\States.cpp(1602,23): warning C4018: '<': signed/unsigned mismatch
-C:\Users\Michael\OneDrive\Desktop\gbc\GAME1017\gameproduction\catGame\GAME1007_W05_Lab4\States.cpp(1750,84): warning C4244: 'argument': conversion from 'double' to 'int', possible loss of data
-C:\Users\Michael\OneDrive\Desktop\gbc\GAME1017\gameproduction\catGame\GAME1007_W05_Lab4\States.cpp(1760,74): warning C4244: 'argument': conversion from 'double' to 'int', possible loss of data
-C:\Users\Michael\OneDrive\Desktop\gbc\GAME1017\gameproduction\catGame\GAME1007_W05_Lab4\States.cpp(1770,84): warning C4244: 'argument': conversion from 'double' to 'int', possible loss of data
-C:\Users\Michael\OneDrive\Desktop\gbc\GAME1017\gameproduction\catGame\GAME1007_W05_Lab4\States.cpp(1780,74): warning C4244: 'argument': conversion from 'double' to 'int', possible loss of data
-C:\Users\Michael\OneDrive\Desktop\gbc\GAME1017\gameproduction\catGame\GAME1007_W05_Lab4\States.cpp(1926,21): warning C4018: '<': signed/unsigned mismatch
-C:\Users\Michael\OneDrive\Desktop\gbc\GAME1017\gameproduction\catGame\GAME1007_W05_Lab4\States.cpp(2121,12): warning C4553: '==': result of expression not used; did you intend '='?
-C:\Users\Michael\OneDrive\Desktop\gbc\GAME1017\gameproduction\catGame\GAME1007_W05_Lab4\States.cpp(2405,57): warning C4805: '==': unsafe mix of type 'Uint32' and type 'bool' in operation
-C:\Users\Michael\OneDrive\Desktop\gbc\GAME1017\gameproduction\catGame\GAME1007_W05_Lab4\States.cpp(2410,57): warning C4805: '==': unsafe mix of type 'Uint32' and type 'bool' in operation
-  enemy.cpp
-C:\Users\Michael\OneDrive\Desktop\gbc\GAME1017\gameproduction\catGame\GAME1007_W05_Lab4\enemy.cpp(45,9): warning C4244: 'return': conversion from 'double' to 'int', possible loss of data
-C:\Users\Michael\OneDrive\Desktop\gbc\GAME1017\gameproduction\catGame\GAME1007_W05_Lab4\enemy.cpp(50,43): warning C4244: '=': conversion from 'double' to 'int', possible loss of data
-C:\Users\Michael\OneDrive\Desktop\gbc\GAME1017\gameproduction\catGame\GAME1007_W05_Lab4\enemy.cpp(85,9): warning C4244: 'return': conversion from 'double' to 'int', possible loss of data
-C:\Users\Michael\OneDrive\Desktop\gbc\GAME1017\gameproduction\catGame\GAME1007_W05_Lab4\enemy.cpp(109,43): warning C4244: '=': conversion from 'double' to 'int', possible loss of data
-C:\Users\Michael\OneDrive\Desktop\gbc\GAME1017\gameproduction\catGame\GAME1007_W05_Lab4\enemy.cpp(206,9): warning C4244: 'return': conversion from 'double' to 'int', possible loss of data
-C:\Users\Michael\OneDrive\Desktop\gbc\GAME1017\gameproduction\catGame\GAME1007_W05_Lab4\enemy.cpp(239,43): warning C4244: '=': conversion from 'double' to 'int', possible loss of data
-C:\Users\Michael\OneDrive\Desktop\gbc\GAME1017\gameproduction\catGame\GAME1007_W05_Lab4\enemy.cpp(247,16): warning C4244: 'initializing': conversion from 'double' to 'float', possible loss of data
-C:\Users\Michael\OneDrive\Desktop\gbc\GAME1017\gameproduction\catGame\GAME1007_W05_Lab4\enemy.cpp(248,48): warning C4244: '-=': conversion from 'double' to 'int', possible loss of data
-C:\Users\Michael\OneDrive\Desktop\gbc\GAME1017\gameproduction\catGame\GAME1007_W05_Lab4\enemy.cpp(249,48): warning C4244: '-=': conversion from 'double' to 'int', possible loss of data
-C:\Users\Michael\OneDrive\Desktop\gbc\GAME1017\gameproduction\catGame\GAME1007_W05_Lab4\enemy.cpp(280,9): warning C4244: 'return': conversion from 'double' to 'int', possible loss of data
-C:\Users\Michael\OneDrive\Desktop\gbc\GAME1017\gameproduction\catGame\GAME1007_W05_Lab4\enemy.cpp(302,43): warning C4244: '=': conversion from 'double' to 'int', possible loss of data
-C:\Users\Michael\OneDrive\Desktop\gbc\GAME1017\gameproduction\catGame\GAME1007_W05_Lab4\enemy.cpp(323,14): warning C4244: 'initializing': conversion from 'double' to 'float', possible loss of data
-C:\Users\Michael\OneDrive\Desktop\gbc\GAME1017\gameproduction\catGame\GAME1007_W05_Lab4\enemy.cpp(325,18): warning C4244: '=': conversion from 'double' to 'int', possible loss of data
-C:\Users\Michael\OneDrive\Desktop\gbc\GAME1017\gameproduction\catGame\GAME1007_W05_Lab4\enemy.cpp(326,18): warning C4244: '=': conversion from 'double' to 'int', possible loss of data
-  player1.cpp
-C:\Users\Michael\OneDrive\Desktop\gbc\GAME1017\gameproduction\catGame\GAME1007_W05_Lab4\player1.cpp(88,40): warning C4244: '=': conversion from 'double' to 'int', possible loss of data
-C:\Users\Michael\OneDrive\Desktop\gbc\GAME1017\gameproduction\catGame\GAME1007_W05_Lab4\player1.cpp(89,37): warning C4244: '=': conversion from 'double' to 'int', possible loss of data
-  Generating Code...
-  LINK : C:\Users\Michael\OneDrive\Desktop\gbc\GAME1017\gameproduction\catGame\Debug\catGamePreRelease.exe not found or not built by the last incremental link; performing full link
+C:\Users\Michael\OneDrive\Desktop\gbc\GAME1017\gameproduction\catGame\GAME1007_W05_Lab4\States.cpp(237,12): warning C4553: '==': result of expression not used; did you intend '='?
+C:\Users\Michael\OneDrive\Desktop\gbc\GAME1017\gameproduction\catGame\GAME1007_W05_Lab4\States.cpp(451,21): warning C4018: '<': signed/unsigned mismatch
+C:\Users\Michael\OneDrive\Desktop\gbc\GAME1017\gameproduction\catGame\GAME1007_W05_Lab4\States.cpp(562,84): warning C4244: 'argument': conversion from 'double' to 'int', possible loss of data
+C:\Users\Michael\OneDrive\Desktop\gbc\GAME1017\gameproduction\catGame\GAME1007_W05_Lab4\States.cpp(572,74): warning C4244: 'argument': conversion from 'double' to 'int', possible loss of data
+C:\Users\Michael\OneDrive\Desktop\gbc\GAME1017\gameproduction\catGame\GAME1007_W05_Lab4\States.cpp(582,84): warning C4244: 'argument': conversion from 'double' to 'int', possible loss of data
+C:\Users\Michael\OneDrive\Desktop\gbc\GAME1017\gameproduction\catGame\GAME1007_W05_Lab4\States.cpp(592,74): warning C4244: 'argument': conversion from 'double' to 'int', possible loss of data
+C:\Users\Michael\OneDrive\Desktop\gbc\GAME1017\gameproduction\catGame\GAME1007_W05_Lab4\States.cpp(737,12): warning C4553: '==': result of expression not used; did you intend '='?
+C:\Users\Michael\OneDrive\Desktop\gbc\GAME1017\gameproduction\catGame\GAME1007_W05_Lab4\States.cpp(918,27): warning C4805: '==': unsafe mix of type 'int' and type 'bool' in operation
+C:\Users\Michael\OneDrive\Desktop\gbc\GAME1017\gameproduction\catGame\GAME1007_W05_Lab4\States.cpp(983,12): warning C4553: '==': result of expression not used; did you intend '='?
+C:\Users\Michael\OneDrive\Desktop\gbc\GAME1017\gameproduction\catGame\GAME1007_W05_Lab4\States.cpp(1429,23): warning C4018: '<': signed/unsigned mismatch
+C:\Users\Michael\OneDrive\Desktop\gbc\GAME1017\gameproduction\catGame\GAME1007_W05_Lab4\States.cpp(1499,23): warning C4018: '<': signed/unsigned mismatch
+C:\Users\Michael\OneDrive\Desktop\gbc\GAME1017\gameproduction\catGame\GAME1007_W05_Lab4\States.cpp(1543,23): warning C4018: '<': signed/unsigned mismatch
+C:\Users\Michael\OneDrive\Desktop\gbc\GAME1017\gameproduction\catGame\GAME1007_W05_Lab4\States.cpp(1597,23): warning C4018: '<': signed/unsigned mismatch
+C:\Users\Michael\OneDrive\Desktop\gbc\GAME1017\gameproduction\catGame\GAME1007_W05_Lab4\States.cpp(1660,23): warning C4018: '<': signed/unsigned mismatch
+C:\Users\Michael\OneDrive\Desktop\gbc\GAME1017\gameproduction\catGame\GAME1007_W05_Lab4\States.cpp(1809,84): warning C4244: 'argument': conversion from 'double' to 'int', possible loss of data
+C:\Users\Michael\OneDrive\Desktop\gbc\GAME1017\gameproduction\catGame\GAME1007_W05_Lab4\States.cpp(1819,74): warning C4244: 'argument': conversion from 'double' to 'int', possible loss of data
+C:\Users\Michael\OneDrive\Desktop\gbc\GAME1017\gameproduction\catGame\GAME1007_W05_Lab4\States.cpp(1829,84): warning C4244: 'argument': conversion from 'double' to 'int', possible loss of data
+C:\Users\Michael\OneDrive\Desktop\gbc\GAME1017\gameproduction\catGame\GAME1007_W05_Lab4\States.cpp(1839,74): warning C4244: 'argument': conversion from 'double' to 'int', possible loss of data
+C:\Users\Michael\OneDrive\Desktop\gbc\GAME1017\gameproduction\catGame\GAME1007_W05_Lab4\States.cpp(1963,21): warning C4018: '<': signed/unsigned mismatch
+C:\Users\Michael\OneDrive\Desktop\gbc\GAME1017\gameproduction\catGame\GAME1007_W05_Lab4\States.cpp(2117,12): warning C4553: '==': result of expression not used; did you intend '='?
+C:\Users\Michael\OneDrive\Desktop\gbc\GAME1017\gameproduction\catGame\GAME1007_W05_Lab4\States.cpp(2344,57): warning C4805: '==': unsafe mix of type 'Uint32' and type 'bool' in operation
+C:\Users\Michael\OneDrive\Desktop\gbc\GAME1017\gameproduction\catGame\GAME1007_W05_Lab4\States.cpp(2349,57): warning C4805: '==': unsafe mix of type 'Uint32' and type 'bool' in operation
   GAME1007_W05_Lab4.vcxproj -> C:\Users\Michael\OneDrive\Desktop\gbc\GAME1017\gameproduction\catGame\Debug\catGamePreRelease.exe
-=======
-C:\Users\Jeremy\OneDrive\progr\Game\Game production 2\gameproduction\catGame\GAME1007_W05_Lab4\States.cpp(114,57): warning C4805: '==': unsafe mix of type 'Uint32' and type 'bool' in operation
-C:\Users\Jeremy\OneDrive\progr\Game\Game production 2\gameproduction\catGame\GAME1007_W05_Lab4\States.cpp(120,57): warning C4805: '==': unsafe mix of type 'Uint32' and type 'bool' in operation
-C:\Users\Jeremy\OneDrive\progr\Game\Game production 2\gameproduction\catGame\GAME1007_W05_Lab4\States.cpp(126,57): warning C4805: '==': unsafe mix of type 'Uint32' and type 'bool' in operation
-C:\Users\Jeremy\OneDrive\progr\Game\Game production 2\gameproduction\catGame\GAME1007_W05_Lab4\States.cpp(237,12): warning C4553: '==': result of expression not used; did you intend '='?
-C:\Users\Jeremy\OneDrive\progr\Game\Game production 2\gameproduction\catGame\GAME1007_W05_Lab4\States.cpp(451,21): warning C4018: '<': signed/unsigned mismatch
-C:\Users\Jeremy\OneDrive\progr\Game\Game production 2\gameproduction\catGame\GAME1007_W05_Lab4\States.cpp(562,84): warning C4244: 'argument': conversion from 'double' to 'int', possible loss of data
-C:\Users\Jeremy\OneDrive\progr\Game\Game production 2\gameproduction\catGame\GAME1007_W05_Lab4\States.cpp(572,74): warning C4244: 'argument': conversion from 'double' to 'int', possible loss of data
-C:\Users\Jeremy\OneDrive\progr\Game\Game production 2\gameproduction\catGame\GAME1007_W05_Lab4\States.cpp(582,84): warning C4244: 'argument': conversion from 'double' to 'int', possible loss of data
-C:\Users\Jeremy\OneDrive\progr\Game\Game production 2\gameproduction\catGame\GAME1007_W05_Lab4\States.cpp(592,74): warning C4244: 'argument': conversion from 'double' to 'int', possible loss of data
-C:\Users\Jeremy\OneDrive\progr\Game\Game production 2\gameproduction\catGame\GAME1007_W05_Lab4\States.cpp(765,12): warning C4553: '==': result of expression not used; did you intend '='?
-C:\Users\Jeremy\OneDrive\progr\Game\Game production 2\gameproduction\catGame\GAME1007_W05_Lab4\States.cpp(941,27): warning C4805: '==': unsafe mix of type 'int' and type 'bool' in operation
-C:\Users\Jeremy\OneDrive\progr\Game\Game production 2\gameproduction\catGame\GAME1007_W05_Lab4\States.cpp(1007,12): warning C4553: '==': result of expression not used; did you intend '='?
-C:\Users\Jeremy\OneDrive\progr\Game\Game production 2\gameproduction\catGame\GAME1007_W05_Lab4\States.cpp(1451,23): warning C4018: '<': signed/unsigned mismatch
-C:\Users\Jeremy\OneDrive\progr\Game\Game production 2\gameproduction\catGame\GAME1007_W05_Lab4\States.cpp(1521,23): warning C4018: '<': signed/unsigned mismatch
-C:\Users\Jeremy\OneDrive\progr\Game\Game production 2\gameproduction\catGame\GAME1007_W05_Lab4\States.cpp(1565,23): warning C4018: '<': signed/unsigned mismatch
-C:\Users\Jeremy\OneDrive\progr\Game\Game production 2\gameproduction\catGame\GAME1007_W05_Lab4\States.cpp(1619,23): warning C4018: '<': signed/unsigned mismatch
-C:\Users\Jeremy\OneDrive\progr\Game\Game production 2\gameproduction\catGame\GAME1007_W05_Lab4\States.cpp(1682,23): warning C4018: '<': signed/unsigned mismatch
-C:\Users\Jeremy\OneDrive\progr\Game\Game production 2\gameproduction\catGame\GAME1007_W05_Lab4\States.cpp(1831,84): warning C4244: 'argument': conversion from 'double' to 'int', possible loss of data
-C:\Users\Jeremy\OneDrive\progr\Game\Game production 2\gameproduction\catGame\GAME1007_W05_Lab4\States.cpp(1841,74): warning C4244: 'argument': conversion from 'double' to 'int', possible loss of data
-C:\Users\Jeremy\OneDrive\progr\Game\Game production 2\gameproduction\catGame\GAME1007_W05_Lab4\States.cpp(1851,84): warning C4244: 'argument': conversion from 'double' to 'int', possible loss of data
-C:\Users\Jeremy\OneDrive\progr\Game\Game production 2\gameproduction\catGame\GAME1007_W05_Lab4\States.cpp(1861,74): warning C4244: 'argument': conversion from 'double' to 'int', possible loss of data
-C:\Users\Jeremy\OneDrive\progr\Game\Game production 2\gameproduction\catGame\GAME1007_W05_Lab4\States.cpp(2010,21): warning C4018: '<': signed/unsigned mismatch
-C:\Users\Jeremy\OneDrive\progr\Game\Game production 2\gameproduction\catGame\GAME1007_W05_Lab4\States.cpp(2204,12): warning C4553: '==': result of expression not used; did you intend '='?
-C:\Users\Jeremy\OneDrive\progr\Game\Game production 2\gameproduction\catGame\GAME1007_W05_Lab4\States.cpp(2488,57): warning C4805: '==': unsafe mix of type 'Uint32' and type 'bool' in operation
-C:\Users\Jeremy\OneDrive\progr\Game\Game production 2\gameproduction\catGame\GAME1007_W05_Lab4\States.cpp(2493,57): warning C4805: '==': unsafe mix of type 'Uint32' and type 'bool' in operation
-  GAME1007_W05_Lab4.vcxproj -> C:\Users\Jeremy\OneDrive\progr\Game\Game production 2\gameproduction\catGame\Debug\catGamePreRelease.exe
->>>>>>> Stashed changes

@@ -96,13 +96,9 @@ protected: //priv but inherited
 	SDL_Texture* ShroomTxtr;
 	SDL_Texture* portal;
 	SDL_Texture* gameOverScreen;
+	SDL_Texture* cloudtxtr;
 
-	vector<Attack*>ushroomatk;
-	vector<Attack*>lshroomatk;
-	vector<Attack*>rshroomatk;
-	vector<Attack*>dshroomatk;
-	vector<Attack*>attack;//shoots left frog atk
-	vector<Attack*>rattack;//shoots right frog atk
+	vector<Cloud*>cloud;
 	vector<Rock*> playerpew;
 	vector<Enemy*> dumbie;
 	vector<Items*> item1;
