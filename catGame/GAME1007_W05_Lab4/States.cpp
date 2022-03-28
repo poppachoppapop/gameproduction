@@ -969,7 +969,7 @@ void Levelone::Enter()
 
 	plrTxtr = IMG_LoadTexture(Engine::Instance().GetRenderer(), "art/catboy.png");
 	rockTxtr = IMG_LoadTexture(Engine::Instance().GetRenderer(), "art/Rocko100.png");
-	DragonFlyTxt = IMG_LoadTexture(Engine::Instance().GetRenderer(), "art/dragonfly.png");
+	DragonFlyTxt = IMG_LoadTexture(Engine::Instance().GetRenderer(), "art/dragonfly1.png");
 	vineTexture = IMG_LoadTexture(Engine::Instance().GetRenderer(), "art/vines.png");
 	FrogTxtr = IMG_LoadTexture(Engine::Instance().GetRenderer(), "art/frogWalking7.png");
 	ShroomTxtr = IMG_LoadTexture(Engine::Instance().GetRenderer(), "art/mushroom.png");
@@ -993,7 +993,7 @@ void Levelone::Enter()
 	Mix_VolumeChunk(projectileRock, 50);
 	swampSong = Mix_LoadMUS("Aud/swamp.mp3");
 	Mix_PlayMusic(swampSong, -1);
-	Mix_VolumeMusic(30); //0-128
+	Mix_VolumeMusic(15); //0-128
 	Mix_Volume(-1, 50);
 	playerpew.reserve(4);
 	mushrooms = mushroomsLeft = 1;
@@ -1950,7 +1950,7 @@ void Levelone::Update()
 			return;
 		}
 		//cout <<"noobtimer"<< Noobtimer++ <<" | "<<ezModeCD++ << "ezmodecd<-" << endl;
-		//cout << "freezetimer" << freezetimer++ << " | " << freezeCD++ << "freezecd<-" << endl;
+		cout << "freezetimer" << freezetimer++ << " | " << freezeCD++ << "freezecd<-" << endl;
 		cout << plr1.plrDst.x - bg[areaNum]->swampDst.x << " - " << plr1.plrDst.y - bg[areaNum]->swampDst.y << endl; // for spawning things on bg
 		// cout << plr1.plrDst.x << " , " << plr1.plrDst.y  << endl;
 		//cout << bg[areaNum]->swampDst.x << "||" << bg[areaNum]->swampDst.y << endl; // for spawning player on bg
@@ -1978,16 +1978,18 @@ void Levelone::Update()
 		{
 			shroom[i]->shroomDst.x -= speedx;
 			shroom[i]->shroomDst.y -= speedy;
-			shroom[i]->Update();
-			if (Util::distanceOffset(plr1.plrDst, shroom[i]->shroomDst) < 550) {
-				if (shroom[i]->shootTimer == 0) {
-					cloud.push_back(new Cloud(shroom[i]->shroomDst.x + 45, shroom[i]->shroomDst.y + 30, 5, 'y'));
-					cloud.push_back(new Cloud(shroom[i]->shroomDst.x + 45, shroom[i]->shroomDst.y + 30, 5 * -1, 'y'));
-					cloud.push_back(new Cloud(shroom[i]->shroomDst.x + 45, shroom[i]->shroomDst.y + 30, 5, 'x'));
-					cloud.push_back(new Cloud(shroom[i]->shroomDst.x + 45, shroom[i]->shroomDst.y + 30, 5 * -1, 'x'));
-					cloud.shrink_to_fit();
+			if (isfreezeActive == false)
+				shroom[i]->Update();
+				if (Util::distanceOffset(plr1.plrDst, shroom[i]->shroomDst) < 550) {
+					if (shroom[i]->shootTimer == 0) {
+						cloud.push_back(new Cloud(shroom[i]->shroomDst.x + 45, shroom[i]->shroomDst.y + 30, 5, 'y'));
+						cloud.push_back(new Cloud(shroom[i]->shroomDst.x + 45, shroom[i]->shroomDst.y + 30, 5 * -1, 'y'));
+						cloud.push_back(new Cloud(shroom[i]->shroomDst.x + 45, shroom[i]->shroomDst.y + 30, 5, 'x'));
+						cloud.push_back(new Cloud(shroom[i]->shroomDst.x + 45, shroom[i]->shroomDst.y + 30, 5 * -1, 'x'));
+						cloud.shrink_to_fit();
+					}
 				}
-			}
+			
 			if (shroom[i]->getHp() <= 0)
 			{
 				plr1.points(10);
@@ -2008,6 +2010,7 @@ void Levelone::Update()
 		{
 			cloud[i]->cloudDst.x -= speedx;
 			cloud[i]->cloudDst.y -= speedy;
+			if (isfreezeActive == false)
 			cloud[i]->Update();
 			if (Util::distanceOffset(plr1.plrDst, cloud[i]->cloudDst) < 100) {
 				plr1.takeDamage(1);
@@ -2020,6 +2023,7 @@ void Levelone::Update()
 		//DragonFly
 		for (unsigned i = 0; i < fly.size(); i++)
 		{
+			if (isfreezeActive == false)
 			fly[i]->Update();
 			if (!wallHitx)
 				fly[i]->flyDst.x -= speedx;
@@ -2047,6 +2051,7 @@ void Levelone::Update()
 					playerpew.erase(playerpew.begin() + j);
 					playerpew.shrink_to_fit();
 					//set dumbie hp
+					if (isfreezeActive == false)
 					fly[i]->setHp(fly[i]->getHp() - playerDamage);
 					break;
 				}
@@ -2283,6 +2288,7 @@ void Levelone::Update()
 		//frog
 		for (unsigned i = 0; i < frog.size(); i++)
 		{
+			if (isfreezeActive == false)
 			frog[i]->Update(plr1.plrDst);
 			if (!wallHitx)
 				frog[i]->frogDst.x -= speedx;
@@ -2299,6 +2305,7 @@ void Levelone::Update()
 					playerpew.erase(playerpew.begin() + j);
 					playerpew.shrink_to_fit();
 					//set dumbie hp
+					if (isfreezeActive == false)
 					frog[i]->setHp(frog[i]->getHp() - playerDamage);
 					break;
 				}
@@ -2327,6 +2334,7 @@ void Levelone::Update()
 		//bubble
 		for (int i = 0; i < bub.size(); i++)
 		{
+			if (isfreezeActive == false)
 			bub[i]->Update(plr1.plrDst);
 			if (!wallHitx)
 				bub[i]->bubbleDst.x -= speedx;
@@ -2374,13 +2382,13 @@ void Levelone::Update()
 			{
 				if (SDL_HasIntersection(&playerpew[i]->rockDst, &shroom[j]->shroomDst)) //AABB Check
 				{
-
 					Mix_PlayChannel(-1, hurtSfx, 0);
 					delete playerpew[i];
 					playerpew[i] = nullptr;
 					playerpew.erase(playerpew.begin() + i);
 					playerpew.shrink_to_fit();
-					//set dumbie hp					
+					//set dumbie hp	
+					if (isfreezeActive == false)
 					shroom[j]->setHp(shroom[j]->getHp() - playerDamage);
 					break;					
 				}
@@ -2455,10 +2463,11 @@ void Levelone::Render()
 	{
 		SDL_RenderCopy(Engine::Instance().GetRenderer(), FrogTxtr,&frog[i]->frogSrc,&frog[i]->frogDst);
 		//health bar
+		SDL_SetRenderDrawColor(Engine::Instance().GetRenderer(), 255, 255, 255, 255);	
 		if (isfreezeActive == false)
-		SDL_SetRenderDrawColor(Engine::Instance().GetRenderer(), 255, 255, 255, 255);				
-		SDL_RenderFillRect(Engine::Instance().GetRenderer(), &frog[i]->HP);
+		SDL_RenderFillRect(Engine::Instance().GetRenderer(), &frog[i]->HP);		
 		SDL_SetRenderDrawColor(Engine::Instance().GetRenderer(), 255, 0, 0, 255);
+		if (isfreezeActive == false)
 		SDL_RenderFillRect(Engine::Instance().GetRenderer(), &frog[i]->healthBar);
 	}
 	//bubble 
@@ -2475,23 +2484,24 @@ void Levelone::Render()
 			SDL_RenderCopyEx(Engine::Instance().GetRenderer(), DragonFlyTxt, &fly[i]->flySrc, &fly[i]->flyDst, NULL, NULL, SDL_FLIP_NONE);
 		else if (!fly[i]->lookLeft)
 			SDL_RenderCopyEx(Engine::Instance().GetRenderer(), DragonFlyTxt, &fly[i]->flySrc, &fly[i]->flyDst, NULL, NULL, SDL_FLIP_HORIZONTAL);
-		//health bar	
-		if (isfreezeActive == false)		
+		//health bar			
 		SDL_SetRenderDrawColor(Engine::Instance().GetRenderer(), 255, 255, 255, 255);
-		SDL_RenderFillRect(Engine::Instance().GetRenderer(), &fly[i]->HP);
+		if (isfreezeActive == false)
+		SDL_RenderFillRect(Engine::Instance().GetRenderer(), &fly[i]->HP);		
 		SDL_SetRenderDrawColor(Engine::Instance().GetRenderer(), 255, 0, 0, 255);
+		if (isfreezeActive == false)
 		SDL_RenderFillRect(Engine::Instance().GetRenderer(), &fly[i]->healthBar);
 	}
 	//shroom
 	for (unsigned i = 0; i < shroom.size(); i++)
 	{
 		SDL_RenderCopy(Engine::Instance().GetRenderer(), ShroomTxtr, &shroom[i]->shroomSrc, &shroom[i]->shroomDst);
-		//health bar		
-		
+		//health bar				
+		SDL_SetRenderDrawColor(Engine::Instance().GetRenderer(), 255, 255, 255, 255);
 		if (isfreezeActive == false)
-			SDL_SetRenderDrawColor(Engine::Instance().GetRenderer(), 255, 255, 255, 255);
-		SDL_RenderFillRect(Engine::Instance().GetRenderer(), &shroom[i]->HP);
+		SDL_RenderFillRect(Engine::Instance().GetRenderer(), &shroom[i]->HP);		
 		SDL_SetRenderDrawColor(Engine::Instance().GetRenderer(), 255, 0, 0, 255);
+		if (isfreezeActive == false)
 		SDL_RenderFillRect(Engine::Instance().GetRenderer(), &shroom[i]->healthBar);
 	}
 	//shroom atk stuff
