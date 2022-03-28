@@ -82,6 +82,7 @@ class Frog
 		int shootTimer;
 		int halt;
 		int movetimer;
+		int randNum;
 		
 public:	
 	

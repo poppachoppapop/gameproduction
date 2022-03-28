@@ -152,7 +152,7 @@ Vines::Vines(int x, int y) :vineSrc({ 0,0,32,32 })
 }
 
 //frog
-Frog::Frog(int x, int y, int h) :frogSrc({ 0,0,32,32 }), frameCtr(0), frameMax(4), spriteIdx(0), spriteMax(7)
+Frog::Frog(int x, int y, int h) :frogSrc({ 0,0,32,32 }), frameCtr(0), frameMax(4), spriteIdx(0), spriteMax(7), randNum(rand()%81)
 {
 	
 	HP = { 0,0,100,4 };
@@ -227,12 +227,12 @@ void Frog::Update(SDL_Rect plr)
 			frogDst.y -= speed * (sin(angle * PI / 180));
 		}
 	}	
-	if (movetimer > 150)
+	if (movetimer > 120 + randNum)
 	{
 		movetimer = 0;
 	}
 	shootTimer++;
-	if (shootTimer > 150) {
+	if (shootTimer > 120 + randNum) {
 		shootTimer = 0;
 	}
 	
