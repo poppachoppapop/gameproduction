@@ -979,6 +979,8 @@ void Levelone::Enter()
 	frogbubble = IMG_LoadTexture(Engine::Instance().GetRenderer(), "art/bubblegreen.png");
 	freezeui = IMG_LoadTexture(Engine::Instance().GetRenderer(), "art/freeze.png");
 	aoe = IMG_LoadTexture(Engine::Instance().GetRenderer(), "art/aoeui.png");
+	wpng = IMG_LoadTexture(Engine::Instance().GetRenderer(), "art/winStateBeta.png");
+	wSrc = { 0,0,256,198 };
 
 	stepSfx = Mix_LoadWAV("sfx/step.wav");
 	turnSfx = Mix_LoadWAV("sfx/turn.wav");
@@ -1022,9 +1024,9 @@ void Levelone::Enter()
 	mushScore = TTF_RenderText_Solid(font, mushMessage, White);
 	mushLeft = SDL_CreateTextureFromSurface(Engine::Instance().GetRenderer(), mushScore);
 	
-	for (int i = 0; i < 12; i++)
+	for (int i = 0; i < 13; i++)
 	{
-		bg.push_back(new Level1Background(rand() % 5, 12));
+		bg.push_back(new Level1Background(rand() % 5, 13));
 	}
 }
 
@@ -1981,7 +1983,7 @@ void Levelone::Update()
 			}
 		}
 
-		if (bg.size() > 12)
+		if (mushrooms > 6)
 		{
 			STMA::PushState(new WState());
 			Mix_PauseMusic();
@@ -2470,6 +2472,7 @@ void Levelone::Render()
 		SDL_RenderCopy(Engine::Instance().GetRenderer(), swamp3, &bg[areaNum]->swampSrc, &bg[areaNum]->swampDst);
 	if (bg[areaNum]->getBg() == 4)
 		SDL_RenderCopy(Engine::Instance().GetRenderer(), swamp4, &bg[areaNum]->swampSrc, &bg[areaNum]->swampDst);
+	
 	
 	for (unsigned i = 0; i < portal.size();i++)
 	{
