@@ -141,5 +141,8 @@
     <Image Include="art\frogAttack.png">
       <Filter>Resource Files</Filter>
     </Image>
+    <Image Include="art\portal2.png">
+      <Filter>Resource Files</Filter>
+    </Image>
   </ItemGroup>
 </Project>

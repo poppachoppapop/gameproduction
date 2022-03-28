@@ -167,4 +167,7 @@ void Rock::Update()
 	
 }
 
-
+Portal::Portal(int x, int y):portalSrc ({ x,y,32,32 })
+{
+	portalDst = { x,y,128,128 };
+}

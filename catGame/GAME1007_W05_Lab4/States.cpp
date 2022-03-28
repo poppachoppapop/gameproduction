@@ -176,7 +176,7 @@ void GameState::Enter()
 	FrogTxtr = IMG_LoadTexture(Engine::Instance().GetRenderer(), "art/frogWalking7.png");
 	frogbubble = IMG_LoadTexture(Engine::Instance().GetRenderer(), "art/bubblegreen.png");
 	tree = IMG_LoadTexture(Engine::Instance().GetRenderer(), "bgs/Trees.png");
-	portal = IMG_LoadTexture(Engine::Instance().GetRenderer(), "art/portal2.png");
+	portaltxtr = IMG_LoadTexture(Engine::Instance().GetRenderer(), "art/portal2.png");
 	cloudtxtr = IMG_LoadTexture(Engine::Instance().GetRenderer(), "art/cloud.png");
 	stepSfx = Mix_LoadWAV("sfx/step.wav");
 	turnSfx = Mix_LoadWAV("sfx/turn.wav");
@@ -222,8 +222,8 @@ void GameState::Enter()
 
 	Message = SDL_CreateTextureFromSurface(Engine::Instance().GetRenderer(), surfaceMessage);
 	Score = SDL_CreateTextureFromSurface(Engine::Instance().GetRenderer(), dummyScore);
-	portalsrc = { 0,0,32,32 };
-	portaldst = { 300,300,128,128 };
+	//portalsrc = { 0,0,32,32 };
+
 }
 
 void GameState::Update()
@@ -342,8 +342,12 @@ void GameState::Update()
 		bg1.treedst.x -= speedx;
 		bg1.treedst.y -= speedy;
 
-		portaldst.x -= speedx;
-		portaldst.y -= speedy;
+		for (unsigned i = 0;i < portal.size();i++)
+		{
+			portal[i]->portalDst.x -= speedx;
+			portal[i]->portalDst.y -= speedy;
+		}
+		
 
 		//player
 		if (!dashPressed)
@@ -754,8 +758,11 @@ void GameState::Render()
 	//Background
 	SDL_RenderCopy(Engine::Instance().GetRenderer(),bgTutorial, &bg1.bgSrcTutorial, &bg1.bgDst);
 	
+	for (unsigned i = 0; i < portal.size();i++) 
+	{
+		SDL_RenderCopy(Engine::Instance().GetRenderer(), portaltxtr, &(portal[i]->portalSrc), &(portal[i]->portalDst));
+	}
 
-	SDL_RenderCopy(Engine::Instance().GetRenderer(), portal, &portalsrc,&portaldst);
 	//vines
 	for (unsigned i = 0; i < vine.size(); i++)
 	{
@@ -940,6 +947,7 @@ void Levelone::Enter()
 	FrogTxtr = IMG_LoadTexture(Engine::Instance().GetRenderer(), "art/frogWalking7.png");
 	ShroomTxtr = IMG_LoadTexture(Engine::Instance().GetRenderer(), "art/mushroom.png");
 	cloudtxtr = IMG_LoadTexture(Engine::Instance().GetRenderer(), "art/cloud.png");
+	portaltxtr = IMG_LoadTexture(Engine::Instance().GetRenderer(), "art/portal2.png");
 	stepSfx = Mix_LoadWAV("sfx/step.wav");
 	turnSfx = Mix_LoadWAV("sfx/turn.wav");
 	deathSfx = Mix_LoadWAV("sfx/dedEnemy.wav");
@@ -987,6 +995,7 @@ void Levelone::Enter()
 
 void Levelone::Update()
 {
+	
 	if (!lvlLoading) {
 		if (!(fadeMod == 0))
 			fadeMod -= fadeSpeed;
@@ -1042,8 +1051,7 @@ void Levelone::Update()
 				bg[areaNum]->swampDst.y = -150;
 				//exit position
 				exitRect.x = bg[areaNum]->swampDst.x + 50;
-				exitRect.y = bg[areaNum]->swampDst.y + 1280;
-
+				exitRect.y = bg[areaNum]->swampDst.y + 1280;				
 				levelRect.push_back(new SDL_Rect{ bg[areaNum]->swampDst.x + -50,bg[areaNum]->swampDst.y + 370,240,10 });
 				levelRect.push_back(new SDL_Rect{ bg[areaNum]->swampDst.x + 190,bg[areaNum]->swampDst.y + 0,10,380 });
 				levelRect.push_back(new SDL_Rect{ bg[areaNum]->swampDst.x + 190,bg[areaNum]->swampDst.y + -10,640 + 128,10 });
@@ -1099,7 +1107,9 @@ void Levelone::Update()
 					mushroomSpot++;
 					if (mushroomSpot > 5)
 						mushroomSpot = 0;
-				}
+				}				
+				portal.push_back(new Portal( bg[areaNum]->swampDst.x + 125,bg[areaNum]->swampDst.y + 1241 ));
+				
 
 			}
 			if (bg[areaNum]->getBg() == 1)
@@ -1689,7 +1699,9 @@ void Levelone::Update()
 		if (!wallHity)
 			exitRect.y -= speedy;
 
-		
+		for (unsigned i = 0; i < portal.size(); i++) {
+			cout << portal[i]->portalDst.x << endl;
+		}
 		if (SDL_HasIntersection(&exitRect, &plr1.plrDst)) {
 			loadArea = true;
 			areaNum++;
@@ -1707,7 +1719,11 @@ void Levelone::Update()
 		cout << plr1.plrDst.x - bg[areaNum]->swampDst.x << " - " << plr1.plrDst.y - bg[areaNum]->swampDst.y << endl; // for spawning things on bg
 		// cout << plr1.plrDst.x << " , " << plr1.plrDst.y  << endl;
 		//cout << bg[areaNum]->swampDst.x << "||" << bg[areaNum]->swampDst.y << endl; // for spawning player on bg
-		
+		for (unsigned i = 0; i < portal.size();i++)
+		{
+			portal[i]->portalDst.x -= speedx;
+			portal[i]->portalDst.y -= speedy;
+		}
 		//player
 		if (!dashPressed)
 			plr1.plrSpd = plr1.plrMaxSpd;
@@ -2151,6 +2167,7 @@ void Levelone::Render()
 	//Background
 	if (bg[areaNum]->getBg() == 0)
 		SDL_RenderCopy(Engine::Instance().GetRenderer(), swamp, &bg[areaNum]->swampSrc,&bg[areaNum]->swampDst);
+	
 	if (bg[areaNum]->getBg() == 1)
 		SDL_RenderCopy(Engine::Instance().GetRenderer(), swamp1, &bg[areaNum]->swampSrc, &bg[areaNum]->swampDst);
 	if (bg[areaNum]->getBg() == 2)
@@ -2160,6 +2177,10 @@ void Levelone::Render()
 	if (bg[areaNum]->getBg() == 4)
 		SDL_RenderCopy(Engine::Instance().GetRenderer(), swamp4, &bg[areaNum]->swampSrc, &bg[areaNum]->swampDst);
 	
+	for (unsigned i = 0; i < portal.size();i++)
+	{
+		SDL_RenderCopy(Engine::Instance().GetRenderer(), portaltxtr, &portal[i]->portalSrc, &portal[i]->portalDst);
+	}
 	//rock	
 	for (unsigned i = 0; i < playerpew.size(); i++)
 	{
@@ -2316,6 +2337,7 @@ void Levelone::Exit()
 	SDL_DestroyTexture(vineTexture);
 	SDL_DestroyTexture(FrogTxtr);
 	SDL_DestroyTexture(cloudtxtr);
+	SDL_DestroyTexture(portaltxtr);
 	Mix_FreeChunk(hurtSfx);
 	Mix_FreeChunk(powerSfx);;
 	Mix_FreeChunk(projectileRock);

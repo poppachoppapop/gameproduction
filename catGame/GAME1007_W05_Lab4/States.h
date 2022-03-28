@@ -94,7 +94,7 @@ protected: //priv but inherited
 	SDL_Texture* vineTexture;
 	SDL_Texture* FrogTxtr;
 	SDL_Texture* ShroomTxtr;
-	SDL_Texture* portal;
+	SDL_Texture* portaltxtr;
 	SDL_Texture* gameOverScreen;
 	SDL_Texture* cloudtxtr;
 
@@ -107,7 +107,8 @@ protected: //priv but inherited
 	vector<Frog*>frog;
 	vector<Bubble*> bub;
 	vector <Shroom*>shroom;
-	SDL_Rect portalsrc, portaldst;
+	vector<Portal*> portal;
+
 	SDL_Rect textBoxRect;
 	SDL_Rect textBoxBorder;
 	SDL_Rect scoreRect;

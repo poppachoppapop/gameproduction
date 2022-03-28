@@ -47,5 +47,13 @@ public:
 	void Update();
 	
 };
+class Portal
+{
+private:
+
+public:
+	SDL_Rect portalSrc, portalDst;
+	Portal(int x, int y);
+};
 
 
