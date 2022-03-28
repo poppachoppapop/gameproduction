@@ -2550,11 +2550,11 @@ void Levelone::Render()
 	//score
 	SDL_RenderCopy(Engine::Instance().GetRenderer(), mushLeft, NULL, &mushScoreRect);
 
-	for (unsigned i = 0; i < levelRect.size(); i++)
+	/*for (unsigned i = 0; i < levelRect.size(); i++)
 	{
 		SDL_SetRenderDrawColor(Engine::Instance().GetRenderer(), 255, 0, 255, 255);
 		SDL_RenderFillRect(Engine::Instance().GetRenderer(), levelRect[i]);
-	}
+	}*/
 
 	if (plr1.state == 0)
 		SDL_RenderCopy(Engine::Instance().GetRenderer(), plrTxtr, &plr1.plrFrontIdle, &plr1.plrDst);
