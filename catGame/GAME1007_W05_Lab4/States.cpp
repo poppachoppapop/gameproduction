@@ -948,6 +948,8 @@ void Levelone::Enter()
 	ShroomTxtr = IMG_LoadTexture(Engine::Instance().GetRenderer(), "art/mushroom.png");
 	cloudtxtr = IMG_LoadTexture(Engine::Instance().GetRenderer(), "art/cloud.png");
 	portaltxtr = IMG_LoadTexture(Engine::Instance().GetRenderer(), "art/portal2.png");
+	frogbubble = IMG_LoadTexture(Engine::Instance().GetRenderer(), "art/bubblegreen.png");
+
 	stepSfx = Mix_LoadWAV("sfx/step.wav");
 	turnSfx = Mix_LoadWAV("sfx/turn.wav");
 	deathSfx = Mix_LoadWAV("sfx/dedEnemy.wav");
@@ -1108,7 +1110,7 @@ void Levelone::Update()
 					if (mushroomSpot > 5)
 						mushroomSpot = 0;
 				}				
-				portal.push_back(new Portal( bg[areaNum]->swampDst.x + 125,bg[areaNum]->swampDst.y + 1241 ));
+				portal.push_back(new Portal( bg[areaNum]->swampDst.x + 80,bg[areaNum]->swampDst.y + 1241 ));
 				
 
 			}
@@ -1159,6 +1161,7 @@ void Levelone::Update()
 					if (mushroomSpot > 5)
 						mushroomSpot = 0;
 				}
+				portal.push_back(new Portal(bg[areaNum]->swampDst.x + 980, bg[areaNum]->swampDst.y + 1286));
 			}
 			if (bg[areaNum]->getBg() == 2)
 			{
@@ -1199,6 +1202,7 @@ void Levelone::Update()
 					if (mushroomSpot > 5)
 						mushroomSpot = 0;
 				}
+				portal.push_back(new Portal(bg[areaNum]->swampDst.x + 1559, bg[areaNum]->swampDst.y + 1295));
 			}
 			if (bg[areaNum]->getBg() == 3)
 			{
@@ -1240,7 +1244,7 @@ void Levelone::Update()
 					if (mushroomSpot > 5)
 						mushroomSpot = 0;
 				}
-
+				portal.push_back(new Portal(bg[areaNum]->swampDst.x + 1837, bg[areaNum]->swampDst.y + 246));
 			}
 			if (bg[areaNum]->getBg() == 4)
 			{
@@ -1285,12 +1289,8 @@ void Levelone::Update()
 					if (mushroomSpot > 5)
 						mushroomSpot = 0;
 				}
-				//500,200
-				//1600,200
-				//1300,1150
-				//500,1200
-				//1000,700
-				//650,800
+				portal.push_back(new Portal(bg[areaNum]->swampDst.x + 1850, bg[areaNum]->swampDst.y + 146));
+				
 			}
 
 			loadArea = false;
@@ -2217,8 +2217,8 @@ void Levelone::Render()
 	//bubble 
 	for (unsigned i = 0; i < bub.size(); i++)
 	{
-		SDL_SetRenderDrawColor(Engine::Instance().GetRenderer(), 0, 0, 255, 255);
-		SDL_RenderFillRect(Engine::Instance().GetRenderer(), &bub[i]->bubbleDst);
+		//SDL_SetRenderDrawColor(Engine::Instance().GetRenderer(), 0, 0, 255, 255);
+		SDL_RenderCopy(Engine::Instance().GetRenderer(), frogbubble, NULL, &(bub[i]->bubbleDst));
 	}
 	
 	//dragoon fly
@@ -2263,30 +2263,21 @@ void Levelone::Render()
 		SDL_RenderCopy(Engine::Instance().GetRenderer(), plrTxtr, &plr1.plrMoveLeft, &plr1.plrDst);
 	else if (plr1.state == 4)
 		SDL_RenderCopy(Engine::Instance().GetRenderer(), plrTxtr, &plr1.plrMoveRight, &plr1.plrDst);
-	SDL_SetRenderDrawColor(Engine::Instance().GetRenderer(), 0, 255, 255, 255);
-	SDL_RenderFillRect(Engine::Instance().GetRenderer(), &plr1.plrwinbar);
-
+	//SDL_SetRenderDrawColor(Engine::Instance().GetRenderer(), 0, 255, 255, 255);
+	//SDL_RenderFillRect(Engine::Instance().GetRenderer(), &plr1.plrwinbar);
+	
+	SDL_SetRenderDrawColor(Engine::Instance().GetRenderer(), 0, 0, 0, 255);
+	SDL_RenderFillRect(Engine::Instance().GetRenderer(), &plr1.hpborder);
 	SDL_SetRenderDrawColor(Engine::Instance().GetRenderer(), 255, 0, 0, 255);
 	SDL_RenderFillRect(Engine::Instance().GetRenderer(), &plr1.plrHpBar);
-
+	
 
 	SDL_SetRenderDrawColor(Engine::Instance().GetRenderer(), 0, 0, 0, fadeMod);
 	SDL_RenderFillRect(Engine::Instance().GetRenderer(), &blackRect);
 
 	if (dynamic_cast<Levelone*>(STMA::GetStates().back()))//if current state is gamestate	
 		State::Render();
-	//old frog attack left
-	/*SDL_SetRenderDrawColor(Engine::Instance().GetRenderer(), 0, 255, 255, 255);
-	for (unsigned i = 0; i < attack.size(); i++)
-	{
-		SDL_RenderFillRect(Engine::Instance().GetRenderer(), &(attack[i]->frogAttackDst));
-	}*/
-	//old frog attack root
-	/*SDL_SetRenderDrawColor(Engine::Instance().GetRenderer(), 0, 255, 255, 255);
-	for (unsigned i = 0; i < rattack.size(); i++)
-	{
-		SDL_RenderFillRect(Engine::Instance().GetRenderer(), &(rattack[i]->rfrogAttackDst));
-	}	*/
+	
 }
 
 void Levelone::Exit()
