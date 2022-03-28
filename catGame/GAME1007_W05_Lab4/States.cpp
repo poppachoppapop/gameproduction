@@ -2409,8 +2409,10 @@ void Levelone::Render()
 	{
 		SDL_RenderCopy(Engine::Instance().GetRenderer(), FrogTxtr,&frog[i]->frogSrc,&frog[i]->frogDst);
 		//health bar
-		SDL_SetRenderDrawColor(Engine::Instance().GetRenderer(), 255, 0, 0, 255);
 		if (isfreezeActive == false)
+		SDL_SetRenderDrawColor(Engine::Instance().GetRenderer(), 255, 255, 255, 255);				
+		SDL_RenderFillRect(Engine::Instance().GetRenderer(), &frog[i]->HP);
+		SDL_SetRenderDrawColor(Engine::Instance().GetRenderer(), 255, 0, 0, 255);
 		SDL_RenderFillRect(Engine::Instance().GetRenderer(), &frog[i]->healthBar);
 	}
 	//bubble 
@@ -2427,9 +2429,11 @@ void Levelone::Render()
 			SDL_RenderCopyEx(Engine::Instance().GetRenderer(), DragonFlyTxt, &fly[i]->flySrc, &fly[i]->flyDst, NULL, NULL, SDL_FLIP_NONE);
 		else if (!fly[i]->lookLeft)
 			SDL_RenderCopyEx(Engine::Instance().GetRenderer(), DragonFlyTxt, &fly[i]->flySrc, &fly[i]->flyDst, NULL, NULL, SDL_FLIP_HORIZONTAL);
-		//health bar		
+		//health bar	
+		if (isfreezeActive == false)		
+		SDL_SetRenderDrawColor(Engine::Instance().GetRenderer(), 255, 255, 255, 255);
+		SDL_RenderFillRect(Engine::Instance().GetRenderer(), &fly[i]->HP);
 		SDL_SetRenderDrawColor(Engine::Instance().GetRenderer(), 255, 0, 0, 255);
-		if (isfreezeActive == false)
 		SDL_RenderFillRect(Engine::Instance().GetRenderer(), &fly[i]->healthBar);
 	}
 	//shroom
@@ -2437,8 +2441,11 @@ void Levelone::Render()
 	{
 		SDL_RenderCopy(Engine::Instance().GetRenderer(), ShroomTxtr, &shroom[i]->shroomSrc, &shroom[i]->shroomDst);
 		//health bar		
-		SDL_SetRenderDrawColor(Engine::Instance().GetRenderer(), 255, 0, 0, 255);
+		
 		if (isfreezeActive == false)
+			SDL_SetRenderDrawColor(Engine::Instance().GetRenderer(), 255, 255, 255, 255);
+		SDL_RenderFillRect(Engine::Instance().GetRenderer(), &shroom[i]->HP);
+		SDL_SetRenderDrawColor(Engine::Instance().GetRenderer(), 255, 0, 0, 255);
 		SDL_RenderFillRect(Engine::Instance().GetRenderer(), &shroom[i]->healthBar);
 	}
 	//shroom atk stuff
