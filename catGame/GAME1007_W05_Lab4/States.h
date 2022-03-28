@@ -228,6 +228,7 @@ private:
 	const int maxMushrooms = 6;
 	int mushrooms, mushroomsLeft;
 	int mushroomSpot;
+	int mushAdjust;
 
 
 	SDL_Surface* mushScore;

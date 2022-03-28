@@ -966,7 +966,8 @@ void Levelone::Enter()
 	Mix_Volume(-1, 50);
 	playerpew.reserve(4);
 	mushrooms = mushroomsLeft = 1;
-	
+	mushAdjust = -1;
+
 	font = TTF_OpenFont("fonts/font.ttf", 24);
 	White = { 255, 255, 255 };
 	mushScoreRect = { 700, 10, 300, 30 };
@@ -987,7 +988,7 @@ void Levelone::Enter()
 	
 	for (int i = 0; i < 15; i++)
 	{
-		bg.push_back(new Level1Background(rand() % 5, 12));
+		bg.push_back(new Level1Background(rand() % 5, 10));
 	}
 }
 
@@ -1011,7 +1012,6 @@ void Levelone::Update()
 		cout << bg[areaNum]->getBg() << endl;*/
 		if (loadArea) {
 			//clear vectors
-			mushroomsLeft = mushrooms;
 			playerpew.clear();
 			vine.clear();
 			fly.clear();
@@ -1020,12 +1020,18 @@ void Levelone::Update()
 			shroom.clear();
 			levelRect.clear();
 			cloud.clear();
+			portal.clear();
 			plr1.setPlrSpd(0);
+			mushAdjust++;
+			if (mushAdjust == 2) {
+				mushrooms++;
+				mushAdjust = 0;
+			}
+			mushroomsLeft = mushrooms;
 			mushStr = "Mushrooms Left = " + to_string(mushroomsLeft);
 			strcpy_s(mushMessage, mushStr.c_str());
 			mushScore = TTF_RenderText_Solid(font, mushMessage, White);
 			mushLeft = SDL_CreateTextureFromSurface(Engine::Instance().GetRenderer(), mushScore);
-
 			for (int i = 0; i < 255 / fadeSpeed; i++)
 			{
 				if (!(fadeMod == 255))
@@ -1699,13 +1705,9 @@ void Levelone::Update()
 		if (!wallHity)
 			exitRect.y -= speedy;
 
-		for (unsigned i = 0; i < portal.size(); i++) {
-			cout << portal[i]->portalDst.x << endl;
-		}
 		if (SDL_HasIntersection(&exitRect, &plr1.plrDst)) {
 			loadArea = true;
 			areaNum++;
-			mushrooms++;
 			cout << "hit" << endl;
 		}
 
@@ -1719,6 +1721,102 @@ void Levelone::Update()
 		cout << plr1.plrDst.x - bg[areaNum]->swampDst.x << " - " << plr1.plrDst.y - bg[areaNum]->swampDst.y << endl; // for spawning things on bg
 		// cout << plr1.plrDst.x << " , " << plr1.plrDst.y  << endl;
 		//cout << bg[areaNum]->swampDst.x << "||" << bg[areaNum]->swampDst.y << endl; // for spawning player on bg
+		
+		//vines
+		for (unsigned i = 0; i < vine.size(); i++)
+		{
+			if (!wallHitx)
+				vine[i]->vineDst.x -= speedx;
+			if (!wallHity)
+				vine[i]->vineDst.y -= speedy;
+			if (!dashPressed) {
+				if (Util::distanceOffset(plr1.plrDst, vine[i]->vineDst) < 80) {
+					plr1.plrSpd = 1;
+				}
+			}
+		}
+
+		//shroom
+		for (unsigned i = 0; i < shroom.size(); i++)
+		{
+			shroom[i]->shroomDst.x -= speedx;
+			shroom[i]->shroomDst.y -= speedy;
+			shroom[i]->Update();
+			if (Util::distanceOffset(plr1.plrDst, shroom[i]->shroomDst) < 550) {
+				if (shroom[i]->shootTimer == 0) {
+					cloud.push_back(new Cloud(shroom[i]->shroomDst.x + 45, shroom[i]->shroomDst.y + 30, 5, 'y'));
+					cloud.push_back(new Cloud(shroom[i]->shroomDst.x + 45, shroom[i]->shroomDst.y + 30, 5 * -1, 'y'));
+					cloud.push_back(new Cloud(shroom[i]->shroomDst.x + 45, shroom[i]->shroomDst.y + 30, 5, 'x'));
+					cloud.push_back(new Cloud(shroom[i]->shroomDst.x + 45, shroom[i]->shroomDst.y + 30, 5 * -1, 'x'));
+					cloud.shrink_to_fit();
+				}
+			}
+			if (shroom[i]->getHp() <= 0)
+			{
+				plr1.points(10);
+				Mix_PlayChannel(-1, deathSfx, 0);
+				delete shroom[i];
+				shroom[i] = nullptr;
+				shroom.erase(shroom.begin() + i);
+				shroom.shrink_to_fit();
+				mushroomsLeft--;
+				mushStr = "Mushrooms Left = " + to_string(mushroomsLeft);
+				strcpy_s(mushMessage, mushStr.c_str());
+				mushScore = TTF_RenderText_Solid(font, mushMessage, White);
+				mushLeft = SDL_CreateTextureFromSurface(Engine::Instance().GetRenderer(), mushScore);
+			}
+		}
+		// shroom cloud
+		for (unsigned i = 0; i < cloud.size(); i++)
+		{
+			cloud[i]->cloudDst.x -= speedx;
+			cloud[i]->cloudDst.y -= speedy;
+			cloud[i]->Update();
+			if (Util::distanceOffset(plr1.plrDst, cloud[i]->cloudDst) < 100) {
+				plr1.takeDamage(1);
+				delete cloud[i];
+				cloud[i] = nullptr;
+				cloud.erase(cloud.begin() + i);
+				cloud.shrink_to_fit();
+			}
+		}
+		//DragonFly
+		for (unsigned i = 0; i < fly.size(); i++)
+		{
+			fly[i]->Update();
+			if (!wallHitx)
+				fly[i]->flyDst.x -= speedx;
+			if (!wallHity)
+				fly[i]->flyDst.y -= speedy;
+
+			if (SDL_HasIntersection(&fly[i]->flyDst, &plr1.plrDst)) {
+				plr1.takeDamage(1);
+			}
+
+			if (fly[i]->getHp() <= 0) {
+				Mix_PlayChannel(-1, deathSfx, 0);
+				delete fly[i];
+				fly[i] = nullptr;
+				fly.erase(fly.begin() + i);
+				fly.shrink_to_fit();
+			}
+			for (unsigned j = 0; j < playerpew.size(); j++)
+			{
+				if (SDL_HasIntersection(&playerpew[j]->rockDst, &fly[i]->flyDst)) //AABB Check
+				{
+					Mix_PlayChannel(-1, hurtSfx, 0);
+					delete playerpew[j];
+					playerpew[j] = nullptr;
+					playerpew.erase(playerpew.begin() + j);
+					playerpew.shrink_to_fit();
+					//set dumbie hp
+					fly[i]->setHp(fly[i]->getHp() - playerDamage);
+					break;
+				}
+			}
+
+		}
+
 		for (unsigned i = 0; i < portal.size();i++)
 		{
 			portal[i]->portalDst.x -= speedx;
@@ -1879,7 +1977,7 @@ void Levelone::Update()
 			playerpew[i]->rockDst.x -= speedx;
 			playerpew[i]->rockDst.y -= speedy;
 
-			if (playerpew[i]->rockDst.x >= WIDTH || playerpew[i]->rockDst.x <= -64 || playerpew[i]->rockDst.y >= HEIGHT || playerpew[i]->rockDst.y <= -64)
+			if (Util::distanceOffset(plr1.plrDst, playerpew[i]->rockDst) > 800)
 			{
 				delete playerpew[i];
 				playerpew[i] = nullptr;
@@ -2008,56 +2106,6 @@ void Levelone::Update()
 			}
 
 		}
-		//vines
-		for (unsigned i = 0; i < vine.size(); i++)
-		{
-			if (!wallHitx)
-				vine[i]->vineDst.x -= speedx;
-			if (!wallHity)
-				vine[i]->vineDst.y -= speedy;
-			if (!dashPressed) {
-				if (Util::distanceOffset(plr1.plrDst, vine[i]->vineDst) < 80) {
-					plr1.plrSpd = 1;
-				}
-			}
-		}
-				
-		//DragonFly
-		for (unsigned i = 0; i < fly.size(); i++)
-		{
-			fly[i]->Update();
-			if (!wallHitx)
-				fly[i]->flyDst.x -= speedx;
-			if (!wallHity)
-				fly[i]->flyDst.y -= speedy;
-
-			if (SDL_HasIntersection(&fly[i]->flyDst, &plr1.plrDst)) {
-				plr1.takeDamage(1);
-			}
-
-			if (fly[i]->getHp() <= 0) {
-				Mix_PlayChannel(-1, deathSfx, 0);
-				delete fly[i];
-				fly[i] = nullptr;
-				fly.erase(fly.begin() + i);
-				fly.shrink_to_fit();
-			}
-			for (unsigned j = 0; j < playerpew.size(); j++)
-			{
-				if (SDL_HasIntersection(&playerpew[j]->rockDst, &fly[i]->flyDst)) //AABB Check
-				{
-					Mix_PlayChannel(-1, hurtSfx, 0);
-					delete playerpew[j];
-					playerpew[j] = nullptr;
-					playerpew.erase(playerpew.begin() + j);
-					playerpew.shrink_to_fit();
-					//set dumbie hp
-					fly[i]->setHp(fly[i]->getHp() - playerDamage);
-					break;
-				}
-			}
-
-		}
 
 		if (isfreezeActive == false)
 		{
@@ -2078,50 +2126,6 @@ void Levelone::Update()
 			}
 		}
 
-		//shroom
-		for (unsigned i = 0; i < shroom.size(); i++)
-		{
-			shroom[i]->shroomDst.x -= speedx;
-			shroom[i]->shroomDst.y -= speedy;
-			shroom[i]->Update();
-			if (Util::distanceOffset(plr1.plrDst, shroom[i]->shroomDst) < 550) {
-				if (shroom[i]->shootTimer == 0) {
-					cloud.push_back(new Cloud(shroom[i]->shroomDst.x + 45, shroom[i]->shroomDst.y + 30, 5, 'y'));
-					cloud.push_back(new Cloud(shroom[i]->shroomDst.x + 45, shroom[i]->shroomDst.y + 30, 5 * -1, 'y'));
-					cloud.push_back(new Cloud(shroom[i]->shroomDst.x + 45, shroom[i]->shroomDst.y + 30, 5, 'x'));
-					cloud.push_back(new Cloud(shroom[i]->shroomDst.x + 45, shroom[i]->shroomDst.y + 30, 5 * -1, 'x'));
-					cloud.shrink_to_fit();
-				}
-			}
-			if (shroom[i]->getHp() <= 0)
-			{
-				plr1.points(10);
-				Mix_PlayChannel(-1, deathSfx, 0);
-				delete shroom[i];
-				shroom[i] = nullptr;
-				shroom.erase(shroom.begin() + i);
-				shroom.shrink_to_fit();
-				mushroomsLeft--;
-				mushStr = "Mushrooms Left = " + to_string(mushroomsLeft);
-				strcpy_s(mushMessage, mushStr.c_str());
-				mushScore = TTF_RenderText_Solid(font, mushMessage, White);
-				mushLeft = SDL_CreateTextureFromSurface(Engine::Instance().GetRenderer(), mushScore);
-			}
-		}
-		// shroom cloud
-		for (unsigned i = 0; i < cloud.size();i++)
-		{
-			cloud[i]->cloudDst.x -= speedx;
-			cloud[i]->cloudDst.y -= speedy;
-			cloud[i]->Update();
-			if (Util::distanceOffset(plr1.plrDst, cloud[i]->cloudDst) < 100) {
-				plr1.takeDamage(1);
-				delete cloud[i];
-				cloud[i] = nullptr;
-				cloud.erase(cloud.begin() + i);
-				cloud.shrink_to_fit();
-			}
-		}
 
 		for (unsigned i = 0; i < playerpew.size(); i++)
 		{
