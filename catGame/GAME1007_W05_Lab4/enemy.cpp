@@ -285,7 +285,7 @@ void Shroom::Update()
 
 	shootTimer++;
 	//cout << shootTimer << endl;
-	if (shootTimer > rand()%100 + 150) {
+	if (shootTimer > rand()%150 + 200) {
 		shootTimer = 0;
 	}
 	

@@ -11,7 +11,7 @@ frameCtr(0), frameMax(3), spriteIdx(0), spriteMax(8)
 	plrSpd = 5;
 	plrMaxSpd = 5;
 	plrDsh = 50;
-	plrHp = 10;
+	plrHp = 20;
 	maxHp = 5;
 	winbar = 10;
 	maxwin = 100;
