@@ -24,7 +24,7 @@
     <ProjectGuid>{64c7aecb-f29c-4ec9-9894-c1d7065fd74a}</ProjectGuid>
     <RootNamespace>catGame</RootNamespace>
     <WindowsTargetPlatformVersion>10.0</WindowsTargetPlatformVersion>
-    <ProjectName>catGamePreRelease</ProjectName>
+    <ProjectName>CatNippedBeta</ProjectName>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">

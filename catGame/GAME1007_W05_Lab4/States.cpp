@@ -1045,6 +1045,10 @@ void Levelone::Update()
 			freezeCD = 0;
 		}
 	}
+	if (EVMA::KeyPressed(SDL_SCANCODE_9))
+	{
+		STMA::ChangeState(new WState());
+	}
 	freezetimer++;
 	if (isfreezeActive)
 	{
@@ -2744,16 +2748,21 @@ void WState::Enter()
 	wSrc = { 0,0,256,198 };
 	//Mix_PlayMusic(Titletheme, -1);
 	//Mix_VolumeMusic(24); //0-128
+	wDst = { 450, 575, 120, 48 };
 }
 
 void WState::Update()
 {
 	if (Engine::Instance().KeyDown(SDL_SCANCODE_RETURN))
 	{
-
 		cout << "changing to titlestate" << endl;
 		STMA::ChangeState(new TitleState());
 		return;
+	}
+	if (SDL_GetMouseState(&g_mousePos.x, &g_mousePos.y) == true && g_mousePos.x > wDst.x && g_mousePos.x < wDst.x + wDst.w
+		&& g_mousePos.y > wDst.y && g_mousePos.y < wDst.y + wDst.h)
+	{
+		STMA::ChangeState(new TitleState());
 	}
 }
 
