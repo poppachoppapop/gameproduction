@@ -64,7 +64,7 @@ protected: //priv but inherited
 	bool lvlLoading = false;
 
 	TTF_Font* font;
-	char message[100] = "Hello! Welcome To the alpha release";
+	char message[100] = "Hello! Welcome To the beta release";
 	char scoreMessage[100] = "Score: 0";
 	SDL_Color White;
 	SDL_Surface* dummyScore;
@@ -237,8 +237,8 @@ private:
 	SDL_Surface* mushScore;
 	SDL_Rect mushScoreRect;
 	SDL_Texture* mushLeft;
-	string mushStr = "Mushrooms Left =  ";
-	char mushMessage[100] = "Mushrooms Left = ";
+	string mushStr = "Mushrooms Left:  ";
+	char mushMessage[100] = "Mushrooms Left: ";
 
 public:
 	Levelone();

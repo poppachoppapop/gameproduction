@@ -211,8 +211,8 @@ void GameState::Enter()
 	font = TTF_OpenFont("fonts/font.ttf", 24);
 	White = { 255, 255, 255 };
 
-	textBoxRect = { 20, HEIGHT - 190, 500, 50 };
-	textBoxBorder = { 10, HEIGHT - 200, WIDTH - 20, 190 };
+	textBoxRect = { 10, HEIGHT - 190, 1000, 50 };
+	textBoxBorder = { 10, HEIGHT - 200, WIDTH - 20, 290 };
 
 	scoreRect = { 800, 10, 150, 40 };
 	blackRect = { 0 , 0 , 1024 , 768 };
@@ -527,12 +527,12 @@ void GameState::Update()
 					Mix_PlayChannel(-1, talk, 0);
 					renderTextBox = true;
 					if (textBoxCounter == 1) {
-						strcpy_s(message, "I will start Spawning Dummies");
+						strcpy_s(message, "Press Tab for info on abilities & the objective");
 						surfaceMessage = TTF_RenderText_Solid(font, message, White);
 						Message = SDL_CreateTextureFromSurface(Engine::Instance().GetRenderer(), surfaceMessage);
 					}
 					else if (textBoxCounter == 2) {
-						strcpy_s(message, "Try and get the highest score!");
+						strcpy_s(message, "When youre ready just press 1, in a meantime ima spawn some dumbies");
 						surfaceMessage = TTF_RenderText_Solid(font, message, White);
 						Message = SDL_CreateTextureFromSurface(Engine::Instance().GetRenderer(), surfaceMessage);
 					}
@@ -872,12 +872,7 @@ void GameState::Render()
 	
 	}
 
-	//text box
-	if (renderTextBox) {
-		SDL_SetRenderDrawColor(Engine::Instance().GetRenderer(), 0, 0, 0, 255);
-		SDL_RenderFillRect(Engine::Instance().GetRenderer(), &textBoxBorder);
-		SDL_RenderCopy(Engine::Instance().GetRenderer(), Message, NULL, &textBoxRect);
-	}
+	
 
 	//score text
 	if (spawnDummies) {
@@ -892,6 +887,12 @@ void GameState::Render()
 	SDL_RenderFillRect(Engine::Instance().GetRenderer(), &plr1.hpborder);
 	SDL_SetRenderDrawColor(Engine::Instance().GetRenderer(), 255, 0, 0, 255);
 	SDL_RenderFillRect(Engine::Instance().GetRenderer(), &plr1.plrHpBar);
+	//text box
+	if (renderTextBox) {
+		SDL_SetRenderDrawColor(Engine::Instance().GetRenderer(), 0, 0, 0, 255);
+		SDL_RenderFillRect(Engine::Instance().GetRenderer(), &textBoxBorder);
+		SDL_RenderCopy(Engine::Instance().GetRenderer(), Message, NULL, &textBoxRect);
+	}
 	if(dynamic_cast<GameState*>(STMA::GetStates().back() ) )//if current state is gamestate	
 	State::Render();
 
@@ -1992,7 +1993,7 @@ void Levelone::Update()
 			return;
 		}
 		//cout <<"noobtimer"<< Noobtimer++ <<" | "<<ezModeCD++ << "ezmodecd<-" << endl;
-		//cout << "freezetimer" << freezetimer++ << " | " << freezeCD++ << "freezecd<-" << endl;
+		cout << "freezetimer" << freezetimer++ << " | " << freezeCD++ << "freezecd<-" << endl;
 		//cout << plr1.plrDst.x - bg[areaNum]->swampDst.x << " - " << plr1.plrDst.y - bg[areaNum]->swampDst.y << endl; // for spawning things on bg
 		// cout << plr1.plrDst.x << " , " << plr1.plrDst.y  << endl;
 		//cout << bg[areaNum]->swampDst.x << "||" << bg[areaNum]->swampDst.y << endl; // for spawning player on bg
