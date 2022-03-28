@@ -144,5 +144,8 @@
     <Image Include="art\portal2.png">
       <Filter>Resource Files</Filter>
     </Image>
+    <Image Include="bgs\tabState.png">
+      <Filter>Resource Files</Filter>
+    </Image>
   </ItemGroup>
 </Project>

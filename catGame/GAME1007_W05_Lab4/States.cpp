@@ -229,13 +229,20 @@ void GameState::Enter()
 void GameState::Update()
 {
 	//debug
-	cout << plr1.plrDst.x - bg1.bgDst.x << " - " << plr1.plrDst.y - bg1.bgDst.y << endl;
+	//cout << plr1.plrDst.x - bg1.bgDst.x << " - " << plr1.plrDst.y - bg1.bgDst.y << endl;
+	
 	if (!titleLoading) {
 		if (!(fadeMod == 0))
 			fadeMod-=fadeSpeed;
 		if (fadeMod == 0)
 			fadeMod == 0;
-
+		if (EVMA::KeyPressed(SDL_SCANCODE_TAB))
+		{
+			cout << "Changing to tabState" << endl;
+			//pause the music track
+			STMA::PushState(new TabState());
+			Mix_PauseMusic();
+		}
 		if (plr1.plrHp <= 0)
 		{
 			STMA::ChangeState(new EndState());
@@ -629,7 +636,27 @@ void GameState::Update()
 			}
 
 		}
-
+		//freeze
+		if (freezeCD > 700)
+		{
+			if (EVMA::KeyPressed(SDL_SCANCODE_F))
+			{
+				isfreezeActive = true;
+				freezetimer = 0;
+				freezeCD = 0;
+			}
+		}
+		//freezetimer++;
+		if (isfreezeActive)
+		{
+			if (freezetimer > 150)
+			{
+				isfreezeActive = false;
+				freezetimer = 0;
+				freezeCD = 0;
+			}
+		}
+		cout << "freezetimer" << freezetimer++ << " | " << freezeCD++ << "freezecd<-" << endl;
 		//YAXIS
 
 		if (EVMA::KeyHeld(SDL_SCANCODE_S)) {
@@ -949,6 +976,8 @@ void Levelone::Enter()
 	cloudtxtr = IMG_LoadTexture(Engine::Instance().GetRenderer(), "art/cloud.png");
 	portaltxtr = IMG_LoadTexture(Engine::Instance().GetRenderer(), "art/portal2.png");
 	frogbubble = IMG_LoadTexture(Engine::Instance().GetRenderer(), "art/bubblegreen.png");
+	freezeui = IMG_LoadTexture(Engine::Instance().GetRenderer(), "art/freeze.png");
+	aoeui = IMG_LoadTexture(Engine::Instance().GetRenderer(), "art/aoeui.png");
 
 	stepSfx = Mix_LoadWAV("sfx/step.wav");
 	turnSfx = Mix_LoadWAV("sfx/turn.wav");
@@ -998,7 +1027,26 @@ void Levelone::Enter()
 
 void Levelone::Update()
 {
-	
+	//freeze
+	if (freezeCD > 700)
+	{
+		if (EVMA::KeyPressed(SDL_SCANCODE_F))
+		{
+			isfreezeActive = true;
+			freezetimer = 0;
+			freezeCD = 0;
+		}
+	}
+	freezetimer++;
+	if (isfreezeActive)
+	{
+		if (freezetimer > 150)
+		{
+			isfreezeActive = false;
+			freezetimer = 0;
+			freezeCD = 0;
+		}
+	}
 	if (!lvlLoading) {
 		if (!(fadeMod == 0))
 			fadeMod -= fadeSpeed;
@@ -1994,6 +2042,13 @@ void Levelone::Update()
 			STMA::PushState(new PauseState());
 			Mix_PauseMusic();
 		}
+		if (EVMA::KeyPressed(SDL_SCANCODE_TAB))
+		{
+			cout << "Changing to tabState" << endl;
+			//pause the music track
+			STMA::PushState(new TabState());
+			Mix_PauseMusic();
+		}
 
 		stepSoundTimer++; turnSoundTimer++;
 		dashCooldown++;
@@ -2606,122 +2661,39 @@ void WState::Exit()
 	//SDL_DestroyTexture(Title);
 }
 
-	
-////frog stuff
-		//for (unsigned i = 0; i < attack.size(); i++)
-		//{
-		//	if (attack[i]->frogAttackDst.x >= WIDTH || attack[i]->frogAttackDst.x <= -64 || attack[i]->frogAttackDst.y >= HEIGHT || attack[i]->frogAttackDst.y <= -64)
-		//	{
-		//		delete attack[i];
-		//		attack[i] = nullptr;
-		//		attack.erase(attack.begin() + i);
-		//		attack.shrink_to_fit();
-		//		break;
-		//	}
-		//}
-		//for (unsigned i = 0; i < rattack.size(); i++)
-		//{
-		//	if (rattack[i]->rfrogAttackDst.x >= WIDTH || rattack[i]->rfrogAttackDst.x <= -64 || rattack[i]->rfrogAttackDst.y >= HEIGHT || rattack[i]->rfrogAttackDst.y <= -64)
-		//	{
-		//		delete rattack[i];
-		//		rattack[i] = nullptr;
-		//		rattack.erase(rattack.begin() + i);
-		//		rattack.shrink_to_fit();
-		//		break;
-		//	}
-		//}
-		//if (isfreezeActive == false)
-		//{
-		//	for (unsigned i = 0; i < frog.size(); i++)
-		//	{
-		//		frog[i]->Update(plr1.plrDst);
 
+TabState::TabState(){}
 
-		//		if (frog[i]->frames >= FPS * ATTACKRATE / 2)
-		//		{
-		//			frog[i]->resetFrames();
-		//			cout << "frog attack!" << endl;
-		//			cout << "frog 2nd attack\wow!" << endl;
-		//			rattack.push_back(new Attack(frog[i]->frogDst.x, frog[i]->frogDst.y));
-		//			rattack.shrink_to_fit();
-		//			attack.push_back(new Attack(frog[i]->frogDst.x, frog[i]->frogDst.y));
-		//			attack.shrink_to_fit();
-		//		}
+void TabState::Enter()
+{
+	cout << "enter tabstate" << endl;
+	// = Mix_LoadMUS("aud/.mp3");//gametheme
+	tab = IMG_LoadTexture(Engine::Instance().GetRenderer(), "bgs/tabState.png");
+	tabsrc = { 0,0,484,368 };
+	tabdst = { 300,200,484,368 };
+	//Mix_PlayMusic(Titletheme, -1);
+	//Mix_VolumeMusic(24); //0-128
+}
 
+void TabState::Update()
+{
+	if (EVMA::KeyPressed(SDL_SCANCODE_TAB))
+		STMA::PopState();
+}
 
-		//		if (frog[i]->getHp() <= 0) {
-		//			plr1.points(10);
-		//			//Mix_PlayChannel(-1,, 0);
-		//			delete frog[i];
-		//			frog[i] = nullptr;
-		//			frog.erase(frog.begin() + i);
-		//			frog.shrink_to_fit();
-		//			break;
-		//		}
-		//	}
-		//}
+void TabState::Render()
+{
+	STMA::GetStates().front()->Render();
+	//now render the rest of pausestate
+	SDL_SetRenderDrawBlendMode(Engine::Instance().GetRenderer(), SDL_BLENDMODE_BLEND);
+	SDL_RenderCopy(Engine::Instance().GetRenderer(), tab, &tabsrc,&tabdst);
+	//if (dynamic_cast<TitleState*>(STMA::GetStates().back()))//if current state is gamestate
+		State::Render();
+}
 
-
-		//for (unsigned i = 0; i < playerpew.size(); i++)
-		//{
-		//	for (unsigned j = 0; j < frog.size(); j++)
-		//	{
-
-		//		if (SDL_HasIntersection(&playerpew[i]->rockDst, &frog[j]->frogDst)) { //AABB Check
-
-		//			Mix_PlayChannel(-1, hurtSfx, 0);
-		//			delete playerpew[i];
-		//			playerpew[i] = nullptr;
-		//			playerpew.erase(playerpew.begin() + i);
-		//			playerpew.shrink_to_fit();
-		//			//set frog hp					
-		//			frog[j]->setHp(frog[j]->getHp() - playerDamage);
-		//			break;
-		//		}
-		//	}
-		//}
-
-		////left
-		//for (unsigned i = 0; i < attack.size(); i++)
-		//{
-		//	if (SDL_HasIntersection(&attack[i]->frogAttackDst, &plr1.plrDst))
-		//	{
-		//		delete attack[i];
-		//		attack[i] = nullptr;
-		//		attack.erase(attack.begin() + i);
-		//		attack.shrink_to_fit();
-		//		plr1.takeDamage(5);
-		//		break;
-		//	}
-		//}
-		////root
-		//for (unsigned i = 0; i < rattack.size(); i++)
-		//{
-		//	if (SDL_HasIntersection(&rattack[i]->rfrogAttackDst, &plr1.plrDst))
-		//	{
-		//		delete rattack[i];
-		//		rattack[i] = nullptr;
-		//		rattack.erase(rattack.begin() + i);
-		//		rattack.shrink_to_fit();
-		//		plr1.takeDamage(5);
-		//		break;
-
-		//	}
-		//}
-		//if (isfreezeActive == false)
-		//{
-		//	for (unsigned i = 0; i < attack.size(); i++)
-		//	{
-
-		//		attack[i]->Update(-1);
-		//	}
-
-		//}
-		//if (isfreezeActive == false)
-		//{
-		//	for (unsigned i = 0; i < rattack.size(); i++)
-		//	{
-
-		//		rattack[i]->Update(1);
-		//	}
-		//}
+void TabState::Exit()
+{
+	cout << "exiting tabstate" << endl;
+	//Mix_FreeMusic(Titletheme);
+	SDL_DestroyTexture(tab);
+}
