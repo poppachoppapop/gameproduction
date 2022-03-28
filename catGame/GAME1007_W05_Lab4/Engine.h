@@ -16,8 +16,8 @@
 #include "Background.h"
 #include "NPC.h"
 #define FPS 60
-#define WIDTH 1024
-#define HEIGHT 768
+#define WIDTH 2516
+#define HEIGHT 1440
 #define SPEED 10
 #define LV1SPEED 4
 
