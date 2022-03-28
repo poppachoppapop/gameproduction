@@ -962,9 +962,9 @@ void Levelone::Enter()
 	Mix_VolumeChunk(dashing, 25);
 	Mix_VolumeChunk(aoeSound, 50);
 	Mix_VolumeChunk(projectileRock, 50);
-	swampSong = Mix_LoadMUS("Aud/swampLVL.mp3");
-	Mix_PlayMusic(swampSong, 5);
-	Mix_VolumeMusic(5); //0-128
+	swampSong = Mix_LoadMUS("Aud/swamp.mp3");
+	Mix_PlayMusic(swampSong, -1);
+	Mix_VolumeMusic(30); //0-128
 	Mix_Volume(-1, 50);
 	playerpew.reserve(4);
 	mushrooms = mushroomsLeft = 1;
@@ -988,9 +988,9 @@ void Levelone::Enter()
 	mushScore = TTF_RenderText_Solid(font, mushMessage, White);
 	mushLeft = SDL_CreateTextureFromSurface(Engine::Instance().GetRenderer(), mushScore);
 	
-	for (int i = 0; i < 15; i++)
+	for (int i = 0; i < 12; i++)
 	{
-		bg.push_back(new Level1Background(rand() % 5, 10));
+		bg.push_back(new Level1Background(rand() % 5, 12));
 	}
 }
 
