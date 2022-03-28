@@ -170,7 +170,7 @@ void GameState::Enter()
 	rockTxtr = IMG_LoadTexture(Engine::Instance().GetRenderer(), "art/Rocko100.png");
 	dumbieTxtr = IMG_LoadTexture(Engine::Instance().GetRenderer(), "art/Dumbie.png");
 	bgTutorial = IMG_LoadTexture(Engine::Instance().GetRenderer(), "bgs/tutorial.png");
-	npcTxtr = IMG_LoadTexture(Engine::Instance().GetRenderer(), "art/catDude.png");
+	npcTxtr = IMG_LoadTexture(Engine::Instance().GetRenderer(), "art/wizzy.png");
 	DragonFlyTxt = IMG_LoadTexture(Engine::Instance().GetRenderer(), "art/dragonfly1.png");
 	vineTexture = IMG_LoadTexture(Engine::Instance().GetRenderer(), "art/vines.png");
 	FrogTxtr = IMG_LoadTexture(Engine::Instance().GetRenderer(), "art/frogWalking7.png");
@@ -977,7 +977,7 @@ void Levelone::Enter()
 	portaltxtr = IMG_LoadTexture(Engine::Instance().GetRenderer(), "art/portal2.png");
 	frogbubble = IMG_LoadTexture(Engine::Instance().GetRenderer(), "art/bubblegreen.png");
 	freezeui = IMG_LoadTexture(Engine::Instance().GetRenderer(), "art/freeze.png");
-	aoeui = IMG_LoadTexture(Engine::Instance().GetRenderer(), "art/aoeui.png");
+	aoe = IMG_LoadTexture(Engine::Instance().GetRenderer(), "art/aoeui.png");
 
 	stepSfx = Mix_LoadWAV("sfx/step.wav");
 	turnSfx = Mix_LoadWAV("sfx/turn.wav");
@@ -996,6 +996,10 @@ void Levelone::Enter()
 	Mix_VolumeMusic(15); //0-128
 	Mix_Volume(-1, 50);
 	playerpew.reserve(4);
+	freezeSrc = { 0,0,64,64 };
+	freezeDst = { 10,700,64,64 };
+	aoeSrc = { 0,0,64,64 };
+	aoeDst = { 75,700,64,64 };
 	mushrooms = mushroomsLeft = 1;
 	mushAdjust = -1;
 
@@ -1027,8 +1031,9 @@ void Levelone::Enter()
 
 void Levelone::Update()
 {
+	
 	//freeze
-	if (freezeCD > 700)
+	if (freezeCD > 600)
 	{
 		if (EVMA::KeyPressed(SDL_SCANCODE_F))
 		{
@@ -1137,6 +1142,7 @@ void Levelone::Update()
 				levelRect.push_back(new SDL_Rect{ bg[areaNum]->swampDst.x + 1070,bg[areaNum]->swampDst.y + 760,10,270 });
 				levelRect.push_back(new SDL_Rect{ bg[areaNum]->swampDst.x + 1080,bg[areaNum]->swampDst.y + 750,300,10 });
 				levelRect.push_back(new SDL_Rect{ bg[areaNum]->swampDst.x + 1370,bg[areaNum]->swampDst.y + 510 + 128,10,250 - 128 });
+				//levelRect.push_back(new SDL_Rect{ bg[areaNum]->swampDst.x -100,bg[areaNum]->swampDst.y + 420,10, 228 });
 
 				levelRect.push_back(new SDL_Rect{ bg[areaNum]->swampDst.x + -50,bg[areaNum]->swampDst.y + 510 + 128,1430,10 });
 				
@@ -1177,12 +1183,12 @@ void Levelone::Update()
 
 				for (int i = 0; i < rand()%mushrooms + 1; i++)
 				{
-					fly.push_back(new DragonFly(bg[areaNum]->swampDst.x + 500, bg[areaNum]->swampDst.y + 250, 2));
+					fly.push_back(new DragonFly(bg[areaNum]->swampDst.x + 500, bg[areaNum]->swampDst.y + 250, 1));
 				}
 				
 				for (int i = 0; i < rand() % mushrooms; i++)
 				{
-					fly.push_back(new DragonFly(bg[areaNum]->swampDst.x + 450, bg[areaNum]->swampDst.y + 1000, 2));
+					fly.push_back(new DragonFly(bg[areaNum]->swampDst.x + 450, bg[areaNum]->swampDst.y + 1000, 1));
 				}
 
 				if (mushrooms > 2) {
@@ -1192,7 +1198,7 @@ void Levelone::Update()
 				if (mushrooms > 4) {
 					for (int i = 0; i < (rand() % (mushrooms / 2 + 1) + 1); i++)
 					{
-						fly.push_back(new DragonFly(bg[areaNum]->swampDst.x + 1550, bg[areaNum]->swampDst.y + 1100, 2));
+						fly.push_back(new DragonFly(bg[areaNum]->swampDst.x + 1550, bg[areaNum]->swampDst.y + 1100, 1));
 					}
 				}
 				
@@ -1216,6 +1222,7 @@ void Levelone::Update()
 				levelRect.push_back(new SDL_Rect{ bg[areaNum]->swampDst.x + 75,bg[areaNum]->swampDst.y + 1300,630,10 });
 				levelRect.push_back(new SDL_Rect{ bg[areaNum]->swampDst.x + 695,bg[areaNum]->swampDst.y + 1300,10,240 });
 				levelRect.push_back(new SDL_Rect{ bg[areaNum]->swampDst.x + 1355,bg[areaNum]->swampDst.y + 1300,10,240 });
+				levelRect.push_back(new SDL_Rect{ bg[areaNum]->swampDst.x + 700,bg[areaNum]->swampDst.y -90,600,10 });
 				//levelRect.push_back(new SDL_Rect{ bg[areaNum]->swamp1Dst.x,bg[areaNum]->swamp1Dst.y });
 
 				mushroomSpot = rand() % 6;
@@ -1259,12 +1266,12 @@ void Levelone::Update()
 
 				for (int i = 0; i < (rand() % (mushrooms)) + 1; i++)//middle bottom
 				{
-					fly.push_back(new DragonFly(bg[areaNum]->swampDst.x + 950, bg[areaNum]->swampDst.y + 1100, 2));
+					fly.push_back(new DragonFly(bg[areaNum]->swampDst.x + 950, bg[areaNum]->swampDst.y + 1100, 1));
 				}
 				if (mushrooms > 1) {
 					for (int i = 0; i < (rand() % (mushrooms)) + 1; i++)//top left
 					{
-						fly.push_back(new DragonFly(bg[areaNum]->swampDst.x + 400, bg[areaNum]->swampDst.y + 500, 2));
+						fly.push_back(new DragonFly(bg[areaNum]->swampDst.x + 400, bg[areaNum]->swampDst.y + 500, 1));
 					}
 				}
 				if (mushrooms > 2) {
@@ -1272,17 +1279,17 @@ void Levelone::Update()
 						frog.push_back(new Frog(bg[areaNum]->swampDst.x + 650, bg[areaNum]->swampDst.y + 700, 4));
 					for (int i = 0; i < (rand() % (mushrooms)) + 1; i++)//bottom left
 					{
-						fly.push_back(new DragonFly(bg[areaNum]->swampDst.x + 400, bg[areaNum]->swampDst.y + 1000, 2));
+						fly.push_back(new DragonFly(bg[areaNum]->swampDst.x + 400, bg[areaNum]->swampDst.y + 1000, 1));
 					}
 				}
 				if (mushrooms > 3) {
 					for (int i = 0; i < (rand() % (mushrooms)) + 1; i++)// bottom right
 					{
-						fly.push_back(new DragonFly(bg[areaNum]->swampDst.x + 1700, bg[areaNum]->swampDst.y + 1000, 2));
+						fly.push_back(new DragonFly(bg[areaNum]->swampDst.x + 1700, bg[areaNum]->swampDst.y + 1000, 1));
 					}
 					for (int i = 0; i < (rand() % (mushrooms)) + 1; i++)//top right
 					{
-						fly.push_back(new DragonFly(bg[areaNum]->swampDst.x + 1700, bg[areaNum]->swampDst.y + 350, 2));
+						fly.push_back(new DragonFly(bg[areaNum]->swampDst.x + 1700, bg[areaNum]->swampDst.y + 350, 1));
 					}
 				}
 				if (mushrooms > 4) {
@@ -1304,6 +1311,7 @@ void Levelone::Update()
 				levelRect.push_back(new SDL_Rect{ bg[areaNum]->swampDst.x + 1860,bg[areaNum]->swampDst.y + 250,10,1300 });
 				levelRect.push_back(new SDL_Rect{ bg[areaNum]->swampDst.x + 40,bg[areaNum]->swampDst.y + 1330,1280,10 });
 				levelRect.push_back(new SDL_Rect{ bg[areaNum]->swampDst.x + 1340,bg[areaNum]->swampDst.y + 1360,10,200 });
+				levelRect.push_back(new SDL_Rect{ bg[areaNum]->swampDst.x + 70,bg[areaNum]->swampDst.y -70 ,400,10 });
 
 				mushroomSpot = rand() % 6;
 				for (int i = 0; i < mushrooms; i++) {
@@ -1340,20 +1348,20 @@ void Levelone::Update()
 
 				for (int i = 0; i < (rand() % (mushrooms)) + 1; i++)
 				{
-					fly.push_back(new DragonFly(bg[areaNum]->swampDst.x + 1600, bg[areaNum]->swampDst.y + 500, 2));
+					fly.push_back(new DragonFly(bg[areaNum]->swampDst.x + 1600, bg[areaNum]->swampDst.y + 500, 1));
 				}
 				if (rand()%2)
 					frog.push_back(new Frog(bg[areaNum]->swampDst.x + 1550, bg[areaNum]->swampDst.y + 1100, 4));
 				if (rand()%2) {
 					for (int i = 0; i < (rand() % (mushrooms)) + 1; i++)
 					{
-						fly.push_back(new DragonFly(bg[areaNum]->swampDst.x + 1000, bg[areaNum]->swampDst.y + 1000, 2));
+						fly.push_back(new DragonFly(bg[areaNum]->swampDst.x + 1000, bg[areaNum]->swampDst.y + 1000, 1));
 					}
 				}
 				if (mushrooms > 2) {
 					for (int i = 0; i < (rand() % (mushrooms)) + 1; i++)
 					{
-						fly.push_back(new DragonFly(bg[areaNum]->swampDst.x + 400, bg[areaNum]->swampDst.y + 700, 2));
+						fly.push_back(new DragonFly(bg[areaNum]->swampDst.x + 400, bg[areaNum]->swampDst.y + 700, 1));
 					}
 				}
 				if (mushrooms > 3) {
@@ -1380,6 +1388,7 @@ void Levelone::Update()
 				levelRect.push_back(new SDL_Rect{ bg[areaNum]->swampDst.x - 10 ,bg[areaNum]->swampDst.y + 1420,1300,10 });
 				levelRect.push_back(new SDL_Rect{ bg[areaNum]->swampDst.x + 1330,bg[areaNum]->swampDst.y + 590,10,800 });
 				levelRect.push_back(new SDL_Rect{ bg[areaNum]->swampDst.x + 1350,bg[areaNum]->swampDst.y + 560,700,10 });
+				levelRect.push_back(new SDL_Rect{ bg[areaNum]->swampDst.x -10,bg[areaNum]->swampDst.y + 1009,10,400 });
 				mushroomSpot = rand() % 6;
 				for (int i = 0; i < mushrooms; i++) {
 					if (mushroomSpot == 0) {
@@ -1418,12 +1427,12 @@ void Levelone::Update()
 				frog.push_back(new Frog(bg[areaNum]->swampDst.x + 1450, bg[areaNum]->swampDst.y + 300, 4));
 				for (int i = 0; i < (rand() % (mushrooms)) + 4; i++)
 				{
-					fly.push_back(new DragonFly(bg[areaNum]->swampDst.x + 700, bg[areaNum]->swampDst.y + 850, 2));
+					fly.push_back(new DragonFly(bg[areaNum]->swampDst.x + 700, bg[areaNum]->swampDst.y + 850, 1));
 				}
 				if (mushrooms > 2)
 				for (int i = 0; i < rand() % 3; i++)
 				{
-					fly.push_back(new DragonFly(bg[areaNum]->swampDst.x + 1000, bg[areaNum]->swampDst.y + 1100, 2));
+					fly.push_back(new DragonFly(bg[areaNum]->swampDst.x + 1000, bg[areaNum]->swampDst.y + 1100, 1));
 				}
 				if (mushrooms > 3) {
 					if (rand() % 2)
@@ -1432,7 +1441,7 @@ void Levelone::Update()
 				if (mushrooms > 4) {
 					for (int i = 0; i < (rand() % (mushrooms)) + 1; i++)
 					{
-						fly.push_back(new DragonFly(bg[areaNum]->swampDst.x + 1000, bg[areaNum]->swampDst.y + 350, 2));
+						fly.push_back(new DragonFly(bg[areaNum]->swampDst.x + 1000, bg[areaNum]->swampDst.y + 350, 1));
 					}
 				}
 
@@ -1455,6 +1464,7 @@ void Levelone::Update()
 				levelRect.push_back(new SDL_Rect{ bg[areaNum]->swampDst.x,bg[areaNum]->swampDst.y + 620,280,10 });
 				levelRect.push_back(new SDL_Rect{ bg[areaNum]->swampDst.x + 320,bg[areaNum]->swampDst.y,10,580 });
 				levelRect.push_back(new SDL_Rect{ bg[areaNum]->swampDst.x + 320,bg[areaNum]->swampDst.y - 20,1720,10 });
+				levelRect.push_back(new SDL_Rect{ bg[areaNum]->swampDst.x -10,bg[areaNum]->swampDst.y +630,10,400 });
 
 				mushroomSpot = rand() % 6;
 				for (int i = 0; i < mushrooms; i++) {
@@ -1496,7 +1506,7 @@ void Levelone::Update()
 				frog.push_back(new Frog(bg[areaNum]->swampDst.x + 750, bg[areaNum]->swampDst.y + 1000, 4));
 				for (int i = 0; i < (rand() % 2) + 2; i++)
 				{
-					fly.push_back(new DragonFly(bg[areaNum]->swampDst.x + 1600, bg[areaNum]->swampDst.y + 150, 2));
+					fly.push_back(new DragonFly(bg[areaNum]->swampDst.x + 1600, bg[areaNum]->swampDst.y + 150, 1));
 				}
 				if (mushrooms > 2)
 					frog.push_back(new Frog(bg[areaNum]->swampDst.x + 1100, bg[areaNum]->swampDst.y + 1000, 4));
@@ -1668,6 +1678,11 @@ void Levelone::Update()
 					speedy = 0;
 					speedy--;
 				}
+				//if (SDL_HasIntersection(levelRect[26], &plr1.plrDst)) {//right
+				//	//speedx = 0;
+				//	//speedy = 0;
+				//	//speedx++;
+				//}
 
 				for (int i = 0; i < levelRect.size(); i++)
 				{
@@ -1743,6 +1758,11 @@ void Levelone::Update()
 					speedy = 0;
 					speedx--;
 				}
+				if (SDL_HasIntersection(levelRect[11], &plr1.plrDst)) {//
+					speedx = 0;
+					speedy = 0;
+					speedy++;
+				}
 				for (int i = 0; i < levelRect.size(); i++)
 				{
 					if (!wallHitx)
@@ -1790,6 +1810,11 @@ void Levelone::Update()
 					speedx = 0;
 					speedy = 0;
 					speedx++;
+				}
+				if (SDL_HasIntersection(levelRect[6], &plr1.plrDst)) {//
+					speedx = 0;
+					speedy = 0;
+					speedy++;
 				}
 				for (int i = 0; i < levelRect.size(); i++)
 				{
@@ -1848,6 +1873,11 @@ void Levelone::Update()
 					speedx = 0;
 					speedy = 0;
 					speedy--;
+				}
+				if (SDL_HasIntersection(levelRect[8], &plr1.plrDst)) {//
+					speedx = 0;
+					speedy = 0;
+					speedx++;
 				}
 				for (int i = 0; i < levelRect.size(); i++)
 				{
@@ -1916,6 +1946,11 @@ void Levelone::Update()
 					speedy = 0;
 					speedy++;
 				}
+				if (SDL_HasIntersection(levelRect[10], &plr1.plrDst)) {//
+					speedx = 0;
+					speedy = 0;
+					speedx++;
+				}
 				for (int i = 0; i < levelRect.size(); i++)
 				{
 					if (!wallHitx)
@@ -1944,14 +1979,21 @@ void Levelone::Update()
 				cout << "hit" << endl;
 			}
 		}
+
+		if (bg.size() > 12)
+		{
+			STMA::PushState(new WState());
+			Mix_PauseMusic();
+			return;
+		}
 		if (plr1.plrHp <= 0)
 		{
 			STMA::ChangeState(new EndState());
 			return;
 		}
 		//cout <<"noobtimer"<< Noobtimer++ <<" | "<<ezModeCD++ << "ezmodecd<-" << endl;
-		cout << "freezetimer" << freezetimer++ << " | " << freezeCD++ << "freezecd<-" << endl;
-		cout << plr1.plrDst.x - bg[areaNum]->swampDst.x << " - " << plr1.plrDst.y - bg[areaNum]->swampDst.y << endl; // for spawning things on bg
+		//cout << "freezetimer" << freezetimer++ << " | " << freezeCD++ << "freezecd<-" << endl;
+		//cout << plr1.plrDst.x - bg[areaNum]->swampDst.x << " - " << plr1.plrDst.y - bg[areaNum]->swampDst.y << endl; // for spawning things on bg
 		// cout << plr1.plrDst.x << " , " << plr1.plrDst.y  << endl;
 		//cout << bg[areaNum]->swampDst.x << "||" << bg[areaNum]->swampDst.y << endl; // for spawning player on bg
 		
@@ -2013,7 +2055,7 @@ void Levelone::Update()
 			if (isfreezeActive == false)
 			cloud[i]->Update();
 			if (Util::distanceOffset(plr1.plrDst, cloud[i]->cloudDst) < 100) {
-				plr1.takeDamage(1);
+				plr1.takeDamage(0.5);
 				delete cloud[i];
 				cloud[i] = nullptr;
 				cloud.erase(cloud.begin() + i);
@@ -2031,7 +2073,7 @@ void Levelone::Update()
 				fly[i]->flyDst.y -= speedy;
 
 			if (SDL_HasIntersection(&fly[i]->flyDst, &plr1.plrDst)) {
-				plr1.takeDamage(1);
+				plr1.takeDamage(0.5);
 			}
 
 			if (fly[i]->getHp() <= 0) {
@@ -2051,7 +2093,6 @@ void Levelone::Update()
 					playerpew.erase(playerpew.begin() + j);
 					playerpew.shrink_to_fit();
 					//set dumbie hp
-					if (isfreezeActive == false)
 					fly[i]->setHp(fly[i]->getHp() - playerDamage);
 					break;
 				}
@@ -2305,14 +2346,13 @@ void Levelone::Update()
 					playerpew.erase(playerpew.begin() + j);
 					playerpew.shrink_to_fit();
 					//set dumbie hp
-					if (isfreezeActive == false)
 					frog[i]->setHp(frog[i]->getHp() - playerDamage);
 					break;
 				}
 			}
 			if (SDL_HasIntersection(&frog[i]->frogDst, &plr1.plrDst))
 			{
-				plr1.takeDamage(2);
+				plr1.takeDamage(1);
 			}
 
 			if ((Util::distanceOffset(plr1.plrDst, frog[i]->frogDst) < 550))
@@ -2341,7 +2381,7 @@ void Levelone::Update()
 			if (!wallHity)
 				bub[i]->bubbleDst.y -= speedy;
 			if (Util::distanceOffset(plr1.plrDst, bub[i]->bubbleDst) < 100) {
-				plr1.takeDamage(1);
+				plr1.takeDamage(0.5);
 				delete bub[i];
 				bub[i] = nullptr;
 				bub.erase(bub.begin() + i);
@@ -2527,7 +2567,11 @@ void Levelone::Render()
 		SDL_RenderCopy(Engine::Instance().GetRenderer(), plrTxtr, &plr1.plrMoveRight, &plr1.plrDst);
 	//SDL_SetRenderDrawColor(Engine::Instance().GetRenderer(), 0, 255, 255, 255);
 	//SDL_RenderFillRect(Engine::Instance().GetRenderer(), &plr1.plrwinbar);
-	
+	if (freezeCD > 600)
+	SDL_RenderCopy(Engine::Instance().GetRenderer(),freezeui,&freezeSrc,&freezeDst);
+
+	if (spcooldown > 200)
+	SDL_RenderCopy(Engine::Instance().GetRenderer(),aoe,&aoeSrc,&aoeDst);	
 	SDL_SetRenderDrawColor(Engine::Instance().GetRenderer(), 0, 0, 0, 255);
 	SDL_RenderFillRect(Engine::Instance().GetRenderer(), &plr1.hpborder);
 	SDL_SetRenderDrawColor(Engine::Instance().GetRenderer(), 255, 0, 0, 255);
@@ -2692,36 +2736,36 @@ void WState::Enter()
 {
 	cout << "enter winstate" << endl;
 	// = Mix_LoadMUS("aud/.mp3");//gametheme
-	// = IMG_LoadTexture(Engine::Instance().GetRenderer(), "bgs/.png");
-	//bgSrc = { 0,0,1024,768 };
+	wpng= IMG_LoadTexture(Engine::Instance().GetRenderer(), "art/winStateBeta.png");
+	wSrc = { 0,0,256,198 };
 	//Mix_PlayMusic(Titletheme, -1);
 	//Mix_VolumeMusic(24); //0-128
 }
 
 void WState::Update()
 {
-	/*if (Engine::Instance().KeyDown(SDL_SCANCODE_N))
+	if (Engine::Instance().KeyDown(SDL_SCANCODE_RETURN))
 	{
 
 		cout << "changing to titlestate" << endl;
 		STMA::ChangeState(new TitleState());
 		return;
-	}*/
+	}
 }
 
 void WState::Render()
 {
-	//SDL_RenderClear(Engine::Instance().GetRenderer());
-	//SDL_RenderCopy(Engine::Instance().GetRenderer(), Title, NULL, NULL);
+      SDL_RenderClear(Engine::Instance().GetRenderer());
+	SDL_RenderCopy(Engine::Instance().GetRenderer(), wpng, NULL, NULL);
 	//if (dynamic_cast<TitleState*>(STMA::GetStates().back()))//if current state is gamestate
-	//	State::Render();
+		State::Render();
 }
 
 void WState::Exit()
 {
 	//cout << "exiting titlestate" << endl;
 	//Mix_FreeMusic(Titletheme);
-	//SDL_DestroyTexture(Title);
+	SDL_DestroyTexture(wpng);
 }
 
 

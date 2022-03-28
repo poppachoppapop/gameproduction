@@ -44,7 +44,7 @@ protected: //priv but inherited
 
 	bool isfreezeActive = false;
 	int freezetimer = 0;
-	int freezeCD = 700;
+	int freezeCD = 600;
 
 	//modifiable variables
 	int playerDamage = 1;
@@ -97,7 +97,7 @@ protected: //priv but inherited
 	SDL_Texture* portaltxtr;
 	SDL_Texture* gameOverScreen;
 	SDL_Texture* cloudtxtr;
-	SDL_Texture* aoeui;
+	SDL_Texture* aoe;
 	SDL_Texture* freezeui;
 
 	vector<Cloud*>cloud;
@@ -110,8 +110,8 @@ protected: //priv but inherited
 	vector<Bubble*> bub;
 	vector <Shroom*>shroom;
 	vector<Portal*> portal;
-	SDL_Rect aoeuiSrc, aoeuiDst;
-	SDL_Rect freezeuiSrc, freezeuiDst;
+	SDL_Rect aoeSrc, aoeDst;
+	SDL_Rect freezeSrc, freezeDst;
 	SDL_Rect textBoxRect;
 	SDL_Rect textBoxBorder;
 	SDL_Rect scoreRect;
@@ -266,6 +266,8 @@ class WState : public State
 {
 
 public:
+	SDL_Texture* wpng;
+	SDL_Rect wSrc;
 	WState();
 	virtual void Enter();
 	virtual void Update();

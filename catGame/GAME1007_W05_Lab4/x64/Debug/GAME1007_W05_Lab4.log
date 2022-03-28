@@ -1,2 +1,25 @@
-﻿  Main.cpp
-C:\Users\Jeremy\OneDrive\progr\Game\Game Fundamentals\GAME1007_M1_PorrittRamos\GAME1007_W05_Lab4\Main.cpp(2,10): fatal error C1083: Cannot open include file: 'SDL.h': No such file or directory
+﻿C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\MSBuild\Microsoft\VC\v160\Microsoft.CppBuild.targets(513,5): warning MSB8028: The intermediate directory (x64\Debug\) contains files shared from another project (GAME1007_W05_Lab4.vcxproj).  This can lead to incorrect clean and rebuild behavior.
+  Background.cpp
+C:\Users\Michael\OneDrive\Desktop\gbc\GAME1017\gameproduction\catGame\GAME1007_W05_Lab4\Background.h(3,10): fatal error C1083: Cannot open include file: 'SDL.h': No such file or directory
+  enemy.cpp
+C:\Users\Michael\OneDrive\Desktop\gbc\GAME1017\gameproduction\catGame\GAME1007_W05_Lab4\enemy.h(2,10): fatal error C1083: Cannot open include file: 'SDL.h': No such file or directory
+  Engine.cpp
+C:\Users\Michael\OneDrive\Desktop\gbc\GAME1017\gameproduction\catGame\GAME1007_W05_Lab4\Engine.h(5,10): fatal error C1083: Cannot open include file: 'SDL.h': No such file or directory
+  EventManager.cpp
+C:\Users\Michael\OneDrive\Desktop\gbc\GAME1017\gameproduction\catGame\GAME1007_W05_Lab4\EventManager.h(5,10): fatal error C1083: Cannot open include file: 'SDL.h': No such file or directory
+  Items.cpp
+C:\Users\Michael\OneDrive\Desktop\gbc\GAME1017\gameproduction\catGame\GAME1007_W05_Lab4\Items.h(3,10): fatal error C1083: Cannot open include file: 'SDL.h': No such file or directory
+  Main.cpp
+C:\Users\Michael\OneDrive\Desktop\gbc\GAME1017\gameproduction\catGame\GAME1007_W05_Lab4\Main.cpp(3,10): fatal error C1083: Cannot open include file: 'SDL.h': No such file or directory
+  NPC.cpp
+C:\Users\Michael\OneDrive\Desktop\gbc\GAME1017\gameproduction\catGame\GAME1007_W05_Lab4\NPC.h(2,10): fatal error C1083: Cannot open include file: 'SDL.h': No such file or directory
+  player1.cpp
+C:\Users\Michael\OneDrive\Desktop\gbc\GAME1017\gameproduction\catGame\GAME1007_W05_Lab4\player1.h(2,10): fatal error C1083: Cannot open include file: 'SDL.h': No such file or directory
+  StateManager.cpp
+C:\Users\Michael\OneDrive\Desktop\gbc\GAME1017\gameproduction\catGame\GAME1007_W05_Lab4\EventManager.h(5,10): fatal error C1083: Cannot open include file: 'SDL.h': No such file or directory
+  States.cpp
+C:\Users\Michael\OneDrive\Desktop\gbc\GAME1017\gameproduction\catGame\GAME1007_W05_Lab4\States.h(8,10): fatal error C1083: Cannot open include file: 'SDL.h': No such file or directory
+  Tile.cpp
+  Util.cpp
+C:\Users\Michael\OneDrive\Desktop\gbc\GAME1017\gameproduction\catGame\GAME1007_W05_Lab4\Util.h(2,10): fatal error C1083: Cannot open include file: 'SDL.h': No such file or directory
+  Generating Code...

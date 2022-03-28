@@ -150,5 +150,11 @@
     <Image Include="..\..\LoHi art\bgs\WinStateBg.png">
       <Filter>Resource Files</Filter>
     </Image>
+    <Image Include="art\freeze.png">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="art\winStateBeta.png">
+      <Filter>Resource Files</Filter>
+    </Image>
   </ItemGroup>
 </Project>

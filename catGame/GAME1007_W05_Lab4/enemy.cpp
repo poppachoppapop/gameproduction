@@ -83,7 +83,7 @@ void DragonFly::Update()
 		}
 	}
 	HP.x = flyDst.x + 15;
-	HP.y = flyDst.y - 1;
+	HP.y = flyDst.y - 5;
 	healthBar.w = double(health / maxHealth) * 100;
 	healthBar.x = flyDst.x + 15;
 	healthBar.y = flyDst.y - 5;	
@@ -240,9 +240,9 @@ void Frog::Update(SDL_Rect plr)
 
 Shroom::Shroom(int x, int y, int h) : shroomSrc({0,0,32,32}), frameCtr(0), frameMax(4), spriteIdx(0), spriteMax(4)
 {
-	HP = { 0,0,100,4 };
+	HP = { 0,0,75,4 };
 	shroomDst = { x,y,128,128 };
-	healthBar = { x, y , 25, 5 };
+	healthBar = { x, y , 50, 5 };
 	health = h;
 	maxHealth = h;
 	state = 0;
