@@ -1152,23 +1152,27 @@ void Levelone::Update()
 						shroom.push_back(new Shroom(bg[areaNum]->swampDst.x + 700, bg[areaNum]->swampDst.y + 200, 3));
 					}
 					else if (mushroomSpot == 3) {
-						shroom.push_back(new Shroom(bg[areaNum]->swampDst.x + 600, bg[areaNum]->swampDst.y + 950, 3));
+						shroom.push_back(new Shroom(bg[areaNum]->swampDst.x + 600, bg[areaNum]->swampDst.y + 1050, 3));
 					}
 					else if (mushroomSpot == 4) {
 						shroom.push_back(new Shroom(bg[areaNum]->swampDst.x + 1200, bg[areaNum]->swampDst.y + 900, 3));
 					}
 					else if (mushroomSpot == 5) {
-						shroom.push_back(new Shroom(bg[areaNum]->swampDst.x + 300, bg[areaNum]->swampDst.y + 950, 3));
+						shroom.push_back(new Shroom(bg[areaNum]->swampDst.x + 300, bg[areaNum]->swampDst.y + 1050, 3));
 					}
 					mushroomSpot++;
 					if (mushroomSpot > 5)
 						mushroomSpot = 0;
 				}	
 				//enemy spawn
-				vine.push_back(new Vines(bg[areaNum]->swampDst.x + 500, bg[areaNum]->swampDst.y + 450));
-				vine.push_back(new Vines(bg[areaNum]->swampDst.x + 1400, bg[areaNum]->swampDst.y + 350));
-				vine.push_back(new Vines(bg[areaNum]->swampDst.x + 1450, bg[areaNum]->swampDst.y + 1100));
-				vine.push_back(new Vines(bg[areaNum]->swampDst.x + 450, bg[areaNum]->swampDst.y + 1200));
+				if (rand() % 2)
+					vine.push_back(new Vines(bg[areaNum]->swampDst.x + 500, bg[areaNum]->swampDst.y + 450));
+				if (rand() % 2)
+					vine.push_back(new Vines(bg[areaNum]->swampDst.x + 1400, bg[areaNum]->swampDst.y + 350));
+				if (rand() % 2)
+					vine.push_back(new Vines(bg[areaNum]->swampDst.x + 1450, bg[areaNum]->swampDst.y + 1100));
+				if (rand() % 2)
+					vine.push_back(new Vines(bg[areaNum]->swampDst.x + 450, bg[areaNum]->swampDst.y + 1200));
 
 
 				for (int i = 0; i < rand()%mushrooms + 1; i++)
@@ -1238,6 +1242,18 @@ void Levelone::Update()
 					if (mushroomSpot > 5)
 						mushroomSpot = 0;
 				}
+				if (rand() % 2)
+					vine.push_back(new Vines(bg[areaNum]->swampDst.x + 700, bg[areaNum]->swampDst.y + 400));
+				if (rand() % 2)
+					vine.push_back(new Vines(bg[areaNum]->swampDst.x + 1400, bg[areaNum]->swampDst.y + 400));
+				if (rand() % 2)
+					vine.push_back(new Vines(bg[areaNum]->swampDst.x + 1750, bg[areaNum]->swampDst.y + 700));
+				if (rand() % 2)
+					vine.push_back(new Vines(bg[areaNum]->swampDst.x + 200, bg[areaNum]->swampDst.y + 700));
+				if (rand() % 2)
+					vine.push_back(new Vines(bg[areaNum]->swampDst.x + 650, bg[areaNum]->swampDst.y + 1000));
+				if (rand() % 2)
+					vine.push_back(new Vines(bg[areaNum]->swampDst.x + 1300, bg[areaNum]->swampDst.y + 1000));
 
 				frog.push_back(new Frog(bg[areaNum]->swampDst.x + 950, bg[areaNum]->swampDst.y + 900, 4));
 
@@ -1313,7 +1329,15 @@ void Levelone::Update()
 					if (mushroomSpot > 5)
 						mushroomSpot = 0;
 				}
-				
+				if (rand() % 2)
+					vine.push_back(new Vines(bg[areaNum]->swampDst.x + 300, bg[areaNum]->swampDst.y + 400));
+				if (rand() % 2)
+					vine.push_back(new Vines(bg[areaNum]->swampDst.x + 600, bg[areaNum]->swampDst.y + 1000));
+				if (rand() % 2)
+					vine.push_back(new Vines(bg[areaNum]->swampDst.x + 1000, bg[areaNum]->swampDst.y + 500));
+				if (rand() % 2)
+					vine.push_back(new Vines(bg[areaNum]->swampDst.x + 1600, bg[areaNum]->swampDst.y + 750));
+
 				for (int i = 0; i < (rand() % (mushrooms)) + 1; i++)
 				{
 					fly.push_back(new DragonFly(bg[areaNum]->swampDst.x + 1600, bg[areaNum]->swampDst.y + 500, 2));
@@ -1380,6 +1404,16 @@ void Levelone::Update()
 					if (mushroomSpot > 5)
 						mushroomSpot = 0;
 				}
+				if (rand() % 2)
+					vine.push_back(new Vines(bg[areaNum]->swampDst.x + 700, bg[areaNum]->swampDst.y + 1250));
+				if (rand() % 2)
+					vine.push_back(new Vines(bg[areaNum]->swampDst.x + 1100, bg[areaNum]->swampDst.y + 900));
+				if (rand() % 2)
+					vine.push_back(new Vines(bg[areaNum]->swampDst.x + 500, bg[areaNum]->swampDst.y + 550));
+				if (rand() % 2)
+					vine.push_back(new Vines(bg[areaNum]->swampDst.x + 1000, bg[areaNum]->swampDst.y + 350));
+				if (rand() % 2)
+					vine.push_back(new Vines(bg[areaNum]->swampDst.x + 300, bg[areaNum]->swampDst.y + 800));
 				
 				frog.push_back(new Frog(bg[areaNum]->swampDst.x + 1450, bg[areaNum]->swampDst.y + 300, 4));
 				for (int i = 0; i < (rand() % (mushrooms)) + 4; i++)
@@ -1446,6 +1480,18 @@ void Levelone::Update()
 					if (mushroomSpot > 5)
 						mushroomSpot = 0;
 				}
+				if (rand() % 2)
+					vine.push_back(new Vines(bg[areaNum]->swampDst.x + 700, bg[areaNum]->swampDst.y + 800));
+				if (rand() % 2)
+					vine.push_back(new Vines(bg[areaNum]->swampDst.x + 1200, bg[areaNum]->swampDst.y + 800));
+				if (rand() % 2)
+					vine.push_back(new Vines(bg[areaNum]->swampDst.x + 1200, bg[areaNum]->swampDst.y + 200));
+				if (rand() % 2)
+					vine.push_back(new Vines(bg[areaNum]->swampDst.x + 750, bg[areaNum]->swampDst.y + 200));
+				if (rand() % 2)
+					vine.push_back(new Vines(bg[areaNum]->swampDst.x + 800, bg[areaNum]->swampDst.y + 500));
+				if (rand() % 2)
+					vine.push_back(new Vines(bg[areaNum]->swampDst.x + 600, bg[areaNum]->swampDst.y + 1200));
 
 				frog.push_back(new Frog(bg[areaNum]->swampDst.x + 750, bg[areaNum]->swampDst.y + 1000, 4));
 				for (int i = 0; i < (rand() % 2) + 2; i++)
