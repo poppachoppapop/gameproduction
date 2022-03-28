@@ -238,7 +238,7 @@ void Frog::Update(SDL_Rect plr)
 	
 }
 
-Shroom::Shroom(int x, int y, int h) : shroomSrc({0,0,32,32}), frameCtr(0), frameMax(9), spriteIdx(0), spriteMax(4)
+Shroom::Shroom(int x, int y, int h) : shroomSrc({0,0,32,32}), frameCtr(0), frameMax(4), spriteIdx(0), spriteMax(4)
 {
 	HP = { 0,0,100,4 };
 	shroomDst = { x,y,128,128 };

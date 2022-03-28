@@ -1116,7 +1116,6 @@ void Levelone::Update()
 					if (mushroomSpot > 5)
 						mushroomSpot = 0;
 				}				
-				portal.push_back(new Portal( bg[areaNum]->swampDst.x + 80,bg[areaNum]->swampDst.y + 1241 ));
 				
 
 			}
@@ -1167,7 +1166,6 @@ void Levelone::Update()
 					if (mushroomSpot > 5)
 						mushroomSpot = 0;
 				}
-				portal.push_back(new Portal(bg[areaNum]->swampDst.x + 980, bg[areaNum]->swampDst.y + 1286));
 			}
 			if (bg[areaNum]->getBg() == 2)
 			{
@@ -1208,7 +1206,6 @@ void Levelone::Update()
 					if (mushroomSpot > 5)
 						mushroomSpot = 0;
 				}
-				portal.push_back(new Portal(bg[areaNum]->swampDst.x + 1559, bg[areaNum]->swampDst.y + 1295));
 			}
 			if (bg[areaNum]->getBg() == 3)
 			{
@@ -1250,7 +1247,6 @@ void Levelone::Update()
 					if (mushroomSpot > 5)
 						mushroomSpot = 0;
 				}
-				portal.push_back(new Portal(bg[areaNum]->swampDst.x + 1837, bg[areaNum]->swampDst.y + 246));
 			}
 			if (bg[areaNum]->getBg() == 4)
 			{
@@ -1295,8 +1291,6 @@ void Levelone::Update()
 					if (mushroomSpot > 5)
 						mushroomSpot = 0;
 				}
-				portal.push_back(new Portal(bg[areaNum]->swampDst.x + 1850, bg[areaNum]->swampDst.y + 146));
-				
 			}
 
 			loadArea = false;
@@ -1465,6 +1459,10 @@ void Levelone::Update()
 					if (!wallHity)
 						levelRect[i]->y -= speedy;
 				}
+				if (mushroomsLeft == 0) {
+					mushroomsLeft--;
+					portal.push_back(new Portal(bg[areaNum]->swampDst.x + 80, bg[areaNum]->swampDst.y + 1241));
+				}
 
 
 			}
@@ -1535,6 +1533,10 @@ void Levelone::Update()
 					if (!wallHity)
 						levelRect[i]->y -= speedy;
 				}
+				if (mushroomsLeft == 0) {
+					mushroomsLeft--;
+					portal.push_back(new Portal(bg[areaNum]->swampDst.x + 980, bg[areaNum]->swampDst.y + 1286));
+				}
 
 			}
 			if (bg[areaNum]->getBg() == 2)
@@ -1578,6 +1580,10 @@ void Levelone::Update()
 						levelRect[i]->x -= speedx;
 					if (!wallHity)
 						levelRect[i]->y -= speedy;
+				}
+				if (mushroomsLeft == 0) {
+					mushroomsLeft--;
+					portal.push_back(new Portal(bg[areaNum]->swampDst.x + 1559, bg[areaNum]->swampDst.y + 1295));
 				}
 			}
 			if (bg[areaNum]->getBg() == 3)
@@ -1632,6 +1638,10 @@ void Levelone::Update()
 						levelRect[i]->x -= speedx;
 					if (!wallHity)
 						levelRect[i]->y -= speedy;
+				}
+				if (mushroomsLeft == 0) {
+					mushroomsLeft--;
+					portal.push_back(new Portal(bg[areaNum]->swampDst.x + 1837, bg[areaNum]->swampDst.y + 246));
 				}
 			}
 			if (bg[areaNum]->getBg() == 4)
@@ -1696,6 +1706,10 @@ void Levelone::Update()
 					if (!wallHity)
 						levelRect[i]->y -= speedy;
 				}
+				if (mushroomsLeft == 0) {
+					mushroomsLeft--;
+					portal.push_back(new Portal(bg[areaNum]->swampDst.x + 1850, bg[areaNum]->swampDst.y + 146));
+				}
 			}
 		}
 		bg[areaNum]->swampDst.x -= speedx;
@@ -1705,12 +1719,14 @@ void Levelone::Update()
 		if (!wallHity)
 			exitRect.y -= speedy;
 
-		if (SDL_HasIntersection(&exitRect, &plr1.plrDst)) {
-			loadArea = true;
-			areaNum++;
-			cout << "hit" << endl;
+		for (int i = 0; i < portal.size(); i++)
+		{
+			if (Util::distance(portal[i]->portalDst, plr1.plrDst) < 80) {
+				loadArea = true;
+				areaNum++;
+				cout << "hit" << endl;
+			}
 		}
-
 		if (plr1.plrHp <= 0)
 		{
 			STMA::ChangeState(new EndState());
