@@ -162,7 +162,7 @@ Frog::Frog(int x, int y, int h) :frogSrc({ 0,0,32,32 }), frameCtr(0), frameMax(4
 	health = h;
 	maxHealth = h;
 	state = 0;	
-	speed = 5;
+	speed = 4;
 	halt = 0;
 	movetimer = 0;
 	//Mix_Volume(2, 12);
@@ -232,7 +232,7 @@ void Frog::Update(SDL_Rect plr)
 		movetimer = 0;
 	}
 	shootTimer++;
-	if (shootTimer > 100) {
+	if (shootTimer > 150) {
 		shootTimer = 0;
 	}
 	
