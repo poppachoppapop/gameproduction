@@ -10,6 +10,62 @@
 #define FROGATTACK 7
 #define ATTACKRATE 3
 #define CLOUDRATE 8 //shroom spore spawn rate
+class Boss
+{
+private:
+	unsigned short frameCtr, frameMax, spriteIdx, spriteMin, spriteMax;
+	int state;
+	int dir;
+	double health;
+	double maxHealth;
+	
+	double speed;
+	int shootTimer;
+	int halt;
+	int attack1timer;
+	int randNum;
+
+public:
+	SDL_Rect BossSrc, BossDst;
+	SDL_Rect HP;//white hp
+	SDL_Rect healthBar;
+	Boss(int x, int y,int h);
+	Uint16 frames = 0;
+	int getState();
+	void setHp(double h);
+	int getHp();
+	int getShootTimer();
+	int getDir();
+	void Update();
+};
+class Bossf
+{
+private:
+	unsigned short frameCtr, frameMax, spriteIdx, spriteMin, spriteMax;
+	int state;
+	int dir;
+	double health;
+	double maxHealth;
+
+	double speed;
+	int shootTimer;
+	int halt;
+	int attack1timer;
+	int randNum;
+
+public:
+	SDL_Rect fBossSrc, fBossDst;
+	SDL_Rect HP;//white hp
+	SDL_Rect healthBar;
+	Bossf(int x, int y, int h);
+	Uint16 frames = 0;
+	int getState();
+	void setHp(double h);
+	int getHp();
+	int getShootTimer();
+	int getDir();
+	void Update();
+};
 class Cloud
 {
 private:

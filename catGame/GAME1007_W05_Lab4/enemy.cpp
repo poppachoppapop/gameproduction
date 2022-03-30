@@ -1,10 +1,171 @@
 #include "enemy.h"
 #include <cmath>
+#include <iostream>
 #define PI 3.14159265 
 
-
-
 //Dumbie
+Boss::Boss(int x, int y,int h) :BossSrc({ 0,0,32,32 }), frameCtr(0), frameMax(6), spriteIdx(0), spriteMax(9)
+{
+	HP = { 0,0,100,4 };
+	BossDst = { x,x, 125, 125 };
+	
+	health = h;
+	maxHealth = h;
+	shootTimer = 0;
+	health = h;
+	maxHealth = h;
+	state = 0;
+	//speed = 4;
+	///halt = 0;
+	attack1timer = 0;
+	//Mix_Volume(2, 12);
+}
+
+
+int Boss::getState()
+{
+	return state;
+}
+
+void Boss::setHp(double h)
+{
+	h = health;
+}
+
+int Boss::getHp()
+{
+	return health;
+}
+
+int Boss::getShootTimer()
+{
+	return shootTimer;
+}
+
+int Boss::getDir()
+{
+	return dir;
+}
+
+void Boss::Update()
+{
+	if (state == 0||state == 2)
+	{
+		spriteMax = 9;
+		if (spriteIdx > 9)
+			spriteIdx = 0;
+		if (frameCtr++ == frameMax)
+		{
+			frameCtr = 0;
+			if (++spriteIdx == spriteMax)
+			{
+				spriteIdx = 0;
+			}
+			BossSrc.x = 0 + BossSrc.w * spriteIdx;
+		}
+	}
+	
+	frames++;
+	healthBar.w = double(health / maxHealth) * 100;
+	healthBar.x = BossDst.x + 15;
+	healthBar.y = BossDst.y - 5;
+	//cout << attack1timer << endl;
+	attack1timer++;
+	if (attack1timer < 100) 
+	{
+		state = 0;		
+	}
+	if (attack1timer > 100)
+	{		
+		state = 1;
+		//attack1timer = 0;
+	}
+	if (attack1timer > 101)
+	{
+		state = 2;
+	}
+	if (attack1timer > 1000)
+	{
+		state = 0;
+		//attack1timer = 0;
+	}
+	
+
+	//cout << state  << endl;
+
+}
+
+Bossf::Bossf(int x, int y, int h) :fBossSrc({ 0,0,32,32 }), frameCtr(0), frameMax(6), spriteIdx(0), spriteMax(9)
+{
+	HP = { 0,0,100,4 };
+	fBossDst = { x,x, 125, 125 };
+
+	health = h;
+	maxHealth = h;
+	shootTimer = 0;
+	health = h;
+	maxHealth = h;
+	state = 0;
+	//speed = 4;
+	///halt = 0;
+	//attack1timer = 0;
+	//Mix_Volume(2, 12);
+}
+
+
+int Bossf::getState()
+{
+	return state;
+}
+
+void Bossf::setHp(double h)
+{
+	h = health;
+}
+
+int Bossf::getHp()
+{
+	return health;
+}
+
+int Bossf::getShootTimer()
+{
+	return shootTimer;
+}
+
+int Bossf::getDir()
+{
+	return dir;
+}
+
+void Bossf::Update()
+{
+	if (state == 0)
+	{
+		spriteMax = 9;
+		if (spriteIdx > 9)
+			spriteIdx = 0;
+		if (frameCtr++ == frameMax)
+		{
+			frameCtr = 0;
+			if (++spriteIdx == spriteMax)
+			{
+				spriteIdx = 0;
+			}
+			fBossSrc.x = 0 + fBossSrc.w * spriteIdx;
+		}
+	}
+	frames++;
+	healthBar.w = double(health / maxHealth) * 100;
+	healthBar.x = fBossDst.x + 15;
+	healthBar.y = fBossDst.y - 5;
+	//cout << attack1timer << endl;
+	//attack1timer++;
+	//cout << state  << endl;
+	//cout <<"fboss" << endl;
+
+}
+
 Enemy::Enemy(int x, int y, double h) :enemySrc({ 0,0,64,64 })
 {
 	//random dumie spawn

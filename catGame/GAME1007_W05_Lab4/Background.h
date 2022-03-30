@@ -10,6 +10,7 @@ public:
 	SDL_Rect treesrc, treedst;
 	SDL_Rect bgSrcTutorial, bgDst;
 	SDL_Rect gameOverScreenSrc, gameOverScreenDst;
+	SDL_Rect bossbgSrc, bossbgDst;
 	Background();
 };
 

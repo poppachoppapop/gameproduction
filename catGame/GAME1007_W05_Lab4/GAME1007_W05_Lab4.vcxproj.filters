@@ -95,6 +95,9 @@
     <ClInclude Include="GameObject.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="Boss.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Media Include="Aud\TitleTheme.mp3">
@@ -156,5 +159,13 @@
     <Image Include="art\winStateBeta.png">
       <Filter>Resource Files</Filter>
     </Image>
+    <Image Include="bgs\boss.png">
+      <Filter>Resource Files</Filter>
+    </Image>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Boss.cpp">
+      <Filter>Source Files</Filter>
+    </None>
   </ItemGroup>
 </Project>

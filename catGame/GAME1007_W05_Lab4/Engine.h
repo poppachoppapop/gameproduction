@@ -15,6 +15,7 @@
 #include "Items.h"
 #include "Background.h"
 #include "NPC.h"
+#include "Boss.h"
 #define FPS 60
 #define WIDTH 1024
 #define HEIGHT 768

@@ -14,6 +14,7 @@
 #include "Background.h"
 #include "NPC.h"
 #include "Util.h"
+#include "Boss.h"
 
 using namespace std;
 //an abstract class is one that cannot be instantiated
@@ -129,6 +130,7 @@ protected: //priv but inherited
 	Player plr1;
 	NPC catDude;
 	Background bg1;
+	
 	Uint16 dumbietimer;
 
 	Mix_Chunk* stepSfx;
@@ -280,6 +282,7 @@ class TabState :public State
 {
 public:
 	SDL_Texture* tab;
+	
 	SDL_Rect tabsrc, tabdst;
 	TabState();
 	virtual void Enter();
@@ -288,6 +291,31 @@ public:
 	virtual void Exit();
 
 };
-//add endstatehere
-//myarray[0].Render();
+class BossState :public State
+{
+public:
+	SDL_Texture* bosstxtr;
+	SDL_Texture* bossbg;
+	SDL_Texture* plant1;
+	SDL_Texture* plant2;
+	SDL_Texture* plant3;
+	
+	
+	BossState();
+	virtual void Enter();
+	virtual void Update();
+	virtual void Render();
+	virtual void Exit();
+	virtual void Resume();
+private:
+	vector<Boss*> b;//real boss 
+	vector<Bossf*> fb;//fake boss
+	vector<Boss*> p1;//big plant 
+	vector<Boss*> p2;//plant with 1 thingy
+	vector<Boss*> p3;//plant with 2 thingy
+	
+	
+
+};
+
 #endif
