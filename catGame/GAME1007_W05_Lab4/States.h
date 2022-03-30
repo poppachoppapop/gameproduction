@@ -125,7 +125,7 @@ protected: //priv but inherited
 	SDL_Rect mainMenuButtonSrc, mainMenuButtonDst;
 	SDL_Rect bubbleSrc, bubbleDst;
 	SDL_Texture* wpng;
-	SDL_Rect wSrc;
+	SDL_Rect wSrc, wDst;
 	SDL_Point g_mousePos;
 	Player plr1;
 	NPC catDude;

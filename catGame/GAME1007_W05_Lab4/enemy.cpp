@@ -313,7 +313,7 @@ Vines::Vines(int x, int y) :vineSrc({ 0,0,32,32 })
 }
 
 //frog
-Frog::Frog(int x, int y, int h) :frogSrc({ 0,0,32,32 }), frameCtr(0), frameMax(4), spriteIdx(0), spriteMax(7), randNum(rand()%81)
+Frog::Frog(int x, int y, int h) :frogSrc({ 0,0,32,32 }), frameCtr(0), frameMax(4), spriteIdx(0), spriteMax(7)
 {
 	
 	HP = { 0,0,100,4 };
@@ -326,6 +326,7 @@ Frog::Frog(int x, int y, int h) :frogSrc({ 0,0,32,32 }), frameCtr(0), frameMax(4
 	speed = 4;
 	halt = 0;
 	movetimer = 0;
+	randNum = rand() % 81;
 	//Mix_Volume(2, 12);
 }
 	
