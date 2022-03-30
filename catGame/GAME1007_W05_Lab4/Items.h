@@ -13,3 +13,10 @@ public:
 
 };
 
+class Heart {
+
+public:
+	Heart(int x, int y);
+	SDL_Rect heartSrc, heartDst;
+};
+

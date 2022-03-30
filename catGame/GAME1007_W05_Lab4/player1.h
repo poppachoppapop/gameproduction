@@ -30,6 +30,7 @@ public:
 	int getMaxSpd();
 	int getHurtOpacity();
 	void takeDamage(double howMuch);
+	void gainHealth(double howMuch);
 	void points(double howMuch);
 
 };

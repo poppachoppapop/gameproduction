@@ -100,17 +100,21 @@ protected: //priv but inherited
 	SDL_Texture* cloudtxtr;
 	SDL_Texture* aoe;
 	SDL_Texture* freezeui;
+	SDL_Texture* heartTxtr;
 
 	vector<Cloud*>cloud;
 	vector<Rock*> playerpew;
 	vector<Enemy*> dumbie;
 	vector<Items*> item1;
+	vector<Heart*> heart;
 	vector<Vines*> vine;
 	vector<DragonFly*> fly;
 	vector<Frog*>frog;
 	vector<Bubble*> bub;
 	vector <Shroom*>shroom;
 	vector<Portal*> portal;
+
+
 	SDL_Rect aoeSrc, aoeDst;
 	SDL_Rect freezeSrc, freezeDst;
 	SDL_Rect textBoxRect;

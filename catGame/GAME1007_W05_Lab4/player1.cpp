@@ -139,6 +139,10 @@ void Player::takeDamage(double howMuch)
 		hurt = 255;
 }
 
+void Player::gainHealth(double howMuch) {
+	plrHp += howMuch;
+}
+
 void Player::points(double howMuch)
 {
 	winbar += howMuch;

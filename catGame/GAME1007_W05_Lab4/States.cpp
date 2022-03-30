@@ -1101,6 +1101,7 @@ void Levelone::Enter()
 	freezeui = IMG_LoadTexture(Engine::Instance().GetRenderer(), "art/freeze.png");
 	aoe = IMG_LoadTexture(Engine::Instance().GetRenderer(), "art/aoeui.png");
 	wpng = IMG_LoadTexture(Engine::Instance().GetRenderer(), "art/winStateBeta.png");
+	heartTxtr = IMG_LoadTexture(Engine::Instance().GetRenderer(), "art/heart.png");
 	wSrc = { 0,0,256,198 };
 
 	stepSfx = Mix_LoadWAV("sfx/step.wav");
@@ -1200,6 +1201,7 @@ void Levelone::Update()
 			levelRect.clear();
 			cloud.clear();
 			portal.clear();
+			heart.clear();
 			plr1.setPlrSpd(0);
 			mushAdjust++;
 			if (mushAdjust == 2) {
@@ -2115,11 +2117,12 @@ void Levelone::Update()
 			STMA::ChangeState(new EndState());
 			return;
 		}
+		freezeCD++;
 		//cout <<"noobtimer"<< Noobtimer++ <<" | "<<ezModeCD++ << "ezmodecd<-" << endl;
-		//cout << "freezetimer" << freezetimer++ << " | " << freezeCD++ << "freezecd<-" << endl;
+		//cout << "freezetimer" << freezetimer++ << " | " << freezeCD << "freezecd<-" << endl;
 		//cout << plr1.plrDst.x - bg[areaNum]->swampDst.x << " - " << plr1.plrDst.y - bg[areaNum]->swampDst.y << endl; // for spawning things on bg
 		// cout << plr1.plrDst.x << " , " << plr1.plrDst.y  << endl;
-		cout << bg[areaNum]->swampDst.x << "||" << bg[areaNum]->swampDst.y << endl; // for spawning player on bg
+		//cout << bg[areaNum]->swampDst.x << "||" << bg[areaNum]->swampDst.y << endl; // for spawning player on bg
 		
 		//player
 		if (!dashPressed)
@@ -2212,6 +2215,9 @@ void Levelone::Update()
 				if (SDL_HasIntersection(&playerpew[j]->rockDst, &fly[i]->flyDst)) //AABB Check
 				{
 					Mix_PlayChannel(-1, hurtSfx, 0);
+					//move this to health function if health is > 1
+					if (rand() % 20 == 0)
+						heart.push_back(new Heart(fly[i]->flyDst.x + 30, fly[i]->flyDst.y + 30));
 					delete playerpew[j];
 					playerpew[j] = nullptr;
 					playerpew.erase(playerpew.begin() + j);
@@ -2228,6 +2234,33 @@ void Levelone::Update()
 		{
 			portal[i]->portalDst.x -= speedx;
 			portal[i]->portalDst.y -= speedy;
+		}
+		//heart
+		for (unsigned i = 0; i < heart.size(); i++)
+		{
+			heart[i]->heartDst.x -= speedx;
+			heart[i]->heartDst.y -= speedy;
+
+			if (plr1.plrHp <= 9) {
+				if (SDL_HasIntersection(&plr1.plrDst, &heart[i]->heartDst)) {
+					Mix_PlayChannel(-1, powerSfx, 0);
+					delete heart[i];
+					heart[i] = nullptr;
+					heart.erase(heart.begin() + i);
+					heart.shrink_to_fit();
+					plr1.gainHealth(1);
+				}
+			}
+			else if (plr1.plrHp < 10 && plr1.plrHp > 9) {
+				if (SDL_HasIntersection(&plr1.plrDst, &heart[i]->heartDst)) {
+					Mix_PlayChannel(-1, powerSfx, 0);
+					delete heart[i];
+					heart[i] = nullptr;
+					heart.erase(heart.begin() + i);
+					heart.shrink_to_fit();
+					plr1.plrHp = plr1.maxHp - plr1.plrHp;
+				}
+			}
 		}
 		 
 		 //Dash
@@ -2449,7 +2482,7 @@ void Levelone::Update()
 		if (!EVMA::KeyHeld(SDL_SCANCODE_W) && !EVMA::KeyHeld(SDL_SCANCODE_S) && !EVMA::KeyHeld(SDL_SCANCODE_D) && !EVMA::KeyHeld(SDL_SCANCODE_A)) {
 			plr1.state = 0;
 		}		
-
+		
 		//frog
 		for (unsigned i = 0; i < frog.size(); i++)
 		{
@@ -2488,6 +2521,8 @@ void Levelone::Update()
 			}
 			if (frog[i]->getHp() <= 0) {
 				Mix_PlayChannel(-1, deathSfx, 0);
+				if (rand() % 5 == 0)
+					heart.push_back(new Heart(frog[i]->frogDst.x + 30, frog[i]->frogDst.y + 30));
 				delete frog[i];
 				frog[i] = nullptr;
 				frog.erase(frog.begin() + i);
@@ -2669,7 +2704,10 @@ void Levelone::Render()
 		if (isfreezeActive == false)
 		SDL_RenderFillRect(Engine::Instance().GetRenderer(), &shroom[i]->healthBar);
 	}
-	//shroom atk stuff
+	//Heart
+	for (unsigned i = 0; i < heart.size(); i++) {
+		SDL_RenderCopy(Engine::Instance().GetRenderer(), heartTxtr, &heart[i]->heartSrc, &heart[i]->heartDst);
+	}
 	
 	//score
 	SDL_RenderCopy(Engine::Instance().GetRenderer(), mushLeft, NULL, &mushScoreRect);
@@ -2746,6 +2784,7 @@ void Levelone::Exit()
 	dumbie.shrink_to_fit();
 	item1.clear();
 	item1.shrink_to_fit();
+	heart.clear();
 	SDL_DestroyTexture(swamp);
 	SDL_DestroyTexture(swamp1);
 	SDL_DestroyTexture(swamp2);
@@ -2760,6 +2799,7 @@ void Levelone::Exit()
 	SDL_DestroyTexture(FrogTxtr);
 	SDL_DestroyTexture(cloudtxtr);
 	SDL_DestroyTexture(portaltxtr);
+	SDL_DestroyTexture(heartTxtr);
 	Mix_FreeChunk(hurtSfx);
 	Mix_FreeChunk(powerSfx);;
 	Mix_FreeChunk(projectileRock);

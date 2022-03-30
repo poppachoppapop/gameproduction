@@ -10,3 +10,7 @@ void Items::ItemType(int type)
 
 }
 
+Heart::Heart(int x, int y) : heartSrc({ 0,0,8,8 }),heartDst({ x,y,32,32 })
+{
+	//cool
+}
