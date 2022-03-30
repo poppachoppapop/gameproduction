@@ -206,7 +206,16 @@ private:
 	
 	bool g_paused; // If music is paused or not
 public:
-	
+	SDL_Texture* bosstxtr;
+	SDL_Texture* bossbg;
+	SDL_Texture* plant1;
+	SDL_Texture* plant2;
+	SDL_Texture* plant3;
+	vector<Boss*> b;//real boss 
+	vector<Bossf*> fb;//fake boss
+	vector<Boss*> p1;//big plant 
+	vector<Boss*> p2;//plant with 1 thingy
+	vector<Boss*> p3;//plant with 2 thingy
 	GameState();
 	virtual void Enter();
 	virtual void Update();

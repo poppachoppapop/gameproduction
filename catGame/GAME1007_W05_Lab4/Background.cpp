@@ -4,7 +4,7 @@ Background::Background(): bgSrcTutorial({0,0,704,608}), gameOverScreenSrc({0, 0,
 {
 	bgDst = { 0,-1300, bgSrcTutorial.w *4, bgSrcTutorial.h * 4 };
 	treedst= { 0,-1300, bgSrcTutorial.w *4, bgSrcTutorial.h * 4 };
-	bossbgDst = { 0,0, bossbgSrc.w *4 , bossbgSrc.h* 4 };
+	bossbgDst = { 0,-1300, bossbgSrc.w *4 , bossbgSrc.h* 4 };
 	//gameOverScreenDst = { 350, -150, gameOverScreenSrc.w * 2, gameOverScreenSrc.h * 4 };
 }
 
