@@ -179,6 +179,11 @@ void GameState::Enter()
 	tree = IMG_LoadTexture(Engine::Instance().GetRenderer(), "bgs/Trees.png");
 	portaltxtr = IMG_LoadTexture(Engine::Instance().GetRenderer(), "art/portal2.png");
 	cloudtxtr = IMG_LoadTexture(Engine::Instance().GetRenderer(), "art/cloud.png");
+	bosstxtr = IMG_LoadTexture(Engine::Instance().GetRenderer(), "art/TheBoss.png");
+	plant1 = IMG_LoadTexture(Engine::Instance().GetRenderer(), "art/plant1.png");
+	plant2 = IMG_LoadTexture(Engine::Instance().GetRenderer(), "art/plant2.png");
+	plant3 = IMG_LoadTexture(Engine::Instance().GetRenderer(), "art/plant3.png");
+	stepSfx = Mix_LoadWAV("sfx/step.wav");
 	stepSfx = Mix_LoadWAV("sfx/step.wav");
 	turnSfx = Mix_LoadWAV("sfx/turn.wav");
 	deathSfx = Mix_LoadWAV("sfx/dedEnemy.wav");
@@ -224,19 +229,94 @@ void GameState::Enter()
 	Message = SDL_CreateTextureFromSurface(Engine::Instance().GetRenderer(), surfaceMessage);
 	Score = SDL_CreateTextureFromSurface(Engine::Instance().GetRenderer(), dummyScore);
 	//portalsrc = { 0,0,32,32 };
-
+	//b.push_back(new Boss(bg1.bossbgDst.x + 600, bg1.bossbgDst.y , 1));
+      b.push_back(new Boss(bg1.bgDst.x + 1000, bg1.bgDst.y + 900, 1));
+	  b.shrink_to_fit();
 }
 
 void GameState::Update()
 {
 	//debug
-	//cout << plr1.plrDst.x - bg1.bgDst.x << " - " << plr1.plrDst.y - bg1.bgDst.y << endl;
+	cout << plr1.plrDst.x - bg1.bgDst.x << " - " << plr1.plrDst.y - bg1.bgDst.y << endl;
 	
 	if (!titleLoading) {
 		if (!(fadeMod == 0))
 			fadeMod-=fadeSpeed;
 		if (fadeMod == 0)
 			fadeMod == 0;
+
+		for (unsigned i = 0; i < b.size(); i++)
+		{
+			b[i]->Update();
+			b[i]->BossDst.x -= speedx;
+			b[i]->BossDst.y -= speedy;
+		}
+		for (unsigned i = 0; i < fb.size(); i++)
+		{
+			fb[i]->Update();
+			fb[i]->fBossDst.x -= speedx;
+			fb[i]->fBossDst.y -= speedy;
+		}
+
+		/*for (unsigned i = 0; i < b.size(); i++)
+		{
+			if (b[i]->getState() == 1)
+			{
+				fb.push_back(new Bossf(bg1.bgDst.x, bg1.bgDst.y, 0));
+				fb.push_back(new Bossf(bg1.bgDst.x, bg1.bgDst.y, 0));
+				fb.push_back(new Bossf(bg1.bgDst.x, bg1.bgDst.y, 0));
+				fb.shrink_to_fit(); 
+			}
+
+		}*/
+		cout << fb.size() << endl;
+
+		for (unsigned i = 0; i < playerpew.size(); i++)
+		{
+			for (unsigned j = 0; j < b.size(); j++)
+			{
+				if (b[j]->getState() == 2)
+				{
+					if (SDL_HasIntersection(&playerpew[i]->rockDst, &b[j]->BossDst)) //AABB Check
+					{
+						Mix_PlayChannel(-1, hurtSfx, 0);
+						delete playerpew[i];
+						playerpew[i] = nullptr;
+						playerpew.erase(playerpew.begin() + i);
+						playerpew.shrink_to_fit();
+						delete b[j];
+						b[j] = nullptr;
+						b.erase(b.begin() + j);
+						b.shrink_to_fit();
+						break;
+					}
+				}
+
+			}
+		}
+		for (unsigned i = 0; i < playerpew.size(); i++)
+		{
+			for (unsigned j = 0; j < fb.size(); j++)
+			{
+				if (fb[j]->getState() == 2)
+				{
+					if (SDL_HasIntersection(&playerpew[i]->rockDst, &fb[j]->fBossDst)) //AABB Check
+					{
+						Mix_PlayChannel(-1, hurtSfx, 0);
+						delete playerpew[i];
+						playerpew[i] = nullptr;
+						playerpew.erase(playerpew.begin() + i);
+						playerpew.shrink_to_fit();
+						delete fb[j];
+						fb[j] = nullptr;
+						fb.erase(fb.begin() + j);
+						fb.shrink_to_fit();
+						break;
+					}
+				}
+
+			}
+		}
 		if (EVMA::KeyPressed(SDL_SCANCODE_TAB))
 		{
 			cout << "Changing to tabState" << endl;
@@ -664,7 +744,7 @@ void GameState::Update()
 				freezeCD = 0;
 			}
 		}
-		cout << "freezetimer" << freezetimer++ << " | " << freezeCD++ << "freezecd<-" << endl;
+		//cout << "freezetimer" << freezetimer++ << " | " << freezeCD++ << "freezecd<-" << endl;
 		//YAXIS
 
 		if (EVMA::KeyHeld(SDL_SCANCODE_S)) {
@@ -797,7 +877,32 @@ void GameState::Render()
 	{
 		SDL_RenderCopy(Engine::Instance().GetRenderer(), portaltxtr, &(portal[i]->portalSrc), &(portal[i]->portalDst));
 	}
+	//for boss
+	for (unsigned i = 0; i < b.size();i++)
+	{
+		SDL_RenderCopy(Engine::Instance().GetRenderer(), bosstxtr, &b[i]->BossSrc, &b[i]->BossDst);
+		//health bar	
+		/*SDL_SetRenderDrawColor(Engine::Instance().GetRenderer(), 255, 255, 255, 255);
+		if (isfreezeActive == false)
+			SDL_RenderFillRect(Engine::Instance().GetRenderer(), &b[i]->HP);
+		SDL_SetRenderDrawColor(Engine::Instance().GetRenderer(), 255, 0, 0, 255);
+		if (isfreezeActive == false)
+			SDL_RenderFillRect(Engine::Instance().GetRenderer(), &b[i]->healthBar);*/
+	}
 
+
+	//fake boss
+	for (unsigned i = 0; i < fb.size();i++)
+	{
+		SDL_RenderCopy(Engine::Instance().GetRenderer(), bosstxtr, &fb[i]->fBossSrc, &fb[i]->fBossDst);
+		//health bar				
+		//SDL_SetRenderDrawColor(Engine::Instance().GetRenderer(), 255, 255, 255, 255);
+		/*if (isfreezeActive == false)
+			SDL_RenderFillRect(Engine::Instance().GetRenderer(), &fb[i]->HP);
+		SDL_SetRenderDrawColor(Engine::Instance().GetRenderer(), 255, 0, 0, 255);
+		if (isfreezeActive == false)
+			SDL_RenderFillRect(Engine::Instance().GetRenderer(), &fb[i]->healthBar);*/
+	}
 	//vines
 	for (unsigned i = 0; i < vine.size(); i++)
 	{
@@ -924,6 +1029,10 @@ void GameState::Exit()
 		delete item1[i];
 		item1[i] = nullptr;
 	}
+	fb.clear();
+	fb.shrink_to_fit();
+	b.clear();
+	b.shrink_to_fit();
 	playerpew.clear();
 	playerpew.shrink_to_fit();
 	dumbie.clear();
@@ -953,6 +1062,10 @@ void GameState::Exit()
 	Mix_FreeChunk(deathSfx);
 	Mix_FreeChunk(turnSfx);
 	Mix_FreeMusic(maintheme);
+	SDL_DestroyTexture(bosstxtr);
+	SDL_DestroyTexture(plant1);
+	SDL_DestroyTexture(plant2);
+	SDL_DestroyTexture(plant3);
 }
 
 void GameState::Resume()
@@ -2859,10 +2972,10 @@ void BossState::Enter()
 
 	//sounds
 	Mix_PlayMusic(maintheme, -1);
-	Mix_VolumeMusic(12); //0-128
+	Mix_VolumeMusic(0); //0-128
 	Mix_Volume(-1, 50);
-	Mix_Volume(2, 12);
-	b.push_back(new Boss(bg1.bossbgDst.x + 600, bg1.bossbgDst.y + 1600, 2));
+	//Mix_Volume(2, 12);
+	b.push_back(new Boss(bg1.bossbgDst.x+ 600, bg1.bossbgDst.y + 600,0));
 	//b.push_back(new Boss(bg1.bossbgDst.x + 600, bg1.bossbgDst.y + 1000, 1));
 	b.shrink_to_fit();
 }
@@ -2874,31 +2987,37 @@ void BossState::Update()
 	bg1.bossbgDst.x -= speedx;
 	bg1.bossbgDst.y -= speedy;
 	
-	for (unsigned int i = 0; i < b.size(); i++)
+	for (unsigned i = 0; i < b.size(); i++)
 	{
 		b[i]->Update();
 		b[i]->BossDst.x -= speedx;
 		b[i]->BossDst.y -= speedy;
 	}
-	for (unsigned int i = 0; i < fb.size(); i++)
+	for (unsigned i = 0; i < fb.size(); i++)
 	{
 		fb[i]->Update();
 		fb[i]->fBossDst.x -= speedx;
 		fb[i]->fBossDst.y -= speedy;
 	}
 
-	for (unsigned i = 0; i < fb.size(); i++)
+	for (unsigned i = 0; i < b.size(); i++)
 	{
-		if (fb[i]->getState() == 1)
+		if (b[i]->getState() == 1)
 			{
-				fb.push_back(new Bossf(bg1.bossbgDst.x + 200, bg1.bossbgDst.y, 2));
-				fb.push_back(new Bossf(bg1.bossbgDst.x + 400, bg1.bossbgDst.y, 2));
-				fb.push_back(new Bossf(bg1.bossbgDst.x + 600, bg1.bossbgDst.y, 2));
+			    b.clear();
+				fb.push_back(new Bossf(bg1.bossbgDst.x + 300 ,bg1.bossbgDst.y + 900, 0));
+				fb.push_back(new Bossf(bg1.bossbgDst.x + 900 ,bg1.bossbgDst.y + 900, 0));
+				fb.push_back(new Bossf(bg1.bossbgDst.x + 600 ,bg1.bossbgDst.y + 1200, 0));
+				fb.push_back(new Bossf(bg1.bossbgDst.x + 300, bg1.bossbgDst.y + 700, 0));
+				fb.push_back(new Bossf(bg1.bossbgDst.x + 300, bg1.bossbgDst.y + 1200, 0));
+				fb.push_back(new Bossf(bg1.bossbgDst.x + 900, bg1.bossbgDst.y + 700, 0));
+				fb.push_back(new Bossf(bg1.bossbgDst.x + 900, bg1.bossbgDst.y + 1200, 0));
 				fb.shrink_to_fit();
+			
 			}				
 		
 	}
-		
+	//cout << fb.size()<<endl;
 	
 	for (unsigned i = 0; i < playerpew.size(); i++)
 	{
@@ -2927,7 +3046,7 @@ void BossState::Update()
 	{
 		for (unsigned j = 0; j < fb.size(); j++)
 		{
-			if (fb[j]->getState() == 2)
+			//if (fb[j]->getState() == 2)
 			{
 				if (SDL_HasIntersection(&playerpew[i]->rockDst, &fb[j]->fBossDst)) //AABB Check
 				{
@@ -3467,7 +3586,18 @@ void BossState::Exit()
 	Mix_FreeChunk(stepSfx);
 	Mix_FreeChunk(deathSfx);
 	Mix_FreeChunk(turnSfx);
-	
+	shroom.clear();
+	shroom.shrink_to_fit();
+	fly.clear();
+	fly.shrink_to_fit();
+	frog.clear();
+	frog.shrink_to_fit();
+	playerpew.clear();
+	playerpew.shrink_to_fit();
+	b.clear();
+	b.shrink_to_fit();
+	fb.clear();
+	fb.shrink_to_fit();
 }
 
 void BossState::Resume()

@@ -7,7 +7,7 @@
 Boss::Boss(int x, int y,int h) :BossSrc({ 0,0,32,32 }), frameCtr(0), frameMax(6), spriteIdx(0), spriteMax(9)
 {
 	HP = { 0,0,100,4 };
-	BossDst = { x,x, 125, 125 };
+	BossDst = { x,y, 125, 125 };
 	
 	health = h;
 	maxHealth = h;
@@ -91,14 +91,14 @@ void Boss::Update()
 	}
 	
 
-	//cout << state  << endl;
+	cout << state  << endl;
 
 }
 
 Bossf::Bossf(int x, int y, int h) :fBossSrc({ 0,0,32,32 }), frameCtr(0), frameMax(6), spriteIdx(0), spriteMax(9)
 {
 	HP = { 0,0,100,4 };
-	fBossDst = { x,x, 125, 125 };
+	fBossDst = { x,y, 125, 125 };
 
 	health = h;
 	maxHealth = h;
