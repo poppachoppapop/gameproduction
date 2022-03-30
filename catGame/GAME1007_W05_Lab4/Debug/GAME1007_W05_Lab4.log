@@ -1,3 +1,4 @@
+<<<<<<< Updated upstream
 ﻿  enemy.cpp
 C:\Users\Michael\OneDrive\Desktop\gbc\GAME1017\gameproduction\catGame\GAME1007_W05_Lab4\enemy.cpp(37,9): warning C4244: 'return': conversion from 'double' to 'int', possible loss of data
 C:\Users\Michael\OneDrive\Desktop\gbc\GAME1017\gameproduction\catGame\GAME1007_W05_Lab4\enemy.cpp(69,43): warning C4244: '=': conversion from 'double' to 'int', possible loss of data
@@ -18,3 +19,70 @@ C:\Users\Michael\OneDrive\Desktop\gbc\GAME1017\gameproduction\catGame\GAME1007_W
 C:\Users\Michael\OneDrive\Desktop\gbc\GAME1017\gameproduction\catGame\GAME1007_W05_Lab4\enemy.cpp(469,18): warning C4244: '=': conversion from 'double' to 'int', possible loss of data
 C:\Users\Michael\OneDrive\Desktop\gbc\GAME1017\gameproduction\catGame\GAME1007_W05_Lab4\enemy.cpp(470,18): warning C4244: '=': conversion from 'double' to 'int', possible loss of data
   GAME1007_W05_Lab4.vcxproj -> C:\Users\Michael\OneDrive\Desktop\gbc\GAME1017\gameproduction\catGame\Debug\catGamePreRelease.exe
+=======
+﻿C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\MSBuild\Microsoft\VC\v160\Microsoft.CppBuild.targets(513,5): warning MSB8028: The intermediate directory (Debug\) contains files shared from another project (catGamePreRelease.vcxproj).  This can lead to incorrect clean and rebuild behavior.
+  Background.cpp
+  enemy.cpp
+C:\Users\jerpy\OneDrive\progr\Game\Game production 2\gameproduction\catGame\GAME1007_W05_Lab4\enemy.cpp(23,9): warning C4244: 'return': conversion from 'double' to 'int', possible loss of data
+C:\Users\jerpy\OneDrive\progr\Game\Game production 2\gameproduction\catGame\GAME1007_W05_Lab4\enemy.cpp(28,43): warning C4244: '=': conversion from 'double' to 'int', possible loss of data
+C:\Users\jerpy\OneDrive\progr\Game\Game production 2\gameproduction\catGame\GAME1007_W05_Lab4\enemy.cpp(63,9): warning C4244: 'return': conversion from 'double' to 'int', possible loss of data
+C:\Users\jerpy\OneDrive\progr\Game\Game production 2\gameproduction\catGame\GAME1007_W05_Lab4\enemy.cpp(87,43): warning C4244: '=': conversion from 'double' to 'int', possible loss of data
+C:\Users\jerpy\OneDrive\progr\Game\Game production 2\gameproduction\catGame\GAME1007_W05_Lab4\enemy.cpp(185,9): warning C4244: 'return': conversion from 'double' to 'int', possible loss of data
+C:\Users\jerpy\OneDrive\progr\Game\Game production 2\gameproduction\catGame\GAME1007_W05_Lab4\enemy.cpp(218,43): warning C4244: '=': conversion from 'double' to 'int', possible loss of data
+C:\Users\jerpy\OneDrive\progr\Game\Game production 2\gameproduction\catGame\GAME1007_W05_Lab4\enemy.cpp(226,16): warning C4244: 'initializing': conversion from 'double' to 'float', possible loss of data
+C:\Users\jerpy\OneDrive\progr\Game\Game production 2\gameproduction\catGame\GAME1007_W05_Lab4\enemy.cpp(227,48): warning C4244: '-=': conversion from 'double' to 'int', possible loss of data
+C:\Users\jerpy\OneDrive\progr\Game\Game production 2\gameproduction\catGame\GAME1007_W05_Lab4\enemy.cpp(228,48): warning C4244: '-=': conversion from 'double' to 'int', possible loss of data
+C:\Users\jerpy\OneDrive\progr\Game\Game production 2\gameproduction\catGame\GAME1007_W05_Lab4\enemy.cpp(260,9): warning C4244: 'return': conversion from 'double' to 'int', possible loss of data
+C:\Users\jerpy\OneDrive\progr\Game\Game production 2\gameproduction\catGame\GAME1007_W05_Lab4\enemy.cpp(282,43): warning C4244: '=': conversion from 'double' to 'int', possible loss of data
+C:\Users\jerpy\OneDrive\progr\Game\Game production 2\gameproduction\catGame\GAME1007_W05_Lab4\enemy.cpp(307,14): warning C4244: 'initializing': conversion from 'double' to 'float', possible loss of data
+C:\Users\jerpy\OneDrive\progr\Game\Game production 2\gameproduction\catGame\GAME1007_W05_Lab4\enemy.cpp(309,18): warning C4244: '=': conversion from 'double' to 'int', possible loss of data
+C:\Users\jerpy\OneDrive\progr\Game\Game production 2\gameproduction\catGame\GAME1007_W05_Lab4\enemy.cpp(310,18): warning C4244: '=': conversion from 'double' to 'int', possible loss of data
+  Engine.cpp
+C:\Users\jerpy\OneDrive\progr\Game\Game production 2\gameproduction\catGame\GAME1007_W05_Lab4\Engine.cpp(46,12): warning C4244: 'argument': conversion from 'time_t' to 'unsigned int', possible loss of data
+  EventManager.cpp
+  Items.cpp
+  Main.cpp
+  NPC.cpp
+  player1.cpp
+C:\Users\jerpy\OneDrive\progr\Game\Game production 2\gameproduction\catGame\GAME1007_W05_Lab4\player1.cpp(88,40): warning C4244: '=': conversion from 'double' to 'int', possible loss of data
+C:\Users\jerpy\OneDrive\progr\Game\Game production 2\gameproduction\catGame\GAME1007_W05_Lab4\player1.cpp(89,37): warning C4244: '=': conversion from 'double' to 'int', possible loss of data
+  StateManager.cpp
+  States.cpp
+C:\Users\jerpy\OneDrive\progr\Game\Game production 2\gameproduction\catGame\GAME1007_W05_Lab4\States.cpp(114,57): warning C4805: '==': unsafe mix of type 'Uint32' and type 'bool' in operation
+C:\Users\jerpy\OneDrive\progr\Game\Game production 2\gameproduction\catGame\GAME1007_W05_Lab4\States.cpp(120,57): warning C4805: '==': unsafe mix of type 'Uint32' and type 'bool' in operation
+C:\Users\jerpy\OneDrive\progr\Game\Game production 2\gameproduction\catGame\GAME1007_W05_Lab4\States.cpp(126,57): warning C4805: '==': unsafe mix of type 'Uint32' and type 'bool' in operation
+C:\Users\jerpy\OneDrive\progr\Game\Game production 2\gameproduction\catGame\GAME1007_W05_Lab4\States.cpp(238,12): warning C4553: '==': result of expression not used; did you intend '='?
+C:\Users\jerpy\OneDrive\progr\Game\Game production 2\gameproduction\catGame\GAME1007_W05_Lab4\States.cpp(462,21): warning C4018: '<': signed/unsigned mismatch
+C:\Users\jerpy\OneDrive\progr\Game\Game production 2\gameproduction\catGame\GAME1007_W05_Lab4\States.cpp(573,84): warning C4244: 'argument': conversion from 'double' to 'int', possible loss of data
+C:\Users\jerpy\OneDrive\progr\Game\Game production 2\gameproduction\catGame\GAME1007_W05_Lab4\States.cpp(583,74): warning C4244: 'argument': conversion from 'double' to 'int', possible loss of data
+C:\Users\jerpy\OneDrive\progr\Game\Game production 2\gameproduction\catGame\GAME1007_W05_Lab4\States.cpp(593,84): warning C4244: 'argument': conversion from 'double' to 'int', possible loss of data
+C:\Users\jerpy\OneDrive\progr\Game\Game production 2\gameproduction\catGame\GAME1007_W05_Lab4\States.cpp(603,74): warning C4244: 'argument': conversion from 'double' to 'int', possible loss of data
+C:\Users\jerpy\OneDrive\progr\Game\Game production 2\gameproduction\catGame\GAME1007_W05_Lab4\States.cpp(768,12): warning C4553: '==': result of expression not used; did you intend '='?
+C:\Users\jerpy\OneDrive\progr\Game\Game production 2\gameproduction\catGame\GAME1007_W05_Lab4\States.cpp(954,27): warning C4805: '==': unsafe mix of type 'int' and type 'bool' in operation
+C:\Users\jerpy\OneDrive\progr\Game\Game production 2\gameproduction\catGame\GAME1007_W05_Lab4\States.cpp(1067,12): warning C4553: '==': result of expression not used; did you intend '='?
+C:\Users\jerpy\OneDrive\progr\Game\Game production 2\gameproduction\catGame\GAME1007_W05_Lab4\States.cpp(1711,23): warning C4018: '<': signed/unsigned mismatch
+C:\Users\jerpy\OneDrive\progr\Game\Game production 2\gameproduction\catGame\GAME1007_W05_Lab4\States.cpp(1795,23): warning C4018: '<': signed/unsigned mismatch
+C:\Users\jerpy\OneDrive\progr\Game\Game production 2\gameproduction\catGame\GAME1007_W05_Lab4\States.cpp(1853,23): warning C4018: '<': signed/unsigned mismatch
+C:\Users\jerpy\OneDrive\progr\Game\Game production 2\gameproduction\catGame\GAME1007_W05_Lab4\States.cpp(1921,23): warning C4018: '<': signed/unsigned mismatch
+C:\Users\jerpy\OneDrive\progr\Game\Game production 2\gameproduction\catGame\GAME1007_W05_Lab4\States.cpp(1998,23): warning C4018: '<': signed/unsigned mismatch
+C:\Users\jerpy\OneDrive\progr\Game\Game production 2\gameproduction\catGame\GAME1007_W05_Lab4\States.cpp(2018,21): warning C4018: '<': signed/unsigned mismatch
+C:\Users\jerpy\OneDrive\progr\Game\Game production 2\gameproduction\catGame\GAME1007_W05_Lab4\States.cpp(2270,84): warning C4244: 'argument': conversion from 'double' to 'int', possible loss of data
+C:\Users\jerpy\OneDrive\progr\Game\Game production 2\gameproduction\catGame\GAME1007_W05_Lab4\States.cpp(2280,74): warning C4244: 'argument': conversion from 'double' to 'int', possible loss of data
+C:\Users\jerpy\OneDrive\progr\Game\Game production 2\gameproduction\catGame\GAME1007_W05_Lab4\States.cpp(2290,84): warning C4244: 'argument': conversion from 'double' to 'int', possible loss of data
+C:\Users\jerpy\OneDrive\progr\Game\Game production 2\gameproduction\catGame\GAME1007_W05_Lab4\States.cpp(2300,74): warning C4244: 'argument': conversion from 'double' to 'int', possible loss of data
+C:\Users\jerpy\OneDrive\progr\Game\Game production 2\gameproduction\catGame\GAME1007_W05_Lab4\States.cpp(2419,21): warning C4018: '<': signed/unsigned mismatch
+C:\Users\jerpy\OneDrive\progr\Game\Game production 2\gameproduction\catGame\GAME1007_W05_Lab4\States.cpp(2488,12): warning C4553: '==': result of expression not used; did you intend '='?
+C:\Users\jerpy\OneDrive\progr\Game\Game production 2\gameproduction\catGame\GAME1007_W05_Lab4\States.cpp(2727,57): warning C4805: '==': unsafe mix of type 'Uint32' and type 'bool' in operation
+C:\Users\jerpy\OneDrive\progr\Game\Game production 2\gameproduction\catGame\GAME1007_W05_Lab4\States.cpp(2732,57): warning C4805: '==': unsafe mix of type 'Uint32' and type 'bool' in operation
+C:\Users\jerpy\OneDrive\progr\Game\Game production 2\gameproduction\catGame\GAME1007_W05_Lab4\States.cpp(2799,57): warning C4805: '==': unsafe mix of type 'Uint32' and type 'bool' in operation
+  Tile.cpp
+  Util.cpp
+C:\Users\jerpy\OneDrive\progr\Game\Game production 2\gameproduction\catGame\GAME1007_W05_Lab4\Util.cpp(8,13): warning C4244: 'initializing': conversion from 'int' to 'float', possible loss of data
+C:\Users\jerpy\OneDrive\progr\Game\Game production 2\gameproduction\catGame\GAME1007_W05_Lab4\Util.cpp(9,13): warning C4244: 'initializing': conversion from 'int' to 'float', possible loss of data
+C:\Users\jerpy\OneDrive\progr\Game\Game production 2\gameproduction\catGame\GAME1007_W05_Lab4\Util.cpp(11,26): warning C4244: '=': conversion from 'double' to 'float', possible loss of data
+C:\Users\jerpy\OneDrive\progr\Game\Game production 2\gameproduction\catGame\GAME1007_W05_Lab4\Util.cpp(19,13): warning C4244: 'initializing': conversion from 'int' to 'float', possible loss of data
+C:\Users\jerpy\OneDrive\progr\Game\Game production 2\gameproduction\catGame\GAME1007_W05_Lab4\Util.cpp(20,13): warning C4244: 'initializing': conversion from 'int' to 'float', possible loss of data
+C:\Users\jerpy\OneDrive\progr\Game\Game production 2\gameproduction\catGame\GAME1007_W05_Lab4\Util.cpp(22,26): warning C4244: '=': conversion from 'double' to 'float', possible loss of data
+  Generating Code...
+  GAME1007_W05_Lab4.vcxproj -> C:\Users\jerpy\OneDrive\progr\Game\Game production 2\gameproduction\catGame\Debug\CatNippedBeta.exe
+>>>>>>> Stashed changes
