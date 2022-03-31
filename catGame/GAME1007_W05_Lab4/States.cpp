@@ -2258,7 +2258,7 @@ void Levelone::Update()
 					heart[i] = nullptr;
 					heart.erase(heart.begin() + i);
 					heart.shrink_to_fit();
-					plr1.plrHp = plr1.maxHp - plr1.plrHp;
+					plr1.gainHealth(0.5);;
 				}
 			}
 		}
