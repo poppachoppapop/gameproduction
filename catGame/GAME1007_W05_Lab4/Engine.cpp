@@ -41,6 +41,11 @@ int Engine::Init(const char* title, int xPos, int yPos, int width, int height, i
 		
 	}
 	else return false; // initalization failed.
+	if (SDL_NumJoysticks() < 1)
+		SDL_Joystick* joystick = SDL_JoystickOpen(0);
+	else {
+		cout << "No Controller Plugged In!" << endl;
+	}
 	m_fps = (Uint32)round(1.0 / (double)FPS * 1000); // Converts FPS into milliseconds, e.g. 16.67
 	m_keystates = SDL_GetKeyboardState(nullptr);
 	srand(time(NULL));	

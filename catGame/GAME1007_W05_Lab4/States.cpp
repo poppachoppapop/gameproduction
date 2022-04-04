@@ -2326,7 +2326,7 @@ void Levelone::Update()
 				Mix_PlayChannel(7, stepSfx, -1);
 			}
 		}
-		if (EVMA::KeyHeld(SDL_SCANCODE_S))
+		if (EVMA::KeyHeld(SDL_SCANCODE_S) )
 		{
 			if (!Mix_Playing(7))
 			{
@@ -2439,7 +2439,6 @@ void Levelone::Update()
 		if (speedx * -1 > plr1.plrSpd)
 			speedx = plr1.plrSpd * -1;
 		//YAXIS
-
 		if (EVMA::KeyHeld(SDL_SCANCODE_S)) {
 
 			speedy += speedAcc;
