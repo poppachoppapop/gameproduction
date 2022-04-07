@@ -3042,19 +3042,28 @@ void BossState::Update()
 	for (unsigned i = 0; i < b.size(); i++)
 	{
 		if (b[i]->getState() == 1)
-			{
+		{
 			    b.clear();
-				fb.push_back(new Bossf(bg1.bossbgDst.x + 300 ,bg1.bossbgDst.y + 900, 0));
-				fb.push_back(new Bossf(bg1.bossbgDst.x + 900 ,bg1.bossbgDst.y + 900, 0));
-				fb.push_back(new Bossf(bg1.bossbgDst.x + 600 ,bg1.bossbgDst.y + 1200, 0));
-				fb.push_back(new Bossf(bg1.bossbgDst.x + 300, bg1.bossbgDst.y + 700, 0));
-				fb.push_back(new Bossf(bg1.bossbgDst.x + 300, bg1.bossbgDst.y + 1200, 0));
-				fb.push_back(new Bossf(bg1.bossbgDst.x + 900, bg1.bossbgDst.y + 700, 0));
-				fb.push_back(new Bossf(bg1.bossbgDst.x + 900, bg1.bossbgDst.y + 1200, 0));
+				
+				fb.push_back(new Bossf(bg1.bossbgDst.x + 900 ,bg1.bossbgDst.y + 900, 2));
+				/*fb.push_back(new Bossf(bg1.bossbgDst.x + 600 ,bg1.bossbgDst.y + 1200, 2));
+				fb.push_back(new Bossf(bg1.bossbgDst.x + 300, bg1.bossbgDst.y + 700, 2));
+				fb.push_back(new Bossf(bg1.bossbgDst.x + 300, bg1.bossbgDst.y + 1200, 2));
+				fb.push_back(new Bossf(bg1.bossbgDst.x + 900, bg1.bossbgDst.y + 700, 2));
+				fb.push_back(new Bossf(bg1.bossbgDst.x + 900, bg1.bossbgDst.y + 1200, 2));*/
+				b.push_back(new Boss(bg1.bossbgDst.x + 300, bg1.bossbgDst.y + 900, 1));
 				fb.shrink_to_fit();
-			
-			}				
+				b.shrink_to_fit();			
+		}				
 		
+	}
+	for (unsigned i = 0; i < b.size(); i++)
+	{
+		if (b[i]->getState() == 3)
+		{
+			b.clear();
+			fb.clear();
+		}
 	}
 	//cout << fb.size()<<endl;
 	

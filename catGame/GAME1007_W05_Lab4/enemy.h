@@ -29,9 +29,10 @@ public:
 	SDL_Rect BossSrc, BossDst;
 	SDL_Rect HP;//white hp
 	SDL_Rect healthBar;
-	Boss(int x, int y,int h);
+	Boss(int x, int y,int s);
 	Uint16 frames = 0;
 	int getState();
+	void setState(int s);
 	void setHp(double h);
 	int getHp();
 	int getShootTimer();
@@ -57,9 +58,10 @@ public:
 	SDL_Rect fBossSrc, fBossDst;
 	SDL_Rect HP;//white hp
 	SDL_Rect healthBar;
-	Bossf(int x, int y, int h);
+	Bossf(int x, int y, int s);
 	Uint16 frames = 0;
 	int getState();
+	void setState(int s);
 	void setHp(double h);
 	int getHp();
 	int getShootTimer();

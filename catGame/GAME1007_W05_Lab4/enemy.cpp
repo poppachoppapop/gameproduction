@@ -4,27 +4,24 @@
 #define PI 3.14159265 
 
 //Dumbie
-Boss::Boss(int x, int y,int h) :BossSrc({ 0,0,32,32 }), frameCtr(0), frameMax(6), spriteIdx(0), spriteMax(9)
+Boss::Boss(int x, int y,int s) :BossSrc({ 0,0,32,32 }), frameCtr(0), frameMax(6), spriteIdx(0), spriteMax(9)
 {
 	HP = { 0,0,100,4 };
 	BossDst = { x,y, 125, 125 };
-	
-	health = h;
-	maxHealth = h;
-	shootTimer = 0;
-	health = h;
-	maxHealth = h;
-	state = 0;
-	//speed = 4;
-	///halt = 0;
+	state = 0;	
 	attack1timer = 0;
-	//Mix_Volume(2, 12);
+	
 }
 
 
 int Boss::getState()
 {
 	return state;
+}
+
+void Boss::setState(int s)
+{
+	s = state;
 }
 
 void Boss::setHp(double h)
@@ -84,10 +81,10 @@ void Boss::Update()
 	{
 		state = 2;
 	}
-	if (attack1timer > 1000)
+	if (attack1timer > 300)
 	{
-		state = 0;
-		//attack1timer = 0;
+		state = 3;
+		attack1timer = 0;
 	}
 	
 
@@ -95,16 +92,16 @@ void Boss::Update()
 
 }
 
-Bossf::Bossf(int x, int y, int h) :fBossSrc({ 0,0,32,32 }), frameCtr(0), frameMax(6), spriteIdx(0), spriteMax(9)
+Bossf::Bossf(int x, int y, int s) :fBossSrc({ 0,0,32,32 }), frameCtr(0), frameMax(6), spriteIdx(0), spriteMax(9)
 {
 	HP = { 0,0,100,4 };
 	fBossDst = { x,y, 125, 125 };
 
-	health = h;
-	maxHealth = h;
+	//health = h;
+	//maxHealth = h;
 	shootTimer = 0;
-	health = h;
-	maxHealth = h;
+	//health = h;
+	//maxHealth = h;
 	state = 0;
 	//speed = 4;
 	///halt = 0;
@@ -116,6 +113,10 @@ Bossf::Bossf(int x, int y, int h) :fBossSrc({ 0,0,32,32 }), frameCtr(0), frameMa
 int Bossf::getState()
 {
 	return state;
+}
+void Bossf::setState(int s)
+{
+	s = state;
 }
 
 void Bossf::setHp(double h)
