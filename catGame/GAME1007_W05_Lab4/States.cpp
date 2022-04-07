@@ -230,8 +230,8 @@ void GameState::Enter()
 	Score = SDL_CreateTextureFromSurface(Engine::Instance().GetRenderer(), dummyScore);
 	//portalsrc = { 0,0,32,32 };
 	//b.push_back(new Boss(bg1.bossbgDst.x + 600, bg1.bossbgDst.y , 1));
-      b.push_back(new Boss(bg1.bgDst.x + 1000, bg1.bgDst.y + 900, 1));
-	  b.shrink_to_fit();
+     // b.push_back(new Boss(bg1.bgDst.x + 1000, bg1.bgDst.y + 900, 1));
+	 // b.shrink_to_fit();
 }
 
 void GameState::Update()
@@ -2989,6 +2989,7 @@ void BossState::Enter()
 	plant1 = IMG_LoadTexture(Engine::Instance().GetRenderer(), "art/plant1.png");
 	plant2 = IMG_LoadTexture(Engine::Instance().GetRenderer(), "art/plant2.png");
 	plant3 = IMG_LoadTexture(Engine::Instance().GetRenderer(), "art/plant3.png");
+	ShroomTxtr = IMG_LoadTexture(Engine::Instance().GetRenderer(), "art/mushroom.png");
 	stepSfx = Mix_LoadWAV("sfx/step.wav");
 	turnSfx = Mix_LoadWAV("sfx/turn.wav");
 	deathSfx = Mix_LoadWAV("sfx/dedEnemy.wav");
@@ -3014,8 +3015,9 @@ void BossState::Enter()
 	Mix_VolumeMusic(0); //0-128
 	Mix_Volume(-1, 50);
 	//Mix_Volume(2, 12);
-	b.push_back(new Boss(bg1.bossbgDst.x+ 600, bg1.bossbgDst.y + 600,0));
-	//b.push_back(new Boss(bg1.bossbgDst.x + 600, bg1.bossbgDst.y + 1000, 1));
+	//b.push_back(new Boss(bg1.bossbgDst.x+ 600, bg1.bossbgDst.y + 600,1,0));//attack1
+	//b.push_back(new Boss(bg1.bossbgDst.x+ 600, bg1.bossbgDst.y + 600,1,3));//attack2
+	b.push_back(new Boss(bg1.bossbgDst.x+ 600, bg1.bossbgDst.y + 600,1,0));//attack3
 	b.shrink_to_fit();
 }
 
@@ -3039,22 +3041,106 @@ void BossState::Update()
 		fb[i]->fBossDst.y -= speedy;
 	}
 
+	for (unsigned i = 0; i < p1.size(); i++)
+	{
+		p1[i]->plantDst.x -= speedx;
+		p1[i]->plantDst.y -= speedy;
+	}
+	for (unsigned i = 0; i < p2.size(); i++)
+	{
+		p2[i]->plant2Dst.x -= speedx;
+		p2[i]->plant2Dst.y -= speedy;
+	}
+	for (unsigned i = 0; i < p3.size(); i++)
+	{
+		p3[i]->plant3Dst.x -= speedx;
+		p3[i]->plant3Dst.y -= speedy;
+	}
+	for (unsigned i = 0; i < cloud.size(); i++)
+	{
+		cloud[i]->cloudDst.x -= speedx;
+		cloud[i]->cloudDst.y -= speedy;
+	}
+	
 	for (unsigned i = 0; i < b.size(); i++)
 	{
 		if (b[i]->getState() == 1)
-			{
+		{
+<<<<<<< Updated upstream
 			    b.clear();
-				fb.push_back(new Bossf(bg1.bossbgDst.x + 300 ,bg1.bossbgDst.y + 900, 0));
-				fb.push_back(new Bossf(bg1.bossbgDst.x + 900 ,bg1.bossbgDst.y + 900, 0));
-				fb.push_back(new Bossf(bg1.bossbgDst.x + 600 ,bg1.bossbgDst.y + 1200, 0));
-				fb.push_back(new Bossf(bg1.bossbgDst.x + 300, bg1.bossbgDst.y + 700, 0));
-				fb.push_back(new Bossf(bg1.bossbgDst.x + 300, bg1.bossbgDst.y + 1200, 0));
-				fb.push_back(new Bossf(bg1.bossbgDst.x + 900, bg1.bossbgDst.y + 700, 0));
-				fb.push_back(new Bossf(bg1.bossbgDst.x + 900, bg1.bossbgDst.y + 1200, 0));
+				
+				fb.push_back(new Bossf(bg1.bossbgDst.x + 900 ,bg1.bossbgDst.y + 900, 2));
+				/*fb.push_back(new Bossf(bg1.bossbgDst.x + 600 ,bg1.bossbgDst.y + 1200, 2));
+				fb.push_back(new Bossf(bg1.bossbgDst.x + 300, bg1.bossbgDst.y + 700, 2));
+				fb.push_back(new Bossf(bg1.bossbgDst.x + 300, bg1.bossbgDst.y + 1200, 2));
+				fb.push_back(new Bossf(bg1.bossbgDst.x + 900, bg1.bossbgDst.y + 700, 2));
+				fb.push_back(new Bossf(bg1.bossbgDst.x + 900, bg1.bossbgDst.y + 1200, 2));*/
+				b.push_back(new Boss(bg1.bossbgDst.x + 300, bg1.bossbgDst.y + 900, 1));
 				fb.shrink_to_fit();
+				b.shrink_to_fit();			
+=======
+			b.clear();
+			fb.push_back(new Bossf(bg1.bossbgDst.x + 300 ,bg1.bossbgDst.y + 900, 0));
+			fb.push_back(new Bossf(bg1.bossbgDst.x + 900 ,bg1.bossbgDst.y + 900, 0));
+			fb.push_back(new Bossf(bg1.bossbgDst.x + 600 ,bg1.bossbgDst.y + 1200, 0));
+			fb.push_back(new Bossf(bg1.bossbgDst.x + 300, bg1.bossbgDst.y + 700, 0));
+			fb.push_back(new Bossf(bg1.bossbgDst.x + 300, bg1.bossbgDst.y + 1200, 0));
+			fb.push_back(new Bossf(bg1.bossbgDst.x + 900, bg1.bossbgDst.y + 700, 0));
+			fb.push_back(new Bossf(bg1.bossbgDst.x + 900, bg1.bossbgDst.y + 1200, 0));
+			b.push_back(new Boss(bg1.bossbgDst.x + 600, bg1.bossbgDst.y + 700, 2,2));
+			fb.shrink_to_fit();
+			b.shrink_to_fit();
 			
-			}				
+>>>>>>> Stashed changes
+		}				
 		
+	}
+	for (unsigned i = 0; i < b.size(); i++)
+	{
+		if (b[i]->getState() == 3)
+		{
+<<<<<<< Updated upstream
+			b.clear();
+			fb.clear();
+=======
+			shroom.push_back(new Shroom(bg1.bossbgDst.x + 300, bg1.bossbgDst.y + 650, 4));
+			shroom.push_back(new Shroom(bg1.bossbgDst.x + 600, bg1.bossbgDst.y + 1250, 4));
+			shroom.push_back(new Shroom(bg1.bossbgDst.x + 300, bg1.bossbgDst.y + 1400, 4));
+			shroom.push_back(new Shroom(bg1.bossbgDst.x + 900, bg1.bossbgDst.y + 900, 4));
+			shroom.push_back(new Shroom(bg1.bossbgDst.x + 900, bg1.bossbgDst.y + 1300, 4));
+			shroom.push_back(new Shroom(bg1.bossbgDst.x + 1200, bg1.bossbgDst.y + 1000, 4));
+			shroom.push_back(new Shroom(bg1.bossbgDst.x + 1200, bg1.bossbgDst.y + 1300, 4));
+			shroom.shrink_to_fit();
+			//b.clear();
+		}
+	}
+	for (unsigned i = 0; i < b.size(); i++)
+	{
+		for (unsigned j = 0; j < shroom.size(); j++)
+		{
+			if (b[i]->getState() == 5)
+			{
+				cout << "cleaning up" << endl;				
+				shroom.clear();				
+			}			
+		}		
+	}
+	for (unsigned i = 0; i < b.size(); i++)
+	{
+		if (b[i]->getState() == 6)
+		{
+			b.clear();
+			p1.push_back(new Plant(bg1.bossbgDst.x + 300, bg1.bossbgDst.y + 850, 1));
+			p2.push_back(new Plant(bg1.bossbgDst.x + 400, bg1.bossbgDst.y + 820, 2));
+			p3.push_back(new Plant(bg1.bossbgDst.x + 500, bg1.bossbgDst.y + 800, 2));
+			b.push_back(new Boss(bg1.bossbgDst.x + 1400, bg1.bossbgDst.y + 800, 1, 6));
+			cloud.push_back(new Cloud(b[i]->BossDst.x + 1400, b[i]->BossDst.y + 1400, 1, 6));
+			p1.shrink_to_fit();
+			p2.shrink_to_fit();
+			p3.shrink_to_fit();
+			b.shrink_to_fit();
+>>>>>>> Stashed changes
+		}
 	}
 	//cout << fb.size()<<endl;
 	
@@ -3100,6 +3186,54 @@ void BossState::Update()
 					fb.shrink_to_fit();
 					break;
 				}
+			}
+
+		}
+	}
+	for (unsigned i = 0; i < cloud.size(); i++)
+	{		
+		//if (isfreezeActive == false)
+			cloud[i]->Update();
+		for (unsigned j = 0; j < p1.size(); j++)
+		{
+			if (SDL_HasIntersection(&cloud[i]->cloudDst,&p1[j]->plantDst))
+			{
+				delete cloud[i];
+				cloud[i] = nullptr;
+				cloud.erase(cloud.begin() + i);
+				cloud.shrink_to_fit();
+			}
+			
+		}
+	}
+	for (unsigned i = 0; i < cloud.size(); i++)
+	{
+		//if (isfreezeActive == false)
+		cloud[i]->Update();
+		for (unsigned j = 0; j < p2.size(); j++)
+		{
+			if (SDL_HasIntersection(&cloud[i]->cloudDst, &p2[j]->plantDst))
+			{
+				delete cloud[i];
+				cloud[i] = nullptr;
+				cloud.erase(cloud.begin() + i);
+				cloud.shrink_to_fit();
+			}
+
+		}
+	}
+	for (unsigned i = 0; i < cloud.size(); i++)
+	{
+		//if (isfreezeActive == false)
+		cloud[i]->Update();
+		for (unsigned j = 0; j < p3.size(); j++)
+		{
+			if (SDL_HasIntersection(&cloud[i]->cloudDst, &p3[j]->plantDst))
+			{
+				delete cloud[i];
+				cloud[i] = nullptr;
+				cloud.erase(cloud.begin() + i);
+				cloud.shrink_to_fit();
 			}
 
 		}
@@ -3532,7 +3666,21 @@ void BossState::Render()
 		if (isfreezeActive == false)
 			SDL_RenderFillRect(Engine::Instance().GetRenderer(), &fb[i]->healthBar);*/
 	}
-
+	//big plant
+	for (unsigned i = 0; i < p1.size(); i++)
+	{
+		SDL_RenderCopy(Engine::Instance().GetRenderer(), plant1, &p1[i]->plantSrc, &p1[i]->plantDst);
+	}
+	//plant with 1 thingy
+	for (unsigned i = 0; i < p2.size(); i++)
+	{
+		SDL_RenderCopy(Engine::Instance().GetRenderer(), plant2, &p2[i]->plant2Src, &p2[i]->plant2Dst);
+	}
+	//plant with 2 thingy
+	for (unsigned i = 0; i < p3.size(); i++)
+	{
+		SDL_RenderCopy(Engine::Instance().GetRenderer(), plant3, &p3[i]->plant3Src, &p3[i]->plant3Dst);
+	}
 
 	//rock	
 	for (unsigned i = 0; i < playerpew.size(); i++)
@@ -3637,6 +3785,12 @@ void BossState::Exit()
 	b.shrink_to_fit();
 	fb.clear();
 	fb.shrink_to_fit();
+	p1.clear();
+	p1.shrink_to_fit();
+	p2.clear();
+	p2.shrink_to_fit();
+	p3.clear();
+	p3.shrink_to_fit();
 }
 
 void BossState::Resume()

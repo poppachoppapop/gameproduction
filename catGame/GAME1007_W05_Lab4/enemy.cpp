@@ -4,27 +4,48 @@
 #define PI 3.14159265 
 
 //Dumbie
-Boss::Boss(int x, int y,int h) :BossSrc({ 0,0,32,32 }), frameCtr(0), frameMax(6), spriteIdx(0), spriteMax(9)
+<<<<<<< Updated upstream
+Boss::Boss(int x, int y,int s) :BossSrc({ 0,0,32,32 }), frameCtr(0), frameMax(6), spriteIdx(0), spriteMax(9)
 {
 	HP = { 0,0,100,4 };
 	BossDst = { x,y, 125, 125 };
+	state = 0;	
+	attack1timer = 0;
 	
+=======
+Boss::Boss(int x, int y,int h,int s) :BossSrc({ 0,0,32,32 }), frameCtr(0), frameMax(6), spriteIdx(0), spriteMax(9)
+{
+	HP = { 0,0,100,4 };
+	BossDst = { x,y, 125, 125 };
+	state = s;
 	health = h;
 	maxHealth = h;
 	shootTimer = 0;
 	health = h;
 	maxHealth = h;
-	state = 0;
+	//state = 0;
 	//speed = 4;
 	///halt = 0;
 	attack1timer = 0;
+	attack2timer = 0;
+	attack3timer = 0;
 	//Mix_Volume(2, 12);
+>>>>>>> Stashed changes
 }
 
+void Boss::setState(int s)
+{
+	s = state;
+}
 
 int Boss::getState()
 {
 	return state;
+}
+
+void Boss::setState(int s)
+{
+	s = state;
 }
 
 void Boss::setHp(double h)
@@ -49,7 +70,7 @@ int Boss::getDir()
 
 void Boss::Update()
 {
-	if (state == 0||state == 2)
+	if (state == 0||state == 2|| state == 4)
 	{
 		spriteMax = 9;
 		if (spriteIdx > 9)
@@ -70,41 +91,90 @@ void Boss::Update()
 	healthBar.x = BossDst.x + 15;
 	healthBar.y = BossDst.y - 5;
 	//cout << attack1timer << endl;
-	attack1timer++;
-	if (attack1timer < 100) 
+	//attack1 
+	if (state == 0)
 	{
-		state = 0;		
-	}
-	if (attack1timer > 100)
-	{		
-		state = 1;
-		//attack1timer = 0;
-	}
-	if (attack1timer > 101)
-	{
-		state = 2;
-	}
-	if (attack1timer > 1000)
-	{
-		state = 0;
-		//attack1timer = 0;
-	}
-	
+		attack1timer++;
+		if (attack1timer < 100)
+		{
+			state = 0;
+		}
+		if (attack1timer > 100)//spawns clones
+		{
+			state = 1;
+			//attack1timer = 0;
+		}
 
+		if (attack1timer > 101)//attack 1 duration
+		{
+			state = 2;
+		}
+	}
+<<<<<<< Updated upstream
+	if (attack1timer > 300)
+=======
+	if (attack1timer > 1000)//resets attack 1
+>>>>>>> Stashed changes
+	{
+		state = 3;
+		attack1timer = 0;
+	}
+
+	//attack 2
+	
+	if (state == 3)//spawns mushrooms
+	{
+		
+		attack2timer++;
+		if (attack2timer > 1)
+		{
+			state = 4;
+			//attack2timer = 0;
+		}
+	}
+		if (state == 4)//attack 2 duration
+		{
+			attack2timer++;
+			if (attack2timer > 500)
+			{
+				state = 5;
+			}
+		}
+		if (state == 5)//resets attack 2
+		{
+			attack2timer++;
+			if (attack2timer > 505)
+			{
+				attack2timer = 0;
+				//state = 0;
+			}
+			
+		}
+		if (state == 6)
+		{
+			attack3timer++;
+			if (attack3timer > 1)
+			{
+				state = 7;
+			}
+		}
+	
+	
+	//cout << attack2timer << endl;
 	cout << state  << endl;
 
 }
 
-Bossf::Bossf(int x, int y, int h) :fBossSrc({ 0,0,32,32 }), frameCtr(0), frameMax(6), spriteIdx(0), spriteMax(9)
+Bossf::Bossf(int x, int y, int s) :fBossSrc({ 0,0,32,32 }), frameCtr(0), frameMax(6), spriteIdx(0), spriteMax(9)
 {
 	HP = { 0,0,100,4 };
 	fBossDst = { x,y, 125, 125 };
 
-	health = h;
-	maxHealth = h;
+	//health = h;
+	//maxHealth = h;
 	shootTimer = 0;
-	health = h;
-	maxHealth = h;
+	//health = h;
+	//maxHealth = h;
 	state = 0;
 	//speed = 4;
 	///halt = 0;
@@ -116,6 +186,10 @@ Bossf::Bossf(int x, int y, int h) :fBossSrc({ 0,0,32,32 }), frameCtr(0), frameMa
 int Bossf::getState()
 {
 	return state;
+}
+void Bossf::setState(int s)
+{
+	s = state;
 }
 
 void Bossf::setHp(double h)
@@ -165,6 +239,45 @@ void Bossf::Update()
 	//cout <<"fboss" << endl;
 
 }
+Plant::Plant(int x, int y, int h) :plantSrc({ 0,0,32,64 }), plant2Src({ 0,0,32,32 }), plant3Src({ 0,0,32,32 })
+{
+	HP = { 0,0,100,4 };
+	plantDst = { x,y, 64, 96 };
+	plant2Dst = { x,y, 64, 64 };
+	plant3Dst = { x,y, 64, 64 };
+	health = h;
+	maxHealth = h;
+	health = h;
+	maxHealth = h;
+	//Mix_Volume(2, 12);
+}
+
+int Plant::getState()
+{
+	return state;
+}
+
+void Plant::setHp(double h)
+{
+	h = health;
+}
+
+int Plant::getHp()
+{
+	return health;
+}
+
+
+void Plant::Update()
+{
+	
+	frames++;
+	healthBar.w = double(health / maxHealth) * 100;
+	healthBar.x = plantDst.x + 15;
+	healthBar.y = plantDst.y - 5;
+	
+}
+
 
 Enemy::Enemy(int x, int y, double h) :enemySrc({ 0,0,64,64 })
 {
