@@ -323,6 +323,7 @@ public:
 private:
 	//attack3 for boss cloud stuff
 	int shootTimer = 0;
+	int speed = 20;
 	vector<Boss*> b;//real boss 
 	vector<Bossf*> fb;//fake boss
 	vector<Plant*> p1;//big plant 
