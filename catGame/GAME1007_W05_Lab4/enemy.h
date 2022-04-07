@@ -23,14 +23,22 @@ private:
 	int shootTimer;
 	int halt;
 	int attack1timer;
+	int attack2timer;
+	int attack3timer;
+	int attack4timer;
 	int randNum;
 
 public:
 	SDL_Rect BossSrc, BossDst;
 	SDL_Rect HP;//white hp
 	SDL_Rect healthBar;
+<<<<<<< Updated upstream
 	Boss(int x, int y,int s);
+=======
+	Boss(int x, int y,int h,int s);
+>>>>>>> Stashed changes
 	Uint16 frames = 0;
+	void setState(int s);
 	int getState();
 	void setState(int s);
 	void setHp(double h);
@@ -67,6 +75,26 @@ public:
 	int getShootTimer();
 	int getDir();
 	void Update();
+};
+class Plant
+{
+private:
+	int state;
+	double health;
+	double maxHealth;
+public:
+	SDL_Rect plantSrc, plantDst;
+	SDL_Rect plant2Src, plant2Dst;
+	SDL_Rect plant3Src, plant3Dst;
+	SDL_Rect HP;//white hp
+	SDL_Rect healthBar;
+	Plant(int x, int y, int h);
+	Uint16 frames = 0;
+	int getState();
+	void setHp(double h);
+	int getHp();
+	void Update();
+
 };
 class Cloud
 {

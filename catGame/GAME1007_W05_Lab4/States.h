@@ -323,9 +323,9 @@ public:
 private:
 	vector<Boss*> b;//real boss 
 	vector<Bossf*> fb;//fake boss
-	vector<Boss*> p1;//big plant 
-	vector<Boss*> p2;//plant with 1 thingy
-	vector<Boss*> p3;//plant with 2 thingy
+	vector<Plant*> p1;//big plant 
+	vector<Plant*> p2;//plant with 1 thingy
+	vector<Plant*> p3;//plant with 2 thingy
 	
 	
 
