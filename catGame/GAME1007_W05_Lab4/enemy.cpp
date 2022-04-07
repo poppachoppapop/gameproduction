@@ -102,15 +102,18 @@ void Boss::Update()
 		}
 	}
 
-	if (attack1timer > 300)
-
-	if (attack1timer > 1000)//resets attack 1
-
+	//if (attack1timer > 300)
+	if (state == 2)
 	{
-		state = 3;
-		attack1timer = 0;
-	}
+		attack1timer++;
+		if (attack1timer > 500)//resets attack 1
+		{
+			state = 3;
+			//attack1timer = 0;
+		}
 
+	}
+	
 	//attack 2
 	
 	if (state == 3)//spawns mushrooms
@@ -136,8 +139,8 @@ void Boss::Update()
 			attack2timer++;
 			if (attack2timer > 505)
 			{
-				attack2timer = 0;
-				//state = 0;
+				//attack2timer = 0;
+				state = 6;
 			}
 			
 		}
@@ -145,15 +148,25 @@ void Boss::Update()
 		if (state == 6)
 		{
 			attack3timer++;
-			if (attack3timer > 1)
+			if (attack3timer > 100)
 			{				
 				state = 7;
+				//attack3timer = 0;
 			}
+			
+			
 		}
 
 		if (state == 7)
 		{
-			
+			attack3timer++;
+			if (attack3timer > 500)
+			{
+				attack3timer = 0;
+				attack2timer = 0;
+				attack1timer = 0;
+				state = 0;
+			}
 			//BossDst.x -= speed;			
 		}
 		
@@ -167,17 +180,12 @@ Bossf::Bossf(int x, int y, int s) :fBossSrc({ 0,0,32,32 }), frameCtr(0), frameMa
 {
 	HP = { 0,0,100,4 };
 	fBossDst = { x,y, 125, 125 };
-
-	//health = h;
-	//maxHealth = h;
-	shootTimer = 0;
-	//health = h;
-	//maxHealth = h;
-	state = 0;
-	//speed = 4;
-	///halt = 0;
-	//attack1timer = 0;
-	//Mix_Volume(2, 12);
+	attack1timer = 0;
+	attack2timer = 0;
+	attack3timer = 0;	
+	shootTimer = 0;	
+	state = s;
+	
 }
 
 
@@ -212,7 +220,7 @@ int Bossf::getDir()
 
 void Bossf::Update()
 {
-	if (state == 0)
+	if (state == 0 || state == 7)
 	{
 		spriteMax = 9;
 		if (spriteIdx > 9)
@@ -231,6 +239,31 @@ void Bossf::Update()
 	healthBar.w = double(health / maxHealth) * 100;
 	healthBar.x = fBossDst.x + 15;
 	healthBar.y = fBossDst.y - 5;
+	
+	if (state == 6)
+	{		
+		attack3timer++;
+		if (attack3timer > 100)
+		{
+			state = 7;
+			//attack3timer = 0;
+		}
+
+
+	}
+	
+	if (state == 7)
+	{		
+		attack3timer++;
+		if (attack3timer > 500)
+		{
+			attack3timer = 0;
+			state = 1;
+		}
+		//BossDst.x -= speed;			
+	}
+	//cout << attack3timer << endl;
+	//cout << state  << endl;
 	//cout << attack1timer << endl;
 	//attack1timer++;
 	//cout << state  << endl;
@@ -240,9 +273,9 @@ void Bossf::Update()
 Plant::Plant(int x, int y, int h) :plantSrc({ 0,0,32,64 }), plant2Src({ 0,0,32,32 }), plant3Src({ 0,0,32,32 })
 {
 	HP = { 0,0,100,4 };
-	plantDst = { x,y, 64, 96 };
-	plant2Dst = { x,y, 64, 64 };
-	plant3Dst = { x,y, 64, 64 };
+	plantDst = { x,y, 96, 128 };
+	plant2Dst = { x,y, 96, 96 };
+	plant3Dst = { x,y, 96, 96 };
 	health = h;
 	maxHealth = h;
 	health = h;

@@ -52,11 +52,13 @@ private:
 	int dir;
 	double health;
 	double maxHealth;
-
+	int attack1timer;
+	int attack2timer;
+	int attack3timer;
+	int attack4timer;
 	double speed;
 	int shootTimer;
 	int halt;
-	int attack1timer;
 	int randNum;
 
 public:
