@@ -3,16 +3,9 @@
 #include <iostream>
 #define PI 3.14159265 
 
-//Dumbie
-<<<<<<< Updated upstream
-Boss::Boss(int x, int y,int s) :BossSrc({ 0,0,32,32 }), frameCtr(0), frameMax(6), spriteIdx(0), spriteMax(9)
-{
-	HP = { 0,0,100,4 };
-	BossDst = { x,y, 125, 125 };
-	state = 0;	
-	attack1timer = 0;
-	
-=======
+
+
+
 Boss::Boss(int x, int y,int h,int s) :BossSrc({ 0,0,32,32 }), frameCtr(0), frameMax(6), spriteIdx(0), spriteMax(9)
 {
 	HP = { 0,0,100,4 };
@@ -30,7 +23,7 @@ Boss::Boss(int x, int y,int h,int s) :BossSrc({ 0,0,32,32 }), frameCtr(0), frame
 	attack2timer = 0;
 	attack3timer = 0;
 	//Mix_Volume(2, 12);
->>>>>>> Stashed changes
+
 }
 
 void Boss::setState(int s)
@@ -43,10 +36,7 @@ int Boss::getState()
 	return state;
 }
 
-void Boss::setState(int s)
-{
-	s = state;
-}
+
 
 void Boss::setHp(double h)
 {
@@ -110,11 +100,11 @@ void Boss::Update()
 			state = 2;
 		}
 	}
-<<<<<<< Updated upstream
+
 	if (attack1timer > 300)
-=======
+
 	if (attack1timer > 1000)//resets attack 1
->>>>>>> Stashed changes
+
 	{
 		state = 3;
 		attack1timer = 0;
@@ -150,6 +140,7 @@ void Boss::Update()
 			}
 			
 		}
+
 		if (state == 6)
 		{
 			attack3timer++;

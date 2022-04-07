@@ -3016,8 +3016,8 @@ void BossState::Enter()
 	Mix_Volume(-1, 50);
 	//Mix_Volume(2, 12);
 	//b.push_back(new Boss(bg1.bossbgDst.x+ 600, bg1.bossbgDst.y + 600,1,0));//attack1
-	//b.push_back(new Boss(bg1.bossbgDst.x+ 600, bg1.bossbgDst.y + 600,1,3));//attack2
-	b.push_back(new Boss(bg1.bossbgDst.x+ 600, bg1.bossbgDst.y + 600,1,0));//attack3
+	b.push_back(new Boss(bg1.bossbgDst.x+ 600, bg1.bossbgDst.y + 600,1,3));//attack2
+	//b.push_back(new Boss(bg1.bossbgDst.x+ 600, bg1.bossbgDst.y + 600,1,6));//attack3
 	b.shrink_to_fit();
 }
 
@@ -3058,6 +3058,7 @@ void BossState::Update()
 	}
 	for (unsigned i = 0; i < cloud.size(); i++)
 	{
+		cloud[i]->Update();
 		cloud[i]->cloudDst.x -= speedx;
 		cloud[i]->cloudDst.y -= speedy;
 	}
@@ -3066,19 +3067,7 @@ void BossState::Update()
 	{
 		if (b[i]->getState() == 1)
 		{
-<<<<<<< Updated upstream
-			    b.clear();
-				
-				fb.push_back(new Bossf(bg1.bossbgDst.x + 900 ,bg1.bossbgDst.y + 900, 2));
-				/*fb.push_back(new Bossf(bg1.bossbgDst.x + 600 ,bg1.bossbgDst.y + 1200, 2));
-				fb.push_back(new Bossf(bg1.bossbgDst.x + 300, bg1.bossbgDst.y + 700, 2));
-				fb.push_back(new Bossf(bg1.bossbgDst.x + 300, bg1.bossbgDst.y + 1200, 2));
-				fb.push_back(new Bossf(bg1.bossbgDst.x + 900, bg1.bossbgDst.y + 700, 2));
-				fb.push_back(new Bossf(bg1.bossbgDst.x + 900, bg1.bossbgDst.y + 1200, 2));*/
-				b.push_back(new Boss(bg1.bossbgDst.x + 300, bg1.bossbgDst.y + 900, 1));
-				fb.shrink_to_fit();
-				b.shrink_to_fit();			
-=======
+  
 			b.clear();
 			fb.push_back(new Bossf(bg1.bossbgDst.x + 300 ,bg1.bossbgDst.y + 900, 0));
 			fb.push_back(new Bossf(bg1.bossbgDst.x + 900 ,bg1.bossbgDst.y + 900, 0));
@@ -3091,7 +3080,7 @@ void BossState::Update()
 			fb.shrink_to_fit();
 			b.shrink_to_fit();
 			
->>>>>>> Stashed changes
+
 		}				
 		
 	}
@@ -3099,10 +3088,10 @@ void BossState::Update()
 	{
 		if (b[i]->getState() == 3)
 		{
-<<<<<<< Updated upstream
+
 			b.clear();
 			fb.clear();
-=======
+
 			shroom.push_back(new Shroom(bg1.bossbgDst.x + 300, bg1.bossbgDst.y + 650, 4));
 			shroom.push_back(new Shroom(bg1.bossbgDst.x + 600, bg1.bossbgDst.y + 1250, 4));
 			shroom.push_back(new Shroom(bg1.bossbgDst.x + 300, bg1.bossbgDst.y + 1400, 4));
@@ -3139,7 +3128,7 @@ void BossState::Update()
 			p2.shrink_to_fit();
 			p3.shrink_to_fit();
 			b.shrink_to_fit();
->>>>>>> Stashed changes
+
 		}
 	}
 	//cout << fb.size()<<endl;
@@ -3190,10 +3179,10 @@ void BossState::Update()
 
 		}
 	}
+	//plant1 for attack 3
 	for (unsigned i = 0; i < cloud.size(); i++)
 	{		
 		//if (isfreezeActive == false)
-			cloud[i]->Update();
 		for (unsigned j = 0; j < p1.size(); j++)
 		{
 			if (SDL_HasIntersection(&cloud[i]->cloudDst,&p1[j]->plantDst))
@@ -3206,10 +3195,10 @@ void BossState::Update()
 			
 		}
 	}
+	//plant 2 for attack 3
 	for (unsigned i = 0; i < cloud.size(); i++)
 	{
-		//if (isfreezeActive == false)
-		cloud[i]->Update();
+		//if (isfreezeActive == false
 		for (unsigned j = 0; j < p2.size(); j++)
 		{
 			if (SDL_HasIntersection(&cloud[i]->cloudDst, &p2[j]->plantDst))
@@ -3222,10 +3211,10 @@ void BossState::Update()
 
 		}
 	}
+	//plant 3 for attack 3
 	for (unsigned i = 0; i < cloud.size(); i++)
 	{
 		//if (isfreezeActive == false)
-		cloud[i]->Update();
 		for (unsigned j = 0; j < p3.size(); j++)
 		{
 			if (SDL_HasIntersection(&cloud[i]->cloudDst, &p3[j]->plantDst))
@@ -3352,10 +3341,8 @@ void BossState::Update()
 		// shroom cloud
 		for (unsigned i = 0; i < cloud.size(); i++)
 		{
-			cloud[i]->cloudDst.x -= speedx;
-			cloud[i]->cloudDst.y -= speedy;
+			
 			if (isfreezeActive == false)
-				cloud[i]->Update();
 			if (Util::distanceOffset(plr1.plrDst, cloud[i]->cloudDst) < 100) {
 				plr1.takeDamage(0.5);
 				delete cloud[i];

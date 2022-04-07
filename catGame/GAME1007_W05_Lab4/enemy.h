@@ -4,12 +4,12 @@
 #include "engine.h"
 #include "Util.h"
 
-#define MOVESPEED
+//#define MOVESPEED
 //#define FROGSPEED 2
-#define SHROOM 1//shroom spore move speed 
-#define FROGATTACK 7
-#define ATTACKRATE 3
-#define CLOUDRATE 8 //shroom spore spawn rate
+//#define SHROOM 1//shroom spore move speed 
+//#define FROGATTACK 7
+//#define ATTACKRATE 3
+//#define CLOUDRATE 8 //shroom spore spawn rate
 class Boss
 {
 private:
@@ -32,15 +32,12 @@ public:
 	SDL_Rect BossSrc, BossDst;
 	SDL_Rect HP;//white hp
 	SDL_Rect healthBar;
-<<<<<<< Updated upstream
-	Boss(int x, int y,int s);
-=======
+
 	Boss(int x, int y,int h,int s);
->>>>>>> Stashed changes
+
 	Uint16 frames = 0;
 	void setState(int s);
 	int getState();
-	void setState(int s);
 	void setHp(double h);
 	int getHp();
 	int getShootTimer();
