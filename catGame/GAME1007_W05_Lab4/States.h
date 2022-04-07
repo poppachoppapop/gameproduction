@@ -321,6 +321,8 @@ public:
 	virtual void Exit();
 	virtual void Resume();
 private:
+	//attack3 for boss cloud stuff
+	int shootTimer = 0;
 	vector<Boss*> b;//real boss 
 	vector<Bossf*> fb;//fake boss
 	vector<Plant*> p1;//big plant 

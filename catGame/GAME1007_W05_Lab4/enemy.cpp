@@ -17,7 +17,8 @@ Boss::Boss(int x, int y,int h,int s) :BossSrc({ 0,0,32,32 }), frameCtr(0), frame
 	health = h;
 	maxHealth = h;
 	//state = 0;
-	//speed = 4;
+	speed = 4;
+	speedx = 5;
 	///halt = 0;
 	attack1timer = 0;
 	attack2timer = 0;
@@ -60,7 +61,7 @@ int Boss::getDir()
 
 void Boss::Update()
 {
-	if (state == 0||state == 2|| state == 4)
+	if (state == 0||state == 2|| state == 4||state == 6||state == 7)
 	{
 		spriteMax = 9;
 		if (spriteIdx > 9)
@@ -145,13 +146,19 @@ void Boss::Update()
 		{
 			attack3timer++;
 			if (attack3timer > 1)
-			{
+			{				
 				state = 7;
 			}
 		}
+
+		if (state == 7)
+		{
+			
+			//BossDst.x -= speed;			
+		}
+		
 	
-	
-	//cout << attack2timer << endl;
+	//cout << attack3timer << endl;
 	cout << state  << endl;
 
 }
@@ -297,10 +304,10 @@ void Enemy::update()
 
 
 //DragonFly
-DragonFly::DragonFly(int x, int y, double h) : flySrc({ 0,0,32,32 }), frameCtr(0), frameMax(3), spriteIdx(0), spriteMax(3)
+DragonFly::DragonFly(int x, int y, double h) : flySrc({ 0,0,32,16 }), frameCtr(0), frameMax(3), spriteIdx(0), spriteMax(3)
 {
 	HP = { 0,0,100,4 };
-	flyDst = { x, y, 128, 128 };
+	flyDst = { x, y, 128, 64 };
 	healthBar = { x, y , 50, 5 };
 	health = h;
 	maxHealth = h;
@@ -590,6 +597,7 @@ Cloud::Cloud(int x, int y, int s, char d):cloudSrc({ 0,0,16,16 })
 	cloudDst = { x,y,32,32 };	
 	speed = s;
 	dir = d;
+	shootTimer = 0;
 }
 
 void Cloud::Update()
@@ -598,5 +606,7 @@ void Cloud::Update()
 		cloudDst.x += speed;
 	if (dir == 'y')
 		cloudDst.y += speed;
-
+	shootTimer++;
+	//cout << shootTimer << endl;
+	
 }

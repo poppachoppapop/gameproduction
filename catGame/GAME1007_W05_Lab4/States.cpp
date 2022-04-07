@@ -3016,8 +3016,8 @@ void BossState::Enter()
 	Mix_Volume(-1, 50);
 	//Mix_Volume(2, 12);
 	//b.push_back(new Boss(bg1.bossbgDst.x+ 600, bg1.bossbgDst.y + 600,1,0));//attack1
-	b.push_back(new Boss(bg1.bossbgDst.x+ 600, bg1.bossbgDst.y + 600,1,3));//attack2
-	//b.push_back(new Boss(bg1.bossbgDst.x+ 600, bg1.bossbgDst.y + 600,1,6));//attack3
+	//b.push_back(new Boss(bg1.bossbgDst.x+ 600, bg1.bossbgDst.y + 600,1,3));//attack2
+	b.push_back(new Boss(bg1.bossbgDst.x+ 600, bg1.bossbgDst.y + 600,1,6));//attack3
 	b.shrink_to_fit();
 }
 
@@ -3114,6 +3114,7 @@ void BossState::Update()
 			}			
 		}		
 	}
+	
 	for (unsigned i = 0; i < b.size(); i++)
 	{
 		if (b[i]->getState() == 6)
@@ -3123,14 +3124,37 @@ void BossState::Update()
 			p2.push_back(new Plant(bg1.bossbgDst.x + 400, bg1.bossbgDst.y + 820, 2));
 			p3.push_back(new Plant(bg1.bossbgDst.x + 500, bg1.bossbgDst.y + 800, 2));
 			b.push_back(new Boss(bg1.bossbgDst.x + 1400, bg1.bossbgDst.y + 800, 1, 6));
-			cloud.push_back(new Cloud(b[i]->BossDst.x + 1400, b[i]->BossDst.y + 1400, 1, 6));
 			p1.shrink_to_fit();
 			p2.shrink_to_fit();
 			p3.shrink_to_fit();
 			b.shrink_to_fit();
-
+			
 		}
 	}
+	shootTimer++;
+	if (shootTimer > 10)
+	{
+		shootTimer = 0;
+	}
+	
+		for (unsigned i = 0; i < b.size(); i++)
+		{
+			if (shootTimer == 0)
+			{
+				if (b[i]->getState() == 6)
+				{
+					//b[i]->BossDst.x -= speedx;
+					cout << "working" << endl;
+					cloud.push_back(new Cloud(b[i]->BossDst.x, b[i]->BossDst.y, 5, 'y'));
+					cloud.shrink_to_fit();
+
+				}
+			}
+		}
+	
+	
+	
+	
 	//cout << fb.size()<<endl;
 	
 	for (unsigned i = 0; i < playerpew.size(); i++)

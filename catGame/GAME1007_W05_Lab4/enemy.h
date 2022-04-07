@@ -18,7 +18,7 @@ private:
 	int dir;
 	double health;
 	double maxHealth;
-	
+	int speedx;
 	double speed;
 	int shootTimer;
 	int halt;
@@ -103,6 +103,8 @@ public:
 	void Update();
 	char dir;
 	int speed;
+	int shootTimer;
+	int state;
 	
 };
 class Enemy
