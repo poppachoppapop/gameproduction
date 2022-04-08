@@ -2990,6 +2990,7 @@ void BossState::Enter()
 	plant2 = IMG_LoadTexture(Engine::Instance().GetRenderer(), "art/plant2.png");
 	plant3 = IMG_LoadTexture(Engine::Instance().GetRenderer(), "art/plant3.png");
 	ShroomTxtr = IMG_LoadTexture(Engine::Instance().GetRenderer(), "art/mushroom.png");
+	bossShroomTxtr = IMG_LoadTexture(Engine::Instance().GetRenderer(), "art/bossmushroom.png");
 	stepSfx = Mix_LoadWAV("sfx/step.wav");
 	turnSfx = Mix_LoadWAV("sfx/turn.wav");
 	deathSfx = Mix_LoadWAV("sfx/dedEnemy.wav");
@@ -3019,11 +3020,18 @@ void BossState::Enter()
 	//b.push_back(new Boss(bg1.bossbgDst.x+ 600, bg1.bossbgDst.y + 600,1,3));//attack2
 	//b.push_back(new Boss(bg1.bossbgDst.x+ 600, bg1.bossbgDst.y + 800,1,6));//attack3
 	b.shrink_to_fit();
+
+	
 }
 
 void BossState::Update()
 {
-	
+	stepSoundTimer++; turnSoundTimer++;
+	dashCooldown++;
+	plr1.Update();
+	theEnd.Update();
+	rockCooldown++;
+	spcooldown++;
 	//freeze
 	bg1.bossbgDst.x -= speedx;
 	bg1.bossbgDst.y -= speedy;
@@ -3063,6 +3071,12 @@ void BossState::Update()
 		cloud[i]->cloudDst.x -= speedx;
 		cloud[i]->cloudDst.y -= speedy;
 	}
+	for (unsigned i = 0; i < shroom2.size(); i++)
+	{
+		shroom2[i]->Update();
+		shroom2[i]->shroom2Dst.x -= speedx;
+		shroom2[i]->shroom2Dst.y -= speedy;
+	}
 
 	
 	for (unsigned i = 0; i < b.size(); i++)
@@ -3081,7 +3095,7 @@ void BossState::Update()
 			fb.push_back(new Bossf(bg1.bossbgDst.x + 300, bg1.bossbgDst.y + 1200, 0));
 			fb.push_back(new Bossf(bg1.bossbgDst.x + 900, bg1.bossbgDst.y + 700, 0));
 			fb.push_back(new Bossf(bg1.bossbgDst.x + 900, bg1.bossbgDst.y + 1200, 0));
-			b.push_back(new Boss(bg1.bossbgDst.x + 600, bg1.bossbgDst.y + 700, 2,2));
+			b.push_back(new Boss(bg1.bossbgDst.x + 600, bg1.bossbgDst.y + 700,5,2));
 			fb.shrink_to_fit();
 			b.shrink_to_fit();
 			
@@ -3093,7 +3107,7 @@ void BossState::Update()
 	{
 		if (b[i]->getState() == 3)
 		{
-
+			shroom2.clear();
 			b.clear();
 			fb.clear();
 			shroom.push_back(new Shroom(bg1.bossbgDst.x + 300, bg1.bossbgDst.y + 650, 4));
@@ -3103,7 +3117,7 @@ void BossState::Update()
 			shroom.push_back(new Shroom(bg1.bossbgDst.x + 900, bg1.bossbgDst.y + 1300, 4));
 			shroom.push_back(new Shroom(bg1.bossbgDst.x + 1200, bg1.bossbgDst.y + 1000, 4));
 			shroom.push_back(new Shroom(bg1.bossbgDst.x + 1200, bg1.bossbgDst.y + 1300, 4));
-			b.push_back(new Boss(bg1.bossbgDst.x + 600, bg1.bossbgDst.y + 600, 1, 4));//attack1
+			b.push_back(new Boss(bg1.bossbgDst.x + 600, bg1.bossbgDst.y + 600, 1, 4));//attack2
 			shroom.shrink_to_fit();
 			//b.clear();
 		}
@@ -3124,6 +3138,7 @@ void BossState::Update()
 		{
 			if (b[i]->getState() == 6)
 			{
+				shroom2.clear();
 				b.clear();
 				fb.clear();
 				p1.push_back(new Plant(bg1.bossbgDst.x + 800, bg1.bossbgDst.y + 1050, 1));
@@ -3190,26 +3205,39 @@ void BossState::Update()
 			{
 				if (SDL_HasIntersection(&playerpew[i]->rockDst, &b[j]->BossDst)) //AABB Check
 				{
+					cout << "ow" << endl;
 					Mix_PlayChannel(-1, hurtSfx, 0);
 					delete playerpew[i];
 					playerpew[i] = nullptr;
 					playerpew.erase(playerpew.begin() + i);
-					playerpew.shrink_to_fit();
-					delete b[j];
-					b[j] = nullptr;
-					b.erase(b.begin() + j);
-					b.shrink_to_fit();
+					playerpew.shrink_to_fit();	
+					b[j]->setHp(b[j]->getHp() - playerDamage);
 					break;
 				}
+				if (b[j]->getHp() <= 0)
+				{
+					spawnTimer++;
+					if (spawnTimer == 1)
+					{
+						shroom2.push_back(new Shroom2(bg1.bossbgDst.x + 600, bg1.bossbgDst.y + 800, 5));
+						shroom2.shrink_to_fit();
+					}
+
+				}
+
 			}
 			
 		}
+	}
+	for (unsigned j = 0; j < b.size(); j++)
+	{
+		
 	}
 	for (unsigned i = 0; i < playerpew.size(); i++)
 	{
 		for (unsigned j = 0; j < fb.size(); j++)
 		{
-			//if (fb[j]->getState() == 2)
+			if (fb[j]->getState() == 2)
 			{
 				if (SDL_HasIntersection(&playerpew[i]->rockDst, &fb[j]->fBossDst)) //AABB Check
 				{
@@ -3339,7 +3367,40 @@ void BossState::Update()
 				}
 			}
 		}
+		//blue shroom
+		for (unsigned i = 0; i < playerpew.size(); i++)
+		{
+			for (unsigned j = 0; j < shroom2.size(); j++)
+			{
+				if (SDL_HasIntersection(&playerpew[i]->rockDst, &shroom2[j]->shroom2Dst)) //AABB Check
+				{
+					Mix_PlayChannel(-1, hurtSfx, 0);
+					delete playerpew[i];
+					playerpew[i] = nullptr;
+					playerpew.erase(playerpew.begin() + i);
+					playerpew.shrink_to_fit();
+					//set dumbie hp	
+					if (isfreezeActive == false)
+					theEnd.takeDamage(1);
+					shroom2[j]->setHp(shroom2[j]->getHp() - playerDamage);
+					break;
+				}
+			}
+		}
 
+		for (unsigned i = 0; i < shroom2.size(); i++)
+		{
+			if (shroom2[i]->getHp() <= 0)
+			{
+				plr1.points(10);
+				Mix_PlayChannel(-1, deathSfx, 0);
+				delete shroom2[i];
+				shroom2[i] = nullptr;
+				shroom2.erase(shroom2.begin() + i);
+				shroom2.shrink_to_fit();
+
+			}
+		}
 		//shroom
 		for (unsigned i = 0; i < shroom.size(); i++)
 		{
@@ -3367,6 +3428,7 @@ void BossState::Update()
 				shroom.shrink_to_fit();
 				
 			}
+			
 		}
 		// shroom cloud
 		for (unsigned i = 0; i < cloud.size(); i++)
@@ -3425,11 +3487,7 @@ void BossState::Update()
 			Mix_PauseMusic();
 		}
 
-		stepSoundTimer++; turnSoundTimer++;
-		dashCooldown++;
-		plr1.Update();
-		rockCooldown++;
-		spcooldown++;
+		
 
 		if (Engine::Instance().KeyDown(SDL_SCANCODE_R))
 		{
@@ -3732,6 +3790,15 @@ void BossState::Render()
 		if (isfreezeActive == false)
 			SDL_RenderFillRect(Engine::Instance().GetRenderer(), &shroom[i]->healthBar);
 	}
+	for (unsigned i = 0; i < shroom2.size(); i++)
+	{
+		SDL_RenderCopy(Engine::Instance().GetRenderer(), bossShroomTxtr, &shroom2[i]->shroom2Src, &shroom2[i]->shroom2Dst);
+		//health bar				
+		//SDL_SetRenderDrawColor(Engine::Instance().GetRenderer(), 255, 255, 255, 255);
+				SDL_SetRenderDrawColor(Engine::Instance().GetRenderer(), 255, 0, 0, 255);
+		//if (isfreezeActive == false)
+		//SDL_RenderFillRect(Engine::Instance().GetRenderer(), &shroom2[i]->healthBar);
+	}
 	for (unsigned i = 0; i < cloud.size(); i++)
 	{
 		SDL_RenderCopy(Engine::Instance().GetRenderer(), cloudtxtr,
@@ -3754,11 +3821,17 @@ void BossState::Render()
 
 	if (spcooldown > 200)
 		SDL_RenderCopy(Engine::Instance().GetRenderer(), aoe, &aoeSrc, &aoeDst);
+	//plr hp
 	SDL_SetRenderDrawColor(Engine::Instance().GetRenderer(), 0, 0, 0, 255);
 	SDL_RenderFillRect(Engine::Instance().GetRenderer(), &plr1.hpborder);
 	SDL_SetRenderDrawColor(Engine::Instance().GetRenderer(), 255, 0, 0, 255);
 	SDL_RenderFillRect(Engine::Instance().GetRenderer(), &plr1.plrHpBar);
 
+	//boss hp
+	SDL_SetRenderDrawColor(Engine::Instance().GetRenderer(), 0, 0, 0, 255);
+	SDL_RenderFillRect(Engine::Instance().GetRenderer(), &theEnd.hpborder);
+	SDL_SetRenderDrawColor(Engine::Instance().GetRenderer(), 255, 0, 0, 255);
+	SDL_RenderFillRect(Engine::Instance().GetRenderer(), &theEnd.hpbar);
 
 	SDL_SetRenderDrawColor(Engine::Instance().GetRenderer(), 0, 0, 0, fadeMod);
 	SDL_RenderFillRect(Engine::Instance().GetRenderer(), &blackRect);
@@ -3773,6 +3846,7 @@ void BossState::Exit()
 	SDL_DestroyTexture(plrTxtr);
 	SDL_DestroyTexture(rockTxtr);
 	SDL_DestroyTexture(ShroomTxtr);
+	SDL_DestroyTexture(bossShroomTxtr);
 	SDL_DestroyTexture(DragonFlyTxt);
 	SDL_DestroyTexture(vineTexture);
 	SDL_DestroyTexture(FrogTxtr);

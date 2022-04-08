@@ -10,6 +10,16 @@
 //#define FROGATTACK 7
 //#define ATTACKRATE 3
 //#define CLOUDRATE 8 //shroom spore spawn rate
+class Bosshp
+{
+public:
+	Bosshp();
+	double bosshp, bossmaxhp;
+	void Update();
+	void takeDamage(double howMuch);
+	void Regenerate(double howMuch);
+	SDL_Rect hpbar,hpborder;
+};
 class Boss
 {
 private:
@@ -74,6 +84,26 @@ public:
 	int getShootTimer();
 	int getDir();
 	void Update();
+};
+class Shroom2
+{
+private:
+	unsigned short frameCtr, frameMax, spriteIdx, spriteMin, spriteMax;
+	int state;
+	double health;
+	double maxHealth;
+public:
+	int shootTimer;
+	
+	SDL_Rect HP;//white hp
+	SDL_Rect shroom2Src, shroom2Dst, healthBar;
+	Shroom2(int x, int y, int h);
+	Uint16 frames = 0;
+	void setHp(double h);
+	int getHp();
+	void Update();
+	//void resetFrames();
+
 };
 class Plant
 {

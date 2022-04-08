@@ -2,28 +2,45 @@
 #include <cmath>
 #include <iostream>
 #define PI 3.14159265 
+Bosshp::Bosshp()
+{
+	hpbar = { 600 ,10 ,200, 25 };
+	hpborder = { 595,7,408,31 };
+	bosshp = 10;
+	bossmaxhp = 5;
+}
 
+void Bosshp::Update()
+{	
+	hpbar.w = double(bosshp / bossmaxhp) * 200;
+}
 
+void Bosshp::takeDamage(double howMuch)
+{ 
+	bosshp -= howMuch;
+}
+
+void Bosshp::Regenerate(double howMuch)
+{
+
+	bosshp += howMuch;
+}
 
 
 Boss::Boss(int x, int y,int h,int s) :BossSrc({ 0,0,32,32 }), frameCtr(0), frameMax(6), spriteIdx(0), spriteMax(9)
 {
 	HP = { 0,0,100,4 };
 	BossDst = { x,y, 125, 125 };
+	healthBar = { x, y , 50, 5 };
 	state = s;
 	health = h;
 	maxHealth = h;
 	shootTimer = 0;
-	health = h;
-	maxHealth = h;
-	//state = 0;
 	speed = 4;
 	speedx = 5;
-	///halt = 0;
 	attack1timer = 0;
 	attack2timer = 0;
 	attack3timer = 0;
-	//Mix_Volume(2, 12);
 
 }
 
@@ -38,10 +55,9 @@ int Boss::getState()
 }
 
 
-
 void Boss::setHp(double h)
 {
-	h = health;
+	health = h;
 }
 
 int Boss::getHp()
@@ -77,10 +93,11 @@ void Boss::Update()
 		}
 	}
 	
-	frames++;
+	
 	healthBar.w = double(health / maxHealth) * 100;
 	healthBar.x = BossDst.x + 15;
 	healthBar.y = BossDst.y - 5;
+	frames++;
 	//cout << attack1timer << endl;
 	//attack1 
 	if (state == 0)
@@ -170,9 +187,9 @@ void Boss::Update()
 			//BossDst.x -= speed;			
 		}
 		
-	
+	//cout << health << endl;
 	//cout << attack3timer << endl;
-	cout << state  << endl;
+	//cout << state  << endl;
 
 }
 
@@ -270,6 +287,53 @@ void Bossf::Update()
 	//cout <<"fboss" << endl;
 
 }
+Shroom2::Shroom2(int x, int y, int h) : shroom2Src({ 0,0,32,32 }), frameCtr(0), frameMax(4), spriteIdx(0), spriteMax(4)
+{
+	HP = { 0,0,100,4 };
+	shroom2Dst = { x,y,128,128 };
+	healthBar = { 200 ,10 ,200, 10 };
+	health = h;
+	maxHealth = h;
+	state = 0;
+	shootTimer = 0;
+}
+
+void Shroom2::setHp(double h)
+{
+	health = h;
+}
+
+int Shroom2::getHp()
+{
+	return health;
+}
+
+void Shroom2::Update()
+{
+	if (state == 0)
+	{
+		spriteMax = 4;
+		if (spriteIdx > 4)
+			spriteIdx = 0;
+		if (frameCtr++ == frameMax)
+		{
+			frameCtr = 0;
+			if (++spriteIdx == spriteMax)
+			{
+				spriteIdx = 0;
+			}
+			shroom2Src.x = 0 + shroom2Src.w * spriteIdx;
+		}
+	}
+	HP.x = shroom2Dst.x + 5;
+	HP.y = shroom2Dst.y - 5;
+	healthBar.w = double(health / maxHealth) * 100;
+	healthBar.x = shroom2Dst.x + 5;
+	healthBar.y = shroom2Dst.y - 5;
+	frames++;
+
+}
+
 Plant::Plant(int x, int y, int h) :plantSrc({ 0,0,32,64 }), plant2Src({ 0,0,32,32 }), plant3Src({ 0,0,32,32 })
 {
 	HP = { 0,0,100,4 };
@@ -643,3 +707,5 @@ void Cloud::Update()
 	//cout << shootTimer << endl;
 	
 }
+
+

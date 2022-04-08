@@ -112,6 +112,7 @@ protected: //priv but inherited
 	vector<Frog*>frog;
 	vector<Bubble*> bub;
 	vector <Shroom*>shroom;
+	vector <Shroom2*>shroom2;
 	vector<Portal*> portal;
 
 
@@ -312,6 +313,7 @@ public:
 	SDL_Texture* plant1;
 	SDL_Texture* plant2;
 	SDL_Texture* plant3;
+	SDL_Texture* bossShroomTxtr;
 	
 	
 	BossState();
@@ -323,7 +325,10 @@ public:
 private:
 	//attack3 for boss cloud stuff
 	int shootTimer = 0;
+	int spawnTimer = 0;//blue shroom timer 
 	int speed = 20;
+	Bosshp theEnd;
+	//int playerDamage = 2;
 	vector<Boss*> b;//real boss 
 	vector<Bossf*> fb;//fake boss
 	vector<Plant*> p1;//big plant 
