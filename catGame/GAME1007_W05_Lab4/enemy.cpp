@@ -8,11 +8,23 @@ Bosshp::Bosshp()
 	hpborder = { 595,7,408,31 };
 	bosshp = 10;
 	bossmaxhp = 5;
+	regenCD = 0;
 }
 
 void Bosshp::Update()
 {	
 	hpbar.w = double(bosshp / bossmaxhp) * 200;
+	if (bosshp < 9)
+	{
+		regenCD++;
+	}
+	if (regenCD == 200)
+	{
+		bosshp += 1;
+		regenCD = 0;
+	}
+	//cout << regenCD << endl;
+	cout << bosshp << endl;
 }
 
 void Bosshp::takeDamage(double howMuch)
@@ -20,10 +32,10 @@ void Bosshp::takeDamage(double howMuch)
 	bosshp -= howMuch;
 }
 
-void Bosshp::Regenerate(double howMuch)
+void Bosshp::Regenerate(double regen)
 {
 
-	bosshp += howMuch;
+	bosshp += regen;
 }
 
 
@@ -202,7 +214,7 @@ Bossf::Bossf(int x, int y, int s) :fBossSrc({ 0,0,32,32 }), frameCtr(0), frameMa
 	attack3timer = 0;	
 	shootTimer = 0;	
 	state = s;
-	
+	shootTimer2 = 0;
 }
 
 
@@ -256,6 +268,8 @@ void Bossf::Update()
 	healthBar.w = double(health / maxHealth) * 100;
 	healthBar.x = fBossDst.x + 15;
 	healthBar.y = fBossDst.y - 5;
+
+	
 	
 	if (state == 6)
 	{		
@@ -278,6 +292,12 @@ void Bossf::Update()
 			state = 1;
 		}
 		//BossDst.x -= speed;			
+	}
+	shootTimer2++;
+	//cout << shootTimer << endl;
+	if (shootTimer2 > rand() % 150 + 200) 
+	{
+		shootTimer2 = 0;
 	}
 	//cout << attack3timer << endl;
 	//cout << state  << endl;

@@ -314,7 +314,7 @@ public:
 	SDL_Texture* plant2;
 	SDL_Texture* plant3;
 	SDL_Texture* bossShroomTxtr;
-	
+	Mix_Music* bosstheme;
 	
 	BossState();
 	virtual void Enter();
@@ -325,6 +325,7 @@ public:
 private:
 	//attack3 for boss cloud stuff
 	int shootTimer = 0;
+	
 	int spawnTimer = 0;//blue shroom timer 
 	int speed = 20;
 	Bosshp theEnd;

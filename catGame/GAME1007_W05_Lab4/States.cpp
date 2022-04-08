@@ -3009,11 +3009,11 @@ void BossState::Enter()
 	Mix_VolumeChunk(aoeSound, 50);
 	Mix_VolumeChunk(projectileRock, 50);
 	//Mix_VolumeChunk(hehe, 20);
-	maintheme = Mix_LoadMUS("Aud/Gametheme.mp3");
+	bosstheme = Mix_LoadMUS("Aud/bosstheme.mp3");
 
 	//sounds
-	Mix_PlayMusic(maintheme, -1);
-	Mix_VolumeMusic(0); //0-128
+	Mix_PlayMusic(bosstheme, -1);
+	Mix_VolumeMusic(128); //0-128
 	Mix_Volume(-1, 50);
 	//Mix_Volume(2, 12);
 	b.push_back(new Boss(bg1.bossbgDst.x+ 600, bg1.bossbgDst.y + 600,1,0));//attack1
@@ -3077,13 +3077,14 @@ void BossState::Update()
 		shroom2[i]->shroom2Dst.x -= speedx;
 		shroom2[i]->shroom2Dst.y -= speedy;
 	}
-
+	
 	
 	for (unsigned i = 0; i < b.size(); i++)
 	{
 		if (b[i]->getState() == 1)
 		{
-  
+			spawnTimer = 0;
+			shroom2.clear();
 			p1.clear();
 			p2.clear();
 			p3.clear();
@@ -3095,7 +3096,7 @@ void BossState::Update()
 			fb.push_back(new Bossf(bg1.bossbgDst.x + 300, bg1.bossbgDst.y + 1200, 0));
 			fb.push_back(new Bossf(bg1.bossbgDst.x + 900, bg1.bossbgDst.y + 700, 0));
 			fb.push_back(new Bossf(bg1.bossbgDst.x + 900, bg1.bossbgDst.y + 1200, 0));
-			b.push_back(new Boss(bg1.bossbgDst.x + 600, bg1.bossbgDst.y + 700,5,2));
+			b.push_back(new Boss(bg1.bossbgDst.x + 600, bg1.bossbgDst.y + 700,2,2));
 			fb.shrink_to_fit();
 			b.shrink_to_fit();
 			
@@ -3107,6 +3108,7 @@ void BossState::Update()
 	{
 		if (b[i]->getState() == 3)
 		{
+			spawnTimer = 0;
 			shroom2.clear();
 			b.clear();
 			fb.clear();
@@ -3117,7 +3119,7 @@ void BossState::Update()
 			shroom.push_back(new Shroom(bg1.bossbgDst.x + 900, bg1.bossbgDst.y + 1300, 4));
 			shroom.push_back(new Shroom(bg1.bossbgDst.x + 1200, bg1.bossbgDst.y + 1000, 4));
 			shroom.push_back(new Shroom(bg1.bossbgDst.x + 1200, bg1.bossbgDst.y + 1300, 4));
-			b.push_back(new Boss(bg1.bossbgDst.x + 600, bg1.bossbgDst.y + 600, 1, 4));//attack2
+			b.push_back(new Boss(bg1.bossbgDst.x + 600, bg1.bossbgDst.y + 600, 2, 4));//attack2
 			shroom.shrink_to_fit();
 			//b.clear();
 		}
@@ -3129,7 +3131,8 @@ void BossState::Update()
 			if (b[i]->getState() == 5)
 			{
 				cout << "cleaning up" << endl;				
-				shroom.clear();				
+				shroom.clear();	
+				shroom2.clear();
 			}			
 		}		
 	}
@@ -3144,8 +3147,8 @@ void BossState::Update()
 				p1.push_back(new Plant(bg1.bossbgDst.x + 800, bg1.bossbgDst.y + 1050, 1));
 				p2.push_back(new Plant(bg1.bossbgDst.x + 1000, bg1.bossbgDst.y + 1020, 2));
 				p3.push_back(new Plant(bg1.bossbgDst.x + 500, bg1.bossbgDst.y + 1200, 2));
-				b.push_back(new Boss(bg1.bossbgDst.x + 1850, bg1.bossbgDst.y + 800, 1, 7));
-				fb.push_back(new Bossf(bg1.bossbgDst.x, bg1.bossbgDst.y + 1600, 7));
+				b.push_back(new Boss(bg1.bossbgDst.x + 1850, bg1.bossbgDst.y + 500, 2, 7));
+				fb.push_back(new Bossf(bg1.bossbgDst.x, bg1.bossbgDst.y + 1700, 7));
 				p1.shrink_to_fit();
 				p2.shrink_to_fit();
 				p3.shrink_to_fit();
@@ -3189,6 +3192,21 @@ void BossState::Update()
 					cloud.shrink_to_fit();
 
 				}
+
+			}
+		}
+		for (unsigned i = 0; i < fb.size(); i++)
+		{
+			if (fb[i]->getState() == !7)
+			{
+				if (fb[i]->shootTimer2 == 0)
+				{
+					cloud.push_back(new Cloud(fb[i]->fBossDst.x + 45, fb[i]->fBossDst.y + 10, 5, 'y'));
+					cloud.push_back(new Cloud(fb[i]->fBossDst.x + 45, fb[i]->fBossDst.y + 10, 5 * -1, 'y'));
+					cloud.push_back(new Cloud(fb[i]->fBossDst.x + 45, fb[i]->fBossDst.y + 10, 5, 'x'));
+					cloud.push_back(new Cloud(fb[i]->fBossDst.x + 45, fb[i]->fBossDst.y + 10, 5 * -1, 'x'));
+					cloud.shrink_to_fit();
+				}
 			}
 		}
 	
@@ -3229,10 +3247,41 @@ void BossState::Update()
 			
 		}
 	}
-	for (unsigned j = 0; j < b.size(); j++)
+	for (unsigned i = 0; i < playerpew.size(); i++)
 	{
-		
+		for (unsigned j = 0; j < b.size(); j++)
+		{
+			if (b[j]->getState() == 4)
+			{
+				
+				if (SDL_HasIntersection(&playerpew[i]->rockDst, &b[j]->BossDst)) //AABB Check
+				{
+					cout << "ow" << endl;
+					Mix_PlayChannel(-1, hurtSfx, 0);
+					delete playerpew[i];
+					playerpew[i] = nullptr;
+					playerpew.erase(playerpew.begin() + i);
+					playerpew.shrink_to_fit();
+					b[j]->setHp(b[j]->getHp() - playerDamage);
+					break;
+				}
+				if (b[j]->getHp() <= 0)
+				{					
+					spawnTimer++;					
+					if (spawnTimer == 1)
+					{
+						shroom2.push_back(new Shroom2(bg1.bossbgDst.x + 600, bg1.bossbgDst.y + 800, 5));
+						shroom2.shrink_to_fit();
+						cout << shroom2.size() << endl;
+					}
+
+				}
+
+			}
+
+		}
 	}
+	
 	for (unsigned i = 0; i < playerpew.size(); i++)
 	{
 		for (unsigned j = 0; j < fb.size(); j++)
@@ -3436,7 +3485,7 @@ void BossState::Update()
 			
 			if (isfreezeActive == false)
 			if (Util::distanceOffset(plr1.plrDst, cloud[i]->cloudDst) < 100) {
-				plr1.takeDamage(0.5);
+				plr1.takeDamage(1);
 				delete cloud[i];
 				cloud[i] = nullptr;
 				cloud.erase(cloud.begin() + i);
@@ -3856,6 +3905,7 @@ void BossState::Exit()
 	SDL_DestroyTexture(plant1);
 	SDL_DestroyTexture(plant2);
 	SDL_DestroyTexture(plant3);
+	Mix_FreeMusic(bosstheme);
 	Mix_FreeChunk(hurtSfx);
 	Mix_FreeChunk(powerSfx);;
 	Mix_FreeChunk(projectileRock);

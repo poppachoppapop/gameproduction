@@ -14,10 +14,11 @@ class Bosshp
 {
 public:
 	Bosshp();
+	int regenCD;
 	double bosshp, bossmaxhp;
 	void Update();
 	void takeDamage(double howMuch);
-	void Regenerate(double howMuch);
+	void Regenerate(double regen);
 	SDL_Rect hpbar,hpborder;
 };
 class Boss
@@ -72,6 +73,7 @@ private:
 	int randNum;
 
 public:
+	int shootTimer2 = 0;
 	SDL_Rect fBossSrc, fBossDst;
 	SDL_Rect HP;//white hp
 	SDL_Rect healthBar;
