@@ -177,6 +177,7 @@
   </ItemGroup>
   <ItemGroup>
     <Image Include="..\..\LoHi art\bgs\WinStateBg.png" />
+    <Image Include="art\catboy.png" />
     <Image Include="art\dragonfly.png" />
     <Image Include="art\Dumbie.png" />
     <Image Include="art\freeze.png" />

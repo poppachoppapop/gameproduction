@@ -162,6 +162,9 @@
     <Image Include="bgs\boss.png">
       <Filter>Resource Files</Filter>
     </Image>
+    <Image Include="art\catboy.png">
+      <Filter>Resource Files</Filter>
+    </Image>
   </ItemGroup>
   <ItemGroup>
     <None Include="Boss.cpp">
