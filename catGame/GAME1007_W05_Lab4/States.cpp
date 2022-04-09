@@ -3035,15 +3035,22 @@ void BossState::Update()
 	//freeze
 	bg1.bossbgDst.x -= speedx;
 	bg1.bossbgDst.y -= speedy;
-	
+	if (theEnd.bosshp <= 0)
+	{
+		STMA::ChangeState(new Thankyou());
+		return;
+	}
+		
 	for (unsigned i = 0; i < b.size(); i++)
 	{
+		if (isfreezeActive == false)
 		b[i]->Update();
 		b[i]->BossDst.x -= speedx;
 		b[i]->BossDst.y -= speedy;
 	}
 	for (unsigned i = 0; i < fb.size(); i++)
 	{
+		if (isfreezeActive == false)
 		fb[i]->Update();
 		fb[i]->fBossDst.x -= speedx;
 		fb[i]->fBossDst.y -= speedy;
@@ -3067,6 +3074,7 @@ void BossState::Update()
 	
 	for (unsigned i = 0; i < cloud.size(); i++)
 	{
+		if(isfreezeActive == false)
 		cloud[i]->Update();
 		cloud[i]->cloudDst.x -= speedx;
 		cloud[i]->cloudDst.y -= speedy;
@@ -3098,8 +3106,7 @@ void BossState::Update()
 			fb.push_back(new Bossf(bg1.bossbgDst.x + 900, bg1.bossbgDst.y + 1200, 0));
 			b.push_back(new Boss(bg1.bossbgDst.x + 600, bg1.bossbgDst.y + 700,2,2));
 			fb.shrink_to_fit();
-			b.shrink_to_fit();
-			
+			b.shrink_to_fit();			
 
 		}				
 		
@@ -3899,6 +3906,7 @@ void BossState::Exit()
 	SDL_DestroyTexture(DragonFlyTxt);
 	SDL_DestroyTexture(vineTexture);
 	SDL_DestroyTexture(FrogTxtr);
+	SDL_DestroyTexture(bossbg);
 	SDL_DestroyTexture(cloudtxtr);
 	SDL_DestroyTexture(portaltxtr);
 	SDL_DestroyTexture(bosstxtr);
@@ -3937,3 +3945,61 @@ void BossState::Exit()
 void BossState::Resume()
 {
 }
+
+Thankyou::Thankyou() :bg1Ani2({ 0,0,256,198 }), frameCtr(0), frameMax(7), spriteIdx(0), spriteMax(4) {}
+
+void Thankyou::Enter()
+{
+	cout << "enter titlestate" << endl;
+	Titletheme = Mix_LoadMUS("aud/Titletheme.mp3");//gametheme
+	TitleScreen2 = IMG_LoadTexture(Engine::Instance().GetRenderer(), "bgs/credits.png");
+	//bgSrc = { 0,0,1024,768 };
+	Mix_PlayMusic(Titletheme, -1);
+	Mix_VolumeMusic(24); //0-128
+}
+
+void Thankyou::Update()
+{
+	//bg1Ani = { 0,0,256,198 };
+	/*if (state == 0)
+	{
+		spriteMax = 4;
+		if (spriteIdx > 4)
+			spriteIdx = 0;
+		if (frameCtr++ == frameMax)
+		{
+			frameCtr = 0;
+			if (++spriteIdx == spriteMax)
+			{
+				spriteIdx = 0;
+			}
+			bg1Ani2.x = 0 + bg1Ani2.w * spriteIdx;
+		}
+	}*/
+
+	if (Engine::Instance().KeyDown(SDL_SCANCODE_RETURN))
+	{
+
+		cout << "changing to gamestate" << endl;
+		STMA::ChangeState(new TitleState());
+		return;
+	}
+}
+
+void Thankyou::Render()
+{
+	SDL_RenderClear(Engine::Instance().GetRenderer());
+	SDL_RenderCopy(Engine::Instance().GetRenderer(), TitleScreen2, NULL, NULL);
+	if (dynamic_cast<Thankyou*>(STMA::GetStates().back()))//if current state is gamestate
+		State::Render();
+}
+
+void Thankyou::Exit()
+{
+	cout << "exiting winishstate" << endl;
+	Mix_FreeMusic(Titletheme);
+	SDL_DestroyTexture(TitleScreen2);
+}
+
+
+

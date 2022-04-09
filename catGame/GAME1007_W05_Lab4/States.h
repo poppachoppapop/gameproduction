@@ -339,5 +339,21 @@ private:
 	
 
 };
+class Thankyou : public State
+{
+private:
+	unsigned short frameCtr, frameMax, spriteIdx, spriteMin, spriteMax;
+	SDL_Texture* TitleScreen2;
+	Mix_Music* Titletheme;
+	SDL_Rect bg1Ani2;
+	int state;
 
+public:
+	Thankyou();
+	virtual void Enter();
+	virtual void Update();
+	virtual void Render();
+	virtual void Exit();
+
+};
 #endif
