@@ -317,7 +317,7 @@ void GameState::Update()
 
 			}
 		}
-		if (EVMA::KeyPressed(SDL_SCANCODE_TAB))
+		if (EVMA::KeyHeld(SDL_SCANCODE_TAB))
 		{
 			cout << "Changing to tabState" << endl;
 			//pause the music track
@@ -2182,7 +2182,7 @@ void Levelone::Update()
 			if (isfreezeActive == false)
 			cloud[i]->Update();
 			if (Util::distanceOffset(plr1.plrDst, cloud[i]->cloudDst) < 100) {
-				plr1.takeDamage(0.5);
+				plr1.takeDamage(1);
 				delete cloud[i];
 				cloud[i] = nullptr;
 				cloud.erase(cloud.begin() + i);
@@ -2200,7 +2200,7 @@ void Levelone::Update()
 				fly[i]->flyDst.y -= speedy;
 
 			if (SDL_HasIntersection(&fly[i]->flyDst, &plr1.plrDst)) {
-				plr1.takeDamage(0.5);
+				plr1.takeDamage(1);
 			}
 
 			if (fly[i]->getHp() <= 0) {
@@ -2508,7 +2508,7 @@ void Levelone::Update()
 			}
 			if (SDL_HasIntersection(&frog[i]->frogDst, &plr1.plrDst))
 			{
-				plr1.takeDamage(1);
+				plr1.takeDamage(2);
 			}
 
 			if ((Util::distanceOffset(plr1.plrDst, frog[i]->frogDst) < 550))
@@ -2539,7 +2539,7 @@ void Levelone::Update()
 			if (!wallHity)
 				bub[i]->bubbleDst.y -= speedy;
 			if (Util::distanceOffset(plr1.plrDst, bub[i]->bubbleDst) < 100) {
-				plr1.takeDamage(0.5);
+				plr1.takeDamage(1);
 				delete bub[i];
 				bub[i] = nullptr;
 				bub.erase(bub.begin() + i);
@@ -2948,7 +2948,7 @@ void TabState::Enter()
 
 void TabState::Update()
 {
-	if (EVMA::KeyPressed(SDL_SCANCODE_TAB))
+	if (!EVMA::KeyHeld(SDL_SCANCODE_TAB))
 		STMA::PopState();
 }
 
@@ -3012,7 +3012,8 @@ void BossState::Enter()
 	bosstheme = Mix_LoadMUS("Aud/bosstheme.mp3");
 
 	//sounds
-	Mix_PlayMusic(bosstheme, -1);
+	
+	//Mix_PlayMusic(bosstheme, -1);
 	Mix_VolumeMusic(128); //0-128
 	Mix_Volume(-1, 50);
 	//Mix_Volume(2, 12);
@@ -3039,6 +3040,26 @@ void BossState::Update()
 	{
 		STMA::ChangeState(new Thankyou());
 		return;
+	}
+	freezeCD++;
+	if (freezeCD > 600)
+	{
+		if (EVMA::KeyPressed(SDL_SCANCODE_F))
+		{
+			isfreezeActive = true;
+			freezetimer = 0;
+			freezeCD = 0;
+		}
+	}
+	freezetimer++;
+	if (isfreezeActive)
+	{
+		if (freezetimer > 150)
+		{
+			isfreezeActive = false;
+			freezetimer = 0;
+			freezeCD = 0;
+		}
 	}
 		
 	for (unsigned i = 0; i < b.size(); i++)
@@ -3074,7 +3095,7 @@ void BossState::Update()
 	
 	for (unsigned i = 0; i < cloud.size(); i++)
 	{
-		if(isfreezeActive == false)
+		if (isfreezeActive == false)
 		cloud[i]->Update();
 		cloud[i]->cloudDst.x -= speedx;
 		cloud[i]->cloudDst.y -= speedy;
@@ -3097,13 +3118,13 @@ void BossState::Update()
 			p2.clear();
 			p3.clear();
 			b.clear();
-			fb.push_back(new Bossf(bg1.bossbgDst.x + 300 ,bg1.bossbgDst.y + 900, 0));
-			fb.push_back(new Bossf(bg1.bossbgDst.x + 900 ,bg1.bossbgDst.y + 900, 0));
-			fb.push_back(new Bossf(bg1.bossbgDst.x + 600 ,bg1.bossbgDst.y + 1200, 0));
-			fb.push_back(new Bossf(bg1.bossbgDst.x + 300, bg1.bossbgDst.y + 700, 0));
-			fb.push_back(new Bossf(bg1.bossbgDst.x + 300, bg1.bossbgDst.y + 1200, 0));
-			fb.push_back(new Bossf(bg1.bossbgDst.x + 900, bg1.bossbgDst.y + 700, 0));
-			fb.push_back(new Bossf(bg1.bossbgDst.x + 900, bg1.bossbgDst.y + 1200, 0));
+			fb.push_back(new Bossf(bg1.bossbgDst.x + 200 ,bg1.bossbgDst.y + 900, 0));
+			fb.push_back(new Bossf(bg1.bossbgDst.x + 1000 ,bg1.bossbgDst.y + 900, 0));
+			fb.push_back(new Bossf(bg1.bossbgDst.x + 600 ,bg1.bossbgDst.y + 1300, 0));
+			fb.push_back(new Bossf(bg1.bossbgDst.x + 200, bg1.bossbgDst.y + 700, 0));
+			fb.push_back(new Bossf(bg1.bossbgDst.x + 200, bg1.bossbgDst.y + 1200, 0));
+			fb.push_back(new Bossf(bg1.bossbgDst.x + 1000, bg1.bossbgDst.y + 700, 0));
+			fb.push_back(new Bossf(bg1.bossbgDst.x + 1000, bg1.bossbgDst.y + 1300, 0));
 			b.push_back(new Boss(bg1.bossbgDst.x + 600, bg1.bossbgDst.y + 700,2,2));
 			fb.shrink_to_fit();
 			b.shrink_to_fit();			
@@ -3178,10 +3199,14 @@ void BossState::Update()
 			{
 				if (b[i]->getState() == 7)
 				{
-					b[i]->BossDst.x -= speed;
-					//cout << "working" << endl;
-					cloud.push_back(new Cloud(b[i]->BossDst.x + 45, b[i]->BossDst.y + 10, 5 ,'y'));
-					cloud.shrink_to_fit();
+					if (isfreezeActive == false)
+					{
+						b[i]->BossDst.x -= speed;
+						//cout << "working" << endl;
+						cloud.push_back(new Cloud(b[i]->BossDst.x + 45, b[i]->BossDst.y + 10, 5, 'y'));
+						cloud.shrink_to_fit();
+					}
+					
 
 				}
 			}
@@ -3193,10 +3218,14 @@ void BossState::Update()
 			{
 				if (fb[i]->getState() == 7)
 				{
-					fb[i]->fBossDst.x += speed;
-					//cout << "working" << endl;
-					cloud.push_back(new Cloud(fb[i]->fBossDst.x + 45, fb[i]->fBossDst.y + 10 , -5, 'y'));
-					cloud.shrink_to_fit();
+					if (isfreezeActive == false)
+					{
+						fb[i]->fBossDst.x += speed;
+						//cout << "working" << endl;
+						cloud.push_back(new Cloud(fb[i]->fBossDst.x + 45, fb[i]->fBossDst.y + 10, -5, 'y'));
+						cloud.shrink_to_fit();
+					}
+					
 
 				}
 
@@ -3208,11 +3237,15 @@ void BossState::Update()
 			{
 				if (fb[i]->shootTimer2 == 0)
 				{
-					cloud.push_back(new Cloud(fb[i]->fBossDst.x + 45, fb[i]->fBossDst.y + 10, 5, 'y'));
-					cloud.push_back(new Cloud(fb[i]->fBossDst.x + 45, fb[i]->fBossDst.y + 10, 5 * -1, 'y'));
-					cloud.push_back(new Cloud(fb[i]->fBossDst.x + 45, fb[i]->fBossDst.y + 10, 5, 'x'));
-					cloud.push_back(new Cloud(fb[i]->fBossDst.x + 45, fb[i]->fBossDst.y + 10, 5 * -1, 'x'));
-					cloud.shrink_to_fit();
+					if (isfreezeActive == false)
+					{
+						cloud.push_back(new Cloud(fb[i]->fBossDst.x + 45, fb[i]->fBossDst.y + 10, 5, 'y'));
+						cloud.push_back(new Cloud(fb[i]->fBossDst.x + 45, fb[i]->fBossDst.y + 10, 5 * -1, 'y'));
+						cloud.push_back(new Cloud(fb[i]->fBossDst.x + 45, fb[i]->fBossDst.y + 10, 5, 'x'));
+						cloud.push_back(new Cloud(fb[i]->fBossDst.x + 45, fb[i]->fBossDst.y + 10, 5 * -1, 'x'));
+						cloud.shrink_to_fit();
+					}
+					
 				}
 			}
 		}
@@ -3362,25 +3395,7 @@ void BossState::Update()
 	}
 	
 	
-	if (freezeCD > 600)
-	{
-		if (EVMA::KeyPressed(SDL_SCANCODE_F))
-		{
-			isfreezeActive = true;
-			freezetimer = 0;
-			freezeCD = 0;
-		}
-	}
-	freezetimer++;
-	if (isfreezeActive)
-	{
-		if (freezetimer > 150)
-		{
-			isfreezeActive = false;
-			freezetimer = 0;
-			freezeCD = 0;
-		}
-	}
+	
 	if (!lvlLoading) {
 		if (!(fadeMod == 0))
 			fadeMod -= fadeSpeed;
@@ -3401,7 +3416,7 @@ void BossState::Update()
 			return;
 		}
 		//cout <<"noobtimer"<< Noobtimer++ <<" | "<<ezModeCD++ << "ezmodecd<-" << endl;
-		//cout << "freezetimer" << freezetimer++ << " | " << freezeCD++ << "freezecd<-" << endl;
+		cout << "freezetimer" << freezetimer << " | " << freezeCD << "freezecd<-" << endl;
 		//cout << plr1.plrDst.x - bg1.bossbgDst.x << " - " << plr1.plrDst.y - bg1.bossbgDst.y << endl; // for spawning things on bg
 		// cout << plr1.plrDst.x << " , " << plr1.plrDst.y  << endl;
 		//cout <<bg1.bossbgDst.x << "||" <<bg1.bossbgDst.y << endl; // for spawning player on bg
