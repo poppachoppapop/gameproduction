@@ -1,2 +1,2 @@
-﻿C:\Program Files\Microsoft Visual Studio\2022\Community\MSBuild\Microsoft\VC\v170\Microsoft.CppBuild.targets(514,5): warning MSB8028: The intermediate directory (Debug\) contains files shared from another project (catGamePreRelease.vcxproj).  This can lead to incorrect clean and rebuild behavior.
-  GAME1007_W05_Lab4.vcxproj -> C:\Users\hdugd\Downloads\gameproduction-main\gameproduction\catGame\Debug\CatNippedBeta.exe
+﻿C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\MSBuild\Microsoft\VC\v160\Microsoft.CppBuild.targets(513,5): warning MSB8028: The intermediate directory (Debug\) contains files shared from another project (catGamePreRelease.vcxproj).  This can lead to incorrect clean and rebuild behavior.
+  GAME1007_W05_Lab4.vcxproj -> C:\Users\Michael\OneDrive\Desktop\gbc\GAME1017\gameproduction\catGame\Debug\CatNippedBeta.exe
