@@ -3506,7 +3506,7 @@ void BossState::Update()
 		{
 			
 			if (isfreezeActive == false)
-			if (Util::distanceOffset(plr1.plrDst, cloud[i]->cloudDst) < 100) {
+			if (Util::distanceOffset(plr1.plrDst, cloud[i]->cloudDst) < 70) {
 				plr1.takeDamage(1);
 				delete cloud[i];
 				cloud[i] = nullptr;
