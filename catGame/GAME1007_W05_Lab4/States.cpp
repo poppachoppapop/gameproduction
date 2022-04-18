@@ -341,28 +341,28 @@ void GameState::Update()
 			STMA::PushState(new PauseState());
 			Mix_PauseMusic();
 		}
-		if (EVMA::KeyPressed(SDL_SCANCODE_1))
-		{
+		//if (EVMA::KeyPressed(SDL_SCANCODE_1))
+		//{
 
-			cout << "changing to lv1" << endl;
-			STMA::ChangeState(new Levelone());
-			return;
-		}
-		if (EVMA::KeyPressed(SDL_SCANCODE_2))
-		{
+		//	cout << "changing to lv1" << endl;
+		//	STMA::ChangeState(new Levelone());
+		//	return;
+		//}
+		//if (EVMA::KeyPressed(SDL_SCANCODE_2))
+		//{
 
-			cout << "changing to boss fight!" << endl;
-			STMA::ChangeState(new BossState());
-			return;
-		}
+		//	cout << "changing to boss fight!" << endl;
+		//	STMA::ChangeState(new BossState());
+		//	return;
+		//}
 
-		if (EVMA::KeyPressed(SDL_SCANCODE_X))
-		{
+		//if (EVMA::KeyPressed(SDL_SCANCODE_X))
+		//{
 
-			cout << "changing to endstate" << endl;
-			STMA::ChangeState(new EndState());
-			return;
-		}
+		//	cout << "changing to endstate" << endl;
+		//	STMA::ChangeState(new EndState());
+		//	return;
+		//}
 
 		if (EVMA::KeyHeld(SDL_SCANCODE_W))
 		{
@@ -2348,7 +2348,7 @@ void Levelone::Update()
 			}
 		}
 
-		if (mushrooms > 2)
+		if (mushrooms > 6)
 		{
 			STMA::ChangeState(new BossState());
 			Mix_PauseMusic();
