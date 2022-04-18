@@ -238,6 +238,7 @@ private:
 	SDL_Texture* swamp3;
 	SDL_Texture* swamp4;
 	SDL_Texture* swamp5;
+	SDL_Texture* swamp6;
 	
 	int areaNum = 0;
 	vector<Level1Background*> bg;

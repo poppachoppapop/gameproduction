@@ -1088,6 +1088,7 @@ void Levelone::Enter()
 	swamp3 = IMG_LoadTexture(Engine::Instance().GetRenderer(), "bgs/swamp3.png");
 	swamp4 = IMG_LoadTexture(Engine::Instance().GetRenderer(), "bgs/swamp4.png");
 	swamp5 = IMG_LoadTexture(Engine::Instance().GetRenderer(), "bgs/swamp5.png");
+	swamp6 = IMG_LoadTexture(Engine::Instance().GetRenderer(), "bgs/swamp6.png");
 
 	plrTxtr = IMG_LoadTexture(Engine::Instance().GetRenderer(), "art/catboy.png");
 	rockTxtr = IMG_LoadTexture(Engine::Instance().GetRenderer(), "art/Rocko100.png");
@@ -1117,7 +1118,7 @@ void Levelone::Enter()
 	Mix_VolumeChunk(aoeSound, 50);
 	Mix_VolumeChunk(projectileRock, 50);
 	swampSong = Mix_LoadMUS("Aud/swamp.mp3");
-	Mix_PlayMusic(swampSong, -1);
+	//Mix_PlayMusic(swampSong, -1);
 	Mix_VolumeMusic(15); //0-128
 	Mix_Volume(-1, 50);
 	playerpew.reserve(4);
@@ -1148,7 +1149,7 @@ void Levelone::Enter()
 	
 	for (int i = 0; i < 13; i++)
 	{
-		bg.push_back(new Level1Background(4, 13));
+		bg.push_back(new Level1Background(rand()%6, 13));
 	}
 }
 
@@ -1649,7 +1650,88 @@ void Levelone::Update()
 						frog.push_back(new Frog(bg[areaNum]->swampDst.x + 750, bg[areaNum]->swampDst.y + 300, 4));
 				}
 			}
+			if (bg[areaNum]->getBg() == 5)
+			{
+				//change this
+				bg[areaNum]->swampDst.x = -500;
+				bg[areaNum]->swampDst.y = -900;
 
+				exitRect.x = bg[areaNum]->swampDst.x + 1920;
+				exitRect.y = bg[areaNum]->swampDst.y + 130;
+
+				levelRect.push_back(new SDL_Rect{ bg[areaNum]->swampDst.x + 860,bg[areaNum]->swampDst.y + 1400,500,10 });
+				levelRect.push_back(new SDL_Rect{ bg[areaNum]->swampDst.x + 860,bg[areaNum]->swampDst.y + 1288,10,100 });
+				levelRect.push_back(new SDL_Rect{ bg[areaNum]->swampDst.x + 100,bg[areaNum]->swampDst.y + 1288,750,10 });
+				levelRect.push_back(new SDL_Rect{ bg[areaNum]->swampDst.x + 100,bg[areaNum]->swampDst.y + 22,1700,10 });
+				levelRect.push_back(new SDL_Rect{ bg[areaNum]->swampDst.x + 100,bg[areaNum]->swampDst.y + 10,10,1250 });
+				levelRect.push_back(new SDL_Rect{ bg[areaNum]->swampDst.x + 1828,bg[areaNum]->swampDst.y + 150,10,350 });
+				levelRect.push_back(new SDL_Rect{ bg[areaNum]->swampDst.x + 1830,bg[areaNum]->swampDst.y + 530,260,10 });
+				levelRect.push_back(new SDL_Rect{ bg[areaNum]->swampDst.x + 1950,bg[areaNum]->swampDst.y + 600,10,300 });
+				levelRect.push_back(new SDL_Rect{ bg[areaNum]->swampDst.x + 1800,bg[areaNum]->swampDst.y + 898,200,10 });
+				levelRect.push_back(new SDL_Rect{ bg[areaNum]->swampDst.x + 1800,bg[areaNum]->swampDst.y + 900,10,400 });
+				levelRect.push_back(new SDL_Rect{ bg[areaNum]->swampDst.x + 1200,bg[areaNum]->swampDst.y + 1300,600,10 });
+				levelRect.push_back(new SDL_Rect{ bg[areaNum]->swampDst.x + 1178,bg[areaNum]->swampDst.y + 1310,10,50 });
+				
+				levelRect.push_back(new SDL_Rect{ bg[areaNum]->swampDst.x + 800,bg[areaNum]->swampDst.y + 500,400,10 });
+				levelRect.push_back(new SDL_Rect{ bg[areaNum]->swampDst.x + 799,bg[areaNum]->swampDst.y + 500,10,400 });
+				levelRect.push_back(new SDL_Rect{ bg[areaNum]->swampDst.x + 800,bg[areaNum]->swampDst.y + 900,450,10 });
+				levelRect.push_back(new SDL_Rect{ bg[areaNum]->swampDst.x + 1250,bg[areaNum]->swampDst.y + 502,10,400 });
+
+				mushroomSpot = rand() % 6;
+				for (int i = 0; i < mushrooms; i++) {
+					if (mushroomSpot == 0) {
+						shroom.push_back(new Shroom(bg[areaNum]->swampDst.x + 300, bg[areaNum]->swampDst.y + 1000, 3));
+					}
+					else if (mushroomSpot == 1) {
+						shroom.push_back(new Shroom(bg[areaNum]->swampDst.x + 1500, bg[areaNum]->swampDst.y + 1000, 3));
+					}
+					else if (mushroomSpot == 2) {
+						shroom.push_back(new Shroom(bg[areaNum]->swampDst.x + 1500, bg[areaNum]->swampDst.y + 200, 3));
+					}
+					else if (mushroomSpot == 3) {
+						shroom.push_back(new Shroom(bg[areaNum]->swampDst.x + 900, bg[areaNum]->swampDst.y + 100, 3));
+					}
+					else if (mushroomSpot == 4) {
+						shroom.push_back(new Shroom(bg[areaNum]->swampDst.x + 150, bg[areaNum]->swampDst.y + 500, 3));
+					}
+					else if (mushroomSpot == 5) {
+						shroom.push_back(new Shroom(bg[areaNum]->swampDst.x + 1600, bg[areaNum]->swampDst.y + 150, 3));
+					}
+					mushroomSpot++;
+					if (mushroomSpot > 5)
+						mushroomSpot = 0;
+				}
+				
+				if (rand() % 2)
+					vine.push_back(new Vines(bg[areaNum]->swampDst.x + 950, bg[areaNum]->swampDst.y + 1050));
+				if (rand() % 2)
+					vine.push_back(new Vines(bg[areaNum]->swampDst.x + 300, bg[areaNum]->swampDst.y + 1000));
+				if (rand() % 2)
+					vine.push_back(new Vines(bg[areaNum]->swampDst.x + 750, bg[areaNum]->swampDst.y + 200));
+				if (rand() % 2)
+					vine.push_back(new Vines(bg[areaNum]->swampDst.x + 1500, bg[areaNum]->swampDst.y + 250));
+				if (rand() % 2)
+					vine.push_back(new Vines(bg[areaNum]->swampDst.x + 1400, bg[areaNum]->swampDst.y + 800));
+				if (rand() % 2)
+					vine.push_back(new Vines(bg[areaNum]->swampDst.x + 1550, bg[areaNum]->swampDst.y + 1050));
+
+				frog.push_back(new Frog(bg[areaNum]->swampDst.x + 300, bg[areaNum]->swampDst.y + 200, 4));
+				
+				for (int i = 0; i < (rand() % 2) + 3; i++)
+				{
+					fly.push_back(new DragonFly(bg[areaNum]->swampDst.x + 1500, bg[areaNum]->swampDst.y + 650, 1));
+				}
+
+				for (int i = 0; i < (rand() % 2) + 3; i++)
+				{
+					fly.push_back(new DragonFly(bg[areaNum]->swampDst.x + 400, bg[areaNum]->swampDst.y + 650, 1));
+				}
+				if (mushrooms > 2)
+					if (rand()%2)
+						frog.push_back(new Frog(bg[areaNum]->swampDst.x + 1500, bg[areaNum]->swampDst.y + 200, 4));
+				
+				
+			}
 			loadArea = false;
 		}
 		{
@@ -2112,6 +2194,105 @@ void Levelone::Update()
 				if (mushroomsLeft == 0) {
 					mushroomsLeft--;
 					portal.push_back(new Portal(bg[areaNum]->swampDst.x + 1850, bg[areaNum]->swampDst.y + 146));
+				}
+			}
+			if (bg[areaNum]->getBg() == 5)
+			{
+				//wallcollision
+				bool wallHitx = false;
+				bool wallHity = false;
+				if (SDL_HasIntersection(levelRect[0], &plr1.plrDst)) {//
+					speedx = 0;
+					speedy = 0;
+					speedy--;
+				}
+				if (SDL_HasIntersection(levelRect[1], &plr1.plrDst)) {//
+					speedx = 0;
+					speedy = 0;
+					speedx++;
+				}
+				if (SDL_HasIntersection(levelRect[2], &plr1.plrDst)) {//
+					speedx = 0;
+					speedy = 0;
+					speedy--;
+				}
+				if (SDL_HasIntersection(levelRect[3], &plr1.plrDst)) {//
+					speedx = 0;
+					speedy = 0;
+					speedy++;
+				}
+				if (SDL_HasIntersection(levelRect[4], &plr1.plrDst)) {//
+					speedx = 0;
+					speedy = 0;
+					speedx++;
+				}
+				if (SDL_HasIntersection(levelRect[5], &plr1.plrDst)) {//
+					speedx = 0;
+					speedy = 0;
+					speedx--;
+				}
+				if (SDL_HasIntersection(levelRect[6], &plr1.plrDst)) {//
+					speedx = 0;
+					speedy = 0;
+					speedy++;
+				}
+				if (SDL_HasIntersection(levelRect[7], &plr1.plrDst)) {//
+					speedx = 0;
+					speedy = 0;
+					speedx--;
+				}
+				if (SDL_HasIntersection(levelRect[8], &plr1.plrDst)) {//
+					speedx = 0;
+					speedy = 0;
+					speedy--;
+				}
+				if (SDL_HasIntersection(levelRect[9], &plr1.plrDst)) {//
+					speedx = 0;
+					speedy = 0;
+					speedx--;
+				}
+				if (SDL_HasIntersection(levelRect[10], &plr1.plrDst)) {//
+					speedx = 0;
+					speedy = 0;
+					speedy--;
+				}
+				if (SDL_HasIntersection(levelRect[11], &plr1.plrDst)) {//
+					speedx = 0;
+					speedy = 0;
+					speedx--;
+				}
+
+				if (SDL_HasIntersection(levelRect[12], &plr1.plrDst)) {//
+					speedx = 0;
+					speedy = 0;
+					speedy--;
+				}
+				if (SDL_HasIntersection(levelRect[13], &plr1.plrDst)) {//
+					speedx = 0;
+					speedy = 0;
+					speedx--;
+				}
+				if (SDL_HasIntersection(levelRect[14], &plr1.plrDst)) {//
+					speedx = 0;
+					speedy = 0;
+					speedy++;
+				}
+				if (SDL_HasIntersection(levelRect[15], &plr1.plrDst)) {//
+					speedx = 0;
+					speedy = 0;
+					speedx++;
+				}
+
+				for (int i = 0; i < levelRect.size(); i++)
+				{
+					if (!wallHitx)
+						levelRect[i]->x -= speedx;
+					if (!wallHity)
+						levelRect[i]->y -= speedy;
+				}
+				if (mushroomsLeft == 0) {
+					mushroomsLeft--;
+					portal.push_back(new Portal(bg[areaNum]->swampDst.x + 1800, bg[areaNum]->swampDst.y + 650));
 				}
 			}
 		}
@@ -2652,6 +2833,10 @@ void Levelone::Render()
 		SDL_RenderCopy(Engine::Instance().GetRenderer(), swamp3, &bg[areaNum]->swampSrc, &bg[areaNum]->swampDst);
 	if (bg[areaNum]->getBg() == 4)
 		SDL_RenderCopy(Engine::Instance().GetRenderer(), swamp4, &bg[areaNum]->swampSrc, &bg[areaNum]->swampDst);
+	if (bg[areaNum]->getBg() == 5)
+		SDL_RenderCopy(Engine::Instance().GetRenderer(), swamp5, &bg[areaNum]->swampSrc, &bg[areaNum]->swampDst);
+	if (bg[areaNum]->getBg() == 6)
+		SDL_RenderCopy(Engine::Instance().GetRenderer(), swamp6, &bg[areaNum]->swampSrc, &bg[areaNum]->swampDst);
 
 	//vines
 	for (unsigned i = 0; i < vine.size(); i++)
