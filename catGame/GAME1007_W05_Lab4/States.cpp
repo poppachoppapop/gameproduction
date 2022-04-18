@@ -59,6 +59,11 @@ void TitleState::Update()
 		STMA::ChangeState(new GameState());
 		return;
 	}
+	if (Engine::Instance().KeyDown(SDL_SCANCODE_H))
+	{
+		STMA::ChangeState(new Thankyou());
+		return;
+	}
 }
 
 void TitleState::Render()
@@ -594,7 +599,7 @@ void GameState::Update()
 			}
 
 		}
-		//dummie
+		//dumbie
 		for (unsigned i = 0; i < playerpew.size(); i++)
 		{
 			for (unsigned j = 0; j < dumbie.size(); j++)
@@ -3643,9 +3648,10 @@ void BossState::Update()
 		
 		if (plr1.plrHp <= 0)
 		{
-			STMA::ChangeState(new EndState());
+			STMA::ChangeState(new BossEndState());
 			return;
 		}
+
 		//cout <<"noobtimer"<< Noobtimer++ <<" | "<<ezModeCD++ << "ezmodecd<-" << endl;
 		//cout << "freezetimer" << freezetimer << " | " << freezeCD << "freezecd<-" << endl;
 		//cout << plr1.plrDst.x - bg1.bossbgDst.x << " - " << plr1.plrDst.y - bg1.bossbgDst.y << endl; // for spawning things on bg
@@ -4247,5 +4253,86 @@ void Thankyou::Exit()
 	SDL_DestroyTexture(TitleScreen2);
 }
 
+BossEndState::BossEndState() :makiFlying({ 0,0,48,74 }), frameCtr(0), frameMax(9), spriteIdx(0), spriteMax(6) {}
+
+void BossEndState::Enter()
+{
+	cout << "entering endstate\npress R to return to title state" << endl;
+	gameOverScreen = IMG_LoadTexture(Engine::Instance().GetRenderer(), "bgs/gameOverScreen2.png");
+	flyingMaki = IMG_LoadTexture(Engine::Instance().GetRenderer(), "art/makigameover.png");
+	mainMenuButton = IMG_LoadTexture(Engine::Instance().GetRenderer(), "art/mainMenuButton.png");
+	exitButton = IMG_LoadTexture(Engine::Instance().GetRenderer(), "art/exitButton.png");
+	retryButton = IMG_LoadTexture(Engine::Instance().GetRenderer(), "art/retryButton.png");
 
 
+	exitButtonSrc = { 0 , 0, 92, 32 };
+	mainMenuButtonSrc = { 0, 0, 92, 32 };
+	retryButtonSrc = { 0, 0, 92, 32 };
+
+	exitButtonDst = { 450, 625, 120, 48 };
+	mainMenuButtonDst = { 450, 525, 120, 48 };
+	retryButtonDst = { 450, 575, 120, 48 };
+	makiFlyingDst = { 375, 265, 256, 256 };
+}
+
+void BossEndState::Update()
+{
+	//exit button
+	if (SDL_GetMouseState(&g_mousePos.x, &g_mousePos.y) == true && g_mousePos.x > exitButtonDst.x && g_mousePos.x < exitButtonDst.x + exitButtonDst.w
+		&& g_mousePos.y > exitButtonDst.y && g_mousePos.y < exitButtonDst.y + exitButtonDst.h)
+	{
+		Engine::Instance().Running() = false;
+	}
+	//main menu button
+	if (SDL_GetMouseState(&g_mousePos.x, &g_mousePos.y) == true && g_mousePos.x > mainMenuButtonDst.x && g_mousePos.x < mainMenuButtonDst.x + mainMenuButtonDst.w
+		&& g_mousePos.y > mainMenuButtonDst.y && g_mousePos.y < mainMenuButtonDst.y + mainMenuButtonDst.h)
+	{
+		STMA::ChangeState(new TitleState());
+	}
+	//retry button
+	if (SDL_GetMouseState(&g_mousePos.x, &g_mousePos.y) == true && g_mousePos.x > retryButtonDst.x && g_mousePos.x < retryButtonDst.x + retryButtonDst.w
+		&& g_mousePos.y > retryButtonDst.y && g_mousePos.y < retryButtonDst.y + retryButtonDst.h)
+	{
+		STMA::ChangeState(new BossState());
+	}
+	if (state == 0)
+	{
+		spriteMax = 6;
+		if (spriteIdx > 6)
+			spriteIdx = 0;
+		if (frameCtr++ == frameMax)
+		{
+			frameCtr = 0;
+			if (++spriteIdx == spriteMax)
+			{
+				spriteIdx = 0;
+			}
+			makiFlying.x = 0 + makiFlying.w * spriteIdx;
+		}
+	}
+
+}
+
+void BossEndState::Render()
+{
+	SDL_RenderClear(Engine::Instance().GetRenderer());
+	// Any drawing here...
+	//Background
+	SDL_RenderCopy(Engine::Instance().GetRenderer(), gameOverScreen, NULL, NULL);
+	SDL_RenderCopy(Engine::Instance().GetRenderer(), exitButton, &exitButtonSrc, &exitButtonDst);
+	SDL_RenderCopy(Engine::Instance().GetRenderer(), mainMenuButton, &mainMenuButtonSrc, &mainMenuButtonDst);
+	SDL_RenderCopy(Engine::Instance().GetRenderer(), retryButton, &retryButtonSrc, &retryButtonDst);
+	SDL_RenderCopy(Engine::Instance().GetRenderer(), flyingMaki, &makiFlying, &makiFlyingDst);
+
+	State::Render();
+}
+
+void BossEndState::Exit()
+{
+	cout << "exiting end state" << endl;
+	SDL_DestroyTexture(gameOverScreen);
+	SDL_DestroyTexture(flyingMaki);
+	SDL_DestroyTexture(mainMenuButton);
+	SDL_DestroyTexture(exitButton);
+	SDL_DestroyTexture(retryButton);
+}

@@ -85,6 +85,7 @@ protected: //priv but inherited
 	SDL_Texture* sleepingMaki;
 	SDL_Texture* resumeButton;
 	SDL_Texture* restartButton;
+	SDL_Texture* retryButton;
 	SDL_Texture* exitButton;
 	SDL_Texture* paused;
 	SDL_Texture* pauseBg;
@@ -125,6 +126,7 @@ protected: //priv but inherited
 	SDL_Rect resumeButtonSrc, resumeButtonDst;
 	SDL_Rect restartButtonSrc, restartButtonDst;
 	SDL_Rect exitButtonSrc, exitButtonDst;
+	SDL_Rect retryButtonSrc, retryButtonDst;
 	SDL_Rect pausedSrc, pausedDst;
 	SDL_Rect pausedBgSrc, pausedBgDst;
 	SDL_Rect mainMenuButtonSrc, mainMenuButtonDst;
@@ -351,6 +353,21 @@ private:
 
 public:
 	Thankyou();
+	virtual void Enter();
+	virtual void Update();
+	virtual void Render();
+	virtual void Exit();
+
+};
+
+class BossEndState : public State
+{
+private:
+	unsigned short frameCtr, frameMax, spriteIdx, spriteMin, spriteMax;
+	SDL_Rect makiFlying, makiFlyingDst;
+	int state;
+public:
+	BossEndState();
 	virtual void Enter();
 	virtual void Update();
 	virtual void Render();
