@@ -418,19 +418,44 @@ void GameState::Update()
 		catDude.npcDst.y = bg1.bgDst.y + 1350;
 
 		//wallcollision
-		/*bool wallHitx = false;
+		bool wallHitx = false;
 		bool wallHity = false;
-		if (plr1.plrDst.x < bg1.bgDst.x - 50)
+		if (plr1.plrDst.x < bg1.bgDst.x + 450)
 		{
-			bg1.bgDst.x = plr1.plrDst.x + 50;
+			speedx = 0;
+			speedy = 0;
+			speedx++;
 			wallHitx = true;
 			titleLoading = true;
 		}
+		if (plr1.plrDst.x < bg1.bgDst.x + 600 && plr1.plrDst.y < bg1.bgDst.y + 1400)
+		{
+			speedx = 0;
+			speedy = 0;
+			speedx++;
+			wallHitx = true;
+		}
+		if (plr1.plrDst.x > bg1.bgDst.x + 2100)
+		{
+			speedx = 0;
+			speedy = 0;
+			speedx--;
+			wallHitx = true;
+		}
 		if (plr1.plrDst.y < bg1.bgDst.y + 630) 
 		{
-			bg1.bgDst.y = plr1.plrDst.y - 630;
+			speedx = 0;
+			speedy = 0;
+			speedy++;
 			wallHity = true;
-		}*/
+		}
+		if (plr1.plrDst.y > bg1.bgDst.y + 1700)
+		{
+			speedx = 0;
+			speedy = 0;
+			speedy--;
+			wallHity = true;
+		}
 		bg1.bgDst.x -= speedx;
 		bg1.bgDst.y -= speedy;
 
@@ -909,23 +934,19 @@ void GameState::Render()
 		SDL_RenderCopy(Engine::Instance().GetRenderer(), vineTexture, &(vine[i]->vineSrc), &(vine[i]->vineDst));
 	}
 
-		if (plr1.state == 0)
-			SDL_RenderCopy(Engine::Instance().GetRenderer(), plrTxtr, &plr1.plrFrontIdle, &plr1.plrDst);
-		else if (plr1.state == 1)
-			SDL_RenderCopy(Engine::Instance().GetRenderer(), plrTxtr, &plr1.plrMoveDown, &plr1.plrDst);
-		else if (plr1.state == 2)
-			SDL_RenderCopy(Engine::Instance().GetRenderer(), plrTxtr, &plr1.plrMoveUp, &plr1.plrDst);
-		else if (plr1.state == 3)
-			SDL_RenderCopy(Engine::Instance().GetRenderer(), plrTxtr, &plr1.plrMoveLeft, &plr1.plrDst);
-		else if (plr1.state == 4)
-			SDL_RenderCopy(Engine::Instance().GetRenderer(), plrTxtr, &plr1.plrMoveRight, &plr1.plrDst);
-		
-	
-	
-
-	
 	//NPC
 	SDL_RenderCopyEx(Engine::Instance().GetRenderer(), npcTxtr, &catDude.npcSrc, &catDude.npcDst, NULL, NULL, SDL_FLIP_HORIZONTAL);
+		
+	if (plr1.state == 0)
+		SDL_RenderCopy(Engine::Instance().GetRenderer(), plrTxtr, &plr1.plrFrontIdle, &plr1.plrDst);
+	else if (plr1.state == 1)
+		SDL_RenderCopy(Engine::Instance().GetRenderer(), plrTxtr, &plr1.plrMoveDown, &plr1.plrDst);
+	else if (plr1.state == 2)
+		SDL_RenderCopy(Engine::Instance().GetRenderer(), plrTxtr, &plr1.plrMoveUp, &plr1.plrDst);
+	else if (plr1.state == 3)
+		SDL_RenderCopy(Engine::Instance().GetRenderer(), plrTxtr, &plr1.plrMoveLeft, &plr1.plrDst);
+	else if (plr1.state == 4)
+		SDL_RenderCopy(Engine::Instance().GetRenderer(), plrTxtr, &plr1.plrMoveRight, &plr1.plrDst);
 
 	//rock	
 	for (unsigned i = 0; i < playerpew.size(); i++)
@@ -992,8 +1013,6 @@ void GameState::Render()
 		SDL_RenderCopy(Engine::Instance().GetRenderer(), Score, NULL, &scoreRect);
 	}
 	//SDL_RenderPresent(Engine::Instance().GetRenderer()); // Flip buffers - send data to window.
-	SDL_SetRenderDrawColor(Engine::Instance().GetRenderer(), 0, 0, 0, fadeMod);
-	SDL_RenderFillRect(Engine::Instance().GetRenderer(), &blackRect);
 
 	SDL_RenderCopy(Engine::Instance().GetRenderer(), tree, &bg1.treesrc, &bg1.treedst);
 	SDL_SetRenderDrawColor(Engine::Instance().GetRenderer(), 0, 0, 0, 255);
@@ -1006,6 +1025,8 @@ void GameState::Render()
 		SDL_RenderFillRect(Engine::Instance().GetRenderer(), &textBoxBorder);
 		SDL_RenderCopy(Engine::Instance().GetRenderer(), Message, NULL, &textBoxRect);
 	}
+	SDL_SetRenderDrawColor(Engine::Instance().GetRenderer(), 0, 0, 0, fadeMod);
+	SDL_RenderFillRect(Engine::Instance().GetRenderer(), &blackRect);
 	if(dynamic_cast<GameState*>(STMA::GetStates().back() ) )//if current state is gamestate	
 	State::Render();
 
@@ -1117,9 +1138,9 @@ void Levelone::Enter()
 	Mix_VolumeChunk(dashing, 25);
 	Mix_VolumeChunk(aoeSound, 50);
 	Mix_VolumeChunk(projectileRock, 50);
-	swampSong = Mix_LoadMUS("Aud/swamp.mp3");
-	//Mix_PlayMusic(swampSong, -1);
-	Mix_VolumeMusic(15); //0-128
+	swampSong = Mix_LoadMUS("Aud/swampThemeNew.mp3");
+	Mix_PlayMusic(swampSong, -1);
+	Mix_VolumeMusic(20); //0-128
 	Mix_Volume(-1, 50);
 	playerpew.reserve(4);
 	freezeSrc = { 0,0,64,64 };
@@ -2312,9 +2333,9 @@ void Levelone::Update()
 			}
 		}
 
-		if (mushrooms > 6)
+		if (mushrooms > 2)
 		{
-			STMA::PushState(new WState());
+			STMA::ChangeState(new BossState());
 			Mix_PauseMusic();
 			return;
 		}
@@ -2921,11 +2942,11 @@ void Levelone::Render()
 	//score
 	SDL_RenderCopy(Engine::Instance().GetRenderer(), mushLeft, NULL, &mushScoreRect);
 
-	for (unsigned i = 0; i < levelRect.size(); i++)
+	/*for (unsigned i = 0; i < levelRect.size(); i++)
 	{
 		SDL_SetRenderDrawColor(Engine::Instance().GetRenderer(), 255, 0, 255, 255);
 		SDL_RenderFillRect(Engine::Instance().GetRenderer(), levelRect[i]);
-	}
+	}*/
 
 	if (plr1.state == 0)
 		SDL_RenderCopy(Engine::Instance().GetRenderer(), plrTxtr, &plr1.plrFrontIdle, &plr1.plrDst);
@@ -3626,7 +3647,7 @@ void BossState::Update()
 			return;
 		}
 		//cout <<"noobtimer"<< Noobtimer++ <<" | "<<ezModeCD++ << "ezmodecd<-" << endl;
-		cout << "freezetimer" << freezetimer << " | " << freezeCD << "freezecd<-" << endl;
+		//cout << "freezetimer" << freezetimer << " | " << freezeCD << "freezecd<-" << endl;
 		//cout << plr1.plrDst.x - bg1.bossbgDst.x << " - " << plr1.plrDst.y - bg1.bossbgDst.y << endl; // for spawning things on bg
 		// cout << plr1.plrDst.x << " , " << plr1.plrDst.y  << endl;
 		//cout <<bg1.bossbgDst.x << "||" <<bg1.bossbgDst.y << endl; // for spawning player on bg
@@ -3716,7 +3737,7 @@ void BossState::Update()
 		{
 			
 			if (isfreezeActive == false)
-			if (Util::distanceOffset(plr1.plrDst, cloud[i]->cloudDst) < 100) {
+			if (Util::distanceOffset(plr1.plrDst, cloud[i]->cloudDst) < 80) {
 				plr1.takeDamage(1);
 				delete cloud[i];
 				cloud[i] = nullptr;

@@ -2,8 +2,8 @@
 
 Background::Background(): bgSrcTutorial({0,0,704,608}), gameOverScreenSrc({0, 0, 1024, 768}),treesrc({0,0,704,608}),bossbgSrc({0,0,384,480})
 {
-	bgDst = { 0,-1300, bgSrcTutorial.w *4, bgSrcTutorial.h * 4 };
-	treedst= { 0,-1300, bgSrcTutorial.w *4, bgSrcTutorial.h * 4 };
+	bgDst = { -100,-1300, bgSrcTutorial.w *4, bgSrcTutorial.h * 4 };
+	treedst= { -100,-1300, bgSrcTutorial.w *4, bgSrcTutorial.h * 4 };
 	bossbgDst = { 0,-1300, bossbgSrc.w *4 , bossbgSrc.h* 4 };
 	//gameOverScreenDst = { 350, -150, gameOverScreenSrc.w * 2, gameOverScreenSrc.h * 4 };
 }
