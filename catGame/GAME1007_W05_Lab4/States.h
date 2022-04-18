@@ -65,7 +65,7 @@ protected: //priv but inherited
 	bool lvlLoading = false;
 
 	TTF_Font* font;
-	char message[100] = "Hello! Welcome To the beta release";
+	char message[100] = "Hello! Welcome To Cat Nipped.";
 	char scoreMessage[100] = "Score: 0";
 	SDL_Color White;
 	SDL_Surface* dummyScore;

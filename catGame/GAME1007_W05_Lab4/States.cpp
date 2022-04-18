@@ -650,11 +650,21 @@ void GameState::Update()
 						Message = SDL_CreateTextureFromSurface(Engine::Instance().GetRenderer(), surfaceMessage);
 					}
 					else if (textBoxCounter == 2) {
-						strcpy_s(message, "When youre ready just press 1, in a meantime ima spawn some dumbies");
+						strcpy_s(message, "Press P if you need to take a break.");
 						surfaceMessage = TTF_RenderText_Solid(font, message, White);
 						Message = SDL_CreateTextureFromSurface(Engine::Instance().GetRenderer(), surfaceMessage);
 					}
 					else if (textBoxCounter == 3) {
+						strcpy_s(message, "When you're ready to embark on your journey, exit to the left.");
+						surfaceMessage = TTF_RenderText_Solid(font, message, White);
+						Message = SDL_CreateTextureFromSurface(Engine::Instance().GetRenderer(), surfaceMessage);
+					}
+					else if (textBoxCounter == 4) {
+						strcpy_s(message, "In the meantime, ima spawn some dumbies for you to practice.");
+						surfaceMessage = TTF_RenderText_Solid(font, message, White);
+						Message = SDL_CreateTextureFromSurface(Engine::Instance().GetRenderer(), surfaceMessage);
+					}
+					else if (textBoxCounter == 5) {
 						spawnDummies = true;
 						renderTextBox = false;
 						textBoxCounter = 0;
