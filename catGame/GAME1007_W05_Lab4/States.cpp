@@ -348,21 +348,21 @@ void GameState::Update()
 		//	STMA::ChangeState(new Levelone());
 		//	return;
 		//}
-		//if (EVMA::KeyPressed(SDL_SCANCODE_2))
-		//{
+		if (EVMA::KeyPressed(SDL_SCANCODE_2))
+		{
 
-		//	cout << "changing to boss fight!" << endl;
-		//	STMA::ChangeState(new BossState());
-		//	return;
-		//}
+			cout << "changing to boss fight!" << endl;
+			STMA::ChangeState(new BossState());
+			return;
+		}
 
-		//if (EVMA::KeyPressed(SDL_SCANCODE_X))
-		//{
+		if (EVMA::KeyPressed(SDL_SCANCODE_X))
+		{
 
-		//	cout << "changing to endstate" << endl;
-		//	STMA::ChangeState(new EndState());
-		//	return;
-		//}
+			cout << "changing to endstate" << endl;
+			STMA::ChangeState(new EndState());
+			return;
+		}
 
 		if (EVMA::KeyHeld(SDL_SCANCODE_W))
 		{
