@@ -1185,8 +1185,10 @@ void Levelone::Enter()
 	
 	for (int i = 0; i < 13; i++)
 	{
-		bg.push_back(new Level1Background(rand()%6, 13));
+		bg.push_back(new Level1Background(rand()%6, 13));	
+		
 	}
+	
 }
 
 
@@ -2351,7 +2353,6 @@ void Levelone::Update()
 		if (mushrooms > 6)
 		{
 			STMA::ChangeState(new BossState());
-			Mix_PauseMusic();
 			return;
 		}
 		if (plr1.plrHp <= 0)
@@ -3259,10 +3260,10 @@ void BossState::Enter()
 
 	//sounds
 	
-	//Mix_PlayMusic(bosstheme, -1);
+	Mix_PlayMusic(bosstheme, -1);
 	Mix_VolumeMusic(128); //0-128
 	Mix_Volume(-1, 50);
-	//Mix_Volume(2, 12);
+	Mix_Volume(2, 12);
 	b.push_back(new Boss(bg1.bossbgDst.x+ 600, bg1.bossbgDst.y + 600,1,0));//attack1
 	//b.push_back(new Boss(bg1.bossbgDst.x+ 600, bg1.bossbgDst.y + 600,1,3));//attack2
 	//b.push_back(new Boss(bg1.bossbgDst.x+ 600, bg1.bossbgDst.y + 800,1,6));//attack3
